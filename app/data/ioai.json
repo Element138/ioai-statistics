@@ -1,0 +1,7019 @@
+{
+  "updated": "2026-08-10",
+  "sources": [
+    "https://ioai-official.org/",
+    "https://ioai-official.org/china-2025/results-2025/",
+    "https://ioai2026.kz/",
+    "https://github.com/IOAI-official"
+  ],
+  "editions": [
+    {
+      "year": 2026,
+      "number": 3,
+      "city": "Astana",
+      "country": "Kazakhstan",
+      "dates": "2–8 August 2026",
+      "status": "Upcoming",
+      "contestants": null,
+      "countries": null,
+      "tracks": [
+        "main",
+        "team",
+        "gaite"
+      ],
+      "officialUrl": "https://ioai2026.kz/",
+      "summary": "The third IOAI returns with separate Individual, Team Challenge, and GAITE competitions."
+    },
+    {
+      "year": 2025,
+      "number": 2,
+      "city": "Beijing",
+      "country": "China",
+      "dates": "2–9 August 2025",
+      "status": "Complete",
+      "contestants": 300,
+      "countries": 63,
+      "tracks": [
+        "main",
+        "team",
+        "gaite"
+      ],
+      "officialUrl": "https://ioai-official.org/china-2025/",
+      "summary": "The first IOAI with an individual main contest and a separately ranked GAITE contest."
+    },
+    {
+      "year": 2024,
+      "number": 1,
+      "city": "Burgas",
+      "country": "Bulgaria",
+      "dates": "9–15 August 2024",
+      "status": "Complete",
+      "contestants": 160,
+      "countries": 35,
+      "tracks": [
+        "team"
+      ],
+      "officialUrl": "https://ioai-official.org/bulgaria-2024/",
+      "summary": "The inaugural IOAI was entirely team-based, with Scientific and Practical rounds."
+    }
+  ],
+  "mainResults2025": [
+    {
+      "rank": 1,
+      "slug": "krzysztof-rojek",
+      "name": "Krzysztof Rojek",
+      "country": "Poland",
+      "scores": [
+        98.11,
+        84.29,
+        65.92,
+        100.0,
+        98.88,
+        94.85
+      ],
+      "total": 542.05,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 2,
+      "slug": "kieran-chai-kai-ren",
+      "name": "Kieran Chai Kai Ren",
+      "country": "Singapore",
+      "scores": [
+        98.42,
+        87.81,
+        92.17,
+        27.52,
+        97.01,
+        62.78
+      ],
+      "total": 465.71,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 3,
+      "slug": "wang-jiayu",
+      "name": "Wang Jiayu",
+      "country": "Singapore",
+      "scores": [
+        98.11,
+        87.46,
+        80.66,
+        27.52,
+        97.76,
+        71.66
+      ],
+      "total": 463.17,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 4,
+      "slug": "vershinin-mikhail",
+      "name": "Vershinin Mikhail",
+      "country": "Russia",
+      "scores": [
+        97.57,
+        98.81,
+        79.86,
+        42.0,
+        96.27,
+        46.18
+      ],
+      "total": 460.69,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 5,
+      "slug": "beliaev-matvei",
+      "name": "Beliaev Matvei",
+      "country": "Russia",
+      "scores": [
+        99.56,
+        91.86,
+        69.44,
+        0.0,
+        99.63,
+        82.26
+      ],
+      "total": 442.75,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 6,
+      "slug": "garifullin-timur",
+      "name": "Garifullin Timur",
+      "country": "Russia",
+      "scores": [
+        93.19,
+        16.86,
+        88.8,
+        27.52,
+        96.64,
+        100.0
+      ],
+      "total": 423.01,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 7,
+      "slug": "tymoteusz-stepkowski",
+      "name": "Tymoteusz Stępkowski",
+      "country": "Poland",
+      "scores": [
+        98.68,
+        99.91,
+        10.87,
+        27.52,
+        99.25,
+        77.11
+      ],
+      "total": 413.34,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 8,
+      "slug": "musat-tudor-stefan",
+      "name": "Mușat Tudor-Ștefan",
+      "country": "Romania",
+      "scores": [
+        93.0,
+        70.95,
+        23.93,
+        27.52,
+        100.0,
+        88.27
+      ],
+      "total": 403.67,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 9,
+      "slug": "kanabek-abu",
+      "name": "Kanabek Abu",
+      "country": "Kazakhstan",
+      "scores": [
+        97.95,
+        99.21,
+        63.75,
+        0.0,
+        97.01,
+        42.17
+      ],
+      "total": 400.09,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 10,
+      "slug": "naoya-tokita",
+      "name": "Naoya Tokita",
+      "country": "Japan",
+      "scores": [
+        87.0,
+        72.84,
+        26.44,
+        13.04,
+        100.0,
+        99.72
+      ],
+      "total": 399.04,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 11,
+      "slug": "roumak-das",
+      "name": "Roumak Das",
+      "country": "India",
+      "scores": [
+        95.55,
+        83.76,
+        100.0,
+        27.52,
+        40.3,
+        51.05
+      ],
+      "total": 398.18,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 12,
+      "slug": "dinmukhametov-danis",
+      "name": "Dinmukhametov Danis",
+      "country": "Russia",
+      "scores": [
+        98.96,
+        52.95,
+        69.13,
+        27.52,
+        97.39,
+        46.18
+      ],
+      "total": 392.13,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 13,
+      "slug": "khlopotnykh-andrei",
+      "name": "Khlopotnykh Andrei",
+      "country": "Russia",
+      "scores": [
+        98.83,
+        88.56,
+        31.03,
+        13.04,
+        64.55,
+        94.85
+      ],
+      "total": 390.86,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 14,
+      "slug": "teo-lovmar",
+      "name": "Teo Lovmar",
+      "country": "Sweden",
+      "scores": [
+        92.9,
+        22.05,
+        88.61,
+        0.0,
+        100.0,
+        80.54
+      ],
+      "total": 384.1,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 15,
+      "slug": "issatay-sultanbi",
+      "name": "Issatay Sultanbi",
+      "country": "Kazakhstan",
+      "scores": [
+        100.0,
+        58.71,
+        29.75,
+        0.0,
+        99.63,
+        92.28
+      ],
+      "total": 380.37,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 16,
+      "slug": "nguyen-viet-trung-nhan",
+      "name": "Nguyen Viet Trung Nhan",
+      "country": "Vietnam",
+      "scores": [
+        97.95,
+        86.18,
+        18.92,
+        27.52,
+        99.25,
+        49.61
+      ],
+      "total": 379.43,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 17,
+      "slug": "cheng-lai-yin",
+      "name": "Cheng Lai Yin",
+      "country": "Hong Kong, China",
+      "scores": [
+        96.31,
+        45.51,
+        79.01,
+        0.0,
+        98.13,
+        54.2
+      ],
+      "total": 373.16,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 18,
+      "slug": "arjun-tyagi",
+      "name": "Arjun Tyagi",
+      "country": "India",
+      "scores": [
+        98.8,
+        44.45,
+        77.12,
+        0.0,
+        57.84,
+        87.97
+      ],
+      "total": 366.18,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 19,
+      "slug": "soham-sen",
+      "name": "Soham Sen",
+      "country": "India",
+      "scores": [
+        98.2,
+        85.26,
+        75.28,
+        0.0,
+        97.01,
+        9.82
+      ],
+      "total": 365.57,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 20,
+      "slug": "drokanov-oleg",
+      "name": "Drokanov Oleg",
+      "country": "Russia",
+      "scores": [
+        98.45,
+        33.71,
+        86.96,
+        0.0,
+        96.64,
+        49.05
+      ],
+      "total": 364.81,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 21,
+      "slug": "nguyen-huu-tuan",
+      "name": "Nguyen Huu Tuan",
+      "country": "Vietnam",
+      "scores": [
+        98.68,
+        79.89,
+        22.82,
+        27.52,
+        98.88,
+        33.87
+      ],
+      "total": 361.66,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 22,
+      "slug": "kassymkan-zhanibek",
+      "name": "Kassymkan Zhanibek",
+      "country": "Kazakhstan",
+      "scores": [
+        96.09,
+        68.05,
+        86.63,
+        0.0,
+        69.03,
+        39.59
+      ],
+      "total": 359.39,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 23,
+      "slug": "dawid-kot",
+      "name": "Dawid Kot",
+      "country": "Poland",
+      "scores": [
+        98.61,
+        57.17,
+        38.92,
+        0.0,
+        71.27,
+        90.84
+      ],
+      "total": 356.81,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 24,
+      "slug": "nguyen-phu-nhan",
+      "name": "Nguyen Phu Nhan",
+      "country": "Vietnam",
+      "scores": [
+        88.14,
+        62.1,
+        22.55,
+        0.0,
+        99.63,
+        79.39
+      ],
+      "total": 351.81,
+      "award": "Gold",
+      "track": "main"
+    },
+    {
+      "rank": 25,
+      "slug": "shine-xu-jiajing",
+      "name": "Shine Xu Jiajing",
+      "country": "Singapore",
+      "scores": [
+        98.42,
+        78.35,
+        75.01,
+        0.0,
+        99.63,
+        0.0
+      ],
+      "total": 351.41,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 26,
+      "slug": "jinwoong-lee",
+      "name": "Jinwoong Lee",
+      "country": "South Korea",
+      "scores": [
+        90.98,
+        98.5,
+        26.31,
+        0.0,
+        99.25,
+        29.29
+      ],
+      "total": 344.33,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 27,
+      "slug": "anango-prabhat",
+      "name": "Anango Prabhat",
+      "country": "United Kingdom",
+      "scores": [
+        85.02,
+        73.33,
+        7.41,
+        42.0,
+        70.52,
+        61.93
+      ],
+      "total": 340.21,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 28,
+      "slug": "shi-zhenghang",
+      "name": "Shi Zhenghang",
+      "country": "China",
+      "scores": [
+        98.61,
+        65.8,
+        10.95,
+        0.0,
+        72.39,
+        90.84
+      ],
+      "total": 338.59,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 29,
+      "slug": "faiz-ramadhan",
+      "name": "Faiz Ramadhan",
+      "country": "Indonesia",
+      "scores": [
+        93.12,
+        36.75,
+        62.79,
+        0.0,
+        96.27,
+        49.05
+      ],
+      "total": 337.98,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 30,
+      "slug": "yong-zi-hong",
+      "name": "Yong Zi Hong",
+      "country": "Malaysia",
+      "scores": [
+        94.89,
+        50.79,
+        14.74,
+        27.52,
+        98.51,
+        43.03
+      ],
+      "total": 329.48,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 31,
+      "slug": "matthew-pramana",
+      "name": "Matthew Pramana",
+      "country": "Indonesia",
+      "scores": [
+        97.76,
+        99.16,
+        24.43,
+        0.0,
+        96.64,
+        8.1
+      ],
+      "total": 326.09,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 32,
+      "slug": "theodoros-sarras",
+      "name": "Theodoros Sarras",
+      "country": "Greece",
+      "scores": [
+        98.68,
+        54.31,
+        67.74,
+        13.04,
+        39.18,
+        51.33
+      ],
+      "total": 324.28,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 33,
+      "slug": "jan-kociszewski",
+      "name": "Jan Kociszewski",
+      "country": "Poland",
+      "scores": [
+        96.75,
+        79.09,
+        85.34,
+        0.0,
+        54.48,
+        8.1
+      ],
+      "total": 323.76,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 34,
+      "slug": "petrean-roland",
+      "name": "Petrean Roland",
+      "country": "Romania",
+      "scores": [
+        98.17,
+        21.43,
+        59.5,
+        0.0,
+        61.19,
+        83.4
+      ],
+      "total": 323.69,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 35,
+      "slug": "morariu-tudor",
+      "name": "Morariu Tudor",
+      "country": "Romania",
+      "scores": [
+        98.58,
+        98.68,
+        26.19,
+        0.0,
+        97.01,
+        0.08
+      ],
+      "total": 320.54,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 36,
+      "slug": "haruto-suzuki",
+      "name": "Haruto Suzuki",
+      "country": "Japan",
+      "scores": [
+        97.67,
+        0.0,
+        16.42,
+        100.0,
+        95.52,
+        9.82
+      ],
+      "total": 319.43,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 37,
+      "slug": "rayan-banerjee",
+      "name": "Rayan Banerjee",
+      "country": "India",
+      "scores": [
+        87.19,
+        1.67,
+        82.65,
+        27.52,
+        53.36,
+        60.78
+      ],
+      "total": 313.17,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 38,
+      "slug": "kemal-mete-akkas",
+      "name": "Kemal Mete Akkaş",
+      "country": "Türkiye",
+      "scores": [
+        96.72,
+        52.55,
+        75.28,
+        0.0,
+        79.85,
+        8.1
+      ],
+      "total": 312.5,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 39,
+      "slug": "ali-shayan",
+      "name": "Ali Shayan",
+      "country": "Iran",
+      "scores": [
+        82.33,
+        74.16,
+        8.94,
+        0.0,
+        99.25,
+        45.04
+      ],
+      "total": 309.72,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 40,
+      "slug": "vince-ungar",
+      "name": "Vince Ungár",
+      "country": "Hungary",
+      "scores": [
+        97.44,
+        74.16,
+        15.26,
+        0.0,
+        90.67,
+        28.43
+      ],
+      "total": 305.96,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 41,
+      "slug": "samik-goyal",
+      "name": "Samik Goyal",
+      "country": "India",
+      "scores": [
+        92.93,
+        30.11,
+        22.34,
+        0.0,
+        79.48,
+        80.82
+      ],
+      "total": 305.68,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 42,
+      "slug": "zhao-fucheng",
+      "name": "Zhao Fucheng",
+      "country": "China",
+      "scores": [
+        97.54,
+        20.91,
+        27.85,
+        0.0,
+        99.63,
+        59.35
+      ],
+      "total": 305.28,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 43,
+      "slug": "mazur-artem",
+      "name": "Mazur Artem",
+      "country": "Russia",
+      "scores": [
+        99.34,
+        55.46,
+        73.79,
+        0.0,
+        57.84,
+        18.12
+      ],
+      "total": 304.55,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 44,
+      "slug": "dumitrascu-stefan-alexandru",
+      "name": "Dumitrașcu Ștefan-Alexandru",
+      "country": "Romania",
+      "scores": [
+        94.64,
+        88.78,
+        14.97,
+        0.0,
+        97.01,
+        8.96
+      ],
+      "total": 304.36,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 45,
+      "slug": "matan-israel",
+      "name": "Matan Israël",
+      "country": "France",
+      "scores": [
+        32.11,
+        61.27,
+        12.92,
+        13.04,
+        98.88,
+        81.12
+      ],
+      "total": 299.34,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 46,
+      "slug": "suayp-talha-kocabay",
+      "name": "Şuayp Talha Kocabay",
+      "country": "Türkiye",
+      "scores": [
+        91.8,
+        99.78,
+        39.01,
+        0.0,
+        50.75,
+        17.84
+      ],
+      "total": 299.18,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 47,
+      "slug": "vladyslav-khalin",
+      "name": "Vladyslav Khalin",
+      "country": "IOAI Team",
+      "scores": [
+        55.93,
+        39.74,
+        15.16,
+        0.0,
+        99.25,
+        88.84
+      ],
+      "total": 298.92,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 48,
+      "slug": "mateusz-kwietniewski",
+      "name": "Mateusz Kwietniewski",
+      "country": "Poland",
+      "scores": [
+        97.13,
+        75.88,
+        27.76,
+        0.0,
+        97.01,
+        0.08
+      ],
+      "total": 297.86,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 49,
+      "slug": "mak-chon-hei",
+      "name": "Mak Chon Hei",
+      "country": "Macao, China",
+      "scores": [
+        91.83,
+        35.65,
+        36.63,
+        0.0,
+        98.13,
+        34.74
+      ],
+      "total": 296.98,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 50,
+      "slug": "zhang-yihao",
+      "name": "Zhang Yihao",
+      "country": "Singapore",
+      "scores": [
+        97.41,
+        58.85,
+        62.42,
+        13.04,
+        53.36,
+        11.83
+      ],
+      "total": 296.91,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 51,
+      "slug": "pranav-sambhu",
+      "name": "Pranav Sambhu",
+      "country": "United States",
+      "scores": [
+        77.38,
+        58.63,
+        27.91,
+        27.52,
+        97.01,
+        8.1
+      ],
+      "total": 296.55,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 52,
+      "slug": "wang-zerui",
+      "name": "Wang Zerui",
+      "country": "Singapore",
+      "scores": [
+        98.49,
+        4.71,
+        89.13,
+        0.0,
+        95.9,
+        8.1
+      ],
+      "total": 296.33,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 53,
+      "slug": "matthew-williams",
+      "name": "Matthew Williams",
+      "country": "Jamaica",
+      "scores": [
+        76.4,
+        64.88,
+        75.4,
+        0.0,
+        29.1,
+        50.47
+      ],
+      "total": 296.25,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 54,
+      "slug": "xian-chin-lok",
+      "name": "Xian Chin Lok",
+      "country": "Hong Kong, China",
+      "scores": [
+        92.11,
+        100.0,
+        30.25,
+        0.0,
+        59.33,
+        14.4
+      ],
+      "total": 296.09,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 55,
+      "slug": "dimitrios-toulis",
+      "name": "Dimitrios Toulis",
+      "country": "Greece",
+      "scores": [
+        98.45,
+        74.6,
+        16.29,
+        0.0,
+        98.88,
+        7.54
+      ],
+      "total": 295.76,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 56,
+      "slug": "luvidi-pranawa-alghari",
+      "name": "Luvidi Pranawa Alghari",
+      "country": "Indonesia",
+      "scores": [
+        97.38,
+        0.0,
+        21.95,
+        0.0,
+        99.25,
+        75.67
+      ],
+      "total": 294.25,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 57,
+      "slug": "nguyen-nhat-minh",
+      "name": "Nguyen Nhat Minh",
+      "country": "Vietnam",
+      "scores": [
+        95.49,
+        62.5,
+        11.32,
+        0.0,
+        66.4,
+        57.63
+      ],
+      "total": 293.34,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 58,
+      "slug": "arash-yousefnezhad",
+      "name": "Arash Yousefnezhad",
+      "country": "Iran",
+      "scores": [
+        97.38,
+        98.81,
+        18.51,
+        0.0,
+        62.31,
+        13.83
+      ],
+      "total": 290.84,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 59,
+      "slug": "william-wang",
+      "name": "William Wang",
+      "country": "United States",
+      "scores": [
+        89.21,
+        60.7,
+        85.18,
+        13.04,
+        21.27,
+        21.27
+      ],
+      "total": 290.67,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 60,
+      "slug": "micha-karp",
+      "name": "Michał Karp",
+      "country": "Poland",
+      "scores": [
+        95.8,
+        70.03,
+        16.46,
+        13.04,
+        83.58,
+        8.1
+      ],
+      "total": 287.01,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 61,
+      "slug": "aushakhman-talim",
+      "name": "Aushakhman Talim",
+      "country": "Kazakhstan",
+      "scores": [
+        97.1,
+        0.0,
+        1.62,
+        13.04,
+        97.01,
+        76.81
+      ],
+      "total": 285.58,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 62,
+      "slug": "gergely-lehotai",
+      "name": "Gergely Lehotai",
+      "country": "Hungary",
+      "scores": [
+        95.62,
+        68.44,
+        13.58,
+        0.0,
+        47.39,
+        59.35
+      ],
+      "total": 284.38,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 63,
+      "slug": "lily-shi",
+      "name": "Lily Shi",
+      "country": "United States",
+      "scores": [
+        95.05,
+        77.16,
+        0.0,
+        0.0,
+        91.42,
+        20.41
+      ],
+      "total": 284.04,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 64,
+      "slug": "kyrylo-redenskyi",
+      "name": "Kyrylo Redenskyi",
+      "country": "IOAI Team",
+      "scores": [
+        99.02,
+        83.23,
+        20.62,
+        0.0,
+        66.4,
+        8.1
+      ],
+      "total": 277.37,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 65,
+      "slug": "wong-yue-heng",
+      "name": "Wong Yue Heng",
+      "country": "Singapore",
+      "scores": [
+        93.0,
+        21.3,
+        9.46,
+        0.0,
+        96.64,
+        56.2
+      ],
+      "total": 276.6,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 66,
+      "slug": "wang-mutian",
+      "name": "Wang Mutian",
+      "country": "China",
+      "scores": [
+        94.64,
+        21.04,
+        26.19,
+        0.0,
+        95.9,
+        35.88
+      ],
+      "total": 273.65,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 67,
+      "slug": "wang-enrun-matthias",
+      "name": "Wang Enrun Matthias",
+      "country": "Singapore",
+      "scores": [
+        98.52,
+        13.12,
+        82.69,
+        0.0,
+        52.24,
+        23.85
+      ],
+      "total": 270.42,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 68,
+      "slug": "mocanu-mihai-adrian",
+      "name": "Mocanu Mihai-Adrian",
+      "country": "Romania",
+      "scores": [
+        82.4,
+        0.0,
+        40.5,
+        0.0,
+        55.22,
+        91.98
+      ],
+      "total": 270.1,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 69,
+      "slug": "talha-ruzgar-akkus",
+      "name": "Talha Rüzgar Akkuş",
+      "country": "Türkiye",
+      "scores": [
+        82.81,
+        98.06,
+        9.48,
+        0.0,
+        71.64,
+        8.1
+      ],
+      "total": 270.09,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 70,
+      "slug": "samuel-johnson",
+      "name": "Samuel Johnson",
+      "country": "United Kingdom",
+      "scores": [
+        98.04,
+        51.5,
+        9.26,
+        0.0,
+        98.88,
+        11.83
+      ],
+      "total": 269.51,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 71,
+      "slug": "duan-zongyan",
+      "name": "Duan Zongyan",
+      "country": "China",
+      "scores": [
+        94.07,
+        28.21,
+        69.07,
+        0.0,
+        53.73,
+        24.42
+      ],
+      "total": 269.5,
+      "award": "Silver",
+      "track": "main"
+    },
+    {
+      "rank": 72,
+      "slug": "leo-nagy",
+      "name": "Leó Nagy",
+      "country": "Hungary",
+      "scores": [
+        82.71,
+        48.5,
+        85.34,
+        0.0,
+        26.87,
+        25.0
+      ],
+      "total": 268.42,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 73,
+      "slug": "taeung-jeong",
+      "name": "Taeung Jeong",
+      "country": "South Korea",
+      "scores": [
+        95.02,
+        11.0,
+        13.09,
+        0.0,
+        99.63,
+        47.61
+      ],
+      "total": 266.35,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 74,
+      "slug": "md-riasat-islam",
+      "name": "Md. Riasat Islam",
+      "country": "Bangladesh",
+      "scores": [
+        97.41,
+        20.82,
+        32.9,
+        27.52,
+        32.09,
+        54.2
+      ],
+      "total": 264.94,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 75,
+      "slug": "irmuun-chinbat",
+      "name": "Irmuun Chinbat",
+      "country": "Mongolia",
+      "scores": [
+        63.5,
+        39.74,
+        10.93,
+        0.0,
+        100.0,
+        50.19
+      ],
+      "total": 264.36,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 76,
+      "slug": "rebengiuc-mircea-maxim",
+      "name": "Rebengiuc Mircea Maxim",
+      "country": "Romania",
+      "scores": [
+        97.89,
+        18.09,
+        5.8,
+        0.0,
+        94.4,
+        47.33
+      ],
+      "total": 263.51,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 77,
+      "slug": "himaneesh-sompalle",
+      "name": "Himaneesh Sompalle",
+      "country": "India",
+      "scores": [
+        97.0,
+        27.82,
+        69.67,
+        13.04,
+        54.1,
+        0.08
+      ],
+      "total": 261.71,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 78,
+      "slug": "slanina-simon",
+      "name": "Slănină Simon",
+      "country": "Romania",
+      "scores": [
+        96.62,
+        16.64,
+        7.54,
+        0.0,
+        81.72,
+        58.21
+      ],
+      "total": 260.73,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 79,
+      "slug": "neng-chan-zou",
+      "name": "Neng Chan Zou",
+      "country": "Macao, China",
+      "scores": [
+        67.13,
+        5.68,
+        7.25,
+        0.0,
+        94.78,
+        85.69
+      ],
+      "total": 260.53,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 80,
+      "slug": "jayden-jurianto",
+      "name": "Jayden Jurianto",
+      "country": "Indonesia",
+      "scores": [
+        89.56,
+        22.14,
+        7.74,
+        13.04,
+        79.1,
+        47.04
+      ],
+      "total": 258.62,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 81,
+      "slug": "ryan-kua-yi-jie",
+      "name": "Ryan Kua Yi Jie",
+      "country": "Malaysia",
+      "scores": [
+        97.57,
+        49.38,
+        9.13,
+        0.0,
+        45.52,
+        55.06
+      ],
+      "total": 256.66,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 82,
+      "slug": "dong-sihan",
+      "name": "Dong Sihan",
+      "country": "China",
+      "scores": [
+        98.61,
+        34.99,
+        69.59,
+        0.0,
+        52.99,
+        0.08
+      ],
+      "total": 256.26,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 83,
+      "slug": "martin-reicher",
+      "name": "Martin Reicher",
+      "country": "Hungary",
+      "scores": [
+        93.88,
+        99.08,
+        3.52,
+        0.0,
+        58.58,
+        0.08
+      ],
+      "total": 255.14,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 84,
+      "slug": "dylan-austin",
+      "name": "Dylan Austin",
+      "country": "United Kingdom",
+      "scores": [
+        98.74,
+        98.28,
+        0.0,
+        0.0,
+        48.13,
+        8.1
+      ],
+      "total": 253.25,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 85,
+      "slug": "mahith-gottipati",
+      "name": "Mahith Gottipati",
+      "country": "United States",
+      "scores": [
+        98.52,
+        58.63,
+        0.0,
+        0.0,
+        41.79,
+        47.61
+      ],
+      "total": 246.55,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 86,
+      "slug": "chik-kin-hei",
+      "name": "Chik Kin Hei",
+      "country": "Hong Kong, China",
+      "scores": [
+        99.62,
+        21.43,
+        27.74,
+        0.0,
+        59.7,
+        36.16
+      ],
+      "total": 244.65,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 87,
+      "slug": "martin-zhang",
+      "name": "Martin Zhang",
+      "country": "Sweden",
+      "scores": [
+        99.09,
+        52.51,
+        5.82,
+        0.0,
+        86.94,
+        0.08
+      ],
+      "total": 244.44,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 88,
+      "slug": "aleksa-bolic",
+      "name": "Aleksa Bolić",
+      "country": "Serbia",
+      "scores": [
+        98.86,
+        0.0,
+        0.0,
+        0.0,
+        97.01,
+        48.19
+      ],
+      "total": 244.06,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 89,
+      "slug": "sio-u-hon",
+      "name": "Sio U Hon",
+      "country": "Macao, China",
+      "scores": [
+        98.61,
+        59.24,
+        15.13,
+        0.0,
+        61.57,
+        8.1
+      ],
+      "total": 242.65,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 90,
+      "slug": "bryan-zhu",
+      "name": "Bryan Zhu",
+      "country": "United States",
+      "scores": [
+        98.99,
+        14.61,
+        9.21,
+        0.0,
+        100.0,
+        19.56
+      ],
+      "total": 242.37,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 91,
+      "slug": "henry-minh-ho",
+      "name": "Henry Minh Ho",
+      "country": "Australia",
+      "scores": [
+        37.1,
+        88.42,
+        16.98,
+        0.0,
+        99.63,
+        0.08
+      ],
+      "total": 242.21,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 92,
+      "slug": "asandei-stefan-alexandru",
+      "name": "Asandei Ștefan-Alexandru",
+      "country": "Romania",
+      "scores": [
+        84.48,
+        71.39,
+        29.71,
+        0.0,
+        23.13,
+        31.01
+      ],
+      "total": 239.72,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 93,
+      "slug": "benedek-labancz",
+      "name": "Benedek Labancz",
+      "country": "Hungary",
+      "scores": [
+        96.59,
+        31.34,
+        13.13,
+        0.0,
+        96.27,
+        0.0
+      ],
+      "total": 237.33,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 94,
+      "slug": "khor-kai-jie",
+      "name": "Khor Kai Jie",
+      "country": "Malaysia",
+      "scores": [
+        98.52,
+        15.63,
+        5.69,
+        0.0,
+        100.0,
+        11.83
+      ],
+      "total": 231.67,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 95,
+      "slug": "nguyen-khac-trung-kien",
+      "name": "Nguyen Khac Trung Kien",
+      "country": "Vietnam",
+      "scores": [
+        98.49,
+        24.65,
+        7.6,
+        0.0,
+        92.16,
+        8.1
+      ],
+      "total": 231.0,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 96,
+      "slug": "sigalov-konstantin",
+      "name": "Sigalov Konstantin",
+      "country": "Russia",
+      "scores": [
+        90.41,
+        31.51,
+        9.36,
+        0.0,
+        64.93,
+        34.44
+      ],
+      "total": 230.65,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 97,
+      "slug": "bartosz-trojan",
+      "name": "Bartosz Trojan",
+      "country": "Poland",
+      "scores": [
+        74.45,
+        22.62,
+        5.67,
+        0.0,
+        98.88,
+        28.72
+      ],
+      "total": 230.34,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 98,
+      "slug": "ali-ayman-h-alkhabbaz",
+      "name": "Ali Ayman H Alkhabbaz",
+      "country": "Saudi Arabia",
+      "scores": [
+        92.27,
+        68.88,
+        11.08,
+        0.0,
+        49.25,
+        8.1
+      ],
+      "total": 229.58,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 99,
+      "slug": "jiang-huikang",
+      "name": "Jiang Huikang",
+      "country": "China",
+      "scores": [
+        96.72,
+        0.0,
+        1.8,
+        0.0,
+        60.45,
+        67.93
+      ],
+      "total": 226.9,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 100,
+      "slug": "yongseok-kwon",
+      "name": "Yongseok Kwon",
+      "country": "South Korea",
+      "scores": [
+        98.17,
+        0.0,
+        23.75,
+        0.0,
+        96.64,
+        8.1
+      ],
+      "total": 226.66,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 101,
+      "slug": "ayaan-wolven",
+      "name": "Ayaan Wolvén",
+      "country": "Sweden",
+      "scores": [
+        98.77,
+        27.24,
+        27.58,
+        0.0,
+        64.55,
+        8.1
+      ],
+      "total": 226.24,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 102,
+      "slug": "lim-ming-wen",
+      "name": "Lim Ming Wen",
+      "country": "Malaysia",
+      "scores": [
+        97.41,
+        44.94,
+        21.03,
+        13.04,
+        40.67,
+        8.1
+      ],
+      "total": 225.19,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 103,
+      "slug": "shakurov-timur",
+      "name": "Shakurov Timur",
+      "country": "Kazakhstan",
+      "scores": [
+        88.99,
+        0.0,
+        0.0,
+        0.0,
+        96.64,
+        38.74
+      ],
+      "total": 224.37,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 104,
+      "slug": "parsa-golestani",
+      "name": "Parsa Golestani",
+      "country": "Iran",
+      "scores": [
+        98.86,
+        28.17,
+        0.0,
+        0.0,
+        59.7,
+        35.58
+      ],
+      "total": 222.31,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 105,
+      "slug": "icaro-silva-da-rosa-linck-froes",
+      "name": "Ícaro Silva da Rosa Linck Fróes",
+      "country": "Brazil",
+      "scores": [
+        98.3,
+        0.0,
+        18.43,
+        0.0,
+        97.01,
+        8.1
+      ],
+      "total": 221.84,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 106,
+      "slug": "roman-mielamud",
+      "name": "Roman Mielamud",
+      "country": "IOAI Team",
+      "scores": [
+        98.8,
+        10.92,
+        3.93,
+        0.0,
+        98.51,
+        8.1
+      ],
+      "total": 220.26,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 107,
+      "slug": "mario-petkov",
+      "name": "Mario Petkov",
+      "country": "Bulgaria",
+      "scores": [
+        51.45,
+        24.87,
+        9.42,
+        27.52,
+        97.39,
+        8.1
+      ],
+      "total": 218.75,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 108,
+      "slug": "qusai-emad-a-jadallah",
+      "name": "Qusai Emad A Jadallah",
+      "country": "Saudi Arabia",
+      "scores": [
+        96.18,
+        37.37,
+        15.01,
+        0.0,
+        61.57,
+        8.1
+      ],
+      "total": 218.23,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 109,
+      "slug": "alexander-tran",
+      "name": "Alexander Tran",
+      "country": "Sweden",
+      "scores": [
+        91.8,
+        40.85,
+        9.85,
+        0.0,
+        65.67,
+        6.68
+      ],
+      "total": 214.85,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 110,
+      "slug": "radin-rahmani-nodehi",
+      "name": "Radin Rahmani Nodehi",
+      "country": "Iran",
+      "scores": [
+        97.7,
+        0.0,
+        7.68,
+        0.0,
+        99.63,
+        8.1
+      ],
+      "total": 213.11,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 111,
+      "slug": "he-jianxing",
+      "name": "He Jianxing",
+      "country": "China",
+      "scores": [
+        95.14,
+        93.66,
+        13.37,
+        0.0,
+        0.0,
+        10.39
+      ],
+      "total": 212.56,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 112,
+      "slug": "mate-mago",
+      "name": "Máté Magó",
+      "country": "Hungary",
+      "scores": [
+        80.0,
+        63.6,
+        5.67,
+        0.0,
+        54.1,
+        8.1
+      ],
+      "total": 211.47,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 113,
+      "slug": "timofei-amosov",
+      "name": "Timofei Amosov",
+      "country": "France",
+      "scores": [
+        61.48,
+        25.92,
+        26.4,
+        0.0,
+        89.18,
+        8.1
+      ],
+      "total": 211.08,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 114,
+      "slug": "arefin-anwar",
+      "name": "Arefin Anwar",
+      "country": "Bangladesh",
+      "scores": [
+        96.28,
+        14.39,
+        30.81,
+        0.0,
+        56.72,
+        12.39
+      ],
+      "total": 210.59,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 115,
+      "slug": "georgios-angelakis",
+      "name": "Georgios Angelakis",
+      "country": "Greece",
+      "scores": [
+        96.94,
+        0.0,
+        4.31,
+        0.0,
+        100.0,
+        8.1
+      ],
+      "total": 209.35,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 116,
+      "slug": "gabriel-n-siqueira",
+      "name": "Gabriel N. Siqueira",
+      "country": "Brazil",
+      "scores": [
+        82.49,
+        0.0,
+        17.23,
+        0.0,
+        97.39,
+        8.1
+      ],
+      "total": 205.21,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 117,
+      "slug": "ali-abdulhadi-a-alsalman",
+      "name": "Ali Abdulhadi A Alsalman",
+      "country": "Saudi Arabia",
+      "scores": [
+        86.88,
+        17.78,
+        5.74,
+        0.0,
+        80.22,
+        14.11
+      ],
+      "total": 204.73,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 118,
+      "slug": "velislav-dzhelepov",
+      "name": "Velislav Dzhelepov",
+      "country": "Bulgaria",
+      "scores": [
+        60.98,
+        93.71,
+        0.0,
+        42.0,
+        7.46,
+        0.0
+      ],
+      "total": 204.15,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 119,
+      "slug": "sanghyeon-robert-joo",
+      "name": "Sanghyeon (Robert) Joo",
+      "country": "United States",
+      "scores": [
+        96.91,
+        42.96,
+        54.08,
+        0.0,
+        9.33,
+        0.08
+      ],
+      "total": 203.36,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 120,
+      "slug": "sary-sultanbek",
+      "name": "Sary Sultanbek",
+      "country": "Kazakhstan",
+      "scores": [
+        83.09,
+        17.78,
+        3.58,
+        0.0,
+        90.67,
+        8.1
+      ],
+      "total": 203.22,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 121,
+      "slug": "ihor-kolisnyk",
+      "name": "Ihor Kolisnyk",
+      "country": "Sweden",
+      "scores": [
+        51.61,
+        15.71,
+        47.12,
+        0.0,
+        12.69,
+        75.67
+      ],
+      "total": 202.8,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 122,
+      "slug": "hannes-tsengov",
+      "name": "Hannes Tsengov",
+      "country": "Estonia",
+      "scores": [
+        94.89,
+        0.0,
+        0.0,
+        13.04,
+        94.4,
+        0.0
+      ],
+      "total": 202.33,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 123,
+      "slug": "rostyslav-yabchenko",
+      "name": "Rostyslav Yabchenko",
+      "country": "IOAI Team",
+      "scores": [
+        81.1,
+        35.39,
+        9.36,
+        13.04,
+        17.54,
+        44.46
+      ],
+      "total": 200.89,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 124,
+      "slug": "mehmet-kagan-albayrak",
+      "name": "Mehmet Kağan Albayrak",
+      "country": "Türkiye",
+      "scores": [
+        65.11,
+        0.0,
+        29.48,
+        0.0,
+        97.76,
+        8.1
+      ],
+      "total": 200.45,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 125,
+      "slug": "filip-kilibarda",
+      "name": "Filip Kilibarda",
+      "country": "Serbia",
+      "scores": [
+        98.52,
+        52.73,
+        28.1,
+        0.0,
+        12.69,
+        8.1
+      ],
+      "total": 200.14,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 126,
+      "slug": "hoang-cong-bao-long",
+      "name": "Hoang Cong Bao Long",
+      "country": "Vietnam",
+      "scores": [
+        69.05,
+        11.27,
+        7.5,
+        42.0,
+        59.7,
+        8.1
+      ],
+      "total": 197.62,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 127,
+      "slug": "s-khangerel",
+      "name": "S.Khangerel",
+      "country": "Mongolia",
+      "scores": [
+        87.19,
+        7.17,
+        3.66,
+        0.0,
+        99.25,
+        0.08
+      ],
+      "total": 197.35,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 128,
+      "slug": "rayan-bouslimi",
+      "name": "Rayan Bouslimi",
+      "country": "United Arab Emirates",
+      "scores": [
+        79.97,
+        17.43,
+        16.36,
+        0.0,
+        73.88,
+        8.1
+      ],
+      "total": 195.74,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 129,
+      "slug": "axel-magana-falcon",
+      "name": "Axel Magaña Falcón",
+      "country": "Mexico",
+      "scores": [
+        96.75,
+        52.68,
+        5.45,
+        0.0,
+        39.55,
+        0.0
+      ],
+      "total": 194.43,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 130,
+      "slug": "bui-dam-quan",
+      "name": "Bui Dam Quan",
+      "country": "Vietnam",
+      "scores": [
+        96.37,
+        43.71,
+        0.21,
+        0.0,
+        44.38,
+        8.96
+      ],
+      "total": 193.63,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 131,
+      "slug": "hayato-yamai",
+      "name": "Hayato Yamai",
+      "country": "Japan",
+      "scores": [
+        87.76,
+        20.82,
+        16.38,
+        0.0,
+        66.4,
+        0.08
+      ],
+      "total": 191.44,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 132,
+      "slug": "islam-aldaraghmeh",
+      "name": "Islam Aldaraghmeh",
+      "country": "Jordan",
+      "scores": [
+        99.4,
+        0.0,
+        3.95,
+        0.0,
+        79.48,
+        8.1
+      ],
+      "total": 190.93,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 133,
+      "slug": "vong-hou-kei",
+      "name": "Vong Hou Kei",
+      "country": "Macao, China",
+      "scores": [
+        98.99,
+        0.0,
+        16.58,
+        0.0,
+        66.4,
+        8.1
+      ],
+      "total": 190.07,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 134,
+      "slug": "lieke-visser",
+      "name": "Lieke Visser",
+      "country": "Netherlands",
+      "scores": [
+        72.02,
+        51.32,
+        12.73,
+        0.0,
+        44.38,
+        8.1
+      ],
+      "total": 188.55,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 135,
+      "slug": "beketov-dauzhan",
+      "name": "Beketov Dauzhan",
+      "country": "Kazakhstan",
+      "scores": [
+        80.44,
+        0.0,
+        7.31,
+        0.0,
+        85.82,
+        14.69
+      ],
+      "total": 188.26,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 136,
+      "slug": "li-sze-chai-isaac",
+      "name": "Li Sze Chai Isaac",
+      "country": "Hong Kong, China",
+      "scores": [
+        98.86,
+        0.0,
+        23.58,
+        0.0,
+        46.64,
+        18.7
+      ],
+      "total": 187.78,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 137,
+      "slug": "reni-paskaleva",
+      "name": "Reni Paskaleva",
+      "country": "Bulgaria",
+      "scores": [
+        97.38,
+        2.9,
+        35.55,
+        0.0,
+        50.75,
+        0.08
+      ],
+      "total": 186.66,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 138,
+      "slug": "muaath-mohammed-a-alqarni",
+      "name": "Muaath Mohammed A Alqarni",
+      "country": "Saudi Arabia",
+      "scores": [
+        94.61,
+        31.73,
+        9.5,
+        0.0,
+        44.38,
+        0.08
+      ],
+      "total": 180.3,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 139,
+      "slug": "aram-amirkhanyan",
+      "name": "Aram Amirkhanyan",
+      "country": "Armenia",
+      "scores": [
+        64.45,
+        30.37,
+        31.16,
+        0.0,
+        45.52,
+        8.1
+      ],
+      "total": 179.6,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 140,
+      "slug": "shengxuan-fu",
+      "name": "Shengxuan Fu",
+      "country": "Japan",
+      "scores": [
+        97.44,
+        0.0,
+        20.83,
+        0.0,
+        52.99,
+        8.1
+      ],
+      "total": 179.36,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 141,
+      "slug": "temiko-machavariani",
+      "name": "Temiko Machavariani",
+      "country": "Georgia",
+      "scores": [
+        82.87,
+        42.17,
+        11.04,
+        0.0,
+        33.21,
+        8.1
+      ],
+      "total": 177.39,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 142,
+      "slug": "matvei-nizovsky",
+      "name": "Matvei Nizovsky",
+      "country": "Kyrgyzstan",
+      "scores": [
+        81.17,
+        0.0,
+        12.96,
+        56.52,
+        17.16,
+        8.1
+      ],
+      "total": 175.91,
+      "award": "Bronze",
+      "track": "main"
+    },
+    {
+      "rank": 143,
+      "slug": "andrej-tetkic",
+      "name": "Andrej Tetkić",
+      "country": "Serbia",
+      "scores": [
+        66.4,
+        7.57,
+        9.44,
+        0.0,
+        92.16,
+        0.0
+      ],
+      "total": 175.57,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 144,
+      "slug": "dior-wang",
+      "name": "Dior Wang",
+      "country": "Hong Kong, China",
+      "scores": [
+        60.28,
+        44.67,
+        23.33,
+        0.0,
+        36.19,
+        8.1
+      ],
+      "total": 172.57,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 145,
+      "slug": "simon-persson-holm",
+      "name": "Simon Persson Holm",
+      "country": "Sweden",
+      "scores": [
+        80.25,
+        0.0,
+        0.0,
+        0.0,
+        7.46,
+        84.83
+      ],
+      "total": 172.54,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 146,
+      "slug": "lyu-jin",
+      "name": "Lyu Jin",
+      "country": "Macao, China",
+      "scores": [
+        98.64,
+        0.0,
+        9.19,
+        0.0,
+        62.69,
+        0.08
+      ],
+      "total": 170.6,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 147,
+      "slug": "shohjahon-isroilov",
+      "name": "Shohjahon Isroilov",
+      "country": "Uzbekistan",
+      "scores": [
+        98.36,
+        0.0,
+        5.78,
+        0.0,
+        64.93,
+        0.08
+      ],
+      "total": 169.15,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 148,
+      "slug": "bui-quang-nguyen",
+      "name": "Bui Quang Nguyen",
+      "country": "Vietnam",
+      "scores": [
+        97.98,
+        51.14,
+        18.96,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "total": 168.08,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 149,
+      "slug": "sean-xiao",
+      "name": "Sean Xiao",
+      "country": "Hong Kong, China",
+      "scores": [
+        71.83,
+        31.12,
+        8.94,
+        0.0,
+        14.55,
+        40.75
+      ],
+      "total": 167.19,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 150,
+      "slug": "yerdenov-batyr",
+      "name": "Yerdenov Batyr",
+      "country": "Kazakhstan",
+      "scores": [
+        90.5,
+        0.0,
+        24.18,
+        0.0,
+        50.0,
+        1.23
+      ],
+      "total": 165.91,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 151,
+      "slug": "ethan-chun-yin-fung",
+      "name": "Ethan Chun Yin Fung",
+      "country": "Canada",
+      "scores": [
+        97.16,
+        0.0,
+        64.64,
+        0.0,
+        2.99,
+        0.08
+      ],
+      "total": 164.87,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 152,
+      "slug": "ishaan-gangwani",
+      "name": "Ishaan Gangwani",
+      "country": "India",
+      "scores": [
+        81.26,
+        2.02,
+        16.83,
+        0.0,
+        64.55,
+        0.0
+      ],
+      "total": 164.66,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 153,
+      "slug": "minjun-kang",
+      "name": "Minjun Kang",
+      "country": "South Korea",
+      "scores": [
+        95.39,
+        0.0,
+        5.67,
+        0.0,
+        63.43,
+        0.0
+      ],
+      "total": 164.49,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 154,
+      "slug": "choi-sai-chi",
+      "name": "Choi Sai Chi",
+      "country": "Macao, China",
+      "scores": [
+        90.5,
+        0.0,
+        13.17,
+        0.0,
+        60.45,
+        0.08
+      ],
+      "total": 164.2,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 155,
+      "slug": "imboon-pipatpaisit",
+      "name": "Imboon Pipatpaisit",
+      "country": "Thailand",
+      "scores": [
+        98.11,
+        27.64,
+        14.84,
+        0.0,
+        17.16,
+        5.82
+      ],
+      "total": 163.57,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 156,
+      "slug": "artur-bentsa",
+      "name": "Artur Bentsa",
+      "country": "Estonia",
+      "scores": [
+        80.16,
+        29.23,
+        0.0,
+        0.0,
+        50.75,
+        0.0
+      ],
+      "total": 160.14,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 157,
+      "slug": "mugisha-pacifique",
+      "name": "Mugisha Pacifique",
+      "country": "Rwanda",
+      "scores": [
+        82.18,
+        30.81,
+        24.39,
+        0.0,
+        14.18,
+        8.1
+      ],
+      "total": 159.66,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 158,
+      "slug": "ethem-yagz-calk",
+      "name": "Ethem Yağız Çalık",
+      "country": "Türkiye",
+      "scores": [
+        81.07,
+        20.99,
+        8.9,
+        0.0,
+        36.94,
+        9.24
+      ],
+      "total": 157.14,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 159,
+      "slug": "thanakrit-ponimthai",
+      "name": "Thanakrit Ponimthai",
+      "country": "Thailand",
+      "scores": [
+        80.95,
+        0.0,
+        3.66,
+        0.0,
+        63.81,
+        8.1
+      ],
+      "total": 156.52,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 160,
+      "slug": "zhu-zhekai",
+      "name": "Zhu Zhekai",
+      "country": "China",
+      "scores": [
+        78.3,
+        0.0,
+        9.54,
+        0.0,
+        65.67,
+        0.08
+      ],
+      "total": 153.59,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 161,
+      "slug": "brodie-millar",
+      "name": "Brodie Millar",
+      "country": "Isle of Man",
+      "scores": [
+        88.64,
+        51.54,
+        0.0,
+        0.0,
+        7.46,
+        0.08
+      ],
+      "total": 147.72,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 162,
+      "slug": "ayhem-bouker",
+      "name": "Ayhem Bouker",
+      "country": "Tunisia",
+      "scores": [
+        65.71,
+        22.45,
+        13.52,
+        0.0,
+        2.99,
+        43.03
+      ],
+      "total": 147.7,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 163,
+      "slug": "carlos-huancollo",
+      "name": "Carlos Huancollo",
+      "country": "Peru",
+      "scores": [
+        52.33,
+        24.6,
+        1.95,
+        0.0,
+        60.45,
+        8.1
+      ],
+      "total": 147.43,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 164,
+      "slug": "antoni-kaminski",
+      "name": "Antoni Kamiński",
+      "country": "Poland",
+      "scores": [
+        73.28,
+        17.65,
+        3.97,
+        0.0,
+        44.38,
+        8.1
+      ],
+      "total": 147.38,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 165,
+      "slug": "semen-boguslavskii",
+      "name": "Semen Boguslavskii",
+      "country": "Kyrgyzstan",
+      "scores": [
+        67.26,
+        19.5,
+        0.06,
+        0.0,
+        49.63,
+        8.1
+      ],
+      "total": 144.55,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 166,
+      "slug": "pluzyan-vahe",
+      "name": "Pluzyan Vahe",
+      "country": "Armenia",
+      "scores": [
+        66.78,
+        0.0,
+        20.54,
+        42.0,
+        6.34,
+        8.1
+      ],
+      "total": 143.76,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 167,
+      "slug": "nart-abaza",
+      "name": "Nart Abaza",
+      "country": "Jordan",
+      "scores": [
+        96.25,
+        0.0,
+        0.0,
+        0.0,
+        45.15,
+        0.0
+      ],
+      "total": 141.4,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 168,
+      "slug": "nikoloz-gegenava",
+      "name": "Nikoloz Gegenava",
+      "country": "Georgia",
+      "scores": [
+        71.55,
+        7.88,
+        9.05,
+        0.0,
+        44.78,
+        8.1
+      ],
+      "total": 141.36,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 169,
+      "slug": "ayan-bin-rafaih",
+      "name": "Ayan Bin Rafaih",
+      "country": "Pakistan",
+      "scores": [
+        81.48,
+        21.21,
+        14.84,
+        0.0,
+        23.51,
+        0.08
+      ],
+      "total": 141.12,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 170,
+      "slug": "veljko-galovic",
+      "name": "Veljko Galović",
+      "country": "Serbia",
+      "scores": [
+        42.84,
+        0.0,
+        9.34,
+        0.0,
+        80.22,
+        8.1
+      ],
+      "total": 140.5,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 171,
+      "slug": "misbah-uddin-inan",
+      "name": "Misbah Uddin Inan",
+      "country": "Bangladesh",
+      "scores": [
+        88.74,
+        26.1,
+        2.24,
+        0.0,
+        12.69,
+        8.1
+      ],
+      "total": 137.87,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 172,
+      "slug": "martin-aldana-mejia",
+      "name": "Martin Aldana Mejia",
+      "country": "Colombia",
+      "scores": [
+        71.51,
+        19.15,
+        26.03,
+        0.0,
+        13.06,
+        8.1
+      ],
+      "total": 137.85,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 173,
+      "slug": "u-erkhes",
+      "name": "U.Erkhes",
+      "country": "Mongolia",
+      "scores": [
+        89.87,
+        6.65,
+        18.7,
+        0.0,
+        8.21,
+        13.25
+      ],
+      "total": 136.68,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 174,
+      "slug": "jose-angel-cortez-cruz",
+      "name": "Jose Angel Cortez Cruz",
+      "country": "El Salvador",
+      "scores": [
+        81.07,
+        18.18,
+        3.52,
+        0.0,
+        24.25,
+        8.1
+      ],
+      "total": 135.12,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 175,
+      "slug": "cruz-caine",
+      "name": "Cruz Caine",
+      "country": "Jamaica",
+      "scores": [
+        49.12,
+        0.0,
+        11.22,
+        0.0,
+        65.67,
+        8.1
+      ],
+      "total": 134.11,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 176,
+      "slug": "gordon-jiang",
+      "name": "Gordon Jiang",
+      "country": "Hong Kong, China",
+      "scores": [
+        68.08,
+        0.0,
+        5.84,
+        0.0,
+        58.96,
+        0.08
+      ],
+      "total": 132.96,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 177,
+      "slug": "bozhidara-puhaleva",
+      "name": "Bozhidara Puhaleva",
+      "country": "Bulgaria",
+      "scores": [
+        50.73,
+        30.37,
+        2.21,
+        0.0,
+        40.3,
+        8.1
+      ],
+      "total": 131.71,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 178,
+      "slug": "illes-fleischman",
+      "name": "Illés Fleischman",
+      "country": "Hungary",
+      "scores": [
+        98.26,
+        13.51,
+        9.3,
+        0.0,
+        2.24,
+        8.1
+      ],
+      "total": 131.41,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 179,
+      "slug": "miguel-cyrineu-vale",
+      "name": "Miguel Cyrineu Vale",
+      "country": "Brazil",
+      "scores": [
+        83.79,
+        9.46,
+        7.39,
+        0.0,
+        12.69,
+        17.56
+      ],
+      "total": 130.89,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 180,
+      "slug": "agbossaga-merveille",
+      "name": "AGBOSSAGA Merveille",
+      "country": "Benin",
+      "scores": [
+        50.6,
+        41.95,
+        21.95,
+        0.0,
+        7.46,
+        8.1
+      ],
+      "total": 130.06,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 181,
+      "slug": "tymofii-slitenko",
+      "name": "Tymofii Slitenko",
+      "country": "Estonia",
+      "scores": [
+        75.08,
+        0.0,
+        0.0,
+        0.0,
+        46.64,
+        8.1
+      ],
+      "total": 129.82,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 182,
+      "slug": "tsengeg-nyamsukh",
+      "name": "Tsengeg Nyamsukh",
+      "country": "Mongolia",
+      "scores": [
+        91.83,
+        0.0,
+        11.22,
+        0.0,
+        18.28,
+        8.1
+      ],
+      "total": 129.43,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 183,
+      "slug": "antoni-ingorokva",
+      "name": "Antoni Ingorokva",
+      "country": "Georgia",
+      "scores": [
+        81.36,
+        20.73,
+        9.44,
+        0.0,
+        6.72,
+        8.1
+      ],
+      "total": 126.35,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 184,
+      "slug": "sebastian-enrique-somoza-portillo",
+      "name": "Sebastian Enrique Somoza Portillo",
+      "country": "El Salvador",
+      "scores": [
+        56.09,
+        0.0,
+        15.2,
+        0.0,
+        14.93,
+        38.74
+      ],
+      "total": 124.96,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 185,
+      "slug": "sophia-hou",
+      "name": "Sophia Hou",
+      "country": "United States",
+      "scores": [
+        81.51,
+        21.3,
+        5.57,
+        0.0,
+        7.46,
+        8.1
+      ],
+      "total": 123.94,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 186,
+      "slug": "parvina-firuzovna",
+      "name": "Parvina Firuzovna",
+      "country": "Uzbekistan",
+      "scores": [
+        60.57,
+        20.82,
+        0.0,
+        0.0,
+        33.96,
+        8.1
+      ],
+      "total": 123.45,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 187,
+      "slug": "raphael-mirochnitchenko",
+      "name": "Raphaël Mirochnitchenko",
+      "country": "France",
+      "scores": [
+        85.11,
+        0.0,
+        21.95,
+        0.0,
+        7.46,
+        8.1
+      ],
+      "total": 122.62,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 188,
+      "slug": "brandon-chow",
+      "name": "Brandon Chow",
+      "country": "Canada",
+      "scores": [
+        69.12,
+        35.56,
+        9.83,
+        0.0,
+        7.46,
+        0.08
+      ],
+      "total": 122.05,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 189,
+      "slug": "yubo-zhao",
+      "name": "Yubo Zhao",
+      "country": "Canada",
+      "scores": [
+        70.66,
+        0.0,
+        7.72,
+        27.52,
+        7.84,
+        8.1
+      ],
+      "total": 121.84,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 190,
+      "slug": "gigi-molashkhia",
+      "name": "Gigi Molashkhia",
+      "country": "Georgia",
+      "scores": [
+        78.11,
+        0.0,
+        0.0,
+        0.0,
+        33.96,
+        8.1
+      ],
+      "total": 120.17,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 191,
+      "slug": "kittapat-kitisupawatana",
+      "name": "Kittapat Kitisupawatana",
+      "country": "Thailand",
+      "scores": [
+        77.76,
+        20.6,
+        5.84,
+        0.0,
+        7.84,
+        8.1
+      ],
+      "total": 120.14,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 192,
+      "slug": "cesar-murat-cepeda-beltran",
+      "name": "César Murat Cepeda Beltrán",
+      "country": "Mexico",
+      "scores": [
+        87.92,
+        0.0,
+        17.0,
+        0.0,
+        6.34,
+        8.1
+      ],
+      "total": 119.36,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 193,
+      "slug": "aybak-samiz",
+      "name": "Aybak Samiz",
+      "country": "Jordan",
+      "scores": [
+        76.5,
+        7.75,
+        11.18,
+        0.0,
+        18.66,
+        5.24
+      ],
+      "total": 119.33,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 194,
+      "slug": "juan-david-onofre-florian",
+      "name": "Juan David Onofre Florian",
+      "country": "Colombia",
+      "scores": [
+        53.6,
+        0.0,
+        9.3,
+        13.04,
+        43.26,
+        0.08
+      ],
+      "total": 119.28,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 195,
+      "slug": "aleksandar-slavov",
+      "name": "Aleksandar Slavov",
+      "country": "Bulgaria",
+      "scores": [
+        40.91,
+        0.0,
+        9.36,
+        42.0,
+        26.49,
+        0.08
+      ],
+      "total": 118.84,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 196,
+      "slug": "akniet-kenzhegulov",
+      "name": "Akniet Kenzhegulov",
+      "country": "Kyrgyzstan",
+      "scores": [
+        81.58,
+        2.86,
+        3.93,
+        0.0,
+        20.13,
+        8.1
+      ],
+      "total": 116.6,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 197,
+      "slug": "tan-min-sen",
+      "name": "Tan Min Sen",
+      "country": "Singapore",
+      "scores": [
+        99.27,
+        0.0,
+        0.0,
+        0.0,
+        7.46,
+        8.1
+      ],
+      "total": 114.83,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 198,
+      "slug": "thomas-greissler",
+      "name": "Thomas Greissler",
+      "country": "France",
+      "scores": [
+        86.21,
+        0.0,
+        13.02,
+        0.0,
+        7.46,
+        8.1
+      ],
+      "total": 114.79,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 199,
+      "slug": "kaixin-li",
+      "name": "Kaixin Li",
+      "country": "Australia",
+      "scores": [
+        82.43,
+        0.0,
+        15.49,
+        0.0,
+        7.84,
+        8.1
+      ],
+      "total": 113.86,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 200,
+      "slug": "georgios-tzovairis",
+      "name": "Georgios Tzovairis",
+      "country": "Greece",
+      "scores": [
+        72.4,
+        0.0,
+        17.06,
+        0.0,
+        16.04,
+        8.1
+      ],
+      "total": 113.6,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 201,
+      "slug": "aleksandre-tediashvili",
+      "name": "Aleksandre Tediashvili",
+      "country": "Georgia",
+      "scores": [
+        32.08,
+        48.06,
+        5.73,
+        0.0,
+        3.73,
+        22.99
+      ],
+      "total": 112.59,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 202,
+      "slug": "nikoloz-kipshidze",
+      "name": "Nikoloz Kipshidze",
+      "country": "Georgia",
+      "scores": [
+        89.05,
+        0.0,
+        11.04,
+        0.0,
+        4.1,
+        8.1
+      ],
+      "total": 112.29,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 203,
+      "slug": "stefano-larsen",
+      "name": "Stefano Larsen",
+      "country": "Netherlands",
+      "scores": [
+        56.09,
+        0.0,
+        2.36,
+        0.0,
+        43.64,
+        10.11
+      ],
+      "total": 112.2,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 204,
+      "slug": "omar-almahri",
+      "name": "Omar Almahri",
+      "country": "United Arab Emirates",
+      "scores": [
+        65.74,
+        0.0,
+        7.35,
+        0.0,
+        30.97,
+        8.1
+      ],
+      "total": 112.16,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 205,
+      "slug": "miguel-alejandro-somoza-portillo",
+      "name": "Miguel Alejandro Somoza Portillo",
+      "country": "El Salvador",
+      "scores": [
+        79.72,
+        19.15,
+        2.17,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 112.13,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 206,
+      "slug": "adriana-georgieva",
+      "name": "Adriana Georgieva",
+      "country": "Bulgaria",
+      "scores": [
+        91.32,
+        0.0,
+        9.65,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 112.06,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 207,
+      "slug": "ng-man-hei",
+      "name": "Ng Man Hei",
+      "country": "Hong Kong, China",
+      "scores": [
+        23.91,
+        0.0,
+        19.81,
+        0.0,
+        58.58,
+        8.1
+      ],
+      "total": 110.4,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 208,
+      "slug": "mirha-javaid",
+      "name": "Mirha Javaid",
+      "country": "Pakistan",
+      "scores": [
+        44.79,
+        0.0,
+        1.82,
+        0.0,
+        55.22,
+        8.1
+      ],
+      "total": 109.93,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 209,
+      "slug": "rashed-ahmed-aldhanhani",
+      "name": "Rashed Ahmed Aldhanhani",
+      "country": "United Arab Emirates",
+      "scores": [
+        81.2,
+        0.0,
+        9.25,
+        0.0,
+        11.19,
+        8.1
+      ],
+      "total": 109.74,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 210,
+      "slug": "alan-yin",
+      "name": "Alan Yin",
+      "country": "Canada",
+      "scores": [
+        86.18,
+        0.0,
+        9.36,
+        0.0,
+        5.22,
+        8.1
+      ],
+      "total": 108.86,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 211,
+      "slug": "ahouansou-dona-christ-hansmaut",
+      "name": "AHOUANSOU Dona Christ Hansmaut",
+      "country": "Benin",
+      "scores": [
+        66.66,
+        0.0,
+        5.73,
+        0.0,
+        28.36,
+        8.1
+      ],
+      "total": 108.85,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 212,
+      "slug": "nurtas-yermyek",
+      "name": "Nurtas Yermyek",
+      "country": "Mongolia",
+      "scores": [
+        65.21,
+        21.43,
+        13.09,
+        0.0,
+        8.96,
+        0.08
+      ],
+      "total": 108.77,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 213,
+      "slug": "rukundo-promesse",
+      "name": "Rukundo Promesse",
+      "country": "Rwanda",
+      "scores": [
+        82.65,
+        0.0,
+        12.65,
+        0.0,
+        5.22,
+        8.1
+      ],
+      "total": 108.62,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 214,
+      "slug": "ali",
+      "name": "ALI",
+      "country": "Mongolia",
+      "scores": [
+        58.61,
+        20.82,
+        14.85,
+        0.0,
+        5.6,
+        8.1
+      ],
+      "total": 107.98,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 215,
+      "slug": "seryozha-nazaryan",
+      "name": "Seryozha Nazaryan",
+      "country": "Armenia",
+      "scores": [
+        66.88,
+        0.0,
+        7.2,
+        0.0,
+        25.0,
+        8.1
+      ],
+      "total": 107.18,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 216,
+      "slug": "haohui-liu",
+      "name": "Haohui Liu",
+      "country": "Macao, China",
+      "scores": [
+        76.72,
+        0.0,
+        9.3,
+        0.0,
+        11.94,
+        8.1
+      ],
+      "total": 106.06,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 217,
+      "slug": "wang-suilun",
+      "name": "Wang Suilun",
+      "country": "Macao, China",
+      "scores": [
+        65.02,
+        0.0,
+        3.93,
+        0.0,
+        28.36,
+        8.1
+      ],
+      "total": 105.41,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 218,
+      "slug": "chenru-hu",
+      "name": "Chenru Hu",
+      "country": "Australia",
+      "scores": [
+        58.86,
+        0.0,
+        9.28,
+        0.0,
+        36.94,
+        0.08
+      ],
+      "total": 105.16,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 219,
+      "slug": "abrar-shahid",
+      "name": "Abrar Shahid",
+      "country": "Bangladesh",
+      "scores": [
+        93.5,
+        0.0,
+        0.0,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 104.59,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 220,
+      "slug": "savyasachi-singh",
+      "name": "Savyasachi Singh",
+      "country": "India",
+      "scores": [
+        72.9,
+        0.0,
+        0.0,
+        27.52,
+        2.99,
+        0.0
+      ],
+      "total": 103.41,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 221,
+      "slug": "diego-herrera-rivera",
+      "name": "Diego Herrera Rivera",
+      "country": "Mexico",
+      "scores": [
+        60.57,
+        0.0,
+        1.82,
+        0.0,
+        31.72,
+        8.1
+      ],
+      "total": 102.21,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 222,
+      "slug": "iskhak-tazhibaev",
+      "name": "Iskhak Tazhibaev",
+      "country": "Kyrgyzstan",
+      "scores": [
+        58.83,
+        0.0,
+        10.7,
+        0.0,
+        22.76,
+        8.1
+      ],
+      "total": 100.39,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 223,
+      "slug": "mizero-lucky-gall",
+      "name": "Mizero Lucky Gall",
+      "country": "Rwanda",
+      "scores": [
+        79.09,
+        0.0,
+        1.72,
+        0.0,
+        19.38,
+        0.08
+      ],
+      "total": 100.27,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 224,
+      "slug": "damyan-dochev",
+      "name": "Damyan Dochev",
+      "country": "Bulgaria",
+      "scores": [
+        61.1,
+        20.82,
+        0.33,
+        0.0,
+        2.99,
+        14.69
+      ],
+      "total": 99.93,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 225,
+      "slug": "daniel-pocohuanca",
+      "name": "Daniel Pocohuanca",
+      "country": "Peru",
+      "scores": [
+        68.17,
+        0.0,
+        3.69,
+        0.0,
+        19.03,
+        8.1
+      ],
+      "total": 98.99,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 226,
+      "slug": "mariam-nasir",
+      "name": "Mariam Nasir",
+      "country": "Pakistan",
+      "scores": [
+        29.62,
+        33.01,
+        7.7,
+        0.0,
+        19.76,
+        8.1
+      ],
+      "total": 98.19,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 227,
+      "slug": "alier-sanchez-y-sanchez",
+      "name": "Alier Sánchez Y Sánchez",
+      "country": "Mexico",
+      "scores": [
+        22.08,
+        0.0,
+        0.0,
+        0.0,
+        9.7,
+        65.94
+      ],
+      "total": 97.72,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 228,
+      "slug": "aras-demir-sahin",
+      "name": "Aras Demi̇R Şahi̇N",
+      "country": "Türkiye",
+      "scores": [
+        16.15,
+        15.54,
+        5.71,
+        0.0,
+        43.64,
+        13.55
+      ],
+      "total": 94.59,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 229,
+      "slug": "bater-habtoosh",
+      "name": "Bater Habtoosh",
+      "country": "Jordan",
+      "scores": [
+        63.88,
+        0.0,
+        0.0,
+        0.0,
+        22.01,
+        8.1
+      ],
+      "total": 93.99,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 230,
+      "slug": "qianhao-han",
+      "name": "Qianhao Han",
+      "country": "Canada",
+      "scores": [
+        46.06,
+        0.0,
+        3.81,
+        0.0,
+        43.64,
+        0.08
+      ],
+      "total": 93.59,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 231,
+      "slug": "annie-karheiding",
+      "name": "Annie Karheiding",
+      "country": "Sweden",
+      "scores": [
+        48.58,
+        37.63,
+        3.95,
+        0.0,
+        2.99,
+        0.08
+      ],
+      "total": 93.23,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 232,
+      "slug": "boyan-vangelov",
+      "name": "Boyan Vangelov",
+      "country": "Bulgaria",
+      "scores": [
+        9.5,
+        0.0,
+        16.75,
+        0.0,
+        58.58,
+        8.1
+      ],
+      "total": 92.93,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 233,
+      "slug": "pablo-andres-gonzalez-romero",
+      "name": "Pablo Andrés González Romero",
+      "country": "Colombia",
+      "scores": [
+        57.26,
+        0.0,
+        5.78,
+        0.0,
+        19.38,
+        8.1
+      ],
+      "total": 90.52,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 234,
+      "slug": "mpo-yeti-dereck",
+      "name": "M’PO YETI Déreck",
+      "country": "Benin",
+      "scores": [
+        56.37,
+        0.0,
+        13.42,
+        0.0,
+        11.57,
+        8.1
+      ],
+      "total": 89.46,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 235,
+      "slug": "fadi-amiche",
+      "name": "Fadi Amiche",
+      "country": "Tunisia",
+      "scores": [
+        56.59,
+        19.89,
+        5.51,
+        0.0,
+        7.09,
+        0.08
+      ],
+      "total": 89.16,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 236,
+      "slug": "juan-jose-gomez-ramirez",
+      "name": "Juan José Gómez Ramírez",
+      "country": "Colombia",
+      "scores": [
+        57.76,
+        0.0,
+        15.11,
+        0.0,
+        7.46,
+        8.1
+      ],
+      "total": 88.43,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 237,
+      "slug": "fabricio-jeffrey-yoel-aguilar-machaca",
+      "name": "Fabricio Jeffrey Yoel Aguilar Machaca",
+      "country": "Peru",
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        80.22,
+        8.1
+      ],
+      "total": 88.32,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 238,
+      "slug": "oscar-yan",
+      "name": "Oscar Yan",
+      "country": "Australia",
+      "scores": [
+        57.82,
+        7.79,
+        2.22,
+        0.0,
+        11.19,
+        8.1
+      ],
+      "total": 87.12,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 239,
+      "slug": "maxim-pavlenko",
+      "name": "Maxim Pavlenko",
+      "country": "Sweden",
+      "scores": [
+        56.5,
+        0.0,
+        22.15,
+        0.0,
+        0.0,
+        8.1
+      ],
+      "total": 86.75,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 240,
+      "slug": "eszter-demjen",
+      "name": "Eszter Demjén",
+      "country": "Hungary",
+      "scores": [
+        36.62,
+        8.19,
+        9.26,
+        0.0,
+        22.76,
+        8.1
+      ],
+      "total": 84.93,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 241,
+      "slug": "saba-machavariani",
+      "name": "Saba Machavariani",
+      "country": "Georgia",
+      "scores": [
+        58.36,
+        0.0,
+        4.04,
+        0.0,
+        13.81,
+        8.1
+      ],
+      "total": 84.31,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 242,
+      "slug": "dulguun-gantulga",
+      "name": "Dulguun Gantulga",
+      "country": "Mongolia",
+      "scores": [
+        62.4,
+        0.0,
+        1.86,
+        0.0,
+        11.19,
+        8.1
+      ],
+      "total": 83.55,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 243,
+      "slug": "davit-jaghatspanyan",
+      "name": "Davit Jaghatspanyan",
+      "country": "Armenia",
+      "scores": [
+        67.63,
+        0.0,
+        7.21,
+        0.0,
+        7.84,
+        0.08
+      ],
+      "total": 82.76,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 244,
+      "slug": "emir-kaan-ozdemir",
+      "name": "Emir Kaan Özdemir",
+      "country": "Türkiye",
+      "scores": [
+        57.85,
+        0.0,
+        5.18,
+        0.0,
+        8.96,
+        8.1
+      ],
+      "total": 80.09,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 245,
+      "slug": "amanda-vaarmann",
+      "name": "Amanda Vaarmann",
+      "country": "Estonia",
+      "scores": [
+        65.58,
+        0.0,
+        5.96,
+        0.0,
+        0.0,
+        8.1
+      ],
+      "total": 79.64,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 246,
+      "slug": "prince-kumar-mandal",
+      "name": "Prince Kumar Mandal",
+      "country": "Nepal",
+      "scores": [
+        73.06,
+        0.0,
+        0.0,
+        0.0,
+        6.35,
+        0.04
+      ],
+      "total": 79.45,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 247,
+      "slug": "ulambayar-iveelsaikhan",
+      "name": "Ulambayar Iveelsaikhan",
+      "country": "Mongolia",
+      "scores": [
+        52.62,
+        0.0,
+        9.07,
+        0.0,
+        9.33,
+        8.1
+      ],
+      "total": 79.12,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 248,
+      "slug": "makini-thompson",
+      "name": "Makini Thompson",
+      "country": "Jamaica",
+      "scores": [
+        3.25,
+        55.33,
+        0.0,
+        0.0,
+        19.76,
+        0.08
+      ],
+      "total": 78.42,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 249,
+      "slug": "matthijs-schrijvers",
+      "name": "Matthijs Schrijvers",
+      "country": "Netherlands",
+      "scores": [
+        40.19,
+        3.96,
+        15.01,
+        0.0,
+        10.82,
+        8.1
+      ],
+      "total": 78.08,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 250,
+      "slug": "juan-velasquez",
+      "name": "Juan Velasquez",
+      "country": "Peru",
+      "scores": [
+        53.47,
+        3.92,
+        0.0,
+        0.0,
+        19.76,
+        0.08
+      ],
+      "total": 77.23,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 251,
+      "slug": "mamoun-ben-ameur",
+      "name": "Mamoun Ben Ameur",
+      "country": "Tunisia",
+      "scores": [
+        32.08,
+        21.43,
+        9.17,
+        0.0,
+        6.34,
+        8.1
+      ],
+      "total": 77.12,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 252,
+      "slug": "blendi-avdolli",
+      "name": "Blendi Avdolli",
+      "country": "Albania",
+      "scores": [
+        54.67,
+        0.0,
+        5.55,
+        0.0,
+        7.84,
+        8.1
+      ],
+      "total": 76.16,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 253,
+      "slug": "sara-aljneibi",
+      "name": "Sara Aljneibi",
+      "country": "United Arab Emirates",
+      "scores": [
+        45.49,
+        0.0,
+        5.76,
+        0.0,
+        16.42,
+        8.1
+      ],
+      "total": 75.77,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 254,
+      "slug": "mota-s-m",
+      "name": "Mota, S. M.",
+      "country": "Brazil",
+      "scores": [
+        3.25,
+        0.0,
+        13.21,
+        0.0,
+        58.58,
+        0.0
+      ],
+      "total": 75.04,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 255,
+      "slug": "dharit-kittisakdi",
+      "name": "Dharit Kittisakdi",
+      "country": "Thailand",
+      "scores": [
+        52.4,
+        0.0,
+        3.81,
+        0.0,
+        9.33,
+        8.1
+      ],
+      "total": 73.64,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 256,
+      "slug": "karla-margarita-ayala-tobar",
+      "name": "Karla Margarita Ayala Tobar",
+      "country": "El Salvador",
+      "scores": [
+        3.25,
+        0.0,
+        7.45,
+        0.0,
+        49.25,
+        13.25
+      ],
+      "total": 73.2,
+      "award": "Honourable Mention",
+      "track": "main"
+    },
+    {
+      "rank": 257,
+      "slug": "koba-ami-odaye-essowemdeou-david",
+      "name": "Koba Ami-Odayé Essowèmdéou David",
+      "country": "Benin",
+      "scores": [
+        35.46,
+        0.0,
+        7.5,
+        0.0,
+        17.91,
+        8.1
+      ],
+      "total": 68.97,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 258,
+      "slug": "arsh-jha",
+      "name": "Arsh Jha",
+      "country": "Nepal",
+      "scores": [
+        36.4,
+        8.98,
+        11.12,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 67.59,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 259,
+      "slug": "muhammad-aayan-abdullah-malik",
+      "name": "Muhammad Aayan Abdullah Malik",
+      "country": "Pakistan",
+      "scores": [
+        46.21,
+        0.0,
+        2.36,
+        0.0,
+        10.82,
+        8.1
+      ],
+      "total": 67.49,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 260,
+      "slug": "creation-duwal",
+      "name": "Creation Duwal",
+      "country": "Nepal",
+      "scores": [
+        64.16,
+        0.0,
+        0.0,
+        0.0,
+        2.99,
+        0.08
+      ],
+      "total": 67.23,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 261,
+      "slug": "abdulla-khalil",
+      "name": "Abdulla Khalil",
+      "country": "United Arab Emirates",
+      "scores": [
+        18.86,
+        21.65,
+        14.74,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 66.34,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 262,
+      "slug": "mohammed-musab",
+      "name": "Mohammed Musab",
+      "country": "United Arab Emirates",
+      "scores": [
+        9.37,
+        23.55,
+        10.74,
+        0.0,
+        10.82,
+        8.1
+      ],
+      "total": 62.58,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 263,
+      "slug": "fatima-lari",
+      "name": "Fatima Lari",
+      "country": "United Arab Emirates",
+      "scores": [
+        15.3,
+        0.0,
+        3.81,
+        0.0,
+        34.7,
+        8.1
+      ],
+      "total": 61.91,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 264,
+      "slug": "amin-ben-ameur",
+      "name": "Amin Ben Ameur",
+      "country": "Tunisia",
+      "scores": [
+        20.88,
+        2.07,
+        16.29,
+        0.0,
+        13.43,
+        8.1
+      ],
+      "total": 60.77,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 265,
+      "slug": "rosalie-schrijvers",
+      "name": "Rosalie Schrijvers",
+      "country": "Netherlands",
+      "scores": [
+        30.44,
+        2.9,
+        11.03,
+        0.0,
+        2.99,
+        11.25
+      ],
+      "total": 58.61,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 266,
+      "slug": "william-zhu",
+      "name": "William Zhu",
+      "country": "Canada",
+      "scores": [
+        30.44,
+        0.0,
+        5.69,
+        0.0,
+        12.69,
+        8.1
+      ],
+      "total": 56.92,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 267,
+      "slug": "muyao-zhang",
+      "name": "Muyao Zhang",
+      "country": "Australia",
+      "scores": [
+        44.26,
+        0.0,
+        7.78,
+        0.0,
+        2.99,
+        0.08
+      ],
+      "total": 55.11,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 268,
+      "slug": "elbek-zohidjanov",
+      "name": "Elbek Zohidjanov",
+      "country": "Uzbekistan",
+      "scores": [
+        19.15,
+        0.0,
+        0.0,
+        0.0,
+        20.5,
+        8.1
+      ],
+      "total": 47.75,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 269,
+      "slug": "giorgi-kavelashvili",
+      "name": "Giorgi Kavelashvili",
+      "country": "Georgia",
+      "scores": [
+        3.25,
+        0.0,
+        13.23,
+        0.0,
+        21.64,
+        8.1
+      ],
+      "total": 46.22,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 270,
+      "slug": "khalifa-almulla",
+      "name": "Khalifa Almulla",
+      "country": "United Arab Emirates",
+      "scores": [
+        3.25,
+        0.0,
+        0.0,
+        0.0,
+        28.36,
+        8.1
+      ],
+      "total": 39.71,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 271,
+      "slug": "derek-sha",
+      "name": "Derek Sha",
+      "country": "United States",
+      "scores": [
+        7.79,
+        0.0,
+        12.88,
+        0.0,
+        7.09,
+        8.1
+      ],
+      "total": 35.86,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 272,
+      "slug": "ayse-naz-kara",
+      "name": "Ayşe Naz Kara",
+      "country": "Türkiye",
+      "scores": [
+        3.25,
+        0.0,
+        18.59,
+        0.0,
+        2.24,
+        8.1
+      ],
+      "total": 32.18,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 273,
+      "slug": "axel-hernandez-malave",
+      "name": "Axel Hernandez Malave",
+      "country": "Venezuela",
+      "scores": [
+        18.93,
+        0.0,
+        1.86,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 31.88,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 274,
+      "slug": "aayush-yadav",
+      "name": "Aayush Yadav",
+      "country": "Nepal",
+      "scores": [
+        10.66,
+        0.0,
+        9.17,
+        0.0,
+        7.65,
+        4.05
+      ],
+      "total": 31.53,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 275,
+      "slug": "hagenimana-keza-ange-darlene",
+      "name": "Hagenimana Keza Ange Darlene",
+      "country": "Rwanda",
+      "scores": [
+        3.25,
+        0.0,
+        11.53,
+        0.0,
+        10.07,
+        0.08
+      ],
+      "total": 24.93,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 276,
+      "slug": "louis-bowen-shi",
+      "name": "Louis Bowen Shi",
+      "country": "Australia",
+      "scores": [
+        3.25,
+        0.0,
+        13.02,
+        0.0,
+        7.46,
+        0.08
+      ],
+      "total": 23.81,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 277,
+      "slug": "jamia-williamson",
+      "name": "Jamía Williamson",
+      "country": "Jamaica",
+      "scores": [
+        3.25,
+        0.0,
+        5.71,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 20.05,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 278,
+      "slug": "amir-kovaci",
+      "name": "Amir Kovaçi",
+      "country": "Albania",
+      "scores": [
+        3.25,
+        0.0,
+        7.89,
+        0.0,
+        7.09,
+        0.08
+      ],
+      "total": 18.31,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 279,
+      "slug": "ersa-rrushi",
+      "name": "Ersa Rrushi",
+      "country": "Albania",
+      "scores": [
+        3.25,
+        0.0,
+        1.9,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 16.24,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 280,
+      "slug": "zamira-rustamova",
+      "name": "Zamira Rustamova",
+      "country": "Uzbekistan",
+      "scores": [
+        3.25,
+        0.0,
+        0.0,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 14.34,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 281,
+      "slug": "vincent-yingxi-chen",
+      "name": "Vincent Yingxi Chen",
+      "country": "Australia",
+      "scores": [
+        3.25,
+        0.0,
+        7.52,
+        0.0,
+        2.99,
+        0.08
+      ],
+      "total": 13.84,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 282,
+      "slug": "akshara-maddineni",
+      "name": "Akshara Maddineni",
+      "country": "United Kingdom",
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.99,
+        8.1
+      ],
+      "total": 11.09,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 283,
+      "slug": "troi-qendro",
+      "name": "Troi Qendro",
+      "country": "Albania",
+      "scores": [
+        3.25,
+        0.0,
+        3.93,
+        0.0,
+        2.99,
+        0.08
+      ],
+      "total": 10.25,
+      "award": "Participant",
+      "track": "main"
+    },
+    {
+      "rank": 284,
+      "slug": "tina-yao-tian",
+      "name": "Tina Yao Tian",
+      "country": "Australia",
+      "scores": [
+        3.25,
+        0.0,
+        0.0,
+        0.0,
+        2.99,
+        0.08
+      ],
+      "total": 6.32,
+      "award": "Participant",
+      "track": "main"
+    }
+  ],
+  "gaiteResults2025": [
+    {
+      "rank": 1,
+      "slug": "kabel-cisse",
+      "name": "Kabel Cisse",
+      "country": "Mali",
+      "scores": [
+        70.04,
+        100.0,
+        55.05,
+        99.34,
+        99.53
+      ],
+      "total": 423.96,
+      "award": "First Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 2,
+      "slug": "ariana-rivera-ferraiuoli",
+      "name": "Ariana Rivera Ferraiuoli",
+      "country": "Puerto Rico",
+      "scores": [
+        94.47,
+        0.0,
+        100.0,
+        96.46,
+        100.0
+      ],
+      "total": 390.93,
+      "award": "First Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 3,
+      "slug": "alvaro-villafuerte-gonzalez",
+      "name": "Alvaro Villafuerte Gonzalez",
+      "country": "Puerto Rico",
+      "scores": [
+        100.0,
+        0.0,
+        70.18,
+        100.0,
+        99.77
+      ],
+      "total": 369.95,
+      "award": "Second Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 4,
+      "slug": "mory-adama-dembele",
+      "name": "Mory Adama Dembele",
+      "country": "Mali",
+      "scores": [
+        7.83,
+        0.0,
+        8.12,
+        97.03,
+        98.29
+      ],
+      "total": 211.27,
+      "award": "Second Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 5,
+      "slug": "mariam-toure",
+      "name": "Mariam Toure",
+      "country": "Mali",
+      "scores": [
+        29.79,
+        0.0,
+        2.67,
+        82.64,
+        76.48
+      ],
+      "total": 191.58,
+      "award": "Third Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 6,
+      "slug": "alfredo-lopez-curet",
+      "name": "Alfredo LóPez Curet",
+      "country": "Puerto Rico",
+      "scores": [
+        14.27,
+        0.0,
+        0.0,
+        82.21,
+        91.89
+      ],
+      "total": 188.37,
+      "award": "Third Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 7,
+      "slug": "manasoa",
+      "name": "Manasoa",
+      "country": "Madagascar",
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        82.94,
+        99.03
+      ],
+      "total": 181.97,
+      "award": "Third Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 8,
+      "slug": "modibo-abdoulaye-coulibaly",
+      "name": "Modibo Abdoulaye Coulibaly",
+      "country": "Mali",
+      "scores": [
+        24.43,
+        0.0,
+        0.0,
+        85.7,
+        68.44
+      ],
+      "total": 178.57,
+      "award": "Third Level",
+      "track": "gaite"
+    },
+    {
+      "rank": 9,
+      "slug": "ainafi",
+      "name": "Ainafi",
+      "country": "Madagascar",
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        82.67,
+        91.66
+      ],
+      "total": 174.33,
+      "award": "Honourable Mention",
+      "track": "gaite"
+    },
+    {
+      "rank": 10,
+      "slug": "he-shan",
+      "name": "He Shan",
+      "country": "Puerto Rico",
+      "scores": [
+        7.52,
+        0.0,
+        2.67,
+        76.68,
+        77.65
+      ],
+      "total": 164.52,
+      "award": "Honourable Mention",
+      "track": "gaite"
+    },
+    {
+      "rank": 11,
+      "slug": "fitizo",
+      "name": "Fitizo",
+      "country": "Madagascar",
+      "scores": [
+        3.48,
+        0.0,
+        2.67,
+        0.0,
+        61.98
+      ],
+      "total": 68.13,
+      "award": "Participant",
+      "track": "gaite"
+    },
+    {
+      "rank": 12,
+      "slug": "gichigi-natasha-njeri",
+      "name": "Gichigi Natasha Njeri",
+      "country": "Kenya",
+      "scores": [
+        3.48,
+        0.0,
+        2.67,
+        0.0,
+        60.44
+      ],
+      "total": 66.59,
+      "award": "Participant",
+      "track": "gaite"
+    },
+    {
+      "rank": 12,
+      "slug": "oriki-doubar-nyabwari",
+      "name": "Oriki Doubar Nyabwari",
+      "country": "Kenya",
+      "scores": [
+        3.48,
+        0.0,
+        2.67,
+        0.0,
+        60.44
+      ],
+      "total": 66.59,
+      "award": "Participant",
+      "track": "gaite"
+    },
+    {
+      "rank": 12,
+      "slug": "mwaura-ronnie-murugo",
+      "name": "Mwaura Ronnie Murugo",
+      "country": "Kenya",
+      "scores": [
+        3.48,
+        0.0,
+        2.67,
+        0.0,
+        60.44
+      ],
+      "total": 66.59,
+      "award": "Participant",
+      "track": "gaite"
+    },
+    {
+      "rank": 12,
+      "slug": "mongare-mike-gift",
+      "name": "Mong’Are Mike Gift",
+      "country": "Kenya",
+      "scores": [
+        3.48,
+        0.0,
+        2.67,
+        0.0,
+        60.44
+      ],
+      "total": 66.59,
+      "award": "Participant",
+      "track": "gaite"
+    },
+    {
+      "rank": 12,
+      "slug": "mendrika",
+      "name": "Mendrika",
+      "country": "Madagascar",
+      "scores": [
+        3.48,
+        0.0,
+        2.67,
+        0.0,
+        60.44
+      ],
+      "total": 66.59,
+      "award": "Participant",
+      "track": "gaite"
+    }
+  ],
+  "teamChallenge2025": [
+    {
+      "rank": 1,
+      "team": "Poland Team 1",
+      "total": 212.3,
+      "award": "First Place Trophy"
+    },
+    {
+      "rank": 2,
+      "team": "Russia Team 1",
+      "total": 212.2,
+      "award": "Second Place Trophy"
+    },
+    {
+      "rank": 3,
+      "team": "Poland Team 2",
+      "total": 210.89,
+      "award": "Third Place Trophy"
+    },
+    {
+      "rank": 4,
+      "team": "Hungary Team 1",
+      "total": 200.0,
+      "award": "Finalist"
+    },
+    {
+      "rank": 5,
+      "team": "Vietnam Team 2",
+      "total": 198.65,
+      "award": "Finalist"
+    },
+    {
+      "rank": 6,
+      "team": "IOAI TEAM",
+      "total": 164.1,
+      "award": "Finalist"
+    },
+    {
+      "rank": 7,
+      "team": "Puerto Rico",
+      "total": 155.0,
+      "award": "Finalist"
+    },
+    {
+      "rank": 8,
+      "team": "Iran",
+      "total": 140.0,
+      "award": "Finalist"
+    },
+    {
+      "rank": 9,
+      "team": "Serbia",
+      "total": 125.0,
+      "award": "Finalist"
+    },
+    {
+      "rank": 10,
+      "team": "China Team 2",
+      "total": 95.0,
+      "award": "Finalist"
+    }
+  ],
+  "teams2025": [
+    {
+      "name": "Albania",
+      "leader": "Hatixhe Bilibashi",
+      "students": [
+        "Amir Kovaçi",
+        "Blendi Avdolli",
+        "Ersa Rrushi",
+        "Troi Qendro"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Algeria",
+      "leader": "",
+      "students": [],
+      "observer": true
+    },
+    {
+      "name": "Armenia",
+      "leader": "Tigran Ishkhanyan",
+      "students": [
+        "Aram Amirkhanyan",
+        "Seryozha Nazaryan",
+        "Davit Jaghatspanyan",
+        "Pluzyan Vahe"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Australia 1",
+      "leader": "Qing Zhu",
+      "students": [
+        "Henry Minh Ho",
+        "Vincent Yingxi Chen",
+        "Muyao Zhang",
+        "Kaixin Li"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Australia 2",
+      "leader": "Lu Cao",
+      "students": [
+        "Oscar Yan",
+        "Chenru Hu",
+        "Tina Yao Tian",
+        "Louis Bowen Shi"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Bangladesh",
+      "leader": "B M Mainul Hossain",
+      "students": [
+        "Misbah Uddin Inan",
+        "Md. Riasat Islam",
+        "Abrar Shahid",
+        "Arefin Anwar"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Benin",
+      "leader": "ADJOVI ARNAULD",
+      "students": [
+        "M'PO YETI Déreck",
+        "AGBOSSAGA Merveille",
+        "KOBA Ami-Odayé Essowèmdéou David",
+        "AHOUANSOU Dona Christ Hansmaut"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Brazil",
+      "leader": "Kristofer S. Kappel",
+      "students": [
+        "Gabriel N. Siqueira",
+        "Ícaro Silva da Rosa Linck Fróes",
+        "Miguel Cyrineu Vale",
+        "Mota, S. M."
+      ],
+      "observer": false
+    },
+    {
+      "name": "Bulgaria 1",
+      "leader": "Yoan Salambashev",
+      "students": [
+        "Velislav Dzhelepov",
+        "Mario Petkov",
+        "Reni Paskaleva",
+        "Bozhidara Puhaleva"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Bulgaria 2",
+      "leader": "Melania Berbatova",
+      "students": [
+        "Adriana Georgieva",
+        "Damyan Dochev",
+        "Boyan Vangelov",
+        "Aleksandar Slavov"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Canada 1",
+      "leader": "Bo Wei",
+      "students": [
+        "Alan Yin",
+        "Ethan Chun Yin Fung",
+        "Yubo Zhao",
+        "Jeric Jiang"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Canada 2",
+      "leader": "Christy Xie",
+      "students": [
+        "Brandon Chow",
+        "William Zhu",
+        "Qianhao Han",
+        "Angelina Tsang"
+      ],
+      "observer": false
+    },
+    {
+      "name": "China 1",
+      "leader": "Zhang Weiqi",
+      "students": [
+        "Jiang Huikang",
+        "Dong Sihan",
+        "He Jianxing",
+        "Zhu Zhekai"
+      ],
+      "observer": false
+    },
+    {
+      "name": "China 2",
+      "leader": "Wang Hengliang",
+      "students": [
+        "Zhao Fucheng",
+        "Wang Mutian",
+        "Shi Zhenghang",
+        "Duan Zongyan"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Colombia",
+      "leader": "Emerson León",
+      "students": [
+        "Juan José Gómez Ramírez",
+        "Martin Aldana Mejia",
+        "Pablo Andrés González Romero",
+        "Juan David Onofre Florian"
+      ],
+      "observer": false
+    },
+    {
+      "name": "El Salvador",
+      "leader": "Josue Aristides Melendez Aleman",
+      "students": [
+        "Sebastian Enrique Somoza Portillo",
+        "Jose Angel Cortez Cruz",
+        "Karla Margarita Ayala Tobar",
+        "Miguel Alejandro Somoza Portillo"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Estonia",
+      "leader": "Hendrik Pärli",
+      "students": [
+        "Tymofii Slitenko",
+        "Hannes Tsengov",
+        "Amanda Vaarmann",
+        "Artur Bentsa"
+      ],
+      "observer": false
+    },
+    {
+      "name": "France",
+      "leader": "Jules Pondard",
+      "students": [
+        "Timofei Amosov",
+        "Matan Israël",
+        "Thomas Greissler",
+        "Raphaël Mirochnitchenko"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Georgia 1",
+      "leader": "Shota Elkanishvili",
+      "students": [
+        "Antoni Ingorokva",
+        "Nikoloz Kipshidze",
+        "Gigi Molashkhia",
+        "Nikoloz Gegenava"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Georgia 2",
+      "leader": "Keti Sulamanidze",
+      "students": [
+        "Temiko Machavariani",
+        "Saba Machavariani",
+        "Giorgi Kavelashvili",
+        "Aleksandre Tediashvili"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Greece",
+      "leader": "Nikos Tsikouras",
+      "students": [
+        "Dimitrios Toulis",
+        "Georgios Angelakis",
+        "Georgios Tzovairis",
+        "Theodoros Sarras"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Hong Kong, China 1",
+      "leader": "Annie Cheong",
+      "students": [
+        "Sean Xiao",
+        "Xian Chin Lok",
+        "Ng Man Hei",
+        "Chik Kin Hei"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Hong Kong, China 2",
+      "leader": "Kenny Yeung",
+      "students": [
+        "Dior Wang",
+        "Cheng Lai Yin",
+        "Gordon Jiang",
+        "Li Sze Chai Isaac"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Hungary 1",
+      "leader": "László Gulyás",
+      "students": [
+        "Gergely Lehotai",
+        "Eszter Demjén",
+        "Benedek Labancz",
+        "Vince Ungár"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Hungary 2",
+      "leader": "Tamás Takács",
+      "students": [
+        "Máté Magó",
+        "Martin Reicher",
+        "Leó Nagy",
+        "Illés Fleischman"
+      ],
+      "observer": false
+    },
+    {
+      "name": "India 1",
+      "leader": "Abhishek Divekar",
+      "students": [
+        "Ishaan Gangwani",
+        "Roumak Das",
+        "Soham Sen",
+        "Samik Goyal"
+      ],
+      "observer": false
+    },
+    {
+      "name": "India 2",
+      "leader": "Vikas C. Raykar",
+      "students": [
+        "Arjun Tyagi",
+        "Himaneesh Sompalle",
+        "Savyasachi Singh",
+        "Rayan Banerjee"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Indonesia",
+      "leader": "Mushthofa",
+      "students": [
+        "Matthew Pramana",
+        "Faiz Ramadhan",
+        "Jayden Jurianto",
+        "Luvidi Pranawa Alghari"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Iran",
+      "leader": "Amir Najafi",
+      "students": [
+        "Parsa Golestani",
+        "Ali Shayan",
+        "Arash Yousefnezhad",
+        "Radin Rahmani Nodehi"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Isle of Man",
+      "leader": "Andrew Millar",
+      "students": [
+        "Brodie Millar"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Israel",
+      "leader": "",
+      "students": [],
+      "observer": true
+    },
+    {
+      "name": "Jamaica",
+      "leader": "Nasha Frith",
+      "students": [
+        "Jamía Williamson",
+        "Makini Thompson",
+        "Matthew Williams",
+        "Cruz Caine"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Japan",
+      "leader": "Naoki Murakami",
+      "students": [
+        "Haruto Suzuki",
+        "Naoya Tokita",
+        "Hayato Yamai",
+        "Shengxuan Fu"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Jordan",
+      "leader": "Yousef Alqasrawi",
+      "students": [
+        "Bater Habtoosh",
+        "Aybak Samiz",
+        "Nart Abaza",
+        "Islam Aldaraghmeh"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Kazakhstan 1",
+      "leader": "Akhanov Nurdaulet",
+      "students": [
+        "Yerdenov Batyr",
+        "Issatay Sultanbi",
+        "Aushakhman Talim",
+        "Beketov Dauzhan"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Kazakhstan 2",
+      "leader": "Oteu Kuanysh",
+      "students": [
+        "Kassymkan Zhanibek",
+        "Kanabek Abu",
+        "Shakurov Timur",
+        "Sary Sultanbek"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Kenya",
+      "leader": "Ndolo Antony",
+      "students": [
+        "Gichigi Natasha Njeri",
+        "Oriki Doubar Nyabwari",
+        "Mwaura Ronnie Murugo",
+        "Mong'are Mike Gift"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Kyrgyzstan",
+      "leader": "Makhamadkhan Ishmatov",
+      "students": [
+        "Matvei Nizovsky",
+        "Semen Boguslavskii",
+        "Iskhak Tazhibaev",
+        "Akniet Kenzhegulov"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Macao, China 1",
+      "leader": "Lou Seng Sang",
+      "students": [
+        "Mak Chon Hei",
+        "Haohui Liu",
+        "Lyu Jin",
+        "Neng Chan Zou"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Macao, China 2",
+      "leader": "Lou Seng Sang",
+      "students": [
+        "Choi Sai Chi",
+        "Sio U Hon",
+        "Vong Hou Kei",
+        "Wang Suilun"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Madagascar",
+      "leader": "Cynthia",
+      "students": [
+        "Ainafi",
+        "Manasoa",
+        "Mendrika",
+        "Fitizo"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Malaysia",
+      "leader": "Tan Nian Wei",
+      "students": [
+        "Khor Kai Jie",
+        "Lim Ming Wen",
+        "Ryan Kua Yi Jie",
+        "Yong Zi Hong"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Mali",
+      "leader": "Sebastien Diarra",
+      "students": [
+        "Mory Adama Dembele",
+        "Kabel Cisse",
+        "Mariam Toure",
+        "Modibo Abdoulaye Coulibaly"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Mexico",
+      "leader": "César Arturo Cepeda García",
+      "students": [
+        "Alier Sánchez Y Sánchez",
+        "Axel Magaña Falcón",
+        "César Murat Cepeda Beltrán",
+        "Diego Herrera Rivera"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Mongolia 1",
+      "leader": "Tsolmon Zundui",
+      "students": [
+        "Dulguun Gantulga",
+        "Irmuun Chinbat",
+        "Nurtas Yermyek",
+        "Ulambayar Iveelsaikhan"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Mongolia 2",
+      "leader": "Zoljargal Munkhjargal",
+      "students": [
+        "Tsengeg Nyamsukh",
+        "ALI",
+        "S.Khangerel",
+        "U.Erkhes"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Nepal",
+      "leader": "Chandan Goopta",
+      "students": [
+        "Arsh Jha",
+        "Creation Duwal",
+        "Aayush Yadav",
+        "Prince Kumar Mandal"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Netherlands",
+      "leader": "Matthijs Ten Tije",
+      "students": [
+        "Matthijs Schrijvers",
+        "Stefano Larsen",
+        "Lieke Visser",
+        "Rosalie Schrijvers"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Pakistan",
+      "leader": "Muhammad Kamran",
+      "students": [
+        "Ayan Bin Rafaih",
+        "Mariam Nasir",
+        "Muhammad Aayan Abdullah Malik",
+        "Mirha Javaid"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Peru",
+      "leader": "Julio Gutiérrez",
+      "students": [
+        "Juan Velasquez",
+        "Daniel Pocohuanca",
+        "Fabricio Jeffrey Yoel Aguilar Machaca",
+        "Carlos Huancollo"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Poland 1",
+      "leader": "Antoni Czapski",
+      "students": [
+        "Dawid Kot",
+        "Mateusz Kwietniewski",
+        "Michał Karp",
+        "Bartosz Trojan"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Poland 2",
+      "leader": "Paulina Tomaszewska",
+      "students": [
+        "Tymoteusz Stępkowski",
+        "Krzysztof Rojek",
+        "Jan Kociszewski",
+        "Antoni Kamiński"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Portugal",
+      "leader": "",
+      "students": [],
+      "observer": true
+    },
+    {
+      "name": "Puerto Rico",
+      "leader": "Edwin Florez Gomez",
+      "students": [
+        "Alfredo López Curet",
+        "Ariana Rivera Ferraiuoli",
+        "He Shan",
+        "Alvaro Villafuerte Gonzalez"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Romania 1",
+      "leader": "Nan Mihai",
+      "students": [
+        "Rebengiuc Mircea Maxim",
+        "Petrean Roland",
+        "Mocanu Mihai-Adrian",
+        "Asandei Ștefan-Alexandru"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Romania 2",
+      "leader": "Miron Alexandru-Bogdan",
+      "students": [
+        "Slănină Simon",
+        "Mușat Tudor-Ștefan",
+        "Morariu Tudor",
+        "Dumitrașcu Ștefan-Alexandru"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Russia 1",
+      "leader": "Gushchin Aleksandr",
+      "students": [
+        "Garifullin Timur",
+        "Dinmukhametov Danis",
+        "Sigalov Konstantin",
+        "Khlopotnykh Andrei"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Russia 2",
+      "leader": "Arefev Sergei",
+      "students": [
+        "Beliaev Matvei",
+        "Vershinin Mikhail",
+        "Drokanov Oleg",
+        "Mazur Artem"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Rwanda",
+      "leader": "Irakoze Ntawigenga Kelly",
+      "students": [
+        "Mugisha Pacifique",
+        "Rukundo Promesse",
+        "Hagenimana Keza Ange Darlene",
+        "Mizero Lucky Gall"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Saudi Arabia",
+      "leader": "Akram Fadhl N Ahmed",
+      "students": [
+        "Muaath Mohammed A Alqarni",
+        "Ali Abdulhadi A Alsalman",
+        "Ali Ayman H Alkhabbaz",
+        "Qusai Emad A Jadallah"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Serbia",
+      "leader": "Ivan Radivojević",
+      "students": [
+        "Veljko Galović",
+        "Andrej Tetkić",
+        "Filip Kilibarda",
+        "Aleksa Bolić"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Singapore 1",
+      "leader": "Ong Chin Ann",
+      "students": [
+        "Kieran Chai Kai Ren",
+        "Wang Jiayu",
+        "Wong Yue Heng",
+        "Zhang Yihao"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Singapore 2",
+      "leader": "Pan Xingang",
+      "students": [
+        "Tan Min Sen",
+        "Wang Enrun Matthias",
+        "Wang Zerui",
+        "Shine Xu Jiajing"
+      ],
+      "observer": false
+    },
+    {
+      "name": "South Africa",
+      "leader": "",
+      "students": [],
+      "observer": true
+    },
+    {
+      "name": "South Korea",
+      "leader": "Taehyun Yang",
+      "students": [
+        "Taeung Jeong",
+        "Minjun Kang",
+        "Yongseok Kwon",
+        "Jinwoong Lee"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Sweden 1",
+      "leader": "Arvid Kristoffersson",
+      "students": [
+        "Teo Lovmar",
+        "Ayaan Wolvén",
+        "Alexander Tran",
+        "Simon Persson Holm"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Sweden 2",
+      "leader": "Joshua Andersson",
+      "students": [
+        "Annie Karheiding",
+        "Martin Zhang",
+        "Ihor Kolisnyk",
+        "Maxim Pavlenko"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Thailand",
+      "leader": "Benjamart Maiket",
+      "students": [
+        "Imboon Pipatpaisit",
+        "Kittapat Kitisupawatana",
+        "Dharit Kittisakdi",
+        "Thanakrit Ponimthai"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Tunisia",
+      "leader": "Hatem Slimane",
+      "students": [
+        "Mamoun Ben Ameur",
+        "Amin Ben Ameur",
+        "Fadi Amiche",
+        "Ayhem Bouker"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Türkiye 1",
+      "leader": "Fatih Kursat Cansu",
+      "students": [
+        "Ethem Yağız Çalık",
+        "Şuayp Talha Kocabay",
+        "Talha Rüzgar Akkuş",
+        "Mehmet Kağan Albayrak"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Türkiye 2",
+      "leader": "Onur Güngör",
+      "students": [
+        "Kemal Mete Akkaş",
+        "Ayşe Naz Kara",
+        "Emir Kaan Özdemir",
+        "Aras Demi̇R Şahi̇N"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United Arab Emirates 1",
+      "leader": "Muhammad Mongy Aboelnaga",
+      "students": [
+        "Khalifa Almulla",
+        "Rashed Ahmed Aldhanhani",
+        "Abdulla Khalil",
+        "Rayan Bouslimi"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United Arab Emirates 2",
+      "leader": "Abdelrahman Gasser",
+      "students": [
+        "Sara Aljneibi",
+        "Fatima Lari",
+        "Omar Almahri",
+        "Mohammed Musab"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United Kingdom",
+      "leader": "James Hindmarch",
+      "students": [
+        "Anango Prabhat",
+        "Akshara Maddineni",
+        "Dylan Austin",
+        "Samuel Johnson"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United States 1",
+      "leader": "Steven Chen",
+      "students": [
+        "Bryan Zhu",
+        "Derek Sha",
+        "William Wang",
+        "Sanghyeon (Robert) Joo"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United States 2",
+      "leader": "Mohammad Haddadnia",
+      "students": [
+        "Pranav Sambhu",
+        "Mahith Gottipati",
+        "Sophia Hou",
+        "Lily Shi"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Uzbekistan",
+      "leader": "Utkir Boltayev",
+      "students": [
+        "Zamira Rustamova",
+        "Parvina Firuzovna",
+        "Elbek Zohidjanov",
+        "Shohjahon Isroilov"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Venezuela",
+      "leader": "Robinson Rivas-Suarez",
+      "students": [
+        "Axel Hernandez Malave"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Vietnam 1",
+      "leader": "Nguyen Hoang Giang",
+      "students": [
+        "Nguyen Viet Trung Nhan",
+        "Nguyen Huu Tuan",
+        "Bui Quang Nguyen",
+        "Nguyen Nhat Minh"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Vietnam 2",
+      "leader": "Tran Quoc Long",
+      "students": [
+        "Nguyen Phu Nhan",
+        "Bui Dam Quan",
+        "Hoang Cong Bao Long",
+        "Nguyen Khac Trung Kien"
+      ],
+      "observer": false
+    }
+  ],
+  "teams2024": [
+    {
+      "name": "Australia 1",
+      "leader": "Kun Fang",
+      "students": [
+        "Darcy Sutton",
+        "Florence Yaxian Fang",
+        "Jayden Jiayuan Yue",
+        "Oscar Jialin Zhou"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Australia 2",
+      "leader": "Qing Zhu",
+      "students": [
+        "Vincent Yingxi Chen",
+        "Oscar Yan",
+        "Aiden Anxin Wen",
+        "Chenru Hu"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Bangladesh",
+      "leader": "B M Mainul Hossain",
+      "students": [
+        "Abrar Shahid",
+        "Arefin Anwar",
+        "Misbah Uddin Inan",
+        "Rafid Ahmed"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Brazil",
+      "leader": "Kristofer Stift Kappel",
+      "students": [
+        "André Solovjovas Leite",
+        "Leonardo Candeias Massoni",
+        "Allany de Melo Camacho",
+        "Millena Xavier Martins"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Bulgaria 1",
+      "leader": "Yoan Georgiev Salambashev",
+      "students": [],
+      "observer": false
+    },
+    {
+      "name": "Bulgaria 2",
+      "leader": "Radostin Lozanov Cholakov",
+      "students": [
+        "Velislav Teodorov Dzhelepov",
+        "Delyan Ilianov Hristov",
+        "Kalina Georgieva Ivanova",
+        "Stoyan Hristov Ganchev"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Canada",
+      "leader": "Zachary Yu-Long Xie",
+      "students": [
+        "Brandon Chow",
+        "Jeric Jiang",
+        "Angelina Yi Chiao Tseng",
+        "Qianhao Han"
+      ],
+      "observer": false
+    },
+    {
+      "name": "China 1",
+      "leader": "Zheng Zijie",
+      "students": [
+        "Duan Shaoxiong",
+        "Xu Qiwen",
+        "Chen Tianrui",
+        "Lin Yuyang"
+      ],
+      "observer": false
+    },
+    {
+      "name": "China 2",
+      "leader": "Wang Yingkun",
+      "students": [
+        "Li Sijun",
+        "Cheng Lufeng",
+        "Gong Yecheng",
+        "Jin Zhan"
+      ],
+      "observer": false
+    },
+    {
+      "name": "El Salvador",
+      "leader": "",
+      "students": [],
+      "observer": true
+    },
+    {
+      "name": "Colombia",
+      "leader": "Emerson Julián León Guerrero",
+      "students": [
+        "José Miguel Rodríguez Nates",
+        "Martín Aldana Mejía",
+        "Pablo Andrés González Romero",
+        "Juan Camilo Almanza Gamarra"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Estonia",
+      "leader": "Taavi Luik",
+      "students": [
+        "Artur Bentsa",
+        "Hendrik Pärli",
+        "Kristjan Lepp",
+        "Oskar Austa"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Hong Kong, China",
+      "leader": "On Nei Cheong",
+      "students": [
+        "Yuxin Cai",
+        "Siu Lung Fan",
+        "Yau Sing Martin Ho",
+        "Jiaboa Sean Xiao"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Hungary 1",
+      "leader": "Ferenc Huszár",
+      "students": [
+        "Kovács-Bánhalmi Hédi Zita",
+        "Ungár Vince",
+        "Balázs Szilágyi",
+        "Ádám Vajda"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Hungary 2",
+      "leader": "Szalay Gergő",
+      "students": [
+        "Christ Miranda Anna",
+        "Lehotai Gergely",
+        "István Ádám Molnár",
+        "Nagy Dávid Leonárd"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Iran",
+      "leader": "Armin Behnamnia",
+      "students": [
+        "Mohammad Sadra Koohestani",
+        "Amir Hossein Zarei",
+        "Parsa Sadeeghi",
+        "Alireza Rahimi Yazdi"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Isle of Man",
+      "leader": "Robert William Kermode Teare",
+      "students": [
+        "Amy June Ann Marven-Ross",
+        "Thomas Edwin William Gilmore",
+        "Alexander Nicholas Silvester Owenson",
+        "Arthur Valentine George J H Owenson"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Japan",
+      "leader": "Kazune Sato",
+      "students": [
+        "Yuma Ochi",
+        "Keigo Yoshioka",
+        "Haruto Suzuki",
+        "Arisa Okamura"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Jordan",
+      "leader": "Yousef Talal Naji Alqasrawi",
+      "students": [
+        "Aybak Samer Aref Samiz",
+        "Adi Abdelqader Abdelrazzaq Alhourani",
+        "Abdallah Sari Yousef Haymoor",
+        "Mohammad Husni Ahmad Alsamnah"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Kyrgyzstan",
+      "leader": "Makhamadkhan Ishmatov",
+      "students": [
+        "Ian Bobrus",
+        "Aidin Asankadyrov",
+        "Emil Talypov",
+        "Adil Kanatbekov"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Letovo",
+      "leader": "Ekaterina Protcko",
+      "students": [
+        "Andrey Gromyko",
+        "Anastasia Gaynullina",
+        "Andrei Gritsaev",
+        "Nikita Kurlaev"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Macao, China",
+      "leader": "Chan Pong Lei",
+      "students": [
+        "Ian Meng Si",
+        "Jia Hao Liang",
+        "Ana Guo",
+        "Chi Cheng Chan"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Malaysia",
+      "leader": "Tan Nian Wei",
+      "students": [
+        "Foo Tun Jing",
+        "Lim Ming Wen",
+        "Ryan Kua Yi Jie",
+        "Yong Zi Hong"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Mongolia",
+      "leader": "Tsolmon Zundui",
+      "students": [
+        "Tenuun Erdenebayar",
+        "Irmuun Chinbat",
+        "Batsukh Namsraijav",
+        "Enguun Tuvshinbayar"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Nepal",
+      "leader": "Chandan Prasad Gupta",
+      "students": [
+        "Alabhya Pahari",
+        "Rajveer Kc",
+        "Aseem Sharma",
+        "Anurag Shahi"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Netherlands",
+      "leader": "Johan De Geus",
+      "students": [
+        "Stefano Pio Schack Larsen",
+        "Fiodar Prystauka",
+        "Matthijs Alexander Schrijvers",
+        "Floris Joseph Dirk De Vooys"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Poland 1",
+      "leader": "Witold Drzewakowski",
+      "students": [
+        "Marek Muzyka",
+        "Krzysztof Rojek",
+        "Filip Manijak",
+        "Jakub Latuszek"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Poland 2",
+      "leader": "Marek Adamczyk",
+      "students": [
+        "Tomasz Sobkowicz-Oliveira",
+        "Kajetan Ramsza",
+        "Jan Kociszewski",
+        "Michał Masny"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Romania 1",
+      "leader": "Miruna-AndreeaZăvelcă",
+      "students": [
+        "Ștefan Stanciu Rareș",
+        "Ștefan Nicolae Luca",
+        "Laura Moldovan",
+        "Maxim Rebengiuc Mircea"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Romania 2",
+      "leader": "Daniel Popa",
+      "students": [
+        "Victor Botnaru",
+        "Nicolas-Ștefan Bratoveanu",
+        "Ștefan-Alexandru Dumitrașcu",
+        "Mihai-Adrian Mocanu"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Singapore 1",
+      "leader": "Cheong Kang Hao",
+      "students": [
+        "Shah Mahir Hitesh",
+        "Kabir Jain",
+        "Ng Shi Yu",
+        "Wang Zerui"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Singapore 2",
+      "leader": "Huang Shell Ying",
+      "students": [
+        "Chong Jia Shuo",
+        "Lam Eu Ler",
+        "Wang Jiayu",
+        "Glenn Wu"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Sweden",
+      "leader": "Fredrik Göran Niemelä",
+      "students": [
+        "Carl Arvid Kristoffersson",
+        "Ellinor Klara Åhlander",
+        "Sofie Fu",
+        "Karl Teo Lovmar"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Chinese Taipei",
+      "leader": "Shih-Hung Wu",
+      "students": [
+        "Chun-Jui Hung",
+        "Yi-An Wang",
+        "Mu-Tien Kuo",
+        "Chien-Wen Cheng"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Tunisia",
+      "leader": "Fayez Zouari",
+      "students": [
+        "Ala Bouhaouel",
+        "Ayhem Bouker",
+        "Mohamed Amine Hmida",
+        "Emna Badri"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Türkiye 1",
+      "leader": "Özgür Özdemir",
+      "students": [
+        "İdil Ada Aydos",
+        "İrem Çırak",
+        "Hüsayin Yiğit Gencet",
+        "Ahmet Utku Özçelik"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Türkiye 2",
+      "leader": "Kuzey Kantarcıoğlu",
+      "students": [
+        "Kaya Çınaroğlu",
+        "Arda Anıl Boz",
+        "Mehmet Cem Yedekçi",
+        "Hale Türeli"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United Arab Emirates",
+      "leader": "Mubarak Gwaza Abdu-Aguye",
+      "students": [
+        "Zayed Abdulla Mohammed Sabain",
+        "Almuharrami",
+        "Alyazia Nasser Salem Saif Alneyadi",
+        "Mariam Hasan Ali Baglar Lari",
+        "Abdulla Ali Juma Abdulla Alshamsi"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United States 1",
+      "leader": "Yiwei Chen",
+      "students": [
+        "Sarang Goel",
+        "Christina Lee",
+        "Videet Rajiv Mehta",
+        "Yunjia Quan"
+      ],
+      "observer": false
+    },
+    {
+      "name": "United States 2",
+      "leader": "Alex He",
+      "students": [
+        "Shraman Kar",
+        "Ella Selina Lan",
+        "Riya Tyagi",
+        "Grant Wang"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Vietnam 1",
+      "leader": "Do Phan Thuan",
+      "students": [
+        "Ngo Viet Anh",
+        "Nguyen Dang Khiem",
+        "Pham Nam Khanh",
+        "Vu Le Anh Duc"
+      ],
+      "observer": false
+    },
+    {
+      "name": "Vietnam 2",
+      "leader": "Nguyen Hai Dang",
+      "students": [
+        "Phan Viet Hoang",
+        "Nguyen Duc Anh Khoa",
+        "Nguyen Tuan Hung",
+        "Ta Hau Viet Long"
+      ],
+      "observer": false
+    }
+  ],
+  "scientificResults2024": [
+    {
+      "team": "Letovo",
+      "score": 99.04457078,
+      "rank": 1,
+      "award": "Gold"
+    },
+    {
+      "team": "Poland 1",
+      "score": 75.93371728,
+      "rank": 2,
+      "award": "Gold"
+    },
+    {
+      "team": "Singapore 2",
+      "score": 68.30534503,
+      "rank": 3,
+      "award": "Gold"
+    },
+    {
+      "team": "Singapore 1",
+      "score": 64.85945804,
+      "rank": 4,
+      "award": "Gold"
+    },
+    {
+      "team": "Hungary 2",
+      "score": 64.68763661,
+      "rank": 5,
+      "award": "Silver"
+    },
+    {
+      "team": "Hungary 1",
+      "score": 62.92737734,
+      "rank": 6,
+      "award": "Silver"
+    },
+    {
+      "team": "China 1",
+      "score": 60.1640984,
+      "rank": 7,
+      "award": "Silver"
+    },
+    {
+      "team": "Vietnam 2",
+      "score": 59.74357016,
+      "rank": 8,
+      "award": "Silver"
+    },
+    {
+      "team": "Estonia",
+      "score": 59.08929544,
+      "rank": 9,
+      "award": "Silver"
+    },
+    {
+      "team": "Mongolia",
+      "score": 56.56535436,
+      "rank": 10,
+      "award": "Silver"
+    },
+    {
+      "team": "China 2",
+      "score": 54.10716467,
+      "rank": 11,
+      "award": "Silver"
+    },
+    {
+      "team": "Romania 1",
+      "score": 50.22811346,
+      "rank": 12,
+      "award": "Bronze"
+    },
+    {
+      "team": "Poland 2",
+      "score": 49.59807055,
+      "rank": 13,
+      "award": "Bronze"
+    },
+    {
+      "team": "Vietnam 1",
+      "score": 48.6932271,
+      "rank": 14,
+      "award": "Bronze"
+    },
+    {
+      "team": "Colombia",
+      "score": 47.84549844,
+      "rank": 15,
+      "award": "Bronze"
+    },
+    {
+      "team": "Malaysia",
+      "score": 45.89185213,
+      "rank": 16,
+      "award": "Bronze"
+    },
+    {
+      "team": "Bulgaria 2",
+      "score": 44.02634842,
+      "rank": 17,
+      "award": "Bronze"
+    },
+    {
+      "team": "Iran",
+      "score": 42.99822641,
+      "rank": 18,
+      "award": "Bronze"
+    },
+    {
+      "team": "Romania 2",
+      "score": 42.64453372,
+      "rank": 19,
+      "award": "Bronze"
+    },
+    {
+      "team": "Canada",
+      "score": 41.02726889,
+      "rank": 20,
+      "award": "Bronze"
+    },
+    {
+      "team": "Bulgaria 1",
+      "score": 40.65641399,
+      "rank": 21,
+      "award": "Bronze"
+    }
+  ],
+  "practicalResults2024": [
+    {
+      "team": "Bulgaria 1",
+      "juryScore": 59.20833333,
+      "peerScore": 3.45,
+      "rank": 1,
+      "award": "Gold"
+    },
+    {
+      "team": "Poland 1",
+      "juryScore": 60.3,
+      "peerScore": 3.2,
+      "rank": 2,
+      "award": "Gold"
+    },
+    {
+      "team": "Australia 2",
+      "juryScore": 59.88333333,
+      "peerScore": 3.13,
+      "rank": 3,
+      "award": "Gold"
+    },
+    {
+      "team": "USA 1",
+      "juryScore": 56.2,
+      "peerScore": 2.91,
+      "rank": 4,
+      "award": "Gold"
+    },
+    {
+      "team": "UAE",
+      "juryScore": 55.8,
+      "peerScore": 2.80952381,
+      "rank": 5,
+      "award": "Silver"
+    },
+    {
+      "team": "Hungary 1",
+      "juryScore": 53.15,
+      "peerScore": 2.8,
+      "rank": 6,
+      "award": "Silver"
+    },
+    {
+      "team": "Hong Kong",
+      "juryScore": 55.76666667,
+      "peerScore": 2.8,
+      "rank": 7,
+      "award": "Silver"
+    },
+    {
+      "team": "Canada",
+      "juryScore": 53.96666667,
+      "peerScore": 2.742857143,
+      "rank": 8,
+      "award": "Silver"
+    },
+    {
+      "team": "Romania 2",
+      "juryScore": 52.65,
+      "peerScore": 2.71,
+      "rank": 9,
+      "award": "Silver"
+    },
+    {
+      "team": "Letovo",
+      "juryScore": 54.63333333,
+      "peerScore": 2.657142857,
+      "rank": 10,
+      "award": "Silver"
+    },
+    {
+      "team": "China 1",
+      "juryScore": 54.1,
+      "peerScore": 2.38,
+      "rank": 11,
+      "award": "Silver"
+    },
+    {
+      "team": "Netherlands",
+      "juryScore": 52.36666667,
+      "peerScore": null,
+      "rank": 12,
+      "award": "Bronze"
+    },
+    {
+      "team": "Jordan",
+      "juryScore": 52.0,
+      "peerScore": null,
+      "rank": 13,
+      "award": "Bronze"
+    },
+    {
+      "team": "Tunisia",
+      "juryScore": 51.8,
+      "peerScore": null,
+      "rank": 14,
+      "award": "Bronze"
+    },
+    {
+      "team": "Macau",
+      "juryScore": 51.76666667,
+      "peerScore": null,
+      "rank": 15,
+      "award": "Bronze"
+    },
+    {
+      "team": "Poland 2",
+      "juryScore": 51.25,
+      "peerScore": null,
+      "rank": 16,
+      "award": "Bronze"
+    },
+    {
+      "team": "Japan",
+      "juryScore": 50.9,
+      "peerScore": null,
+      "rank": 17,
+      "award": "Bronze"
+    },
+    {
+      "team": "Colombia",
+      "juryScore": 50.83333333,
+      "peerScore": null,
+      "rank": 18,
+      "award": "Bronze"
+    },
+    {
+      "team": "Vietnam 2",
+      "juryScore": 50.63333333,
+      "peerScore": null,
+      "rank": 19,
+      "award": "Bronze"
+    },
+    {
+      "team": "Vietnam 1",
+      "juryScore": 49.8,
+      "peerScore": null,
+      "rank": 20,
+      "award": "Bronze"
+    },
+    {
+      "team": "USA 2",
+      "juryScore": 49.6,
+      "peerScore": null,
+      "rank": 21,
+      "award": "Bronze"
+    }
+  ],
+  "specialAwards2024": [
+    {
+      "team": "Letovo",
+      "rank": 1
+    },
+    {
+      "team": "Poland 1",
+      "rank": 2
+    },
+    {
+      "team": "Hungary 1",
+      "rank": 3
+    }
+  ],
+  "tasks": [
+    {
+      "slug": "radar",
+      "year": 2025,
+      "track": "main",
+      "day": 1,
+      "name": "Radar",
+      "category": "Computer vision",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Radar"
+    },
+    {
+      "slug": "chicken-counting",
+      "year": 2025,
+      "track": "main",
+      "day": 1,
+      "name": "Chicken Counting",
+      "category": "Computer vision",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Chicken_Counting"
+    },
+    {
+      "slug": "concepts",
+      "year": 2025,
+      "track": "main",
+      "day": 1,
+      "name": "Concepts",
+      "category": "Machine learning",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Concepts"
+    },
+    {
+      "slug": "restroom-icon-matching",
+      "year": 2025,
+      "track": "main",
+      "day": 2,
+      "name": "Restroom Icon Matching",
+      "category": "Computer vision",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom"
+    },
+    {
+      "slug": "antique-painting-authentication",
+      "year": 2025,
+      "track": "main",
+      "day": 2,
+      "name": "Antique Painting Authentication",
+      "category": "Computer vision",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Antique"
+    },
+    {
+      "slug": "pixel-parsimony-challenge",
+      "year": 2025,
+      "track": "main",
+      "day": 2,
+      "name": "Pixel Parsimony Challenge",
+      "category": "Generative AI",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Pixel"
+    },
+    {
+      "slug": "gaite-radar",
+      "year": 2025,
+      "track": "gaite",
+      "day": 1,
+      "name": "Radar",
+      "category": "Computer vision",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Radar"
+    },
+    {
+      "slug": "gaite-chicken-counting",
+      "year": 2025,
+      "track": "gaite",
+      "day": 1,
+      "name": "Chicken Counting",
+      "category": "Computer vision",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Chicken_Counting"
+    },
+    {
+      "slug": "gaite-concepts",
+      "year": 2025,
+      "track": "gaite",
+      "day": 1,
+      "name": "Concepts",
+      "category": "Machine learning",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Concepts"
+    },
+    {
+      "slug": "combinatorial-word-segmentation",
+      "year": 2025,
+      "track": "gaite",
+      "day": 2,
+      "name": "Combinatorial Word Segmentation",
+      "category": "Natural language processing",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/GAITE-Contest/Word_Segmentation"
+    },
+    {
+      "slug": "synthetic-speech-detector",
+      "year": 2025,
+      "track": "gaite",
+      "day": 2,
+      "name": "Synthetic Speech Detector",
+      "category": "Audio classification",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/GAITE-Contest/Synthetic_Speech_Detector"
+    },
+    {
+      "slug": "chameleon",
+      "year": 2025,
+      "track": "team",
+      "day": 0,
+      "name": "Chameleon",
+      "category": "At-home round",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/At-Home-Round/Chameleon"
+    },
+    {
+      "slug": "team-radar",
+      "year": 2025,
+      "track": "team",
+      "day": 0,
+      "name": "Radar",
+      "category": "At-home round",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/At-Home-Round/Radar"
+    },
+    {
+      "slug": "weather",
+      "year": 2025,
+      "track": "team",
+      "day": 0,
+      "name": "Weather",
+      "category": "At-home round",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/At-Home-Round/Weather"
+    },
+    {
+      "slug": "team-challenge-final",
+      "year": 2025,
+      "track": "team",
+      "day": 0,
+      "name": "Team Challenge — Final Round",
+      "category": "Collaborative challenge",
+      "maxScore": null,
+      "materials": "https://ioai-official.org/team-challenge/"
+    },
+    {
+      "slug": "help-bobai",
+      "year": 2024,
+      "track": "team",
+      "day": 1,
+      "name": "Help BOBAI",
+      "category": "Scientific round · on-site",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2024/tree/main/On-Site-Round/Help_BOBAI"
+    },
+    {
+      "slug": "lost-in-hyperspace",
+      "year": 2024,
+      "track": "team",
+      "day": 1,
+      "name": "Lost in Hyperspace",
+      "category": "Scientific round · on-site",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2024/tree/main/On-Site-Round/Lost_in_Hyperspace"
+    },
+    {
+      "slug": "madarian-cow",
+      "year": 2024,
+      "track": "team",
+      "day": 1,
+      "name": "Madarian Cow",
+      "category": "Scientific round · on-site",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2024/tree/main/On-Site-Round/Madarian_Cow"
+    },
+    {
+      "slug": "scientific-at-home",
+      "year": 2024,
+      "track": "team",
+      "day": 0,
+      "name": "Scientific at-home set",
+      "category": "NLP · ML · computer vision",
+      "maxScore": null,
+      "materials": "https://ioai-official.org/2024-tasks/"
+    },
+    {
+      "slug": "practical-generation",
+      "year": 2024,
+      "track": "team",
+      "day": 2,
+      "name": "Image & video generation",
+      "category": "Practical round",
+      "maxScore": null,
+      "materials": "https://ioai-official.org/2024-tasks/"
+    }
+  ],
+  "administration": {
+    "2024": [],
+    "2025": [],
+    "2026": []
+  }
+}
