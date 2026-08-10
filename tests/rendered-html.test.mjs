@@ -47,9 +47,13 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(app, /DIFFICULTY_SCORE_THRESHOLD = 50/);
   assert.match(app, /TOP_SOLVER_SCORE_THRESHOLD = 0/);
   assert.match(app, /score > TOP_SOLVER_SCORE_THRESHOLD/);
+  assert.match(app, /topSolverEntries\(task, effectiveTrack\)/);
   assert.match(app, /Half of Individual contestants reached 50\./);
+  assert.match(app, /className="difficulty basic">Basic<\/b>/);
+  assert.match(app, /SectionTitle title="Commentary" meta="Editorial note"/);
   assert.match(app, /<p className="eyebrow">Contestant<\/p>/);
   assert.match(css, /\.difficulty-rule\s*\{[^}]*overflow-wrap:\s*anywhere/s);
+  assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
   assert.match(css, /\.footer-grid p a\s*\{[^}]*display:\s*inline/s);
   assert.match(layout, /icon:\s*"\/ioai-statistics-logo\.png"/);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));

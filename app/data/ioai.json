@@ -24,7 +24,15 @@
         "team"
       ],
       "officialUrl": "https://ioai2026.kz/",
-      "summary": "The third IOAI brought together 440 Individual contestants and 26 GAITE contestants from 103 countries and territories. Both contests used the same six tasks; their results and score distributions remain separate."
+      "summary": "A punishing break for contestants who prepared for something resembling IOAI 2025. Every Day 1 task shifted sharply from its at-home counterpart, while Day 2 offered no universal source of points. Most leading contestants combined strong scores on two tasks with 25 or more points on another two or three.",
+      "taskCommentary": [
+        "Already entirely different from the at-home task. Many high scorers found an exploitable property of the metric and implemented a trivial solution instead of using the provided model.",
+        "The closest to its at-home counterpart and the easiest direction to anticipate, although it demanded substantial manual preprocessing before the model could be used.",
+        "A challenging, non-trivial transformation of the at-home task.",
+        "Perhaps the clearest textbook example of its underlying method, though the implementation could still be difficult.",
+        "Harder than it first appeared: unlike Task 1, many attempts that avoided the provided model failed badly.",
+        "One of the most gamified tasks. Extremely simple solutions could earn solid middle-range scores, but very few contestants scored highly."
+      ]
     },
     {
       "year": 2025,
@@ -41,7 +49,15 @@
         "team"
       ],
       "officialUrl": "https://ioai-official.org/china-2025/",
-      "summary": "The first IOAI with an individual main contest and a separately ranked GAITE contest."
+      "summary": "The first IOAI with individual rounds. Day 1 developed the at-home task ideas to varying degrees, while Day 2 was markedly harder. The leading contestants generally secured strong scores on at least four tasks.",
+      "taskCommentary": [
+        "Extremely close to the at-home task and an essential source of points.",
+        "A moderate shift, though important similarities with the at-home task remained.",
+        "A very challenging and relatively drastic evolution, albeit one that looked foreseeable in hindsight.",
+        "The hardest task: only three contestants scored at least 50 points.",
+        "Allowed a large score gain in very little time.",
+        "Very hard. Many high scorers used a highly optimized straightforward approach instead of the more complex intended solution."
+      ]
     },
     {
       "year": 2024,
@@ -56,7 +72,8 @@
         "team"
       ],
       "officialUrl": "https://ioai-official.org/bulgaria-2024/",
-      "summary": "The inaugural IOAI was entirely team-based, with Scientific and Practical rounds."
+      "summary": "",
+      "taskCommentary": []
     }
   ],
   "mainResults2025": [

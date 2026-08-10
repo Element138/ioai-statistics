@@ -8,13 +8,16 @@
   "scripts": {
     "dev": "node scripts/run-vinext.mjs dev",
     "build": "node scripts/run-vinext.mjs build",
+    "build:vercel": "next build",
     "start": "node scripts/run-vinext.mjs start",
+    "start:vercel": "next start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",
+    "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },

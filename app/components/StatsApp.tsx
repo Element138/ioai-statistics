@@ -18,6 +18,7 @@ type Edition = {
   tracks: Track[];
   officialUrl: string;
   summary: string;
+  taskCommentary?: string[];
 };
 
 type Result = {
@@ -326,15 +327,21 @@ function taskScoreEntries(task: Task, track: "main" | "gaite") {
   return resultsFor(task.year, track).map((result) => ({ result, score: result.scores[index] ?? 0 }));
 }
 
-function taskScoreRank(task: Task, track: "main" | "gaite", score: number) {
-  return taskScoreEntries(task, track).filter((candidate) => candidate.score > score).length + 1;
-}
-
 const DIFFICULTY_SCORE_THRESHOLD = 50;
 const TOP_SOLVER_SCORE_THRESHOLD = 0;
 
 function isTopSolver(task: Task, track: "main" | "gaite", score: number | null | undefined) {
-  return score !== null && score !== undefined && score > TOP_SOLVER_SCORE_THRESHOLD && taskScoreRank(task, track, score) <= 10;
+  if (score === null || score === undefined || score <= TOP_SOLVER_SCORE_THRESHOLD) return false;
+  return topSolverEntries(task, track).some((entry) => entry.score === score);
+}
+
+function topSolverEntries(task: Task, track: "main" | "gaite") {
+  const entries = taskScoreEntries(task, track);
+  return [...entries]
+    .filter((entry) => entry.score > TOP_SOLVER_SCORE_THRESHOLD)
+    .sort((a, b) => b.score - a.score || competitionRank(a.result) - competitionRank(b.result))
+    .map((entry) => ({ ...entry, taskRank: entries.filter((candidate) => candidate.score > entry.score).length + 1 }))
+    .filter((entry) => entry.taskRank <= 10);
 }
 
 function isFirstInDelegation(result: Result) {
@@ -419,12 +426,12 @@ function DifficultyLegend({ compact = false }: { compact?: boolean }) {
     <details className={`difficulty-legend${compact ? " compact" : ""}`}>
       <summary>{compact ? <><span aria-hidden="true">?</span><span className="sr-only">Difficulty scale</span></> : "Difficulty scale"}</summary>
       <div className="difficulty-grid">
-        <div className="difficulty-item"><b className="difficulty basic">basic</b><span className="difficulty-rule">Half of Individual contestants reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty bronze">bronze</b><span className="difficulty-rule">Half of bronze medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty silver">silver</b><span className="difficulty-rule">Half of silver medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty gold">gold</b><span className="difficulty-rule">Half of gold medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty gold-plus">gold+</b><span className="difficulty-rule">A quarter of gold medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty gold-plus-plus">gold++</b><span className="difficulty-rule">Fewer than a quarter did.</span></div>
+        <div className="difficulty-item"><b className="difficulty basic">Basic</b><span className="difficulty-rule">Half of Individual contestants reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty bronze">Bronze</b><span className="difficulty-rule">Half of bronze medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty silver">Silver</b><span className="difficulty-rule">Half of silver medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty gold">Gold</b><span className="difficulty-rule">Half of gold medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty gold-plus">Gold+</b><span className="difficulty-rule">A quarter of gold medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty gold-plus-plus">Gold++</b><span className="difficulty-rule">Fewer than a quarter did.</span></div>
       </div>
     </details>
   );
@@ -743,42 +750,56 @@ function EditionHeader({ edition, section }: { edition: Edition; section: string
 function EditionMain({ edition }: { edition: Edition }) {
   const hasIndividualResults = edition.year === 2025 || edition.year === 2026;
   const awards = hasIndividualResults ? countAwards(resultsFor(edition.year, "main")) : null;
+  const tasks = hasIndividualResults ? contestTasks(edition.year, "main") : [];
   return (
-    <div className="two-column edition-overview">
-      <section>
-        <SectionTitle title="General information" />
-        <dl className="detail-list">
-          <div><dt>Host</dt><dd>{edition.city}, <a href={`/countries/${slugify(edition.country)}`}>{edition.country}</a></dd></div>
-          <div><dt>Dates</dt><dd>{edition.dates}</dd></div>
-          <div><dt>{hasIndividualResults ? "Ranked contestants" : "Contestants"}</dt><dd>{edition.contestants}</dd></div>
-          <div><dt>Countries & territories</dt><dd>{edition.countries}</dd></div>
-          <div><dt>Official website</dt><dd><a href={edition.officialUrl} target="_blank" rel="noreferrer">Visit archive ↗</a></dd></div>
-        </dl>
-      </section>
-      <section>
-        <SectionTitle title={hasIndividualResults ? "Awards" : "Competition format"} />
-        {hasIndividualResults && awards ? (
-          <dl className="detail-list awards-list">
-            <div><dt>Maximum individual score</dt><dd>600</dd></div>
-            <div><dt><span className="medal-dot gold-dot" />Gold medals</dt><dd>{awards.gold}</dd></div>
-            <div><dt><span className="medal-dot silver-dot" />Silver medals</dt><dd>{awards.silver}</dd></div>
-            <div><dt><span className="medal-dot bronze-dot" />Bronze medals</dt><dd>{awards.bronze}</dd></div>
-            <div><dt>Honourable mentions</dt><dd>{awards.mention}</dd></div>
-            <div><dt>GAITE awards</dt><dd>Separate</dd></div>
-            {edition.year === 2026 ? <div><dt>Task set</dt><dd>Shared with GAITE</dd></div> : null}
+    <>
+      <div className="two-column edition-overview">
+        <section>
+          <SectionTitle title="General information" />
+          <dl className="detail-list">
+            <div><dt>Host</dt><dd>{edition.city}, <a href={`/countries/${slugify(edition.country)}`}>{edition.country}</a></dd></div>
+            <div><dt>Dates</dt><dd>{edition.dates}</dd></div>
+            <div><dt>{hasIndividualResults ? "Ranked contestants" : "Contestants"}</dt><dd>{edition.contestants}</dd></div>
+            <div><dt>Countries & territories</dt><dd>{edition.countries}</dd></div>
+            <div><dt>Official website</dt><dd><a href={edition.officialUrl} target="_blank" rel="noreferrer">Visit archive ↗</a></dd></div>
           </dl>
-        ) : (
-          <>
-            <div className="notice team-notice"><strong>Team-only edition.</strong> Scientific and Practical results are preserved as team records and excluded from every individual and country ranking.</div>
-            <dl className="detail-list">
-              <div><dt>Scientific round</dt><dd>41 teams · 21 medal records</dd></div>
-              <div><dt>Practical round</dt><dd>21 award records</dd></div>
-              <div><dt>Special awards</dt><dd>3 teams</dd></div>
+        </section>
+        <section>
+          <SectionTitle title={hasIndividualResults ? "Awards" : "Competition format"} />
+          {hasIndividualResults && awards ? (
+            <dl className="detail-list awards-list">
+              <div><dt>Maximum individual score</dt><dd>600</dd></div>
+              <div><dt><span className="medal-dot gold-dot" />Gold medals</dt><dd>{awards.gold}</dd></div>
+              <div><dt><span className="medal-dot silver-dot" />Silver medals</dt><dd>{awards.silver}</dd></div>
+              <div><dt><span className="medal-dot bronze-dot" />Bronze medals</dt><dd>{awards.bronze}</dd></div>
+              <div><dt>Honourable mentions</dt><dd>{awards.mention}</dd></div>
+              <div><dt>GAITE awards</dt><dd>Separate</dd></div>
+              {edition.year === 2026 ? <div><dt>Task set</dt><dd>Shared with GAITE</dd></div> : null}
             </dl>
-          </>
-        )}
-      </section>
-    </div>
+          ) : (
+            <>
+              <div className="notice team-notice"><strong>Team-only edition.</strong> Scientific and Practical results are preserved as team records and excluded from every individual and country ranking.</div>
+              <dl className="detail-list">
+                <div><dt>Scientific round</dt><dd>41 teams · 21 medal records</dd></div>
+                <div><dt>Practical round</dt><dd>21 award records</dd></div>
+                <div><dt>Special awards</dt><dd>3 teams</dd></div>
+              </dl>
+            </>
+          )}
+        </section>
+      </div>
+      {edition.summary ? (
+        <section className="edition-commentary">
+          <SectionTitle title="Commentary" meta="Editorial note" />
+          <p>{edition.summary}</p>
+          {edition.taskCommentary?.length ? (
+            <ol className="task-commentary-list">
+              {edition.taskCommentary.map((note, index) => <li key={`${edition.year}-commentary-${index}`}><strong>T{index + 1}{tasks[index] ? ` · ${tasks[index].name}` : ""}</strong><span>{note}</span></li>)}
+            </ol>
+          ) : null}
+        </section>
+      ) : null}
+    </>
   );
 }
 
@@ -1044,11 +1065,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
   if (!task) return <NotFoundPage />;
   const effectiveTrack = availableTracks.includes(selectedTrack as "main" | "gaite") ? selectedTrack as "main" | "gaite" : availableTracks[0];
   const allScores = task.track === "team" ? [] : taskScoreEntries(task, effectiveTrack);
-  const scores = [...allScores]
-    .filter((entry) => entry.score > TOP_SOLVER_SCORE_THRESHOLD)
-    .sort((a, b) => b.score - a.score || competitionRank(a.result) - competitionRank(b.result))
-    .map((entry) => ({ ...entry, taskRank: allScores.filter((candidate) => candidate.score > entry.score).length + 1 }))
-    .filter((entry) => entry.taskRank <= 10);
+  const scores = topSolverEntries(task, effectiveTrack);
   const difficulty = taskDifficulty(task);
   return (
     <>
