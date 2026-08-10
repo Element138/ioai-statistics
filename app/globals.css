@@ -600,13 +600,31 @@ h3 {
   gap: 7px;
 }
 
-.flag {
-  width: 18px;
+.flag-image {
+  width: 20px;
+  height: 15px;
   display: inline-block;
-  flex: 0 0 18px;
+  flex: 0 0 20px;
+  border: 1px solid rgba(24, 33, 47, 0.14);
+  object-fit: cover;
+  vertical-align: -2px;
+}
+
+.flag-image.large {
+  width: 80px;
+  height: 60px;
+  border: 0;
+}
+
+.flag-fallback {
+  width: 20px;
+  color: var(--muted);
   text-align: center;
-  font-size: 1rem;
-  line-height: 1;
+}
+
+.flag-fallback.large {
+  width: 80px;
+  font-size: 1.6rem;
 }
 
 .award {
@@ -654,6 +672,41 @@ h3 {
 .award.neutral {
   border-color: var(--line-strong);
   color: var(--muted);
+}
+
+.medal-row.gold-row td:first-child {
+  box-shadow: inset 3px 0 #d8ad32;
+}
+
+.medal-row.silver-row td:first-child {
+  box-shadow: inset 3px 0 #9aa8b8;
+}
+
+.medal-row.bronze-row td:first-child {
+  box-shadow: inset 3px 0 #bd7650;
+}
+
+.gold-col,
+.gold-count {
+  background: #fff7dc;
+  color: #795500;
+}
+
+.silver-col,
+.silver-count {
+  background: #f1f4f7;
+  color: #4b586c;
+}
+
+.bronze-col,
+.bronze-count {
+  background: #fff0e7;
+  color: #814a29;
+}
+
+.gaite-count {
+  background: #eff9f5;
+  color: #277558;
 }
 
 .track-badge {
@@ -983,6 +1036,254 @@ h3 {
   text-decoration: none;
 }
 
+.distribution-card {
+  margin: 0 0 26px;
+  padding: 18px 20px 12px;
+  border: 1px solid var(--line-strong);
+  background: #fff;
+}
+
+.distribution-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.distribution-heading h2 {
+  margin: 2px 0 0;
+  font-size: 1.22rem;
+}
+
+.distribution-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px 12px;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.distribution-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.distribution-legend i {
+  width: 9px;
+  height: 9px;
+  display: inline-block;
+}
+
+.distribution-legend .gold,
+.bar-stack .gold {
+  background: #d8ad32;
+}
+
+.distribution-legend .silver,
+.bar-stack .silver {
+  background: #9aa8b8;
+}
+
+.distribution-legend .bronze,
+.bar-stack .bronze {
+  background: #bd7650;
+}
+
+.distribution-legend .other,
+.bar-stack .other {
+  background: #dfe6ef;
+}
+
+.histogram {
+  height: 220px;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(24px, 1fr));
+  align-items: end;
+  gap: 7px;
+  padding: 8px 6px 0;
+  border-bottom: 1px solid var(--line-strong);
+  background-image: linear-gradient(to top, transparent 24%, var(--line) 25%, transparent 26%, transparent 49%, var(--line) 50%, transparent 51%, transparent 74%, var(--line) 75%, transparent 76%);
+}
+
+.histogram-bin {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 16px 174px 22px;
+  align-items: end;
+}
+
+.bar-value {
+  color: var(--muted);
+  font-size: 0.6rem;
+  text-align: center;
+}
+
+.bar-stack {
+  width: 100%;
+  min-height: 1px;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  align-self: end;
+}
+
+.bar-stack span {
+  width: 100%;
+  min-height: 1px;
+  display: block;
+}
+
+.bin-label {
+  padding-top: 5px;
+  color: var(--muted);
+  font-size: 0.61rem;
+  text-align: center;
+}
+
+.distribution-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 20px;
+  padding-top: 10px;
+  color: var(--muted);
+  font-size: 0.71rem;
+}
+
+.distribution-stats strong {
+  margin-left: 4px;
+  color: var(--ink);
+}
+
+.table-tools {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 8px;
+}
+
+.difficulty-legend {
+  position: relative;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.difficulty-legend summary {
+  cursor: pointer;
+  color: var(--blue-dark);
+  font-weight: 600;
+  list-style-position: inside;
+}
+
+.difficulty-grid {
+  position: absolute;
+  z-index: 8;
+  top: calc(100% + 7px);
+  right: 0;
+  width: min(560px, calc(100vw - 36px));
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 14px;
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(20, 32, 52, 0.12);
+}
+
+.difficulty-grid span {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: start;
+  gap: 7px;
+}
+
+.difficulty-grid small {
+  grid-column: 1 / -1;
+  padding-top: 3px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.65rem;
+}
+
+.difficulty {
+  display: inline-flex;
+  min-height: 18px;
+  width: max-content;
+  align-items: center;
+  padding: 1px 6px;
+  border: 1px solid;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.difficulty.basic {
+  border-color: #9abca9;
+  background: #eff8f2;
+  color: #276241;
+}
+
+.difficulty.bronze {
+  border-color: #ce9c7c;
+  background: #fff0e7;
+  color: #814a29;
+}
+
+.difficulty.silver {
+  border-color: #aeb9c8;
+  background: #f3f5f8;
+  color: #4b586c;
+}
+
+.difficulty.gold {
+  border-color: #d1ae52;
+  background: #fff7dc;
+  color: #795500;
+}
+
+.difficulty.gold-plus,
+.difficulty.gold-plus-plus {
+  border-color: #be91d2;
+  background: #f8effc;
+  color: #6f318c;
+}
+
+.participation-list {
+  display: grid;
+  gap: 22px;
+}
+
+.participation-card {
+  border-top: 2px solid var(--ink);
+}
+
+.participation-head {
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.participation-head h2 {
+  display: inline;
+  margin: 0 8px 0 0;
+  font-size: 1rem;
+}
+
+.participation-head > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.participation-head strong {
+  font-size: 0.76rem;
+}
+
 .person-heading {
   padding-bottom: 21px;
   border-bottom: 1px solid var(--line);
@@ -1220,6 +1521,41 @@ h3 {
     min-width: 0;
   }
 
+  .distribution-card {
+    padding-inline: 12px;
+  }
+
+  .distribution-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .distribution-legend {
+    justify-content: flex-start;
+  }
+
+  .histogram {
+    gap: 3px;
+  }
+
+  .difficulty-grid {
+    position: fixed;
+    top: auto;
+    right: 11px;
+    bottom: 11px;
+    left: 11px;
+    width: auto;
+    max-height: 70vh;
+    overflow: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .participation-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .metric-strip {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1276,6 +1612,11 @@ h3 {
 
   .big-flag {
     font-size: 2rem;
+  }
+
+  .flag-image.large {
+    width: 56px;
+    height: 42px;
   }
 
   .person-heading > .award {
