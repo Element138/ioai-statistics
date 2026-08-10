@@ -1650,30 +1650,8 @@ h3 {
   letter-spacing: 0.02em;
 }
 
-.policy-focus {
-  margin-top: 5px;
-  padding: 20px 18px !important;
-  border: 1px solid var(--line-strong) !important;
-  background: #fbfcff;
-}
-
 .policy-page section p + p {
   margin-top: 9px;
-}
-
-.rights-callout {
-  margin: 12px 0;
-  padding: 11px 13px;
-  border-left: 3px solid var(--blue);
-  background: #f2f6ff;
-}
-
-.rights-callout > strong {
-  display: block;
-  margin-bottom: 3px;
-  color: var(--ink);
-  font-size: 0.76rem;
-  text-transform: uppercase;
 }
 
 .policy-references {
@@ -1815,6 +1793,18 @@ h3 {
 .footer-grid a {
   display: block;
   margin-bottom: 4px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.footer-grid .footer-links a {
+  display: inline;
+  margin: 0;
 }
 
 .footer-grid small {

@@ -1188,14 +1188,13 @@ function PrivacyPage() {
 
       <div className="policy-summary">
         <strong>In brief</strong>
-        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts, advertising or first-party analytics. General feedback and reply-seeking inquiries use separate forms and are handled differently.</p>
+        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts, advertising or first-party analytics. Its optional general feedback form is designed not to collect personal information.</p>
       </div>
 
       <section>
         <h2>1. Operator, scope and applicable law</h2>
         <p>IOAI Statistics is personally operated by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>, an IOAI 2026 alumnus residing in Japan. The archive is unofficial and independent of IOAI and its organizers.</p>
         <p>The site is operated from Japan and handles personal information in accordance with Japan&apos;s Act on the Protection of Personal Information (APPI) where applicable. It is available worldwide but is not directed at users in any particular country or region. If another mandatory law applies to particular processing, that law will be considered for that processing.</p>
-        <p>Privacy questions, complaints and requests are accepted through the <a href="#reply-seeking-inquiry-form">reply-seeking inquiry form</a>. Electronic communication is the normal method. The operator is not a member of an accredited personal information protection organization.</p>
       </section>
 
       <section>
@@ -1209,13 +1208,13 @@ function PrivacyPage() {
         <h2>3. Publication, accuracy and retention of archive records</h2>
         <p>The archive is published on the open web. Its pages may be viewed, indexed, quoted or copied by people and services anywhere in the world. Removing information here does not remove it from an official source, a search-engine cache or an independent copy outside the operator&apos;s control. Archive data is not sold, used for advertising or supplied to data brokers.</p>
         <p>Identifying archive records are retained while they remain relevant to the site&apos;s reporting, educational and historical purposes. Non-identifying statistics may be retained indefinitely. The operator reviews a record when an official source changes or a credible error or privacy concern is reported. Corrections to official results will normally be reflected here; a well-supported correction may be noted while an official correction is pending.</p>
-        <p>A person concerned, or their authorized representative, may request correction, anonymization, suppression or removal through the <a href="#reply-seeking-inquiry-form">reply-seeking inquiry form</a>. Requests are considered individually in light of accuracy, public interest, the circumstances of the person and applicable law. Replacing a name with &quot;Anonymized&quot; may not prevent re-identification from an unchanged official source or a distinctive combination of year, country and result.</p>
+        <p>A person concerned, or their authorized representative, may report an accuracy or privacy concern using the corrections contact in the footer. The operator considers correction, anonymization, suppression and removal individually in light of accuracy, public interest, the circumstances of the person and applicable law. Replacing a name with &quot;Anonymized&quot; may not prevent re-identification from an unchanged official source or a distinctive combination of year, country and result.</p>
       </section>
 
       <section>
         <h2>4. Contestants who are minors</h2>
-        <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may raise a concern through the request channel below.</p>
-        <p>The forms are not intended to collect information from a child who cannot validly submit it under applicable law. A parent or lawful guardian may submit an inquiry on the child&apos;s behalf. No one should submit private information about another child unless reasonably necessary to raise and resolve a genuine concern.</p>
+        <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may report a concern using the corrections contact in the footer.</p>
+        <p>The general feedback form is not intended to collect information from a child who cannot validly submit it under applicable law. No one should submit private information about another child unless reasonably necessary to raise and resolve a genuine concern.</p>
       </section>
 
       <section>
@@ -1232,42 +1231,9 @@ function PrivacyPage() {
         <p>Google may independently process connection, device, account or draft information when a person visits or uses Google Forms, according to Google&apos;s own <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>. That Google-controlled processing is separate from the response received by the operator.</p>
       </section>
 
-      <section id="reply-seeking-inquiry-form" className="policy-focus">
-        <h2>7. Reply-seeking inquiry form — complete privacy notice</h2>
-        <div className="rights-callout"><strong>This section covers the reply-seeking form</strong><p>It is a self-contained notice for information submitted through the <a href="https://forms.gle/HoiHG5dyMSUy3yjt5" target="_blank" rel="noreferrer">IOAI Statistics inquiry form</a>. Read it before submitting the form.</p></div>
-
-        <h3>Operator and contact</h3>
-        <p>The person responsible for the submitted information is Sasuke Kondo, residing in Japan. The same inquiry form is the contact point for questions, complaints and requests concerning personal information. Electronic communication is the normal method.</p>
-
-        <h3>Information collected</h3>
-        <p>The form collects the email address entered by the submitter, the inquiry text, the submission timestamp and confirmation that this section has been read. Google sends a copy of the submitted answers to the supplied email address. The inquiry text may contain other personal information that the submitter chooses to provide. Please provide only information reasonably necessary to explain the matter.</p>
-
-        <h3>Purposes of use</h3>
-        <p>Personal information submitted through the form is used only to receive, investigate and answer the inquiry; locate a relevant archive record; verify identity or authority when reasonably necessary; make and communicate a correction, anonymization, suppression or removal decision; address complaints, abuse or security incidents; keep a proportionate record of the resolution; comply with law; and establish, exercise or defend legal claims. It is not used for advertising, marketing or unrelated profiling, and it is not published merely because it was submitted.</p>
-        <p>If an inquiry results in a requested archive correction or other action, the minimum information necessary to implement that action may be applied to the archive. A materially different use will be notified or consent will be requested when required by law.</p>
-
-        <h3>Voluntary submission and sensitive information</h3>
-        <p>Submitting the form is voluntary, but a working email address and enough detail to understand the inquiry are necessary if a reply is requested. Do not submit passwords, passport images, national identification numbers, financial information, health information or unrelated information about another person. Identity documents are not requested routinely. If additional verification is reasonably necessary, the operator will seek the least intrusive method suitable for the risk.</p>
-
-        <h3>Service provider, recipients and processing outside Japan</h3>
-        <p>The form and its responses are provided and stored using Google Forms and related Google services. Responses are accessible to the operator and to Google as needed to provide and secure those services. Google states that it maintains servers around the world, so information may be processed outside Japan, including in the United States and other countries in which Google or its service providers operate. Google&apos;s handling is also governed by its <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a> and <a href="https://policies.google.com/privacy/frameworks" target="_blank" rel="noreferrer">data-transfer information</a>.</p>
-        <p>The operator does not sell inquiry information, use it for advertising, publish it, or provide it to data brokers. Other than service providers handling it on the operator&apos;s behalf, it is disclosed only with the submitter&apos;s consent or where permitted or required by law, including when necessary to investigate abuse, protect a person, comply with an enforceable request, or establish, exercise or defend a legal claim.</p>
-
-        <h3>Retention and deletion</h3>
-        <p>Personally identifiable information in a form response and related correspondence is normally deleted or permanently de-identified within 90 days after its use is complete. Use is complete when the inquiry has been resolved and there is no reasonably anticipated follow-up, unresolved complaint, security need, legal obligation or need to establish, exercise or defend a legal claim. Information may be retained longer only while such a specific need continues. Non-personal portions may be retained longer to improve the archive or preserve a record of the issue without identifying the submitter.</p>
-        <p>Unnecessary identity evidence and inadvertently submitted sensitive information are deleted sooner. Deletion is performed from response stores, linked files, exports and messages under the operator&apos;s control. Residual provider backups may be removed according to the provider&apos;s deletion cycle.</p>
-
-        <h3>Safety measures</h3>
-        <p>Human access under the operator&apos;s control is limited to the operator through access-controlled Google services and devices. The operator limits collection, avoids public sharing, reviews stored responses, follows a retention and deletion process, keeps software and account protections reasonably current, and does not place inquiry responses or identity evidence in the public website repository. Service-provider practices and the legal environments in which overseas processing may occur are reviewed in proportion to the limited scale and sensitivity of the data. Suspected leaks are investigated and reported to the Personal Information Protection Commission and affected people when APPI requires.</p>
-
-        <h3>Access, correction, cessation and complaints</h3>
-        <p>The person concerned, or a parent, guardian or other authorized representative where appropriate, may use the inquiry form to ask about the purpose of use; request disclosure of retained personal data or applicable third-party-provision records; request correction, addition or deletion of inaccurate content; request cessation of use, erasure or cessation of third-party provision where the applicable legal conditions are met; or make a complaint about handling.</p>
-        <p>No fee is charged. Requests should identify the relevant submission or archive page, describe the requested action and provide enough information for proportionate identity or authority verification. Responses and any legally required disclosure will ordinarily be provided electronically to the email address supplied in the form. The operator may propose another reasonable method if the requested method is disproportionately difficult. A request may be limited or refused where permitted or required by law; where required, the requester will be notified of that outcome and the reason without delay.</p>
-      </section>
-
       <section>
-        <h2>8. Changes to this policy</h2>
-        <p>This policy may be revised when the archive, forms, providers or applicable requirements change. The effective date above will be updated, and a material change affecting information already collected will be handled with additional notice or consent where required. No internet service can guarantee absolute security, but reasonable measures will continue to be reviewed in light of the nature and scale of the information handled.</p>
+        <h2>7. Changes to this policy</h2>
+        <p>This policy may be revised when the archive, feedback form, providers or applicable requirements change. The effective date above will be updated, and a material change affecting information already collected will be handled with additional notice or consent where required. No internet service can guarantee absolute security, but reasonable measures will continue to be reviewed in light of the nature and scale of the information handled.</p>
       </section>
 
       <aside className="policy-references" aria-label="Regulatory references">
@@ -1310,9 +1276,9 @@ function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
-        <div><strong>IOAI Statistics</strong><p>An unofficial archive made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p><a href="/privacy">Privacy policy</a> · <a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></div>
+        <div><strong>IOAI Statistics</strong><p>An unofficial archive made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
         <div><span>With thanks</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
-        <div><span>Corrections and inquiries</span><p><a href="https://forms.gle/HoiHG5dyMSUy3yjt5" target="_blank" rel="noreferrer">Contact the operator</a></p><small>Data snapshot · {DATA.updated}</small></div>
+        <div><span>Corrections</span><p><strong>@aka138</strong> on Discord</p><div className="footer-links"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></div><small>Data snapshot · {DATA.updated}</small></div>
       </div>
     </footer>
   );
