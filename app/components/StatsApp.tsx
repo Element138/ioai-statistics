@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 
@@ -223,7 +223,7 @@ function slugify(value: string) {
 function Flag({ country, large = false, highResolution = false }: { country: string; large?: boolean; highResolution?: boolean }) {
   const code = COUNTRY_CODES[country];
   if (!code) return <span className={large ? "flag-fallback large" : "flag-fallback"} aria-hidden="true">◆</span>;
-  const size = large || highResolution ? "80x60" : "20x15";
+  const size = large ? "80x60" : highResolution ? "60x45" : "20x15";
   return <img className={large ? "flag-image large" : "flag-image"} src={`https://flagcdn.com/${size}/${code.toLowerCase()}.png`} alt="" loading="lazy" />;
 }
 
@@ -233,12 +233,14 @@ function formatScore(value: number | null | undefined) {
 }
 
 function medalClass(award: string) {
-  const normalized = award.toLowerCase();
-  if (normalized.includes("gold") || normalized.includes("first place")) return "award gold";
-  if (normalized.includes("silver") || normalized.includes("second place")) return "award silver";
-  if (normalized.includes("bronze") || normalized.includes("third place")) return "award bronze";
-  if (normalized.includes("honourable") || normalized.includes("honorable")) return "award mention";
-  if (normalized.includes("level")) return "award gaite-award";
+  const type = awardType(award);
+  if (type === "Gold") return "award gold";
+  if (type === "Silver") return "award silver";
+  if (type === "Bronze") return "award bronze";
+  if (type === "HM") return "award mention";
+  if (type === "Level 1") return "award gaite-level-1";
+  if (type === "Level 2") return "award gaite-level-2";
+  if (type === "Level 3") return "award gaite-level-3";
   return "award neutral";
 }
 
@@ -285,6 +287,10 @@ function medalBand(award: string): MedalBand {
 }
 
 function medalRowClass(award: string) {
+  const type = awardType(award);
+  if (type === "Level 1") return "medal-row gaite-level-1-row";
+  if (type === "Level 2") return "medal-row gaite-level-2-row";
+  if (type === "Level 3") return "medal-row gaite-level-3-row";
   const band = medalBand(award);
   return band === "other" ? "" : `medal-row ${band}-row`;
 }
@@ -391,10 +397,10 @@ function EmptyState({ title, children }: { title: string; children: ReactNode })
   );
 }
 
-function DifficultyLegend() {
+function DifficultyLegend({ compact = false }: { compact?: boolean }) {
   return (
-    <details className="difficulty-legend">
-      <summary>Difficulty scale</summary>
+    <details className={`difficulty-legend${compact ? " compact" : ""}`}>
+      <summary>{compact ? <><span aria-hidden="true">?</span><span className="sr-only">Difficulty scale</span></> : "Difficulty scale"}</summary>
       <div className="difficulty-grid">
         <span><b className="difficulty basic">basic</b>Half of Individual contestants reached 50.</span>
         <span><b className="difficulty bronze">bronze</b>Half of bronze medallists reached 50.</span>
@@ -441,7 +447,7 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
   const legendLabels = track === "main" ? ["Gold", "Silver", "Bronze"] : ["Level 1", "Level 2", "Level 3"];
 
   return (
-    <section className="distribution-card" aria-label={`${title} score distribution`}>
+    <section className={`distribution-card ${track}`} aria-label={`${title} score distribution`}>
       <div className="distribution-heading">
         <div><p className="eyebrow">Score distribution</p><h2>{title}</h2></div>
         <div className="distribution-legend" aria-label="Bar colors">
@@ -521,9 +527,7 @@ function ResultsTable({ results, track, compact = false, showYear = false }: {
 
 function TaskTable({ tasks }: { tasks: Task[] }) {
   return (
-    <>
-      <div className="table-tools"><DifficultyLegend /></div>
-      <div className="table-wrap">
+    <div className="table-wrap">
       <table className="data-table">
         <thead>
           <tr>
@@ -531,7 +535,7 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
             <th>Task</th>
             <th>Track</th>
             <th>Category / round</th>
-            <th>Difficulty</th>
+            <th><span className="difficulty-heading">Difficulty <DifficultyLegend compact /></span></th>
             <th className="number">Max.</th>
             <th>Materials</th>
           </tr>
@@ -550,8 +554,7 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
           ))}
         </tbody>
       </table>
-      </div>
-    </>
+    </div>
   );
 }
 
@@ -568,14 +571,13 @@ function countAwards(results: Result[]) {
 }
 
 function FlagRing() {
-  const [startAngle, setStartAngle] = useState(0);
-  useEffect(() => setStartAngle(Math.random() * 360), []);
+  const ringRef = useRef<HTMLDivElement>(null);
+  useEffect(() => ringRef.current?.style.setProperty("--ring-start-angle", `${Math.random() * 360}deg`), []);
   const results = [...allResults("main"), ...allResults("gaite")].filter((result) => result.country !== "IOAI Team");
   const countries = [...new Set(results.map((result) => result.country))].sort((a, b) => a.localeCompare(b));
-  const ringStyle = { "--ring-start-angle": `${startAngle}deg` } as CSSProperties;
   return (
     <div className="flag-ring-scene" aria-label="Participating countries">
-      <div className="flag-ring-track" style={ringStyle}>
+      <div className="flag-ring-track" ref={ringRef}>
         {countries.map((country, index) => {
           const countryResults = results.filter((result) => result.country === country);
           const awards = countryResults.filter((result) => hasAward(result.award)).length;
@@ -913,8 +915,8 @@ function DelegationsTable({ year, track }: { year: number; track: Track }) {
 function CountrySummaryTable({ summaries, track }: { summaries: CountrySummary[]; track: Track }) {
   const showRank = summaries.some((summary) => summary.rank !== undefined);
   return (
-    <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? <th className="number">Rank</th> : null}<th>Country or region</th><th className="number">Entries</th><th className="number">Editions</th>{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number">L1</th><th className="number">L2</th><th className="number">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
-      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a></td><td className="number">{summary.contestants}</td><td className="number">{summary.years.length}</td>{track === "main" ? <><td className="number medal-count gold-count">{summary.gold}</td><td className="number medal-count silver-count">{summary.silver}</td><td className="number medal-count bronze-count">{summary.bronze}</td><td className="number">{summary.mention}</td></> : <><td className="number gaite-count">{summary.level1}</td><td className="number gaite-count">{summary.level2}</td><td className="number gaite-count">{summary.level3}</td><td className="number">{summary.mention}</td></>}</tr>)}
+    <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? <th className="number">Rank</th> : null}<th>Country or region</th><th className="number">Entries</th><th className="number">Editions</th>{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
+      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a></td><td className="number">{summary.contestants}</td><td className="number">{summary.years.length}</td>{track === "main" ? <><td className="number medal-count gold-count">{summary.gold}</td><td className="number medal-count silver-count">{summary.silver}</td><td className="number medal-count bronze-count">{summary.bronze}</td><td className="number">{summary.mention}</td></> : <><td className="number gaite-level-1-count">{summary.level1}</td><td className="number gaite-level-2-count">{summary.level2}</td><td className="number gaite-level-3-count">{summary.level3}</td><td className="number">{summary.mention}</td></>}</tr>)}
     </tbody></table></div>
   );
 }
@@ -1039,7 +1041,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
         <EmptyState title="Team task — no individual ranking">This task is preserved separately and never contributes to the Hall of Fame or country rankings.</EmptyState>
       ) : (
         <>
-          <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setSelectedTrack} tracks={availableTracks} />{difficulty ? <DifficultyLegend /> : null}</div>
+          <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setSelectedTrack} tracks={availableTracks} /></div>
           <ScoreDistribution title={`${TRACK_LABELS[effectiveTrack]} · ${task.name}`} entries={allScores.map(({ result, score }) => ({ score, award: result.award }))} maxScore={task.maxScore ?? 100} track={effectiveTrack} />
           <SectionTitle title="Top solvers" meta={`IOAI ${task.year}`} />
           {scores.length ? <div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th>Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
@@ -1103,8 +1105,8 @@ function HallOfFamePage({ track, setTrack }: { track: Track; setTrack: (track: T
     <>
       <div className="page-heading"><p className="eyebrow">All-time individual records</p><h1>Hall of Fame</h1></div>
       <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /></div>
-      <div className="table-wrap"><table className="data-table hall-table"><thead><tr><th className="number">Rank</th><th>Contestant</th><th>Country or region</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number">L1</th><th className="number">L2</th><th className="number">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
-        {records.map((record) => <tr key={`${record.slug}-${record.country}`}><td className="number rank">{record.rank}</td><td><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{record.gold}</td><td className="number medal-count silver-count">{record.silver}</td><td className="number medal-count bronze-count">{record.bronze}</td><td className="number">{record.mention}</td></> : <><td className="number gaite-count">{record.level1}</td><td className="number gaite-count">{record.level2}</td><td className="number gaite-count">{record.level3}</td><td className="number">{record.mention}</td></>}</tr>)}
+      <div className="table-wrap"><table className="data-table hall-table"><thead><tr><th className="number">Rank</th><th>Contestant</th><th>Country or region</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
+        {records.map((record) => <tr key={`${record.slug}-${record.country}`}><td className="number rank">{record.rank}</td><td><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{record.gold}</td><td className="number medal-count silver-count">{record.silver}</td><td className="number medal-count bronze-count">{record.bronze}</td><td className="number">{record.mention}</td></> : <><td className="number gaite-level-1-count">{record.level1}</td><td className="number gaite-level-2-count">{record.level2}</td><td className="number gaite-level-3-count">{record.level3}</td><td className="number">{record.mention}</td></>}</tr>)}
       </tbody></table></div>
     </>
   );
@@ -1135,7 +1137,9 @@ function SearchPage() {
   const people = useMemo(() => {
     if (!normalized) return [];
     const matches = [...allResults("main"), ...allResults("gaite")].filter((result) => `${result.name} ${result.country} ${result.year}`.toLocaleLowerCase().includes(normalized));
-    return matches.slice(0, 80);
+    return matches
+      .sort((a, b) => b.year - a.year || competitionRank(a) - competitionRank(b) || a.name.localeCompare(b.name))
+      .slice(0, 80);
   }, [normalized]);
   const countries = useMemo(() => normalized ? [...new Set([...allResults("main"), ...allResults("gaite")].map((result) => result.country))].filter((country) => country.toLocaleLowerCase().includes(normalized)) : [], [normalized]);
   const tasks = useMemo(() => normalized ? DATA.tasks.filter((task) => `${task.name} ${task.category} ${task.year}`.toLocaleLowerCase().includes(normalized)) : [], [normalized]);
@@ -1189,7 +1193,7 @@ function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
-        <div><strong>IOAI Statistics</strong><p>An unofficial archive made by Sasuke Kondo.</p></div>
+        <div><strong>IOAI Statistics</strong><p>An unofficial archive made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
         <div><span>With thanks</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
         <div><span>Corrections</span><p>Please report errors to <strong>@aka138</strong> on Discord.</p><small>Data snapshot · {DATA.updated}</small></div>
       </div>

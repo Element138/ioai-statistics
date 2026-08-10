@@ -246,6 +246,7 @@ h3 {
 }
 
 .flag-ring-track {
+  --ring-start-angle: 0deg;
   position: relative;
   width: 100%;
   height: 100%;
@@ -287,8 +288,13 @@ h3 {
 
 .flag-ring-link:hover,
 .flag-ring-link:focus-visible {
-  z-index: 20;
+  z-index: 1000;
   outline: 0;
+}
+
+.flag-ring-slot:has(.flag-ring-link:hover),
+.flag-ring-slot:has(.flag-ring-link:focus-visible) {
+  z-index: 1000;
 }
 
 .flag-ring-link:hover .flag-image,
@@ -302,16 +308,17 @@ h3 {
   bottom: calc(100% + 10px);
   left: 50%;
   width: max-content;
-  max-width: 210px;
-  padding: 7px 9px;
+  z-index: 1001;
+  max-width: 250px;
+  padding: 10px 12px;
   display: grid;
   gap: 1px;
   transform: translate(-50%, 3px);
   border: 1px solid #26334a;
   background: var(--ink);
   color: white;
-  font-size: 0.7rem;
-  line-height: 1.3;
+  font-size: 0.82rem;
+  line-height: 1.4;
   opacity: 0;
   visibility: hidden;
   box-shadow: 0 7px 18px rgba(18, 30, 50, 0.2);
@@ -319,11 +326,12 @@ h3 {
 }
 
 .flag-ring-popover strong {
-  font-size: 0.73rem;
+  font-size: 0.9rem;
 }
 
 .flag-ring-popover small {
   color: #cbd4e3;
+  font-size: 0.76rem;
   white-space: nowrap;
 }
 
@@ -704,7 +712,7 @@ h3 {
   height: 15px;
   display: inline-block;
   flex: 0 0 20px;
-  border: 1px solid rgba(24, 33, 47, 0.14);
+  border: 0;
   object-fit: cover;
   vertical-align: -2px;
 }
@@ -762,10 +770,22 @@ h3 {
   color: #315eaf;
 }
 
-.award.gaite-award {
-  border-color: #91cdb8;
-  background: #eff9f5;
-  color: #277558;
+.award.gaite-level-1 {
+  border-color: #1b6a47;
+  background: #e2f1e8;
+  color: #15563a;
+}
+
+.award.gaite-level-2 {
+  border-color: #62aa80;
+  background: #edf7f0;
+  color: #2b7550;
+}
+
+.award.gaite-level-3 {
+  border-color: #a6d2b7;
+  background: #f4faf6;
+  color: #4d8062;
 }
 
 .award.neutral {
@@ -783,6 +803,18 @@ h3 {
 
 .medal-row.bronze-row td:first-child {
   box-shadow: inset 3px 0 #bd7650;
+}
+
+.medal-row.gaite-level-1-row td:first-child {
+  box-shadow: inset 3px 0 #176a45;
+}
+
+.medal-row.gaite-level-2-row td:first-child {
+  box-shadow: inset 3px 0 #58a97b;
+}
+
+.medal-row.gaite-level-3-row td:first-child {
+  box-shadow: inset 3px 0 #a7d7b8;
 }
 
 .gold-col,
@@ -803,9 +835,22 @@ h3 {
   color: #814a29;
 }
 
-.gaite-count {
-  background: #eff9f5;
-  color: #277558;
+.gaite-level-1-col,
+.gaite-level-1-count {
+  background: #e2f1e8;
+  color: #15563a;
+}
+
+.gaite-level-2-col,
+.gaite-level-2-count {
+  background: #edf7f0;
+  color: #2b7550;
+}
+
+.gaite-level-3-col,
+.gaite-level-3-count {
+  background: #f4faf6;
+  color: #4d8062;
 }
 
 .track-badge {
@@ -1064,8 +1109,8 @@ h3 {
   height: 64px;
   flex: 0 0 auto;
   place-items: center;
-  border: 1px solid var(--line-strong);
-  background: var(--soft);
+  border: 0;
+  background: transparent;
   font-size: 2.6rem;
 }
 
@@ -1196,6 +1241,21 @@ h3 {
   background: #dfe6ef;
 }
 
+.distribution-card.gaite .distribution-legend .gold,
+.distribution-card.gaite .bar-stack .gold {
+  background: #176a45;
+}
+
+.distribution-card.gaite .distribution-legend .silver,
+.distribution-card.gaite .bar-stack .silver {
+  background: #58a97b;
+}
+
+.distribution-card.gaite .distribution-legend .bronze,
+.distribution-card.gaite .bar-stack .bronze {
+  background: #a7d7b8;
+}
+
 .histogram {
   height: 220px;
   display: grid;
@@ -1256,12 +1316,6 @@ h3 {
   color: var(--ink);
 }
 
-.table-tools {
-  display: flex;
-  justify-content: flex-end;
-  margin: -4px 0 8px;
-}
-
 .difficulty-legend {
   position: relative;
   color: var(--muted);
@@ -1273,6 +1327,34 @@ h3 {
   color: var(--blue-dark);
   font-weight: 600;
   list-style-position: inside;
+}
+
+.difficulty-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.difficulty-legend.compact summary {
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  line-height: 1;
+  list-style: none;
+}
+
+.difficulty-legend.compact summary::-webkit-details-marker {
+  display: none;
+}
+
+.difficulty-legend.compact .difficulty-grid {
+  text-align: left;
+  font-weight: 400;
 }
 
 .difficulty-grid {
@@ -1424,19 +1506,28 @@ h3 {
   letter-spacing: -0.04em;
 }
 
-.person-award-count.gold strong,
-.person-award-count.level-1 strong {
+.person-award-count.gold strong {
   color: var(--gold);
 }
 
-.person-award-count.silver strong,
-.person-award-count.level-2 strong {
+.person-award-count.silver strong {
   color: var(--silver);
 }
 
-.person-award-count.bronze strong,
-.person-award-count.level-3 strong {
+.person-award-count.bronze strong {
   color: var(--bronze);
+}
+
+.person-award-count.level-1 strong {
+  color: #176a45;
+}
+
+.person-award-count.level-2 strong {
+  color: #58a97b;
+}
+
+.person-award-count.level-3 strong {
+  color: #79b891;
 }
 
 .no-award {
