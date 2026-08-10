@@ -129,12 +129,16 @@ h3 {
 }
 
 .site-frame {
+  position: relative;
+  isolation: isolate;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .site-header {
+  position: relative;
+  z-index: 10;
   background: var(--paper);
 }
 
@@ -159,49 +163,13 @@ h3 {
   text-decoration: none;
 }
 
-.brand-mark {
-  display: grid;
-  width: 50px;
-  height: 34px;
-  place-items: center;
-  background: var(--ink);
-  color: white;
-  font-size: 0.94rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
 .brand-copy {
   overflow: hidden;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.018em;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.brand-copy em {
-  margin-left: 3px;
-  color: var(--blue);
-  font-style: normal;
-  font-weight: 500;
-}
-
-.data-status {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.data-status i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #23a36d;
-  box-shadow: 0 0 0 3px #dff4ea;
 }
 
 .nav-border {
@@ -248,8 +216,138 @@ h3 {
 }
 
 .main-content {
+  position: relative;
+  z-index: 1;
   flex: 1;
   padding-block: 34px 64px;
+}
+
+.home-page {
+  position: relative;
+}
+
+.home-content-panel {
+  position: relative;
+  z-index: 2;
+  background: var(--paper);
+  box-shadow: 0 0 0 16px var(--paper);
+}
+
+.flag-ring-scene {
+  --ring-size: 1600px;
+  position: fixed;
+  z-index: 0;
+  top: 52vh;
+  left: 50%;
+  width: var(--ring-size);
+  height: var(--ring-size);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.flag-ring-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(91, 108, 137, 0.12);
+  animation: flag-ring-spin 180s linear infinite;
+}
+
+.flag-ring-slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--flag-angle)) translateX(calc(var(--ring-size) / 2));
+  transform-origin: 0 0;
+}
+
+.flag-ring-link {
+  position: absolute;
+  top: -10px;
+  left: -14px;
+  width: 28px;
+  height: 21px;
+  display: block;
+  animation: flag-counter-spin 180s linear infinite;
+  pointer-events: auto;
+}
+
+.flag-ring-link .flag-image {
+  width: 28px;
+  height: 21px;
+  display: block;
+  border-color: rgba(24, 33, 47, 0.22);
+  background: white;
+  box-shadow: 0 2px 7px rgba(18, 30, 50, 0.16);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.flag-ring-link:hover,
+.flag-ring-link:focus-visible {
+  z-index: 20;
+  outline: 0;
+}
+
+.flag-ring-link:hover .flag-image,
+.flag-ring-link:focus-visible .flag-image {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(18, 30, 50, 0.24);
+}
+
+.flag-ring-popover {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  width: max-content;
+  max-width: 210px;
+  padding: 7px 9px;
+  display: grid;
+  gap: 1px;
+  transform: translate(-50%, 3px);
+  border: 1px solid #26334a;
+  background: var(--ink);
+  color: white;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 7px 18px rgba(18, 30, 50, 0.2);
+  transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
+}
+
+.flag-ring-popover strong {
+  font-size: 0.73rem;
+}
+
+.flag-ring-popover small {
+  color: #cbd4e3;
+  white-space: nowrap;
+}
+
+.flag-ring-link:hover .flag-ring-popover,
+.flag-ring-link:focus-visible .flag-ring-popover {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.flag-ring-track:has(.flag-ring-link:hover),
+.flag-ring-track:has(.flag-ring-link:focus-visible),
+.flag-ring-track:has(.flag-ring-link:hover) .flag-ring-link,
+.flag-ring-track:has(.flag-ring-link:focus-visible) .flag-ring-link {
+  animation-play-state: paused;
+}
+
+@keyframes flag-ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flag-counter-spin {
+  from { transform: rotate(var(--flag-counter-angle)); }
+  to { transform: rotate(calc(var(--flag-counter-angle) - 360deg)); }
 }
 
 .hero {
@@ -1245,15 +1343,14 @@ h3 {
 
 .difficulty.gold-plus {
   border-color: #c99d2d;
-  background: linear-gradient(90deg, #fff7dc 0 72%, #e7bd48 72%);
+  background: #f9e8af;
   color: #735000;
 }
 
 .difficulty.gold-plus-plus {
-  border-color: #9f760a;
-  background: #edcc65;
+  border-color: #b48614;
+  background: #f1d47d;
   color: #563c00;
-  box-shadow: inset 0 0 0 1px #fff1b8;
 }
 
 .participation-list {
@@ -1301,11 +1398,19 @@ h3 {
 .person-awards {
   margin-left: auto;
   display: flex;
-  align-items: baseline;
-  gap: 7px;
+  align-items: stretch;
 }
 
-.person-awards span {
+.person-award-count {
+  min-width: 54px;
+  padding-inline: 12px;
+  display: grid;
+  align-content: center;
+  justify-items: end;
+  border-left: 1px solid var(--line);
+}
+
+.person-award-count span {
   color: var(--muted);
   font-size: 0.65rem;
   font-weight: 650;
@@ -1313,9 +1418,24 @@ h3 {
   text-transform: uppercase;
 }
 
-.person-awards strong {
+.person-award-count strong {
   font-size: 1.55rem;
   letter-spacing: -0.04em;
+}
+
+.person-award-count.gold strong,
+.person-award-count.level-1 strong {
+  color: var(--gold);
+}
+
+.person-award-count.silver strong,
+.person-award-count.level-2 strong {
+  color: var(--silver);
+}
+
+.person-award-count.bronze strong,
+.person-award-count.level-3 strong {
+  color: var(--bronze);
 }
 
 .no-award {
@@ -1418,6 +1538,8 @@ h3 {
 }
 
 .site-footer {
+  position: relative;
+  z-index: 10;
   margin-top: auto;
   border-top: 1px solid var(--line-strong);
   background: var(--soft);
@@ -1432,13 +1554,33 @@ h3 {
   font-size: 0.77rem;
 }
 
-.footer-grid strong,
+.footer-grid > div > strong,
 .footer-grid > div > span {
   display: block;
   margin-bottom: 6px;
   color: var(--ink);
   font-size: 0.78rem;
   font-weight: 700;
+}
+
+.footer-grid p strong {
+  display: inline;
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+@media (max-width: 1599px) {
+  .flag-ring-scene {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flag-ring-track,
+  .flag-ring-link {
+    animation: none;
+  }
 }
 
 .footer-grid p {
@@ -1489,11 +1631,6 @@ h3 {
 
   .brand-copy {
     max-width: 55vw;
-  }
-
-  .brand-copy em,
-  .data-status {
-    display: none;
   }
 
   .top-nav {
@@ -1612,10 +1749,6 @@ h3 {
 }
 
 @media (max-width: 480px) {
-  .brand-mark {
-    width: 45px;
-  }
-
   .brand-copy {
     font-size: 0.86rem;
   }
