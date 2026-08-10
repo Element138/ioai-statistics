@@ -7370,7 +7370,7 @@
       "name": "Find the Order",
       "category": "Audio",
       "maxScore": 100,
-      "materials": "https://ioai2026.kz/results/"
+      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/1_Find_the_Order"
     },
     {
       "slug": "2026-task-2",
@@ -7385,7 +7385,7 @@
       "name": "Robot Chasing",
       "category": "ML",
       "maxScore": 100,
-      "materials": "https://ioai2026.kz/results/"
+      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/2_Robot_Chasing"
     },
     {
       "slug": "2026-task-3",
@@ -7400,7 +7400,7 @@
       "name": "Potato",
       "category": "NLP",
       "maxScore": 100,
-      "materials": "https://ioai2026.kz/results/"
+      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/3_Potato"
     },
     {
       "slug": "2026-task-4",
@@ -7415,7 +7415,7 @@
       "name": "Double Agent Dilemma",
       "category": "CV",
       "maxScore": 100,
-      "materials": "https://ioai2026.kz/results/"
+      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/4_Double_Agent_Dilemma"
     },
     {
       "slug": "2026-task-5",
@@ -7430,7 +7430,7 @@
       "name": "Ghost of Machine",
       "category": "NLP",
       "maxScore": 100,
-      "materials": "https://ioai2026.kz/results/"
+      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/5_Ghost_of_Machine"
     },
     {
       "slug": "2026-task-6",
@@ -7445,7 +7445,7 @@
       "name": "IOAI Field",
       "category": "ML",
       "maxScore": 100,
-      "materials": "https://ioai2026.kz/results/"
+      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest"
     }
   ],
   "administration": {

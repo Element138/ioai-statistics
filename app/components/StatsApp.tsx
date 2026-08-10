@@ -330,8 +330,10 @@ function taskScoreRank(task: Task, track: "main" | "gaite", score: number) {
   return taskScoreEntries(task, track).filter((candidate) => candidate.score > score).length + 1;
 }
 
+const TASK_SCORE_THRESHOLD = 25;
+
 function isTopSolver(task: Task, track: "main" | "gaite", score: number | null | undefined) {
-  return score !== null && score !== undefined && score >= 50 && taskScoreRank(task, track, score) <= 10;
+  return score !== null && score !== undefined && score >= TASK_SCORE_THRESHOLD && taskScoreRank(task, track, score) <= 10;
 }
 
 function isFirstInDelegation(result: Result) {
@@ -346,7 +348,7 @@ function taskDifficulty(task: Task): Difficulty | null {
   if (!taskTracks(task).includes("main")) return null;
   const entries = taskScoreEntries(task, "main");
   if (!entries.length) return null;
-  const passRate = (items: typeof entries) => items.length ? items.filter((item) => item.score >= 50).length / items.length : 0;
+  const passRate = (items: typeof entries) => items.length ? items.filter((item) => item.score >= TASK_SCORE_THRESHOLD).length / items.length : 0;
   if (passRate(entries) >= 0.5) return "basic";
 
   const cohort = (medal: "bronze" | "silver" | "gold") => entries.filter((item) => medalBand(item.result.award) === medal);
@@ -416,11 +418,11 @@ function DifficultyLegend({ compact = false }: { compact?: boolean }) {
     <details className={`difficulty-legend${compact ? " compact" : ""}`}>
       <summary>{compact ? <><span aria-hidden="true">?</span><span className="sr-only">Difficulty scale</span></> : "Difficulty scale"}</summary>
       <div className="difficulty-grid">
-        <span><b className="difficulty basic">basic</b>Half of Individual contestants reached 50.</span>
-        <span><b className="difficulty bronze">bronze</b>Half of bronze medallists reached 50.</span>
-        <span><b className="difficulty silver">silver</b>Half of silver medallists reached 50.</span>
-        <span><b className="difficulty gold">gold</b>Half of gold medallists reached 50.</span>
-        <span><b className="difficulty gold-plus">gold+</b>A quarter of gold medallists reached 50.</span>
+        <span><b className="difficulty basic">basic</b>Half of Individual contestants reached 25.</span>
+        <span><b className="difficulty bronze">bronze</b>Half of bronze medallists reached 25.</span>
+        <span><b className="difficulty silver">silver</b>Half of silver medallists reached 25.</span>
+        <span><b className="difficulty gold">gold</b>Half of gold medallists reached 25.</span>
+        <span><b className="difficulty gold-plus">gold+</b>A quarter of gold medallists reached 25.</span>
         <span><b className="difficulty gold-plus-plus">gold++</b>Fewer than a quarter did.</span>
       </div>
     </details>
@@ -1042,7 +1044,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
   const effectiveTrack = availableTracks.includes(selectedTrack as "main" | "gaite") ? selectedTrack as "main" | "gaite" : availableTracks[0];
   const allScores = task.track === "team" ? [] : taskScoreEntries(task, effectiveTrack);
   const scores = [...allScores]
-    .filter((entry) => entry.score >= 50)
+    .filter((entry) => entry.score >= TASK_SCORE_THRESHOLD)
     .sort((a, b) => b.score - a.score || competitionRank(a.result) - competitionRank(b.result))
     .map((entry) => ({ ...entry, taskRank: allScores.filter((candidate) => candidate.score > entry.score).length + 1 }))
     .filter((entry) => entry.taskRank <= 10);
@@ -1060,7 +1062,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
           <SectionTitle title="Top solvers" meta={`IOAI ${task.year}`} />
           {scores.length ? <div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th>Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
             {scores.map(({ result, score, taskRank }) => <tr key={result.slug} className={medalRowClass(result.award)}><td className="number rank">{taskRank}</td><td><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatScore(score)}</td><td className="number">{competitionRank(result)}</td><td><AwardBadge award={result.award} /></td></tr>)}
-          </tbody></table></div> : <EmptyState title="No solvers reached 50 points">No published score meets the Top solvers threshold for this track.</EmptyState>}
+          </tbody></table></div> : <EmptyState title="No solvers reached 25 points">No published score meets the Top solvers threshold for this track.</EmptyState>}
         </>
       )}
     </>
@@ -1137,7 +1139,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
-          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span>{isFirstInDelegation(result) ? <span className="achievement-badge delegation-first">1st in delegation</span> : null}</div><div><AwardBadge award={result.award} /><strong>Rank {competitionRank(result)}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">Top solver</span> : null}</td><td className="number total">{formatScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatScore(result.total)}</td></tr></tbody></table></div></section>;
+          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} />{isFirstInDelegation(result) ? <span className="achievement-badge delegation-first">1st in delegation</span> : null}<strong>Rank {competitionRank(result)}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">Top solver</span> : null}</td><td className="number total">{formatScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatScore(result.total)}</td></tr></tbody></table></div></section>;
         })}
       </div>
     </>
@@ -1186,20 +1188,20 @@ function PrivacyPage() {
 
       <div className="policy-summary">
         <strong>In brief</strong>
-        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and editorial commentary. The archive has no accounts, advertising or first-party analytics. General feedback and reply-seeking inquiries use separate forms and are handled differently.</p>
+        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts, advertising or first-party analytics. General feedback and reply-seeking inquiries use separate forms and are handled differently.</p>
       </div>
 
       <section>
         <h2>1. Operator, scope and applicable law</h2>
         <p>IOAI Statistics is personally operated by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>, an IOAI 2026 alumnus residing in Japan. The archive is unofficial and independent of IOAI and its organizers.</p>
         <p>The site is operated from Japan and handles personal information in accordance with Japan&apos;s Act on the Protection of Personal Information (APPI) where applicable. It is available worldwide but is not directed at users in any particular country or region. If another mandatory law applies to particular processing, that law will be considered for that processing.</p>
-        <p>The operator&apos;s postal address and further information about applicable safety measures will be provided without delay upon request through the <a href="#reply-seeking-inquiry-form">reply-seeking inquiry form</a>. The operator is not a member of an accredited personal information protection organization.</p>
+        <p>Privacy questions, complaints and requests are accepted through the <a href="#reply-seeking-inquiry-form">reply-seeking inquiry form</a>. Electronic communication is the normal method. The operator is not a member of an accredited personal information protection organization.</p>
       </section>
 
       <section>
         <h2>2. The archive and its reporting purpose</h2>
-        <p>The archive is run in the public interest to report the results and history of the International Olympiad in Artificial Intelligence to readers worldwide. That reporting includes objective facts and calculated statistics, together with commentary and opinion about each edition of the contest. It is intended to preserve an accurate, navigable educational record for contestants, educators, researchers and the public.</p>
-        <p>The archive may report a contestant&apos;s or official&apos;s name, country or delegation, participation year and contest track, final scores, ranks, awards, task results, team membership and publicly stated competition role. It does not intentionally publish private contact details, home addresses, dates of birth, private identifiers, health information or other sensitive personal information.</p>
+        <p>The archive is run in the public interest to report the results and history of the International Olympiad in Artificial Intelligence to readers worldwide. That reporting includes objective facts and calculated statistics, together with commentary and opinion about each edition, its organization, tasks and results as a whole. It is intended to preserve an accurate, navigable educational record for contestants, educators, researchers and the public.</p>
+        <p>The archive may report a contestant&apos;s or official&apos;s name, country or delegation, participation year and contest track, final scores, ranks, awards, task results, team membership and publicly stated competition role. Commentary does not include subjective character assessments, personal profiles or individual-by-individual opinion about contestants or officials. The archive does not intentionally publish private contact details, home addresses, dates of birth, private identifiers, health information or other sensitive personal information.</p>
         <p>Archive information is collected from official IOAI websites, official result publications, official task repositories, official score files and comparable public IOAI materials. It is not ordinarily collected directly from contestants. Rankings, award totals, difficulty labels, distributions and badges are editorial or statistical outputs derived from published final results; they do not make decisions that have legal or similarly significant effects on a person.</p>
       </section>
 
@@ -1235,7 +1237,7 @@ function PrivacyPage() {
         <div className="rights-callout"><strong>This section covers the reply-seeking form</strong><p>It is a self-contained notice for information submitted through the <a href="https://forms.gle/HoiHG5dyMSUy3yjt5" target="_blank" rel="noreferrer">IOAI Statistics inquiry form</a>. Read it before submitting the form.</p></div>
 
         <h3>Operator and contact</h3>
-        <p>The person responsible for the submitted information is Sasuke Kondo, residing in Japan. The same inquiry form is the contact point for questions, complaints and requests concerning personal information. The operator&apos;s postal address will be provided without delay upon request made through the form.</p>
+        <p>The person responsible for the submitted information is Sasuke Kondo, residing in Japan. The same inquiry form is the contact point for questions, complaints and requests concerning personal information. Electronic communication is the normal method.</p>
 
         <h3>Information collected</h3>
         <p>The form collects the email address entered by the submitter, the inquiry text, the submission timestamp and confirmation that this section has been read. Google sends a copy of the submitted answers to the supplied email address. The inquiry text may contain other personal information that the submitter chooses to provide. Please provide only information reasonably necessary to explain the matter.</p>
