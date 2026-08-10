@@ -1631,11 +1631,26 @@ h3 {
 .policy-page section {
   padding: 17px 0;
   border-top: 1px solid var(--line);
+  scroll-margin-top: 24px;
 }
 
 .policy-page section h2 {
   margin: 0 0 8px;
   font-size: 1rem;
+}
+
+.policy-page section h3 {
+  margin: 17px 0 5px;
+  color: var(--ink);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.policy-focus {
+  margin-top: 5px;
+  padding: 20px 18px !important;
+  border: 1px solid var(--line-strong) !important;
+  background: #fbfcff;
 }
 
 .policy-page section p + p {
