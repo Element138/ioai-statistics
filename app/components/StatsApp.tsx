@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 
@@ -220,10 +220,10 @@ function slugify(value: string) {
     .replace(/^-|-$/g, "");
 }
 
-function Flag({ country, large = false }: { country: string; large?: boolean }) {
+function Flag({ country, large = false, highResolution = false }: { country: string; large?: boolean; highResolution?: boolean }) {
   const code = COUNTRY_CODES[country];
   if (!code) return <span className={large ? "flag-fallback large" : "flag-fallback"} aria-hidden="true">◆</span>;
-  const size = large ? "80x60" : "20x15";
+  const size = large || highResolution ? "80x60" : "20x15";
   return <img className={large ? "flag-image large" : "flag-image"} src={`https://flagcdn.com/${size}/${code.toLowerCase()}.png`} alt="" loading="lazy" />;
 }
 
@@ -258,9 +258,9 @@ function awardType(award: string) {
   if (normalized.includes("gold")) return "Gold";
   if (normalized.includes("silver")) return "Silver";
   if (normalized.includes("bronze")) return "Bronze";
-  if (normalized.includes("level 1")) return "Level 1";
-  if (normalized.includes("level 2")) return "Level 2";
-  if (normalized.includes("level 3")) return "Level 3";
+  if (normalized.includes("level 1") || normalized.includes("first level")) return "Level 1";
+  if (normalized.includes("level 2") || normalized.includes("second level")) return "Level 2";
+  if (normalized.includes("level 3") || normalized.includes("third level")) return "Level 3";
   if (normalized.includes("honour") || normalized.includes("honorable")) return "HM";
   return null;
 }
@@ -277,10 +277,10 @@ function awardTypeCounts(results: Result[]) {
 type MedalBand = "gold" | "silver" | "bronze" | "other";
 
 function medalBand(award: string): MedalBand {
-  const normalized = award.toLowerCase();
-  if (normalized.includes("gold") || normalized.includes("first place")) return "gold";
-  if (normalized.includes("silver") || normalized.includes("second place")) return "silver";
-  if (normalized.includes("bronze") || normalized.includes("third place")) return "bronze";
+  const type = awardType(award);
+  if (type === "Gold" || type === "Level 1") return "gold";
+  if (type === "Silver" || type === "Level 2") return "silver";
+  if (type === "Bronze" || type === "Level 3") return "bronze";
   return "other";
 }
 
@@ -432,19 +432,20 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
   const mean = entries.length ? entries.reduce((sum, entry) => sum + entry.score, 0) / entries.length : 0;
   const cutoffDefinitions = track === "main"
     ? [["Gold", "gold"], ["Silver", "silver"], ["Bronze", "bronze"]] as const
-    : [["Level 1", "level 1"], ["Level 2", "level 2"], ["Level 3", "level 3"]] as const;
+    : [["Level 1", "Level 1"], ["Level 2", "Level 2"], ["Level 3", "Level 3"]] as const;
   const cutoffs = cutoffDefinitions.map(([label, needle]) => {
-    const scores = entries.filter((entry) => entry.award.toLowerCase().includes(needle)).map((entry) => entry.score);
+    const scores = entries.filter((entry) => track === "main" ? entry.award.toLowerCase().includes(needle.toLowerCase()) : awardType(entry.award) === needle).map((entry) => entry.score);
     return { label, score: scores.length ? Math.min(...scores) : null };
   });
   const bands: MedalBand[] = ["other", "bronze", "silver", "gold"];
+  const legendLabels = track === "main" ? ["Gold", "Silver", "Bronze"] : ["Level 1", "Level 2", "Level 3"];
 
   return (
     <section className="distribution-card" aria-label={`${title} score distribution`}>
       <div className="distribution-heading">
         <div><p className="eyebrow">Score distribution</p><h2>{title}</h2></div>
         <div className="distribution-legend" aria-label="Bar colors">
-          <span><i className="gold" />Gold</span><span><i className="silver" />Silver</span><span><i className="bronze" />Bronze</span><span><i className="other" />Other</span>
+          <span><i className="gold" />{legendLabels[0]}</span><span><i className="silver" />{legendLabels[1]}</span><span><i className="bronze" />{legendLabels[2]}</span><span><i className="other" />Other</span>
         </div>
       </div>
       <div className="histogram" role="img" aria-label={`Histogram of ${entries.length} final scores`}>
@@ -567,11 +568,14 @@ function countAwards(results: Result[]) {
 }
 
 function FlagRing() {
+  const [startAngle, setStartAngle] = useState(0);
+  useEffect(() => setStartAngle(Math.random() * 360), []);
   const results = [...allResults("main"), ...allResults("gaite")].filter((result) => result.country !== "IOAI Team");
   const countries = [...new Set(results.map((result) => result.country))].sort((a, b) => a.localeCompare(b));
+  const ringStyle = { "--ring-start-angle": `${startAngle}deg` } as CSSProperties;
   return (
     <div className="flag-ring-scene" aria-label="Participating countries">
-      <div className="flag-ring-track">
+      <div className="flag-ring-track" style={ringStyle}>
         {countries.map((country, index) => {
           const countryResults = results.filter((result) => result.country === country);
           const awards = countryResults.filter((result) => hasAward(result.award)).length;
@@ -580,7 +584,7 @@ function FlagRing() {
           return (
             <span className="flag-ring-slot" style={style} key={country}>
               <a className="flag-ring-link" href={`/countries/${slugify(country)}`} aria-label={`${country}: ${countryResults.length} entries, ${awards} awards`}>
-                <Flag country={country} />
+                <Flag country={country} highResolution />
                 <span className="flag-ring-popover" role="tooltip"><strong>{country}</strong><small>{countryResults.length} entries · {awards} awards</small></span>
               </a>
             </span>
@@ -858,15 +862,15 @@ function summarizeCountries(results: Result[]) {
     const summary = summaries.get(result.country) || { country: result.country, contestants: 0, years: [], gold: 0, silver: 0, bronze: 0, mention: 0, level1: 0, level2: 0, level3: 0, awarded: 0 };
     summary.contestants += 1;
     if (!summary.years.includes(result.year)) summary.years.push(result.year);
-    const award = result.award.toLowerCase();
-    if (award.includes("gold")) summary.gold += 1;
-    if (award.includes("silver")) summary.silver += 1;
-    if (award.includes("bronze")) summary.bronze += 1;
-    if (award.includes("level 1")) summary.level1 += 1;
-    if (award.includes("level 2")) summary.level2 += 1;
-    if (award.includes("level 3")) summary.level3 += 1;
-    if (award.includes("honourable") || award.includes("honorable")) summary.mention += 1;
-    if (hasAward(award)) summary.awarded += 1;
+    const type = awardType(result.award);
+    if (type === "Gold") summary.gold += 1;
+    if (type === "Silver") summary.silver += 1;
+    if (type === "Bronze") summary.bronze += 1;
+    if (type === "Level 1") summary.level1 += 1;
+    if (type === "Level 2") summary.level2 += 1;
+    if (type === "Level 3") summary.level3 += 1;
+    if (type === "HM") summary.mention += 1;
+    if (hasAward(result.award)) summary.awarded += 1;
     summaries.set(result.country, summary);
   }
   return [...summaries.values()].sort((a, b) => a.country.localeCompare(b.country));
@@ -1068,14 +1072,14 @@ function hallRecords(track: "main" | "gaite") {
     const key = `${result.slug}|${result.country}`;
     const record = records.get(key) || { rank: 0, slug: result.slug, name: result.name, country: result.country, entries: 0, gold: 0, silver: 0, bronze: 0, mention: 0, level1: 0, level2: 0, level3: 0 };
     record.entries += 1;
-    const award = result.award.toLowerCase();
-    if (award.includes("gold")) record.gold += 1;
-    else if (award.includes("silver")) record.silver += 1;
-    else if (award.includes("bronze")) record.bronze += 1;
-    else if (award.includes("level 1")) record.level1 += 1;
-    else if (award.includes("level 2")) record.level2 += 1;
-    else if (award.includes("level 3")) record.level3 += 1;
-    else if (award.includes("honour") || award.includes("honorable")) record.mention += 1;
+    const type = awardType(result.award);
+    if (type === "Gold") record.gold += 1;
+    else if (type === "Silver") record.silver += 1;
+    else if (type === "Bronze") record.bronze += 1;
+    else if (type === "Level 1") record.level1 += 1;
+    else if (type === "Level 2") record.level2 += 1;
+    else if (type === "Level 3") record.level3 += 1;
+    else if (type === "HM") record.mention += 1;
     records.set(key, record);
   }
   const sorted = [...records.values()].sort((a, b) => track === "main"

@@ -279,7 +279,7 @@ h3 {
   width: 28px;
   height: 21px;
   display: block;
-  border-color: rgba(24, 33, 47, 0.22);
+  border: 0;
   background: white;
   box-shadow: 0 2px 7px rgba(18, 30, 50, 0.16);
   transition: transform 140ms ease, box-shadow 140ms ease;
@@ -342,12 +342,13 @@ h3 {
 }
 
 @keyframes flag-ring-spin {
-  to { transform: rotate(360deg); }
+  from { transform: rotate(var(--ring-start-angle)); }
+  to { transform: rotate(calc(var(--ring-start-angle) + 360deg)); }
 }
 
 @keyframes flag-counter-spin {
-  from { transform: rotate(var(--flag-counter-angle)); }
-  to { transform: rotate(calc(var(--flag-counter-angle) - 360deg)); }
+  from { transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle))); }
+  to { transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle) - 360deg)); }
 }
 
 .hero {
@@ -1580,6 +1581,14 @@ h3 {
   .flag-ring-track,
   .flag-ring-link {
     animation: none;
+  }
+
+  .flag-ring-track {
+    transform: rotate(var(--ring-start-angle));
+  }
+
+  .flag-ring-link {
+    transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle)));
   }
 }
 
