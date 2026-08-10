@@ -224,7 +224,7 @@ function Flag({ country, large = false, highResolution = false }: { country: str
   const code = COUNTRY_CODES[country];
   if (!code) return <span className={large ? "flag-fallback large" : "flag-fallback"} aria-hidden="true">◆</span>;
   const size = large ? "80x60" : highResolution ? "60x45" : "20x15";
-  return <img className={large ? "flag-image large" : "flag-image"} src={`https://flagcdn.com/${size}/${code.toLowerCase()}.png`} alt="" loading="lazy" />;
+  return <img className={large ? "flag-image large" : "flag-image"} src={`https://flagcdn.com/${size}/${code.toLowerCase()}.png`} alt="" loading="lazy" referrerPolicy="no-referrer" />;
 }
 
 function formatScore(value: number | null | undefined) {
@@ -324,6 +324,20 @@ function taskScoreEntries(task: Task, track: "main" | "gaite") {
   const index = tasks.findIndex((item) => item.slug === task.slug);
   if (index < 0) return [];
   return resultsFor(task.year, track).map((result) => ({ result, score: result.scores[index] ?? 0 }));
+}
+
+function taskScoreRank(task: Task, track: "main" | "gaite", score: number) {
+  return taskScoreEntries(task, track).filter((candidate) => candidate.score > score).length + 1;
+}
+
+function isTopSolver(task: Task, track: "main" | "gaite", score: number | null | undefined) {
+  return score !== null && score !== undefined && score >= 50 && taskScoreRank(task, track, score) <= 10;
+}
+
+function isFirstInDelegation(result: Result) {
+  const delegation = resultsFor(result.year, result.track).filter((candidate) => candidate.country === result.country);
+  if (delegation.length < 2 || new Set(delegation.map((candidate) => candidate.total)).size === 1) return false;
+  return result.total === Math.max(...delegation.map((candidate) => candidate.total));
 }
 
 type Difficulty = "basic" | "bronze" | "silver" | "gold" | "gold+" | "gold++";
@@ -1123,7 +1137,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
-          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} /><strong>Rank {competitionRank(result)}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a></td><td className="number total">{formatScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatScore(result.total)}</td></tr></tbody></table></div></section>;
+          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span>{isFirstInDelegation(result) ? <span className="achievement-badge delegation-first">1st in delegation</span> : null}</div><div><AwardBadge award={result.award} /><strong>Rank {competitionRank(result)}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">Top solver</span> : null}</td><td className="number total">{formatScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatScore(result.total)}</td></tr></tbody></table></div></section>;
         })}
       </div>
     </>
@@ -1161,6 +1175,85 @@ function SearchPage() {
   );
 }
 
+function PrivacyPage() {
+  return (
+    <article className="policy-page">
+      <header className="page-heading policy-heading">
+        <p className="eyebrow">Legal and privacy</p>
+        <h1>Privacy policy</h1>
+        <p>Effective 10 August 2026 · Last updated 10 August 2026</p>
+      </header>
+
+      <div className="policy-summary">
+        <strong>In brief</strong>
+        <p>IOAI Statistics is a personal, non-commercial educational archive. It publishes limited factual competition records from official public sources. It has no accounts, advertising or first-party analytics, and its own code sets no cookies. Privacy, correction and anonymization requests are welcome.</p>
+      </div>
+
+      <section>
+        <h2>1. Who operates this archive</h2>
+        <p>IOAI Statistics is personally operated by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>, an IOAI 2026 alumnus. It is an unofficial archive, independent of IOAI and its organizers. Its sole purpose is to serve the public interest by preserving and presenting an accurate educational record of the Olympiad.</p>
+        <p>For privacy requests, contact <strong>@aka138</strong> on Discord. A dedicated feedback and privacy-request form is planned. This policy will be updated before that form begins collecting information.</p>
+      </section>
+
+      <section>
+        <h2>2. Information in the archive</h2>
+        <p>The archive may display a contestant&apos;s or official&apos;s name, country or delegation, participation year and track, final scores, ranks, awards, task results, team membership and publicly stated competition role. It does not intentionally publish contact details, dates of birth, addresses, photographs, private identifiers, health information or other sensitive personal information.</p>
+        <p>Records are obtained indirectly from official IOAI websites, official result publications, official task repositories and official score files. They are not collected directly from contestants. A source being public does not by itself remove privacy obligations, so the archive limits each record to information needed for its statistical and historical purpose.</p>
+      </section>
+
+      <section>
+        <h2>3. Purpose and legal basis</h2>
+        <p>The archive uses these records to document IOAI history, make official results easier to navigate, calculate transparent statistics and help students, educators and researchers understand the competition.</p>
+        <p>Where the EU or UK GDPR applies, the intended basis is legitimate interests: the operator&apos;s and readers&apos; interest in a factual, accessible record of a significant educational competition. This basis is used only after considering purpose, necessity and the rights of the person concerned. The archive does not claim official authority and does not rely on the GDPR &quot;public task&quot; basis merely because its purpose is public-serving.</p>
+        <p>Safeguards include data minimization, use of official sources, no advertising or behavioural profiling, a correction process, special consideration for minors and a route to object or request anonymization. If the balance no longer supports identifying a person, the record will be anonymized or removed as applicable. Where Japan&apos;s APPI or another privacy law applies, records are handled for the specific purposes stated here and rights are provided according to that law.</p>
+      </section>
+
+      <section>
+        <h2>4. Contestants who are minors</h2>
+        <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may raise a concern through the request channel below.</p>
+        <p>The site is a general educational archive and does not ask child visitors to submit personal information. This will be reassessed before any feedback form is launched.</p>
+      </section>
+
+      <section>
+        <h2>5. Visitor data, cookies and external services</h2>
+        <p>The archive code does not create user accounts, store information in browser storage, run advertising, use first-party analytics or set cookies. The hosting and access-control service may process ordinary technical data—such as IP address, device and browser information, requested URL, timestamps and security events—and may use strictly necessary authentication or security cookies to deliver and protect the site.</p>
+        <p>The site is currently hosted through ChatGPT Sites by OpenAI. OpenAI processes hosted data to provide, secure and support the service under the applicable <a href="https://openai.com/policies/chatgpt-sites-data-processing-addendum/" target="_blank" rel="noreferrer">Sites Data Processing Addendum</a> and <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noreferrer">Privacy Policy</a>.</p>
+        <p>Country flags are delivered by <a href="https://flagcdn.com/" target="_blank" rel="noreferrer">FlagCDN</a>. A flag request necessarily reveals ordinary connection data such as the visitor&apos;s IP address and browser information to that provider. Flag requests are sent without a referrer header. Links to official sources and task materials are external; those sites receive data under their own policies only when followed.</p>
+      </section>
+
+      <section>
+        <h2>6. Publication, recipients and international access</h2>
+        <p>The archive is intended for publication on the open web. Its competition records can therefore be viewed, indexed and copied by people and services worldwide. Hosting and flag delivery may involve processing outside a visitor&apos;s country. No archive data is sold, licensed for advertising or provided to data brokers.</p>
+        <p>Information may also be disclosed when reasonably necessary to secure the service, investigate abuse, comply with law or establish, exercise or defend legal claims. The site does not use personal data for legally significant automated decision-making. Rankings, difficulty labels and badges are mechanical statistics derived from published final scores.</p>
+      </section>
+
+      <section>
+        <h2>7. Accuracy and retention</h2>
+        <p>Identifying records are retained for as long as they remain necessary for the archive&apos;s educational and historical purpose, subject to corrections, objections, anonymization requests and applicable law. Non-identifying aggregate statistics may be retained longer. Records are reviewed when an official source changes or a credible issue is reported.</p>
+        <p>The archive aims to reproduce official final results accurately. A correction to an official source will normally be reflected here. A well-supported factual correction may also be made while an official correction is pending, with appropriate notation where necessary.</p>
+      </section>
+
+      <section>
+        <h2>8. Your choices and rights</h2>
+        <p>Depending on applicable law, a person may ask for access to their record, correction of inaccurate facts, deletion, anonymization, restriction of use, or may object to processing based on legitimate interests. They may also complain to the data-protection authority responsible for their location.</p>
+        <div className="rights-callout"><strong>Your right to object</strong><p>You may object at any time, on grounds relating to your situation, to the archive identifying you on the basis of legitimate interests. The objection will be honored unless applicable law permits continued processing and there are compelling grounds that override your interests, rights and freedoms, or the record is needed for legal claims.</p></div>
+        <p>To make a request, contact <strong>@aka138</strong> on Discord and identify the relevant archive page, the request and enough information to reasonably verify that you are the person concerned or their authorized representative. Do not send passports, national identifiers or unrelated sensitive documents unless specifically necessary and requested through a secure method. Requests will be handled without charge and within the period required by applicable law, subject to lawful limits and reasonable measures against fraudulent requests.</p>
+        <p>For an accepted anonymization request, the normal public-facing remedy is to replace the person&apos;s name with <strong>“Anonymized”</strong> while preserving non-identifying competition totals where appropriate. This is a minimization measure, not a guarantee of irreversible anonymity: a distinctive combination of country, year, score and an unchanged official source may still permit re-identification. Additional suppression or deletion will be considered when required to give effect to applicable rights.</p>
+      </section>
+
+      <section>
+        <h2>9. Security and changes</h2>
+        <p>Reasonable technical and organizational measures are used to protect the site and any request correspondence. No internet service can guarantee absolute security. If a future feature materially changes collection or use—particularly the planned feedback form—this notice will be revised before the feature is enabled, including the form provider, fields, purpose, retention and recipients.</p>
+      </section>
+
+      <aside className="policy-references" aria-label="Regulatory references">
+        <strong>Regulatory references</strong>
+        <p><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noreferrer">EU General Data Protection Regulation</a> · <a href="https://www.ppc.go.jp/en/legal/" target="_blank" rel="noreferrer">Japan Personal Information Protection Commission: APPI</a></p>
+      </aside>
+    </article>
+  );
+}
+
 function NotFoundPage() {
   return <EmptyState title="Record not found">Return to the <a href="/">archive home</a> or use <a href="/search">search</a>.</EmptyState>;
 }
@@ -1193,7 +1286,7 @@ function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
-        <div><strong>IOAI Statistics</strong><p>An unofficial archive made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
+        <div><strong>IOAI Statistics</strong><p>An unofficial archive made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p><a href="/privacy">Privacy policy</a></div>
         <div><span>With thanks</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
         <div><span>Corrections</span><p>Please report errors to <strong>@aka138</strong> on Discord.</p><small>Data snapshot · {DATA.updated}</small></div>
       </div>
@@ -1217,6 +1310,7 @@ export default function StatsApp() {
   else if (parts[0] === "tasks" && parts[1]) page = <TaskPage taskSlug={parts[1]} />;
   else if (parts[0] === "hall-of-fame") page = <HallOfFamePage track={track} setTrack={setTrack} />;
   else if (parts[0] === "search") page = <SearchPage />;
+  else if (parts[0] === "privacy") page = <PrivacyPage />;
   else if (parts[0] === "contestants" && parts[1]) page = <ContestantPage contestantSlug={parts[1]} />;
   else page = <NotFoundPage />;
 

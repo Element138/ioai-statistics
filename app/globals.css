@@ -1469,6 +1469,32 @@ h3 {
   font-size: 0.76rem;
 }
 
+.achievement-badge {
+  min-height: 18px;
+  margin-left: 6px;
+  padding: 1px 6px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 99px;
+  font-size: 0.64rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.achievement-badge.delegation-first {
+  border-color: #82a8de;
+  background: #eef4ff;
+  color: #285a9d;
+}
+
+.achievement-badge.top-solver {
+  border-color: #d1ae52;
+  background: #fff7dc;
+  color: #795500;
+}
+
 .person-heading {
   padding-bottom: 21px;
   border-bottom: 1px solid var(--line);
@@ -1563,6 +1589,86 @@ h3 {
 .total-row {
   background: #eef3fb !important;
   font-weight: 700;
+}
+
+.policy-page {
+  max-width: 820px;
+  margin-inline: auto;
+}
+
+.policy-heading {
+  margin-bottom: 18px;
+}
+
+.policy-heading > p:last-child {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.policy-summary {
+  margin-bottom: 24px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-strong);
+  background: var(--soft);
+}
+
+.policy-summary strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+}
+
+.policy-summary p,
+.policy-page section p,
+.policy-references p {
+  margin: 0;
+  color: #46546a;
+  font-size: 0.82rem;
+  line-height: 1.62;
+}
+
+.policy-page section {
+  padding: 17px 0;
+  border-top: 1px solid var(--line);
+}
+
+.policy-page section h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.policy-page section p + p {
+  margin-top: 9px;
+}
+
+.rights-callout {
+  margin: 12px 0;
+  padding: 11px 13px;
+  border-left: 3px solid var(--blue);
+  background: #f2f6ff;
+}
+
+.rights-callout > strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--ink);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.policy-references {
+  margin-top: 8px;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.policy-references > strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
 }
 
 .search-panel {
