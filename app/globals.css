@@ -181,7 +181,7 @@ h3 {
 }
 
 .brand-copy em {
-  margin-left: 8px;
+  margin-left: 3px;
   color: var(--blue);
   font-style: normal;
   font-weight: 500;
@@ -1198,13 +1198,12 @@ h3 {
   gap: 7px;
 }
 
-.difficulty-grid small {
-  grid-column: 1 / -1;
-  padding-top: 3px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 0.65rem;
-}
+.difficulty-grid span:nth-of-type(1) { grid-column: 1; grid-row: 1; }
+.difficulty-grid span:nth-of-type(2) { grid-column: 1; grid-row: 2; }
+.difficulty-grid span:nth-of-type(3) { grid-column: 1; grid-row: 3; }
+.difficulty-grid span:nth-of-type(4) { grid-column: 2; grid-row: 1; }
+.difficulty-grid span:nth-of-type(5) { grid-column: 2; grid-row: 2; }
+.difficulty-grid span:nth-of-type(6) { grid-column: 2; grid-row: 3; }
 
 .difficulty {
   display: inline-flex;
@@ -1244,11 +1243,17 @@ h3 {
   color: #795500;
 }
 
-.difficulty.gold-plus,
+.difficulty.gold-plus {
+  border-color: #c99d2d;
+  background: linear-gradient(90deg, #fff7dc 0 72%, #e7bd48 72%);
+  color: #735000;
+}
+
 .difficulty.gold-plus-plus {
-  border-color: #be91d2;
-  background: #f8effc;
-  color: #6f318c;
+  border-color: #9f760a;
+  background: #edcc65;
+  color: #563c00;
+  box-shadow: inset 0 0 0 1px #fff1b8;
 }
 
 .participation-list {
@@ -1291,6 +1296,30 @@ h3 {
 
 .person-heading > .award {
   margin-left: auto;
+}
+
+.person-awards {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.person-awards span {
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.person-awards strong {
+  font-size: 1.55rem;
+  letter-spacing: -0.04em;
+}
+
+.no-award {
+  color: var(--muted);
 }
 
 .rank-block {
@@ -1549,6 +1578,11 @@ h3 {
     max-height: 70vh;
     overflow: auto;
     grid-template-columns: 1fr;
+  }
+
+  .difficulty-grid span {
+    grid-column: 1 !important;
+    grid-row: auto !important;
   }
 
   .participation-head {

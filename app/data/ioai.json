@@ -37,8 +37,8 @@
       "countries": 63,
       "tracks": [
         "main",
-        "team",
-        "gaite"
+        "gaite",
+        "team"
       ],
       "officialUrl": "https://ioai-official.org/china-2025/",
       "summary": "The first IOAI with an individual main contest and a separately ranked GAITE contest."
@@ -7118,13 +7118,14 @@
       "track": "main",
       "day": 1,
       "name": "Radar",
-      "category": "Computer vision",
+      "category": "CV",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Radar",
       "tracks": [
         "main",
         "gaite"
-      ]
+      ],
+      "order": 1
     },
     {
       "slug": "chicken-counting",
@@ -7132,13 +7133,14 @@
       "track": "main",
       "day": 1,
       "name": "Chicken Counting",
-      "category": "Computer vision",
+      "category": "CV",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Chicken_Counting",
       "tracks": [
         "main",
         "gaite"
-      ]
+      ],
+      "order": 2
     },
     {
       "slug": "concepts",
@@ -7146,13 +7148,13 @@
       "track": "main",
       "day": 1,
       "name": "Concepts",
-      "category": "Machine learning",
+      "category": "NLP/CV",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Concepts",
       "tracks": [
-        "main",
-        "gaite"
-      ]
+        "main"
+      ],
+      "order": 3
     },
     {
       "slug": "restroom-icon-matching",
@@ -7160,12 +7162,13 @@
       "track": "main",
       "day": 2,
       "name": "Restroom Icon Matching",
-      "category": "Computer vision",
+      "category": "CV",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom",
       "tracks": [
         "main"
-      ]
+      ],
+      "order": 4
     },
     {
       "slug": "antique-painting-authentication",
@@ -7173,12 +7176,13 @@
       "track": "main",
       "day": 2,
       "name": "Antique Painting Authentication",
-      "category": "Computer vision",
+      "category": "ML",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Antique",
       "tracks": [
         "main"
-      ]
+      ],
+      "order": 5
     },
     {
       "slug": "pixel-parsimony-challenge",
@@ -7186,12 +7190,27 @@
       "track": "main",
       "day": 2,
       "name": "Pixel Parsimony Challenge",
-      "category": "Generative AI",
+      "category": "CV",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Pixel",
       "tracks": [
         "main"
-      ]
+      ],
+      "order": 6
+    },
+    {
+      "slug": "resonance-elf",
+      "year": 2025,
+      "track": "gaite",
+      "tracks": [
+        "gaite"
+      ],
+      "day": 1,
+      "order": 3,
+      "name": "Resonance Elf",
+      "category": "ML",
+      "maxScore": 100,
+      "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/GAITE-Contest"
     },
     {
       "slug": "combinatorial-word-segmentation",
@@ -7199,12 +7218,13 @@
       "track": "gaite",
       "day": 2,
       "name": "Combinatorial Word Segmentation",
-      "category": "Natural language processing",
+      "category": "NLP",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/GAITE-Contest/Word_Segmentation",
       "tracks": [
         "gaite"
-      ]
+      ],
+      "order": 4
     },
     {
       "slug": "synthetic-speech-detector",
@@ -7212,12 +7232,13 @@
       "track": "gaite",
       "day": 2,
       "name": "Synthetic Speech Detector",
-      "category": "Audio classification",
+      "category": "Audio",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/GAITE-Contest/Synthetic_Speech_Detector",
       "tracks": [
         "gaite"
-      ]
+      ],
+      "order": 5
     },
     {
       "slug": "chameleon",
@@ -7346,8 +7367,8 @@
       ],
       "day": 1,
       "order": 1,
-      "name": "Task 1",
-      "category": "Contest day 1",
+      "name": "Find the Order",
+      "category": "Audio",
       "maxScore": 100,
       "materials": "https://ioai2026.kz/results/"
     },
@@ -7361,8 +7382,8 @@
       ],
       "day": 1,
       "order": 2,
-      "name": "Task 2",
-      "category": "Contest day 1",
+      "name": "Robot Chasing",
+      "category": "ML",
       "maxScore": 100,
       "materials": "https://ioai2026.kz/results/"
     },
@@ -7376,8 +7397,8 @@
       ],
       "day": 1,
       "order": 3,
-      "name": "Task 3",
-      "category": "Contest day 1",
+      "name": "Potato",
+      "category": "NLP",
       "maxScore": 100,
       "materials": "https://ioai2026.kz/results/"
     },
@@ -7391,8 +7412,8 @@
       ],
       "day": 2,
       "order": 4,
-      "name": "Task 4",
-      "category": "Contest day 2",
+      "name": "Double Agent Dilemma",
+      "category": "CV",
       "maxScore": 100,
       "materials": "https://ioai2026.kz/results/"
     },
@@ -7406,8 +7427,8 @@
       ],
       "day": 2,
       "order": 5,
-      "name": "Task 5",
-      "category": "Contest day 2",
+      "name": "Ghost of Machine",
+      "category": "NLP",
       "maxScore": 100,
       "materials": "https://ioai2026.kz/results/"
     },
@@ -7421,8 +7442,8 @@
       ],
       "day": 2,
       "order": 6,
-      "name": "Task 6",
-      "category": "Contest day 2",
+      "name": "IOAI Field",
+      "category": "ML",
       "maxScore": 100,
       "materials": "https://ioai2026.kz/results/"
     }
