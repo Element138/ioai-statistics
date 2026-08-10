@@ -272,6 +272,10 @@ function resultsFor(year: number, track: "main" | "gaite") {
   return [];
 }
 
+function competitionRank(result: Result) {
+  return resultsFor(result.year, result.track).filter((candidate) => candidate.total > result.total).length + 1;
+}
+
 function allResults(track: "main" | "gaite") {
   return [2025, 2026].flatMap((year) => resultsFor(year, track));
 }
@@ -470,7 +474,7 @@ function ResultsTable({ results, track, compact = false, showYear = false }: {
         <tbody>
           {results.map((result) => (
             <tr key={`${result.year}-${result.track}-${result.rank}-${result.slug}`} className={medalRowClass(result.award)}>
-              <td className="number rank">{result.rank}</td>
+              <td className="number rank">{competitionRank(result)}</td>
               {showYear ? <td className="number"><a href={`/olympiads/${result.year}/results`}>{result.year}</a></td> : null}
               <td><a href={`/contestants/${result.slug}`}>{result.name}</a></td>
               <td>
@@ -950,7 +954,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
           <ScoreDistribution title={`${TRACK_LABELS[effectiveTrack]} · ${task.name}`} entries={allScores.map(({ result, score }) => ({ score, award: result.award }))} maxScore={task.maxScore ?? 100} track={effectiveTrack} />
           <SectionTitle title="Top published task scores" meta={`IOAI ${task.year}`} />
           <div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th>Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
-            {scores.map(({ result, score }, index) => <tr key={result.slug} className={medalRowClass(result.award)}><td className="number rank">{index + 1}</td><td><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatScore(score)}</td><td className="number">{result.rank}</td><td><AwardBadge award={result.award} /></td></tr>)}
+            {scores.map(({ result, score }, index) => <tr key={result.slug} className={medalRowClass(result.award)}><td className="number rank">{index + 1}</td><td><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatScore(score)}</td><td className="number">{competitionRank(result)}</td><td><AwardBadge award={result.award} /></td></tr>)}
           </tbody></table></div>
         </>
       )}
@@ -1028,7 +1032,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
-          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} /><strong>Rank {result.rank}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a></td><td className="number total">{formatScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatScore(result.total)}</td></tr></tbody></table></div></section>;
+          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} /><strong>Rank {competitionRank(result)}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a></td><td className="number total">{formatScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatScore(result.total)}</td></tr></tbody></table></div></section>;
         })}
       </div>
     </>
