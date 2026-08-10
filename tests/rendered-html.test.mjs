@@ -50,10 +50,17 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(app, /topSolverEntries\(task, effectiveTrack\)/);
   assert.match(app, /Half of Individual contestants reached 50\./);
   assert.match(app, /className="difficulty basic">Basic<\/b>/);
-  assert.match(app, /SectionTitle title="Commentary" meta="Editorial note"/);
+  assert.match(app, /Fewer than a quarter reached 50\./);
+  assert.match(app, /Maximum possible score/);
+  assert.match(app, /<dt>GAITE tasks<\/dt><dd>Shared with Individual<\/dd>/);
+  assert.match(app, /SectionTitle title="Commentary" \/>/);
+  assert.doesNotMatch(app, /Editorial note/);
   assert.match(app, /<p className="eyebrow">Contestant<\/p>/);
   assert.match(css, /\.difficulty-rule\s*\{[^}]*overflow-wrap:\s*anywhere/s);
   assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
+  assert.match(css, /\.main-content:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*20/s);
+  assert.match(css, /\.task-commentary-list li:nth-child\(2\)\s*\{\s*grid-column:\s*1;\s*grid-row:\s*2;/s);
+  assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.task-commentary-list li\s*\{[^}]*grid-column:\s*1 !important;[^}]*grid-row:\s*auto !important;/s);
   assert.match(css, /\.footer-grid p a\s*\{[^}]*display:\s*inline/s);
   assert.match(layout, /icon:\s*"\/ioai-statistics-logo\.png"/);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));

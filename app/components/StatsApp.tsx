@@ -431,7 +431,7 @@ function DifficultyLegend({ compact = false }: { compact?: boolean }) {
         <div className="difficulty-item"><b className="difficulty silver">Silver</b><span className="difficulty-rule">Half of silver medallists reached 50.</span></div>
         <div className="difficulty-item"><b className="difficulty gold">Gold</b><span className="difficulty-rule">Half of gold medallists reached 50.</span></div>
         <div className="difficulty-item"><b className="difficulty gold-plus">Gold+</b><span className="difficulty-rule">A quarter of gold medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty gold-plus-plus">Gold++</b><span className="difficulty-rule">Fewer than a quarter did.</span></div>
+        <div className="difficulty-item"><b className="difficulty gold-plus-plus">Gold++</b><span className="difficulty-rule">Fewer than a quarter reached 50.</span></div>
       </div>
     </details>
   );
@@ -768,13 +768,13 @@ function EditionMain({ edition }: { edition: Edition }) {
           <SectionTitle title={hasIndividualResults ? "Awards" : "Competition format"} />
           {hasIndividualResults && awards ? (
             <dl className="detail-list awards-list">
-              <div><dt>Maximum individual score</dt><dd>600</dd></div>
+              <div><dt>Maximum possible score</dt><dd>600</dd></div>
               <div><dt><span className="medal-dot gold-dot" />Gold medals</dt><dd>{awards.gold}</dd></div>
               <div><dt><span className="medal-dot silver-dot" />Silver medals</dt><dd>{awards.silver}</dd></div>
               <div><dt><span className="medal-dot bronze-dot" />Bronze medals</dt><dd>{awards.bronze}</dd></div>
               <div><dt>Honourable mentions</dt><dd>{awards.mention}</dd></div>
               <div><dt>GAITE awards</dt><dd>Separate</dd></div>
-              {edition.year === 2026 ? <div><dt>Task set</dt><dd>Shared with GAITE</dd></div> : null}
+              {edition.year === 2026 ? <div><dt>GAITE tasks</dt><dd>Shared with Individual</dd></div> : null}
             </dl>
           ) : (
             <>
@@ -790,7 +790,7 @@ function EditionMain({ edition }: { edition: Edition }) {
       </div>
       {edition.summary ? (
         <section className="edition-commentary">
-          <SectionTitle title="Commentary" meta="Editorial note" />
+          <SectionTitle title="Commentary" />
           <p>{edition.summary}</p>
           {edition.taskCommentary?.length ? (
             <ol className="task-commentary-list">

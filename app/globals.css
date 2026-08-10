@@ -1014,6 +1014,13 @@ h3 {
   color: var(--ink);
 }
 
+.task-commentary-list li:nth-child(1) { grid-column: 1; grid-row: 1; }
+.task-commentary-list li:nth-child(2) { grid-column: 1; grid-row: 2; }
+.task-commentary-list li:nth-child(3) { grid-column: 1; grid-row: 3; }
+.task-commentary-list li:nth-child(4) { grid-column: 2; grid-row: 1; }
+.task-commentary-list li:nth-child(5) { grid-column: 2; grid-row: 2; }
+.task-commentary-list li:nth-child(6) { grid-column: 2; grid-row: 3; }
+
 .body-copy {
   margin-top: 15px;
   color: #4f5d74;
@@ -2003,9 +2010,10 @@ h3 {
 
   .difficulty-grid {
     position: fixed;
+    z-index: 21;
     top: auto;
     right: 11px;
-    bottom: 11px;
+    bottom: max(11px, env(safe-area-inset-bottom));
     left: 11px;
     width: auto;
     max-height: 70vh;
@@ -2018,8 +2026,17 @@ h3 {
     grid-row: auto !important;
   }
 
+  .main-content:has(.difficulty-legend[open]) {
+    z-index: 20;
+  }
+
   .task-commentary-list {
     grid-template-columns: 1fr;
+  }
+
+  .task-commentary-list li {
+    grid-column: 1 !important;
+    grid-row: auto !important;
   }
 
   .participation-head {
