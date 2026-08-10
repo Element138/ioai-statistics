@@ -330,10 +330,11 @@ function taskScoreRank(task: Task, track: "main" | "gaite", score: number) {
   return taskScoreEntries(task, track).filter((candidate) => candidate.score > score).length + 1;
 }
 
-const TASK_SCORE_THRESHOLD = 25;
+const DIFFICULTY_SCORE_THRESHOLD = 50;
+const TOP_SOLVER_SCORE_THRESHOLD = 0;
 
 function isTopSolver(task: Task, track: "main" | "gaite", score: number | null | undefined) {
-  return score !== null && score !== undefined && score >= TASK_SCORE_THRESHOLD && taskScoreRank(task, track, score) <= 10;
+  return score !== null && score !== undefined && score > TOP_SOLVER_SCORE_THRESHOLD && taskScoreRank(task, track, score) <= 10;
 }
 
 function isFirstInDelegation(result: Result) {
@@ -348,7 +349,7 @@ function taskDifficulty(task: Task): Difficulty | null {
   if (!taskTracks(task).includes("main")) return null;
   const entries = taskScoreEntries(task, "main");
   if (!entries.length) return null;
-  const passRate = (items: typeof entries) => items.length ? items.filter((item) => item.score >= TASK_SCORE_THRESHOLD).length / items.length : 0;
+  const passRate = (items: typeof entries) => items.length ? items.filter((item) => item.score >= DIFFICULTY_SCORE_THRESHOLD).length / items.length : 0;
   if (passRate(entries) >= 0.5) return "basic";
 
   const cohort = (medal: "bronze" | "silver" | "gold") => entries.filter((item) => medalBand(item.result.award) === medal);
@@ -418,12 +419,12 @@ function DifficultyLegend({ compact = false }: { compact?: boolean }) {
     <details className={`difficulty-legend${compact ? " compact" : ""}`}>
       <summary>{compact ? <><span aria-hidden="true">?</span><span className="sr-only">Difficulty scale</span></> : "Difficulty scale"}</summary>
       <div className="difficulty-grid">
-        <span><b className="difficulty basic">basic</b>Half of Individual contestants reached 25.</span>
-        <span><b className="difficulty bronze">bronze</b>Half of bronze medallists reached 25.</span>
-        <span><b className="difficulty silver">silver</b>Half of silver medallists reached 25.</span>
-        <span><b className="difficulty gold">gold</b>Half of gold medallists reached 25.</span>
-        <span><b className="difficulty gold-plus">gold+</b>A quarter of gold medallists reached 25.</span>
-        <span><b className="difficulty gold-plus-plus">gold++</b>Fewer than a quarter did.</span>
+        <div className="difficulty-item"><b className="difficulty basic">basic</b><span className="difficulty-rule">Half of Individual contestants reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty bronze">bronze</b><span className="difficulty-rule">Half of bronze medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty silver">silver</b><span className="difficulty-rule">Half of silver medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty gold">gold</b><span className="difficulty-rule">Half of gold medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty gold-plus">gold+</b><span className="difficulty-rule">A quarter of gold medallists reached 50.</span></div>
+        <div className="difficulty-item"><b className="difficulty gold-plus-plus">gold++</b><span className="difficulty-rule">Fewer than a quarter did.</span></div>
       </div>
     </details>
   );
@@ -1044,7 +1045,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
   const effectiveTrack = availableTracks.includes(selectedTrack as "main" | "gaite") ? selectedTrack as "main" | "gaite" : availableTracks[0];
   const allScores = task.track === "team" ? [] : taskScoreEntries(task, effectiveTrack);
   const scores = [...allScores]
-    .filter((entry) => entry.score >= TASK_SCORE_THRESHOLD)
+    .filter((entry) => entry.score > TOP_SOLVER_SCORE_THRESHOLD)
     .sort((a, b) => b.score - a.score || competitionRank(a.result) - competitionRank(b.result))
     .map((entry) => ({ ...entry, taskRank: allScores.filter((candidate) => candidate.score > entry.score).length + 1 }))
     .filter((entry) => entry.taskRank <= 10);
@@ -1062,7 +1063,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
           <SectionTitle title="Top solvers" meta={`IOAI ${task.year}`} />
           {scores.length ? <div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th>Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
             {scores.map(({ result, score, taskRank }) => <tr key={result.slug} className={medalRowClass(result.award)}><td className="number rank">{taskRank}</td><td><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatScore(score)}</td><td className="number">{competitionRank(result)}</td><td><AwardBadge award={result.award} /></td></tr>)}
-          </tbody></table></div> : <EmptyState title="No solvers reached 25 points">No published score meets the Top solvers threshold for this track.</EmptyState>}
+          </tbody></table></div> : <EmptyState title="No positive task scores">No published score exceeds 0.0 points for this track.</EmptyState>}
         </>
       )}
     </>
@@ -1135,7 +1136,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
   const awards = awardTypeCounts(entries);
   return (
     <>
-      <div className="person-heading"><div><p className="eyebrow">IOAI contestant</p><h1>{latest.name}</h1><a className="country-link" href={`/countries/${slugify(latest.country)}`}><Flag country={latest.country} />{latest.country}</a></div>{awards.length ? <div className="person-awards" aria-label="Awards received">{awards.map(({ type, count }) => <div className={`person-award-count ${type.toLowerCase().replace(" ", "-")}`} key={type}><span>{type}</span><strong>{count}</strong></div>)}</div> : null}</div>
+      <div className="person-heading"><div><p className="eyebrow">Contestant</p><h1>{latest.name}</h1><a className="country-link" href={`/countries/${slugify(latest.country)}`}><Flag country={latest.country} />{latest.country}</a></div>{awards.length ? <div className="person-awards" aria-label="Awards received">{awards.map(({ type, count }) => <div className={`person-award-count ${type.toLowerCase().replace(" ", "-")}`} key={type}><span>{type}</span><strong>{count}</strong></div>)}</div> : null}</div>
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
@@ -1260,6 +1261,7 @@ function SiteHeader({ pathname }: { pathname: string }) {
     <header className="site-header">
       <div className="brand-row shell">
         <a className="brand" href="/" aria-label="IOAI Statistics home">
+          <img className="brand-mark" src="/ioai-statistics-logo.png" width="34" height="34" alt="" aria-hidden="true" />
           <span className="brand-copy">IOAI Statistics</span>
         </a>
       </div>
@@ -1277,8 +1279,8 @@ function SiteFooter() {
     <footer className="site-footer">
       <div className="shell footer-grid">
         <div><strong>IOAI Statistics</strong><p>An unofficial archive made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
-        <div><span>With thanks</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
-        <div><span>Corrections</span><p><strong>@aka138</strong> on Discord</p><div className="footer-links"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></div><small>Data snapshot · {DATA.updated}</small></div>
+        <div><span>Inspired by</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
+        <div className="footer-meta"><p className="footer-corrections"><span>Corrections</span><strong>@aka138</strong><span>on Discord</span></p><nav className="footer-links" aria-label="Footer"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></nav><small>Data snapshot · {DATA.updated}</small></div>
       </div>
     </footer>
   );

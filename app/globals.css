@@ -163,6 +163,13 @@ h3 {
   text-decoration: none;
 }
 
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 .brand-copy {
   overflow: hidden;
   font-size: 1.08rem;
@@ -1372,19 +1379,27 @@ h3 {
   box-shadow: 0 12px 30px rgba(20, 32, 52, 0.12);
 }
 
-.difficulty-grid span {
+.difficulty-item {
+  min-width: 0;
   display: grid;
   grid-template-columns: 64px 1fr;
   align-items: start;
   gap: 7px;
 }
 
-.difficulty-grid span:nth-of-type(1) { grid-column: 1; grid-row: 1; }
-.difficulty-grid span:nth-of-type(2) { grid-column: 1; grid-row: 2; }
-.difficulty-grid span:nth-of-type(3) { grid-column: 1; grid-row: 3; }
-.difficulty-grid span:nth-of-type(4) { grid-column: 2; grid-row: 1; }
-.difficulty-grid span:nth-of-type(5) { grid-column: 2; grid-row: 2; }
-.difficulty-grid span:nth-of-type(6) { grid-column: 2; grid-row: 3; }
+.difficulty-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+.difficulty-item:nth-child(2) { grid-column: 1; grid-row: 2; }
+.difficulty-item:nth-child(3) { grid-column: 1; grid-row: 3; }
+.difficulty-item:nth-child(4) { grid-column: 2; grid-row: 1; }
+.difficulty-item:nth-child(5) { grid-column: 2; grid-row: 2; }
+.difficulty-item:nth-child(6) { grid-column: 2; grid-row: 3; }
+
+.difficulty-rule {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+  text-transform: none;
+}
 
 .difficulty {
   display: inline-flex;
@@ -1397,7 +1412,6 @@ h3 {
   font-size: 0.65rem;
   font-weight: 700;
   line-height: 1.2;
-  text-transform: uppercase;
 }
 
 .difficulty.basic {
@@ -1790,6 +1804,11 @@ h3 {
   margin-bottom: 4px;
 }
 
+.footer-grid p a {
+  display: inline;
+  margin: 0;
+}
+
 .footer-grid a {
   display: block;
   margin-bottom: 4px;
@@ -1805,6 +1824,28 @@ h3 {
 .footer-grid .footer-links a {
   display: inline;
   margin: 0;
+}
+
+.footer-meta {
+  display: grid;
+  justify-items: start;
+  align-content: start;
+  gap: 5px;
+}
+
+.footer-corrections {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 5px;
+}
+
+.footer-corrections > span:first-child {
+  width: 100%;
+  margin-bottom: 1px;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .footer-grid small {
@@ -1932,7 +1973,7 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .difficulty-grid span {
+  .difficulty-item {
     grid-column: 1 !important;
     grid-row: auto !important;
   }

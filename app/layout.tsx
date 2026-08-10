@@ -16,6 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s · IOAI Statistics",
     },
     description,
+    icons: {
+      icon: "/ioai-statistics-logo.png",
+      shortcut: "/ioai-statistics-logo.png",
+      apple: "/ioai-statistics-logo.png",
+    },
     openGraph: {
       type: "website",
       url: origin,
