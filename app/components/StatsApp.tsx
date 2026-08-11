@@ -704,6 +704,28 @@ function countAwards(results: Result[]) {
   return counts;
 }
 
+function countGaiteAwards(results: Result[]) {
+  const counts = { level1: 0, level2: 0, level3: 0, mention: 0 };
+  for (const result of results) {
+    const type = awardType(result.award);
+    if (type === "Level 1") counts.level1 += 1;
+    else if (type === "Level 2") counts.level2 += 1;
+    else if (type === "Level 3") counts.level3 += 1;
+    else if (type === "HM") counts.mention += 1;
+  }
+  return counts;
+}
+
+function CountryAwardSummary({ track, counts }: {
+  track: "main" | "gaite";
+  counts: { gold?: number; silver?: number; bronze?: number; level1?: number; level2?: number; level3?: number; mention: number };
+}) {
+  const items = track === "main"
+    ? [["G", counts.gold ?? 0, "gold"], ["S", counts.silver ?? 0, "silver"], ["B", counts.bronze ?? 0, "bronze"], ["HM", counts.mention, "mention"]] as const
+    : [["L1", counts.level1 ?? 0, "level-1"], ["L2", counts.level2 ?? 0, "level-2"], ["L3", counts.level3 ?? 0, "level-3"], ["HM", counts.mention, "mention"]] as const;
+  return <div className="country-award-grid">{items.map(([label, count, className]) => <span className={className} key={label}><small>{label}</small><strong>{count}</strong></span>)}</div>;
+}
+
 function FlagRing() {
   const ringRef = useRef<HTMLDivElement>(null);
   useEffect(() => ringRef.current?.style.setProperty("--ring-start-angle", `${Math.random() * 360}deg`), []);
@@ -1173,7 +1195,7 @@ function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Tr
   const summaries = COUNTRY_RANKINGS[effectiveTrack].filter((summary) => !normalized || summary.country.toLocaleLowerCase().includes(normalized));
   return (
     <>
-      <div className="page-heading"><p className="eyebrow">Participation & awards</p><h1>Countries</h1></div>
+      <div className="page-heading"><p className="eyebrow">All-time national records</p><h1>Countries</h1></div>
       <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /><CompactFilter id="countries-filter" value={query} onChange={setQuery} placeholder="Filter countries" label="Filter country rankings" count={summaries.length} /></div>
       <CountrySummaryTable summaries={summaries} track={effectiveTrack} />
     </>
@@ -1185,7 +1207,8 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   if (!country) return <NotFoundPage />;
   const availableMain = COUNTRY_RESULTS.main.filter((result) => result.country === country);
   const availableGaite = COUNTRY_RESULTS.gaite.filter((result) => result.country === country);
-  const effectiveTrack = track === "gaite" && availableGaite.length ? "gaite" : "main";
+  const gaiteOnly = !availableMain.length && availableGaite.length > 0;
+  const effectiveTrack = gaiteOnly || (track === "gaite" && availableGaite.length) ? "gaite" : "main";
   const latestMainYear = Math.max(0, ...availableMain.map((result) => result.year));
   const latestGaiteYear = Math.max(0, ...availableGaite.map((result) => result.year));
   const nationalRankTrack: "main" | "gaite" = availableGaite.length && (!availableMain.length || latestGaiteYear > latestMainYear) ? "gaite" : "main";
@@ -1195,20 +1218,22 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
     .sort((a, b) => b - a)
     .flatMap((year) => {
       const summary = yearCountryRankings(year, effectiveTrack).find((item) => item.country === country);
-      return summary ? [{ year, summary }] : [];
+      const poolSize = yearCountryRankings(year, effectiveTrack).length;
+      return summary ? [{ year, summary, poolSize }] : [];
     });
   const awards = countAwards(availableMain);
+  const gaiteAwards = countGaiteAwards(availableGaite);
   return (
     <>
-      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={`All-time ${nationalRankTrack === "main" ? "Individual" : "GAITE"} national rank ${nationalRank}`}><span>All-time {nationalRankTrack === "main" ? "Individual" : "GAITE"} rank</span><strong>#{nationalRank ?? "—"}</strong></div><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={`All-time ${nationalRankTrack === "main" ? "Individual" : "GAITE"} national rank ${nationalRank}`}><span>{nationalRankTrack === "main" ? "Individual" : "GAITE"}</span><strong>#{nationalRank ?? "—"}</strong></div><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
       <div className="metric-strip">
         <div><span>Result entries</span><strong>{availableMain.length + availableGaite.length}</strong></div>
         <div><span>Participating editions</span><strong>{new Set([...availableMain, ...availableGaite].map((result) => result.year)).size}</strong></div>
-        <div><span>Individual medals</span><strong>{awards.gold + awards.silver + awards.bronze}</strong></div>
-        <div><span>GAITE entries</span><strong>{availableGaite.length}</strong></div>
+        <div className="country-awards-metric"><span>Individual awards</span><CountryAwardSummary track="main" counts={awards} /></div>
+        <div className="country-awards-metric"><span>GAITE awards</span><CountryAwardSummary track="gaite" counts={gaiteAwards} /></div>
       </div>
-      <div className="toolbar-row"><SectionTitle title="Year-level national ranks" />{availableGaite.length ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : <span className="track-badge main">Individual</span>}</div>
-      {yearRankRows.length ? <div className="table-wrap country-year-ranks"><table className="data-table"><thead><tr><th className="number">Year</th><th className="number">National rank</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>{yearRankRows.map(({ year, summary }) => <tr key={`${year}-${effectiveTrack}`}><td className="number"><a href={`/olympiads/${year}/delegations`}>{year}</a></td><td className="number rank">#{summary.rank}</td><td className="number">{summary.contestants}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(summary.bronze)}</td><td className="number">{formatAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(summary.level3)}</td><td className="number">{formatAwardCount(summary.mention)}</td></>}</tr>)}</tbody></table></div> : null}
+      <div className="toolbar-row"><SectionTitle title="Year-level national results" />{availableMain.length && availableGaite.length ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : <span className={`track-badge ${effectiveTrack}`}>{effectiveTrack === "gaite" ? "GAITE" : "Individual"}</span>}</div>
+      {yearRankRows.length ? <div className="table-wrap country-year-ranks"><table className="data-table"><thead><tr><th className="number">Year</th><th className="number">National rank</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>{yearRankRows.map(({ year, summary, poolSize }) => <tr key={`${year}-${effectiveTrack}`}><td className="number"><a href={`/olympiads/${year}/delegations`}>{year}</a></td><td className="number rank">#{summary.rank} of {poolSize}</td><td className="number">{summary.contestants}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(summary.bronze)}</td><td className="number">{formatAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(summary.level3)}</td><td className="number">{formatAwardCount(summary.mention)}</td></>}</tr>)}</tbody></table></div> : null}
       <SectionTitle title="Contestant results" />
       {results.length ? <ResultsTable results={results} track={effectiveTrack === "gaite" ? "gaite" : "main"} compact showYear /> : <EmptyState title="No results in this track">This country has no published final scores for the selected track.</EmptyState>}
     </>

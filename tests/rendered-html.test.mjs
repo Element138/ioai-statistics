@@ -166,19 +166,29 @@ test("shows the appropriate national ranking and caches country summaries", asyn
 
   const individualHtml = await (await render("/countries/japan")).text();
   assert.match(individualHtml, /rank-block country-rank-block main/);
-  assert.match(individualHtml, />All-time (?:<!-- -->)?Individual(?:<!-- -->)? rank<\/span>/);
-  assert.match(individualHtml, />Year-level national ranks<\/h2>/);
+  assert.match(individualHtml, /<span>Individual<\/span><strong>#/);
+  assert.doesNotMatch(individualHtml, />All-time (?:<!-- -->)?Individual/);
+  assert.match(individualHtml, />Year-level national results<\/h2>/);
   assert.match(individualHtml, /<th class="number">National rank<\/th>/);
   assert.match(individualHtml, /href="\/olympiads\/2026\/delegations"/);
+  assert.match(individualHtml, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? of (?:<!-- -->)?\d+<\/td>/);
+  assert.match(individualHtml, /<span>Individual awards<\/span>/);
+  assert.match(individualHtml, /<small>G<\/small><strong>1<\/strong>/);
+  assert.match(individualHtml, /<small>HM<\/small><strong>0<\/strong>/);
+  assert.match(individualHtml, /<span>GAITE awards<\/span>/);
 
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
   assert.match(gaiteHtml, /rank-block country-rank-block gaite/);
-  assert.match(gaiteHtml, />All-time (?:<!-- -->)?GAITE(?:<!-- -->)? rank<\/span>/);
+  assert.match(gaiteHtml, /<span>GAITE<\/span><strong>#/);
+  assert.match(gaiteHtml, /track-badge gaite">GAITE<\/span>/);
+  assert.doesNotMatch(gaiteHtml, />Individual<\/button>|No results in this track/);
+  assert.match(gaiteHtml, /<small>L1<\/small><strong>\d+<\/strong>/);
 
   const countriesHtml = await (await render("/countries")).text();
+  assert.match(countriesHtml, />All-time national records<\/p>/);
   assert.match(countriesHtml, /class="number medal-count gold-count">—<\/td>/);
   assert.match(countriesHtml, /class="number medal-count silver-count">—<\/td>/);
-  assert.match(individualHtml, /<span>GAITE entries<\/span><strong>0<\/strong>/);
+  assert.doesNotMatch(individualHtml, /Individual medals|GAITE entries/);
 });
 
 test("ranks year-level delegations, includes IOAI Team there only, and leaves 2024 unranked", async () => {
@@ -195,8 +205,8 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   assert.doesNotMatch(allTime, />IOAI Team<\/a>/);
 
   const ioaiTeam = await (await render("/countries/ioai-team")).text();
-  assert.match(ioaiTeam, />All-time (?:<!-- -->)?Individual(?:<!-- -->)? rank<\/span><strong>#(?:<!-- -->)?—<\/strong>/);
-  assert.match(ioaiTeam, />Year-level national ranks<\/h2>/);
+  assert.match(ioaiTeam, /<span>Individual<\/span><strong>#(?:<!-- -->)?—<\/strong>/);
+  assert.match(ioaiTeam, />Year-level national results<\/h2>/);
 
   const unranked2024 = await (await render("/olympiads/2024/delegations")).text();
   const unrankedTable = unranked2024.slice(unranked2024.indexOf('<table class="data-table">'));

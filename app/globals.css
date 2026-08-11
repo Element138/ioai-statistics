@@ -1232,12 +1232,12 @@ h3 {
   border: 1px solid var(--line-strong);
 }
 
-.metric-strip div {
+.metric-strip > div {
   padding: 12px 14px;
   border-right: 1px solid var(--line);
 }
 
-.metric-strip div:last-child {
+.metric-strip > div:last-child {
   border-right: 0;
 }
 
@@ -1255,6 +1255,44 @@ h3 {
   margin-top: 2px;
   font-size: 1.25rem;
 }
+
+.country-award-grid {
+  margin-top: 6px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(24px, 1fr));
+  gap: 5px;
+}
+
+.country-award-grid span {
+  padding-left: 6px;
+  border-left: 1px solid var(--line);
+}
+
+.country-award-grid span:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.country-award-grid small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.country-award-grid strong {
+  margin-top: 0;
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.country-award-grid .gold strong { color: var(--gold); }
+.country-award-grid .silver strong { color: var(--silver); }
+.country-award-grid .bronze strong { color: var(--bronze); }
+.country-award-grid .level-1 strong { color: #176a45; }
+.country-award-grid .level-2 strong { color: #58a97b; }
+.country-award-grid .level-3 strong { color: #79b891; }
 
 .task-heading {
   margin-bottom: 15px;
@@ -2198,11 +2236,11 @@ h3 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .metric-strip div:nth-child(2) {
+  .metric-strip > div:nth-child(2) {
     border-right: 0;
   }
 
-  .metric-strip div:nth-child(-n + 2) {
+  .metric-strip > div:nth-child(-n + 2) {
     border-bottom: 1px solid var(--line);
   }
 
