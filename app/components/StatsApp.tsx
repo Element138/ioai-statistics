@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
+import AnalyticsConsent, { openAnalyticsSettings } from "./AnalyticsConsent";
 
 type Track = "main" | "gaite" | "team";
 type TaskTrack = Track | "home";
@@ -1412,7 +1413,7 @@ function PrivacyPage() {
 
       <div className="policy-summary">
         <strong>In brief</strong>
-        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts or advertising and does not embed visitor analytics or advertising code. The operator uses Google Search Console for Google Search performance and indexing information; it does not add visitor-side tracking to the archive. Its optional general feedback form is designed not to collect personal information.</p>
+        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts or advertising. Optional Google Analytics measurement is used only after a visitor accepts it, primarily to understand real-user site performance and general use. Refusing analytics does not affect access to the site. Its optional general feedback form is designed not to collect personal information.</p>
       </div>
 
       <section>
@@ -1441,11 +1442,15 @@ function PrivacyPage() {
         <p>The general feedback form is not intended to collect information from a child who cannot validly submit it under applicable law. No one should submit private information about another child unless reasonably necessary to raise and resolve a genuine concern.</p>
       </section>
 
-      <section>
+      <section id="analytics">
         <h2>5. Visitor data, cookies and external services</h2>
-        <p>The archive code does not create user accounts, store information in browser storage, run advertising, embed visitor analytics or advertising trackers, or set cookies. The hosting service may process ordinary technical data—such as IP address, device and browser information, requested URL, timestamps and security events—and may use strictly necessary security technology to deliver and protect the site.</p>
+        <p>The archive does not create user accounts or run advertising. It stores a visitor&apos;s analytics choice in the visitor&apos;s browser until the visitor changes it or clears browser data. Until the visitor accepts analytics, the archive does not load Google Analytics, send analytics events to Google or set Google Analytics cookies. Refusing analytics has no effect on access to the site.</p>
+        <p>If a visitor accepts, the archive loads Google Analytics 4 to measure page visits, general use and real-user performance, including Core Web Vitals. Information can include visited pages, scrolling, outbound-link clicks, downloads, on-site search terms, supported form or video interactions, event and session statistics, broad referral information, approximate location, browser and device characteristics, and performance measurements such as loading speed, visual stability and interaction responsiveness. Visitors should not enter private information in the site search. Google receives the visitor&apos;s IP address when the analytics request is made; Google states that GA4 uses it to derive approximate location and discards it before the address is logged. Google Analytics may set first-party cookies including <code>_ga</code> and a property-specific <code>_ga_*</code> cookie to distinguish browsers and sessions. Google states that its principal <code>_ga</code> cookie lasts for up to two years unless it is deleted sooner.</p>
+        <p>Analytics is configured without Google advertising storage, advertising user data, advertising personalization or Google Signals. The archive does not deliberately send private contact details or feedback-form contents to Google Analytics. Because page addresses and site-search terms are measured, they can include public contestant, country or task names already used by the archive; visitors should not put private information into a search. The operator does not use Analytics for advertising or attempt to identify individual visitors. Analytics reports are used to diagnose site performance, understand which pages and features are useful, and improve navigation and content.</p>
+        <p>A visitor may change or withdraw the choice at any time through <button type="button" className="policy-inline-button" onClick={openAnalyticsSettings}>Analytics settings</button> in the footer. Withdrawal stops further Analytics collection by the archive and removes accessible Google Analytics cookies from the current domain. Google handles information already received under its <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a> and explains its role in <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noreferrer">How Google uses information from sites or apps that use its services</a>.</p>
+        <p>The hosting service may process ordinary technical data—such as IP address, device and browser information, requested URL, timestamps and security events—and may use strictly necessary security technology to deliver and protect the site.</p>
         <p>The site is currently hosted through ChatGPT Sites by OpenAI. OpenAI processes hosted data to provide, secure and support the service under the applicable <a href="https://openai.com/policies/chatgpt-sites-data-processing-addendum/" target="_blank" rel="noreferrer">Sites Data Processing Addendum</a> and <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noreferrer">Privacy Policy</a>.</p>
-        <p>The operator uses <a href="https://support.google.com/webmasters/answer/7576553" target="_blank" rel="noreferrer">Google Search Console</a> to monitor indexing and how the domain appears and performs in Google Search. Search Console can report grouped search-performance information including queries, pages, clicks, impressions, click-through rate, average position, country and device category; Google omits some queries to protect user privacy. No Google Analytics, Tag Manager, pixel or other Google tracking code has been added to the archive, and the archive does not set Google cookies. The information available to the operator comes from activity on Google&apos;s own services, is handled by Google under its <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>, and is used only to maintain discoverability, diagnose indexing issues and understand search performance.</p>
+        <p>The operator also uses <a href="https://support.google.com/webmasters/answer/7576553" target="_blank" rel="noreferrer">Google Search Console</a> to monitor indexing and how the domain appears and performs in Google Search. Search Console can report grouped search-performance information including queries, pages, clicks, impressions, click-through rate, average position, country and device category; Google omits some queries to protect user privacy. Search Console information available to the operator comes from activity on Google&apos;s own services and is used only to maintain discoverability, diagnose indexing issues and understand search performance.</p>
         <p>Country flag images are loaded from <a href="https://flagcdn.com/" target="_blank" rel="noreferrer">FlagCDN</a>. To deliver an image, FlagCDN receives the visitor&apos;s IP address; requests are sent without a referrer. Other external sites receive data under their own policies only when a visitor follows a link.</p>
       </section>
 
@@ -1498,19 +1503,19 @@ function SiteHeader({ pathname }: { pathname: string }) {
   );
 }
 
-function SiteFooter() {
+function SiteFooter({ analyticsEnabled }: { analyticsEnabled: boolean }) {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
         <div><strong>IOAI Statistics</strong><p>An unofficial report made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
         <div><span>Inspired by</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
-        <div className="footer-meta"><p className="footer-corrections"><span>Corrections</span><strong>@aka138</strong><span>on Discord</span></p><nav className="footer-links" aria-label="Footer"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></nav><small>Data snapshot · {DATA.updated}</small></div>
+        <div className="footer-meta"><p className="footer-corrections"><span>Corrections</span><strong>@aka138</strong><span>on Discord</span></p><nav className="footer-links" aria-label="Footer"><a href="/privacy">Privacy Policy</a>{analyticsEnabled ? <><span aria-hidden="true">·</span><button type="button" onClick={openAnalyticsSettings}>Analytics settings</button></> : null}<span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></nav><small>Data snapshot · {DATA.updated}</small></div>
       </div>
     </footer>
   );
 }
 
-export default function StatsApp() {
+export default function StatsApp({ analyticsMeasurementId = "" }: { analyticsMeasurementId?: string }) {
   const pathname = usePathname() || "/";
   const parts = pathname.split("/").filter(Boolean);
   const [track, setTrack] = useState<Track>("main");
@@ -1535,7 +1540,8 @@ export default function StatsApp() {
     <div className="site-frame">
       <SiteHeader pathname={pathname} />
       <main className="shell main-content">{page}</main>
-      <SiteFooter />
+      <SiteFooter analyticsEnabled={/^G-[A-Z0-9]+$/.test(analyticsMeasurementId)} />
+      <AnalyticsConsent measurementId={analyticsMeasurementId} />
     </div>
   );
 }

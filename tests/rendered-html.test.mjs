@@ -286,16 +286,21 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
 });
 
-test("accurately and concisely discloses Search Console and FlagCDN", async () => {
+test("accurately discloses consent-based Analytics, Search Console and FlagCDN", async () => {
   const privacy = await (await render("/privacy")).text();
   assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 11 August 2026/);
-  assert.match(privacy, /does not embed visitor analytics or advertising code/);
+  assert.match(privacy, /Optional Google Analytics measurement is used only after a visitor accepts it/);
+  assert.match(privacy, /does not load Google Analytics, send analytics events to Google or set Google Analytics cookies/);
+  assert.match(privacy, /Core Web Vitals/);
+  assert.match(privacy, /scrolling, outbound-link clicks, downloads, on-site search terms/);
+  assert.match(privacy, /without Google advertising storage, advertising user data, advertising personalization or Google Signals/);
+  assert.match(privacy, /<code>_ga<\/code>/);
+  assert.match(privacy, />Analytics settings<\/button>/);
+  assert.match(privacy, />How Google uses information from sites or apps that use its services<\/a>/);
   assert.match(privacy, />Google Search Console<\/a>/);
   assert.match(privacy, /queries, pages, clicks, impressions, click-through rate, average position, country and device category/);
-  assert.match(privacy, /No Google Analytics, Tag Manager, pixel or other Google tracking code has been added to the archive/);
   assert.match(privacy, /Google omits some queries to protect user privacy/);
   assert.doesNotMatch(privacy, /DNS TXT record|Domain ownership was verified/);
-  assert.doesNotMatch(privacy, /no accounts, advertising or first-party analytics|use first-party analytics/);
   assert.match(privacy, /Country flag images are loaded from (?:<a[^>]*>)?FlagCDN<\/a>/);
   assert.match(privacy, /FlagCDN receives the visitor(?:&#x27;|')s IP address; requests are sent without a referrer/);
   const flagParagraphStart = privacy.indexOf("Country flag images are loaded");
@@ -304,7 +309,26 @@ test("accurately and concisely discloses Search Console and FlagCDN", async () =
 
   const home = await (await render("/")).text();
   const head = home.slice(0, home.indexOf("</head>") + "</head>".length);
+  assert.match(home, /G-CFGLEYBWXG/);
+  assert.match(home, />Analytics settings<\/button>/);
   assert.doesNotMatch(head, /googletagmanager\.com|google-analytics\.com|gtag\s*\(/i);
+});
+
+test("loads GA and real-user performance measurement only after consent", async () => {
+  const analytics = await readFile(new URL("../app/components/AnalyticsConsent.tsx", import.meta.url), "utf8");
+  assert.match(analytics, /analytics_storage: "denied"/);
+  assert.match(analytics, /ad_storage: "denied"/);
+  assert.match(analytics, /ad_user_data: "denied"/);
+  assert.match(analytics, /ad_personalization: "denied"/);
+  assert.match(analytics, /choice !== "granted"/);
+  assert.match(analytics, /googletagmanager\.com\/gtag\/js/);
+  assert.match(analytics, /allow_google_signals: false/);
+  assert.match(analytics, /allow_ad_personalization_signals: false/);
+  assert.match(analytics, /onCLS\(sendWebVital\)/);
+  assert.match(analytics, /onINP\(sendWebVital\)/);
+  assert.match(analytics, /onLCP\(sendWebVital\)/);
+  assert.match(analytics, /localStorage\.setItem\(CONSENT_STORAGE_KEY/);
+  assert.match(analytics, /clearGoogleAnalyticsCookies/);
 });
 
 test("publishes indexable metadata while excluding search and contestant pages", async () => {
