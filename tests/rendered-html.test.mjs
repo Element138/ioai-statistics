@@ -10,6 +10,22 @@ async function render(pathname = "/") {
   return new Response(html, { headers: { "content-type": contentType } });
 }
 
+test("maps exported HTML files to extensionless Vercel routes", async () => {
+  const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
+  assert.equal(config.outputDirectory, "out");
+  assert.equal(config.cleanUrls, true);
+
+  for (const outputPath of [
+    "countries.html",
+    "countries/japan.html",
+    "hall-of-fame.html",
+    "olympiads/2026/results.html",
+    "tasks/radar.html",
+  ]) {
+    await access(new URL(`../out/${outputPath}`, import.meta.url));
+  }
+});
+
 test("server-renders the IOAI Statistics shell and updated footer", async () => {
   const response = await render();
   assert.equal(response.status, 200);
