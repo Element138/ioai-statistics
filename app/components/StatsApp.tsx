@@ -237,6 +237,10 @@ function formatScore(value: number | null | undefined) {
   return value.toFixed(8).replace(/\.?0+$/, "");
 }
 
+function formatAwardCount(value: number) {
+  return value === 0 ? "—" : value;
+}
+
 function medalClass(award: string) {
   const type = awardType(award);
   if (type === "Gold") return "award gold";
@@ -1064,9 +1068,10 @@ function DelegationsTable({ year, track }: { year: number; track: Track }) {
 
 function CountrySummaryTable({ summaries, track }: { summaries: CountrySummary[]; track: Track }) {
   const showRank = summaries.some((summary) => summary.rank !== undefined);
+  const displayAwardCount = (value: number) => showRank ? formatAwardCount(value) : value;
   return (
     <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? <th className="number">Rank</th> : null}<th>Country or region</th><th className="number">Entries</th><th className="number">Editions</th>{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
-      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a></td><td className="number">{summary.contestants}</td><td className="number">{summary.years.length}</td>{track === "main" ? <><td className="number medal-count gold-count">{summary.gold}</td><td className="number medal-count silver-count">{summary.silver}</td><td className="number medal-count bronze-count">{summary.bronze}</td><td className="number">{summary.mention}</td></> : <><td className="number gaite-level-1-count">{summary.level1}</td><td className="number gaite-level-2-count">{summary.level2}</td><td className="number gaite-level-3-count">{summary.level3}</td><td className="number">{summary.mention}</td></>}</tr>)}
+      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a></td><td className="number">{summary.contestants}</td><td className="number">{summary.years.length}</td>{track === "main" ? <><td className="number medal-count gold-count">{displayAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{displayAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{displayAwardCount(summary.bronze)}</td><td className="number">{displayAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{displayAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{displayAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{displayAwardCount(summary.level3)}</td><td className="number">{displayAwardCount(summary.mention)}</td></>}</tr>)}
     </tbody></table></div>
   );
 }
@@ -1250,7 +1255,7 @@ function HallOfFamePage({ track, setTrack }: { track: Track; setTrack: (track: T
       <div className="page-heading"><p className="eyebrow">All-time individual records</p><h1>Hall of Fame</h1></div>
       <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /></div>
       <div className="table-wrap"><table className="data-table hall-table"><thead><tr>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}<th>Contestant</th><th>Country or region</th><th className="number">Entries</th></tr></thead><tbody>
-        {records.map((record) => <tr key={`${record.slug}-${record.country}`}>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{record.gold}</td><td className="number medal-count silver-count">{record.silver}</td><td className="number medal-count bronze-count">{record.bronze}</td><td className="number">{record.mention}</td></> : <><td className="number gaite-level-1-count">{record.level1}</td><td className="number gaite-level-2-count">{record.level2}</td><td className="number gaite-level-3-count">{record.level3}</td><td className="number">{record.mention}</td></>}<td><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td></tr>)}
+        {records.map((record) => <tr key={`${record.slug}-${record.country}`}>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(record.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(record.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(record.bronze)}</td><td className="number">{formatAwardCount(record.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(record.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(record.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(record.level3)}</td><td className="number">{formatAwardCount(record.mention)}</td></>}<td><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td></tr>)}
       </tbody></table></div>
     </>
   );

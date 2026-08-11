@@ -112,7 +112,9 @@ test("publishes task numbers, at-home records, categories, and official 2026 lin
       [3, "The Analytical Language of John Wilkins", "NLP"],
     ],
   );
-  assert.equal(bySlug.get("chameleon").category, "CV/NLP");
+  assert.equal(bySlug.get("chameleon").category, "NLP · CV");
+  assert.equal(bySlug.get("concepts").category, "NLP · CV");
+  assert.equal(bySlug.get("scientific-at-home").category, "NLP · ML · CV");
   assert.equal(bySlug.get("team-radar").category, "CV");
   assert.equal(bySlug.get("weather").category, "CV");
   assert.equal(bySlug.get("help-bobai").category, "NLP");
@@ -167,6 +169,11 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
   assert.match(gaiteHtml, /rank-block country-rank-block gaite/);
   assert.match(gaiteHtml, />GAITE(?:<!-- -->)? rank<\/span>/);
+
+  const countriesHtml = await (await render("/countries")).text();
+  assert.match(countriesHtml, /class="number medal-count gold-count">—<\/td>/);
+  assert.match(countriesHtml, /class="number medal-count silver-count">—<\/td>/);
+  assert.match(individualHtml, /<span>GAITE entries<\/span><strong>0<\/strong>/);
 });
 
 test("orders the Hall of Fame by visible award counts without synthetic ranks", async () => {
@@ -180,6 +187,8 @@ test("orders the Hall of Fame by visible award counts without synthetic ranks", 
   assert.match(header, />G<\/th>.*>S<\/th>.*>B<\/th>.*>HM<\/th>.*>Contestant<\/th>.*>Country or region<\/th>.*>Entries<\/th>/s);
   assert.doesNotMatch(header, />Rank<\/th>/);
   assert.match(table, /<tbody><tr><td class="number medal-count gold-count">/);
+  assert.match(table, /class="number medal-count silver-count">—<\/td>/);
+  assert.match(table, /class="number medal-count bronze-count">—<\/td>/);
 });
 
 test("prefixes every displayed GAITE award badge", async () => {

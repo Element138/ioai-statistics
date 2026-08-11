@@ -7197,7 +7197,7 @@
       "track": "main",
       "day": 1,
       "name": "Concepts",
-      "category": "NLP/CV",
+      "category": "NLP · CV",
       "maxScore": 100,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Concepts",
       "tracks": [
@@ -7295,7 +7295,7 @@
       "track": "home",
       "day": 0,
       "name": "Chameleon",
-      "category": "CV/NLP",
+      "category": "NLP · CV",
       "maxScore": null,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/At-Home-Round/Chameleon",
       "tracks": [
@@ -7386,7 +7386,7 @@
       "track": "home",
       "day": 0,
       "name": "Scientific at-home set",
-      "category": "NLP · ML · computer vision",
+      "category": "NLP · ML · CV",
       "maxScore": null,
       "materials": "https://ioai-official.org/2024-tasks/",
       "tracks": [
