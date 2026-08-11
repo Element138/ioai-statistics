@@ -2138,11 +2138,17 @@ h3 {
   }
 
   .brand-row {
-    min-height: 57px;
+    min-height: 64px;
+  }
+
+  .brand-mark {
+    width: 42px;
+    height: 42px;
   }
 
   .brand-copy {
     max-width: 55vw;
+    font-size: 1.22rem;
   }
 
   .top-nav {
