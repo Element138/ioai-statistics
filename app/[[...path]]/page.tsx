@@ -3,8 +3,6 @@ import { headers } from "next/headers";
 import StatsApp from "../components/StatsApp";
 import { pageSeoForPath } from "../seo";
 
-const GOOGLE_ANALYTICS_MEASUREMENT_ID = "G-CFGLEYBWXG";
-
 type ReportPageProps = {
   params: Promise<{ path?: string[] }>;
 };
@@ -52,5 +50,5 @@ export async function generateMetadata({ params }: ReportPageProps): Promise<Met
 }
 
 export default function ReportPage() {
-  return <StatsApp analyticsMeasurementId={GOOGLE_ANALYTICS_MEASUREMENT_ID} />;
+  return <StatsApp />;
 }

@@ -286,18 +286,16 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
 });
 
-test("accurately discloses consent-based Analytics, Search Console and FlagCDN", async () => {
+test("accurately discloses cookie-free Cloudflare Web Analytics, Search Console and FlagCDN", async () => {
   const privacy = await (await render("/privacy")).text();
   assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 11 August 2026/);
-  assert.match(privacy, /Optional Google Analytics measurement is used only after a visitor accepts it/);
-  assert.match(privacy, /does not load Google Analytics, send analytics events to Google or set Google Analytics cookies/);
+  assert.match(privacy, /no accounts, advertising or tracking cookies/);
+  assert.match(privacy, />Cloudflare Web Analytics<\/a>/);
+  assert.match(privacy, /count aggregate visits and page views and measure real-user performance/);
   assert.match(privacy, /Core Web Vitals/);
-  assert.match(privacy, /scrolling, outbound-link clicks, downloads, on-site search terms/);
-  assert.match(privacy, /without Google advertising storage, advertising user data, advertising personalization or Google Signals/);
-  assert.match(privacy, /Google Analytics may set first-party analytics cookies after consent/);
-  assert.doesNotMatch(privacy, /property-specific|lasts for up to two years/);
-  assert.match(privacy, />Analytics settings<\/button>/);
-  assert.match(privacy, />How Google uses information from sites or apps that use its services<\/a>/);
+  assert.match(privacy, /cookie-free and does not use local storage/);
+  assert.match(privacy, /does not collect or use visitors(?:&#x27;|') personal data or track individual visitors/);
+  assert.doesNotMatch(privacy, /Google Analytics|Google Signals|Analytics settings/);
   assert.match(privacy, />Google Search Console<\/a>/);
   assert.match(privacy, /queries, pages, clicks, impressions, click-through rate, average position, country and device category/);
   assert.match(privacy, /Google omits some queries to protect user privacy/);
@@ -309,28 +307,24 @@ test("accurately discloses consent-based Analytics, Search Console and FlagCDN",
   assert.doesNotMatch(flagParagraph, /ordinary connection data|browser information/);
 
   const home = await (await render("/")).text();
-  const head = home.slice(0, home.indexOf("</head>") + "</head>".length);
-  assert.match(home, /G-CFGLEYBWXG/);
-  assert.match(home, />Analytics settings<\/button>/);
-  assert.doesNotMatch(head, /googletagmanager\.com|google-analytics\.com|gtag\s*\(/i);
+  assert.match(home, /https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js/);
+  assert.match(home, /599c2f8ba8b64ef48a2c38f3637f93d5/);
+  assert.doesNotMatch(home, /G-CFGLEYBWXG|googletagmanager\.com|google-analytics\.com|>Analytics settings<\/button>/i);
 });
 
-test("loads GA and real-user performance measurement only after consent", async () => {
-  const analytics = await readFile(new URL("../app/components/AnalyticsConsent.tsx", import.meta.url), "utf8");
-  assert.match(analytics, /analytics_storage: "denied"/);
-  assert.match(analytics, /ad_storage: "denied"/);
-  assert.match(analytics, /ad_user_data: "denied"/);
-  assert.match(analytics, /ad_personalization: "denied"/);
-  assert.match(analytics, /choice !== "granted"/);
-  assert.match(analytics, /googletagmanager\.com\/gtag\/js/);
-  assert.match(analytics, /allow_google_signals: false/);
-  assert.match(analytics, /allow_ad_personalization_signals: false/);
-  assert.match(analytics, /window\.gtag\?\.\("event", metric\.name/);
-  assert.match(analytics, /onCLS\(sendWebVital\)/);
-  assert.match(analytics, /onINP\(sendWebVital\)/);
-  assert.match(analytics, /onLCP\(sendWebVital\)/);
-  assert.match(analytics, /localStorage\.setItem\(CONSENT_STORAGE_KEY/);
-  assert.match(analytics, /clearGoogleAnalyticsCookies/);
+test("loads the supplied Cloudflare beacon without a consent prompt or browser storage", async () => {
+  const [layout, app, page, packageJson] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/[[...path]]/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../package.json", import.meta.url), "utf8"),
+  ]);
+  assert.match(layout, /type="module"/);
+  assert.match(layout, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
+  assert.match(layout, /data-cf-beacon='\{"token":"599c2f8ba8b64ef48a2c38f3637f93d5"\}'/);
+  assert.doesNotMatch(layout + app + page, /Google Analytics|G-CFGLEYBWXG|AnalyticsConsent|localStorage/);
+  assert.doesNotMatch(packageJson, /"web-vitals"/);
+  await assert.rejects(access(new URL("../app/components/AnalyticsConsent.tsx", import.meta.url)));
 });
 
 test("publishes indexable metadata while excluding search and contestant pages", async () => {
