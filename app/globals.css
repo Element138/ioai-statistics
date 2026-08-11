@@ -56,7 +56,7 @@ html {
   background: var(--paper);
   color: var(--ink);
   font-family: "Space Grotesk", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 body {
@@ -637,15 +637,16 @@ h3 {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.82rem;
+  font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
+  line-height: 1.45;
   white-space: nowrap;
 }
 
 .data-table th,
 .data-table td {
-  min-height: 32px;
-  padding: 7px 9px;
+  min-height: 38px;
+  padding: 9px 11px;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   text-align: left;
@@ -667,7 +668,7 @@ h3 {
   z-index: 1;
   background: #eef1f5;
   color: #435069;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.045em;
   text-transform: uppercase;
@@ -692,7 +693,7 @@ h3 {
 
 .data-table .score {
   color: #39465c;
-  font-size: 0.77rem;
+  font-size: 0.8125rem;
 }
 
 .data-table .total {
@@ -702,6 +703,7 @@ h3 {
 
 .data-table small {
   color: var(--muted);
+  font-size: 0.8125rem;
 }
 
 .task-score {

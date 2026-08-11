@@ -68,6 +68,10 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.doesNotMatch(app, /Editorial note/);
   assert.match(app, /<p className="eyebrow">Contestant<\/p>/);
   assert.match(css, /\.difficulty-rule\s*\{[^}]*overflow-wrap:\s*anywhere/s);
+  assert.match(css, /html\s*\{[^}]*font-size:\s*16px/s);
+  assert.match(css, /\.data-table\s*\{[^}]*font-size:\s*0\.875rem/s);
+  assert.match(css, /\.data-table th,\s*\.data-table td\s*\{[^}]*min-height:\s*38px;[^}]*padding:\s*9px 11px/s);
+  assert.match(css, /\.data-table thead th\s*\{[^}]*font-size:\s*0\.75rem/s);
   assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
   assert.match(css, /\.main-content:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*20/s);
   assert.match(css, /\.difficulty\.gold-plus\s*\{[^}]*background:\s*#efd478/s);
