@@ -742,7 +742,7 @@ function FlagRing() {
           const countryResults = results.filter((result) => result.country === country);
           const awards = countryResults.filter((result) => hasAward(result.award)).length;
           const angle = index * 360 / countries.length;
-          const style = { "--flag-angle": `${angle}deg` } as CSSProperties;
+          const style = { "--flag-angle": `${angle}deg`, "--flag-counter-angle": `${-angle}deg` } as CSSProperties;
           return (
             <span className="flag-ring-slot" style={style} key={country}>
               <a className="flag-ring-link" href={`/countries/${slugify(country)}`} aria-label={`${country}: ${countryResults.length} entries, ${awards} awards`}>

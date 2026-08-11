@@ -158,15 +158,6 @@ test("keeps the scoring criteria and branding independently configured", async (
   }
 });
 
-test("lets home flags rotate naturally with their orbit", async () => {
-  const [app, styles] = await Promise.all([
-    readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
-  ]);
-  assert.doesNotMatch(app + styles, /flag-counter-(?:angle|spin)/);
-  assert.match(styles, /\.flag-ring-slot[\s\S]*transform: rotate\(var\(--flag-angle\)\)/);
-});
-
 test("publishes task numbers, at-home records, categories, and official 2026 links", async () => {
   const data = JSON.parse(await readFile(new URL("../app/data/ioai.json", import.meta.url), "utf8"));
   const bySlug = new Map(data.tasks.map((task) => [task.slug, task]));

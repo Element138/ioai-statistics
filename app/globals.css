@@ -279,6 +279,7 @@ h3 {
   width: 28px;
   height: 21px;
   display: block;
+  animation: flag-counter-spin 180s linear infinite;
   pointer-events: auto;
 }
 
@@ -349,13 +350,20 @@ h3 {
 }
 
 .flag-ring-track:has(.flag-ring-link:hover),
-.flag-ring-track:has(.flag-ring-link:focus-visible) {
+.flag-ring-track:has(.flag-ring-link:focus-visible),
+.flag-ring-track:has(.flag-ring-link:hover) .flag-ring-link,
+.flag-ring-track:has(.flag-ring-link:focus-visible) .flag-ring-link {
   animation-play-state: paused;
 }
 
 @keyframes flag-ring-spin {
   from { transform: rotate(var(--ring-start-angle)); }
   to { transform: rotate(calc(var(--ring-start-angle) + 360deg)); }
+}
+
+@keyframes flag-counter-spin {
+  from { transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle))); }
+  to { transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle) - 360deg)); }
 }
 
 .hero {
@@ -2023,7 +2031,8 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .flag-ring-track {
+  .flag-ring-track,
+  .flag-ring-link {
     animation: none;
   }
 
@@ -2031,6 +2040,9 @@ h3 {
     transform: rotate(var(--ring-start-angle));
   }
 
+  .flag-ring-link {
+    transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle)));
+  }
 }
 
 .footer-grid p {
@@ -2289,6 +2301,19 @@ h3 {
   .country-rank-block {
     height: 58px;
     flex-basis: 58px;
+    align-content: space-between;
+    box-sizing: border-box;
+    padding-block: 7px;
+  }
+
+  .country-rank-block span {
+    font-size: 0.54rem;
+    line-height: 1;
+  }
+
+  .country-rank-block strong {
+    font-size: 1.45rem;
+    line-height: 1;
   }
 
   .big-flag {
