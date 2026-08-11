@@ -164,15 +164,15 @@ h3 {
 }
 
 .brand-mark {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   flex: 0 0 auto;
   object-fit: contain;
 }
 
 .brand-copy {
   overflow: hidden;
-  font-size: 1.08rem;
+  font-size: 1.16rem;
   font-weight: 700;
   letter-spacing: -0.035em;
   text-overflow: ellipsis;
@@ -189,7 +189,10 @@ h3 {
   align-items: stretch;
   gap: 26px;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
   scrollbar-width: none;
+  touch-action: pan-x;
 }
 
 .top-nav::-webkit-scrollbar {
@@ -937,8 +940,11 @@ h3 {
   justify-content: center;
   gap: 23px;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
   border-bottom: 1px solid var(--line-strong);
   scrollbar-width: none;
+  touch-action: pan-x;
 }
 
 .edition-nav::-webkit-scrollbar {
@@ -1491,7 +1497,7 @@ h3 {
   gap: 5px;
 }
 
-.difficulty-legend.compact summary {
+.difficulty-legend.compact button {
   width: 17px;
   height: 17px;
   padding: 0;
@@ -1502,15 +1508,20 @@ h3 {
   font-size: 0.65rem;
   line-height: 1;
   list-style: none;
-}
-
-.difficulty-legend.compact summary::-webkit-details-marker {
-  display: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
 }
 
 .difficulty-legend.compact .difficulty-grid {
   text-align: left;
   font-weight: 400;
+}
+
+.difficulty-legend-popover {
+  position: fixed;
+  inset: auto 18px 18px auto;
+  margin: 0;
 }
 
 .difficulty-grid {
@@ -2242,14 +2253,8 @@ h3 {
     grid-row: auto !important;
   }
 
-  .main-content:has(.difficulty-legend[open]) {
-    z-index: 30;
-  }
-
-  .table-wrap:has(.difficulty-legend[open]) {
-    position: relative;
-    z-index: 31;
-    overflow: visible;
+  .hall-table td:nth-child(5) > a {
+    font-size: 0.84rem;
   }
 
   .task-commentary-list {

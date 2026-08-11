@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 import { slugify } from "../slug";
@@ -524,17 +524,25 @@ function TaskTabs({ value, onChange, tracks = ["main", "gaite", "home", "team"] 
 
 function DifficultyLegend({ compact = false }: { compact?: boolean }) {
   const levels: Difficulty[] = ["basic", "bronze", "silver", "gold", "gold+", "extreme"];
+  const popoverId = useId();
+  const items = levels.map((difficulty) => (
+    <div className="difficulty-item" key={difficulty}>
+      <DifficultyBadge difficulty={difficulty} />
+      <span className="difficulty-rule">{DIFFICULTY_RULES[difficulty]}</span>
+    </div>
+  ));
+  if (compact) {
+    return (
+      <span className="difficulty-legend compact">
+        <button type="button" popoverTarget={popoverId} aria-label="Difficulty scale"><span aria-hidden="true">?</span></button>
+        <div id={popoverId} className="difficulty-grid difficulty-legend-popover" popover="auto">{items}</div>
+      </span>
+    );
+  }
   return (
-    <details className={`difficulty-legend${compact ? " compact" : ""}`}>
-      <summary>{compact ? <><span aria-hidden="true">?</span><span className="sr-only">Difficulty scale</span></> : "Difficulty scale"}</summary>
-      <div className="difficulty-grid">
-        {levels.map((difficulty) => (
-          <div className="difficulty-item" key={difficulty}>
-            <DifficultyBadge difficulty={difficulty} />
-            <span className="difficulty-rule">{DIFFICULTY_RULES[difficulty]}</span>
-          </div>
-        ))}
-      </div>
+    <details className="difficulty-legend">
+      <summary>Difficulty scale</summary>
+      <div className="difficulty-grid">{items}</div>
     </details>
   );
 }

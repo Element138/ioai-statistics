@@ -127,8 +127,13 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.data-table th,\s*\.data-table td\s*\{[^}]*min-height:\s*38px;[^}]*padding:\s*9px 11px/s);
   assert.match(css, /\.data-table thead th\s*\{[^}]*font-size:\s*0\.75rem/s);
   assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
-  assert.match(css, /\.main-content:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*30/s);
-  assert.match(css, /\.table-wrap:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*31;[^}]*overflow:\s*visible/s);
+  assert.match(app, /popoverTarget=\{popoverId\}[\s\S]*popover="auto"/s);
+  assert.match(css, /\.difficulty-legend-popover\s*\{[^}]*position:\s*fixed/s);
+  assert.doesNotMatch(css, /\.table-wrap:has\(\.difficulty-legend\[open\]\)/);
+  assert.match(css, /\.top-nav\s*\{[^}]*overflow-y:\s*hidden;[^}]*touch-action:\s*pan-x/s);
+  assert.match(css, /\.edition-nav\s*\{[^}]*overflow-y:\s*hidden;[^}]*touch-action:\s*pan-x/s);
+  assert.match(css, /\.brand-mark\s*\{[^}]*width:\s*38px;[^}]*height:\s*38px/s);
+  assert.match(css, /\.hall-table td:nth-child\(5\) > a\s*\{[^}]*font-size:\s*0\.84rem/s);
   assert.match(css, /\.difficulty\.gold-plus\s*\{[^}]*background:\s*#efd478/s);
   assert.match(css, /\.difficulty\.extreme\s*\{[^}]*background:\s*#f7d8e4/s);
   assert.match(css, /\.difficulty-badge-help:hover \.difficulty-tooltip,[\s\S]*\.difficulty-badge-help:focus-within \.difficulty-tooltip\s*\{[^}]*visibility:\s*visible/s);
