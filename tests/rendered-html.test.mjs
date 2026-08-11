@@ -289,6 +289,11 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.match(app, /track=\{track\}/);
   assert.match(app, /track=\{effectiveTrack\}/);
   assert.match(app, /track=\{result\.track\}/);
+  assert.doesNotMatch(app, /track=\{people\[0\]\.track\}/);
+
+  const data = JSON.parse(await readFile(new URL("../app/data/ioai.json", import.meta.url), "utf8"));
+  const lovmar = Object.values(data).filter(Array.isArray).flat().find((result) => result?.slug === "karl-teo-lovmar");
+  assert.deepEqual({ award: lovmar?.award, track: lovmar?.track }, { award: "Gold", track: "main" });
 
   const gaite2025 = await (await render("/contestants/kabel-cisse")).text();
   assert.match(gaite2025, />GAITE First Award<\/span>/);

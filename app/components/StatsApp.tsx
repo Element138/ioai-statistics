@@ -611,11 +611,11 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
 
 function ResultsTable({ results, track, compact = false, showYear = false }: {
   results: Result[];
-  track: "main" | "gaite";
+  track?: "main" | "gaite";
   compact?: boolean;
   showYear?: boolean;
 }) {
-  const taskNames = results.length ? contestTasks(results[0].year, track).map((task) => task.name) : [];
+  const taskNames = !compact && results.length && track ? contestTasks(results[0].year, track).map((task) => task.name) : [];
   return (
     <>
       {!compact ? <p className="precision-note">Score precision: up to 2 decimal places per task and 4 for totals.</p> : null}
@@ -649,7 +649,7 @@ function ResultsTable({ results, track, compact = false, showYear = false }: {
                 <td key={index} className="number score">{formatTaskScore(score)}</td>
               ))}
               <td className="number total">{formatTotalScore(result.total)}</td>
-              <td><AwardBadge award={result.award} track={track} /></td>
+              <td><AwardBadge award={result.award} track={result.track} /></td>
             </tr>
           ))}
         </tbody>
@@ -1402,7 +1402,7 @@ function SearchPage() {
       </div>
       {!normalized ? <EmptyState title="One index, every record">Try a contestant name, a country such as Poland, or a task such as Radar.</EmptyState> : null}
       {normalized && !total ? <EmptyState title="No matching records">Check the spelling or try a broader term.</EmptyState> : null}
-      {people.length ? <section className="search-section"><SectionTitle title="Contestants" meta={people.length} /><ResultsTable results={people} track={people[0].track} compact showYear /></section> : null}
+      {people.length ? <section className="search-section"><SectionTitle title="Contestants" meta={people.length} /><ResultsTable results={people} compact showYear /></section> : null}
       {countries.length ? <section className="search-section"><SectionTitle title="Countries" meta={countries.length} /><div className="search-links">{countries.map((country) => <a key={country} href={`/countries/${slugify(country)}`}><Flag country={country} />{country}<span>→</span></a>)}</div></section> : null}
       {tasks.length ? <section className="search-section"><SectionTitle title="Tasks" meta={tasks.length} /><TaskTable tasks={tasks} /></section> : null}
     </>
