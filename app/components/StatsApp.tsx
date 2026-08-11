@@ -784,7 +784,6 @@ function FlagRing() {
 }
 
 function HomePage() {
-  const completeEdition = [...DATA.editions].sort((a, b) => b.year - a.year).find((edition) => edition.status === "Complete")!;
   const awards = countAwards(DATA.mainResults2026);
   return (
     <div className="home-page">
@@ -798,7 +797,7 @@ function HomePage() {
         </div>
         <div className="hero-index" aria-label="Archive summary">
           <div><strong>3</strong><span>editions</span></div>
-          <div><strong>{completeEdition.contestants}</strong><span>ranked in 2026</span></div>
+          <div><strong>{COUNTRY_RANKINGS.main.length}</strong><span>countries ranked</span></div>
           <div><strong>{DATA.tasks.length}</strong><span>task records</span></div>
         </div>
       </div>

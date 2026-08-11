@@ -2202,6 +2202,10 @@ h3 {
     padding: 20px 0 28px;
   }
 
+  .home-page .compact-hero .eyebrow {
+    max-width: 90%;
+  }
+
   h1 {
     letter-spacing: -0.045em;
   }

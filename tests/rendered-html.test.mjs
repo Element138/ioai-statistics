@@ -137,6 +137,8 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.brand-mark\s*\{[^}]*width:\s*42px;[^}]*height:\s*42px[\s\S]*\.brand-copy\s*\{[^}]*font-size:\s*1\.22rem/s);
   assert.doesNotMatch(css, /@media \(max-width: 480px\)[\s\S]*\.brand-copy\s*\{/s);
   assert.match(app, /International Olympiad in <span className="no-break">Artificial Intelligence<\/span>/);
+  assert.match(app, /<strong>\{COUNTRY_RANKINGS\.main\.length\}<\/strong><span>countries ranked<\/span>/);
+  assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.home-page \.compact-hero \.eyebrow\s*\{[^}]*max-width:\s*90%/s);
   assert.match(css, /\.hall-table td:nth-child\(5\) > a\s*\{[^}]*font-size:\s*0\.84rem/s);
   assert.match(css, /\.difficulty\.gold-plus\s*\{[^}]*background:\s*#efd478/s);
   assert.match(css, /\.difficulty\.extreme\s*\{[^}]*background:\s*#f7d8e4/s);
