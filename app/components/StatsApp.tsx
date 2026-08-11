@@ -673,7 +673,6 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
             <th>Track</th>
             <th>Category</th>
             <th><span className="difficulty-heading">Difficulty <DifficultyLegend compact /></span></th>
-            <th className="number">Max.</th>
             <th>Materials</th>
           </tr>
         </thead>
@@ -686,7 +685,6 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
               <td>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TASK_TRACK_LABELS[track]}</span>)}</td>
               <td>{task.category}</td>
               <td>{taskDifficulty(task) ? <DifficultyBadge difficulty={taskDifficulty(task)!} /> : "—"}</td>
-              <td className="number">{task.maxScore ?? "—"}</td>
               <td><a href={task.materials} target="_blank" rel="noreferrer">Official ↗</a></td>
             </tr>
           ))}
@@ -1493,7 +1491,7 @@ function SiteFooter() {
     <footer className="site-footer">
       <div className="shell footer-grid">
         <div><strong>IOAI Statistics</strong><p>An unofficial report made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
-        <div><span>Inspired by</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
+        <div><span>Inspired by</span><a className="footer-touch-link" href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
         <div className="footer-meta"><p className="footer-corrections"><span>Corrections</span><strong>@aka138</strong><span>on Discord</span></p><nav className="footer-links" aria-label="Footer"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></nav><small>Data snapshot · {DATA.updated}</small></div>
       </div>
     </footer>

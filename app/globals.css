@@ -2155,6 +2155,18 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .footer-touch-link,
+  .footer-grid .footer-links a {
+    position: relative;
+    z-index: 1;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    margin-block: -8px;
+    padding-block: 8px;
+    touch-action: manipulation;
+  }
+
   .home-grid,
   .contestant-detail {
     gap: 30px;
@@ -2214,7 +2226,7 @@ h3 {
 
   .difficulty-grid {
     position: fixed;
-    z-index: 21;
+    z-index: 31;
     top: auto;
     right: 11px;
     bottom: max(11px, env(safe-area-inset-bottom));
@@ -2231,7 +2243,13 @@ h3 {
   }
 
   .main-content:has(.difficulty-legend[open]) {
-    z-index: 20;
+    z-index: 30;
+  }
+
+  .table-wrap:has(.difficulty-legend[open]) {
+    position: relative;
+    z-index: 31;
+    overflow: visible;
   }
 
   .task-commentary-list {

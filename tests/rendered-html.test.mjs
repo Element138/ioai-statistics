@@ -127,13 +127,15 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.data-table th,\s*\.data-table td\s*\{[^}]*min-height:\s*38px;[^}]*padding:\s*9px 11px/s);
   assert.match(css, /\.data-table thead th\s*\{[^}]*font-size:\s*0\.75rem/s);
   assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
-  assert.match(css, /\.main-content:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*20/s);
+  assert.match(css, /\.main-content:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*30/s);
+  assert.match(css, /\.table-wrap:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*31;[^}]*overflow:\s*visible/s);
   assert.match(css, /\.difficulty\.gold-plus\s*\{[^}]*background:\s*#efd478/s);
   assert.match(css, /\.difficulty\.extreme\s*\{[^}]*background:\s*#f7d8e4/s);
   assert.match(css, /\.difficulty-badge-help:hover \.difficulty-tooltip,[\s\S]*\.difficulty-badge-help:focus-within \.difficulty-tooltip\s*\{[^}]*visibility:\s*visible/s);
   assert.match(css, /\.task-commentary-list li:nth-child\(2\)\s*\{\s*grid-column:\s*1;\s*grid-row:\s*2;/s);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.task-commentary-list li\s*\{[^}]*grid-column:\s*1 !important;[^}]*grid-row:\s*auto !important;/s);
   assert.match(css, /\.footer-grid p a\s*\{[^}]*display:\s*inline/s);
+  assert.match(css, /\.footer-touch-link,[\s\S]*\.footer-grid \.footer-links a\s*\{[^}]*min-height:\s*44px;[^}]*touch-action:\s*manipulation/s);
   assert.match(css, /\.edition-commentary > \.commentary-summary\s*\{[^}]*max-width:\s*none/s);
   assert.match(css, /\.edition-commentary > \.commentary-byline\s*\{[^}]*text-align:\s*right/s);
   assert.match(layout, /<link rel="icon" href="\/favicon\.ico" sizes="any" \/>/);
@@ -184,6 +186,7 @@ test("publishes task numbers, at-home records, categories, and official 2026 lin
   const tasksHtml = await (await render("/tasks")).text();
   assert.match(tasksHtml, /<th class="number">No\.<\/th>/);
   assert.match(tasksHtml, /<th>Category<\/th>/);
+  assert.doesNotMatch(tasksHtml, /<th class="number">(?:Max\.|Full)<\/th>/);
   assert.doesNotMatch(tasksHtml, /Category \/ round/);
   assert.match(tasksHtml, />At-home<\/button>/);
 
