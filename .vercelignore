@@ -1,0 +1,12 @@
+.openai
+.wrangler
+build
+db
+dist
+drizzle
+examples
+scripts/run-vinext.mjs
+tests
+worker
+drizzle.config.ts
+vite.config.ts

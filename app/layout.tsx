@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import "./globals.css";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "localhost:3000";
-  const protocol = requestHeaders.get("x-forwarded-proto") || (host.startsWith("localhost") ? "http" : "https");
-  const origin = `${protocol}://${host}`;
-  const description = "An unofficial report of IOAI editions, contestants, countries, tasks and final results.";
-  const image = `${origin}/og.png`;
+const origin = "https://ioai-statistics.org";
+const description = "An unofficial report of IOAI editions, contestants, countries, tasks and final results.";
+const image = `${origin}/og.png`;
 
-  return {
+export const metadata: Metadata = {
+    metadataBase: new URL(origin),
     title: {
       default: "IOAI Statistics",
       template: "%s · IOAI Statistics",
@@ -30,8 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [image],
     },
-  };
-}
+};
 
 export default function RootLayout({
   children,

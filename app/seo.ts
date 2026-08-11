@@ -197,3 +197,11 @@ export function allIndexablePaths() {
 
   return [...staticPaths, ...editionPaths, ...countryPaths, ...taskPaths];
 }
+
+export function allStaticPaths() {
+  const contestantPaths = [...new Set(RESULTS.map((result) => result.slug))]
+    .sort((a, b) => a.localeCompare(b))
+    .map((slug) => `/contestants/${slug}`);
+
+  return [...allIndexablePaths(), "/search", "/countries/ioai-team", ...contestantPaths];
+}

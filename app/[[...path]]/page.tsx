@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import StatsApp from "../components/StatsApp";
-import { pageSeoForPath } from "../seo";
+import { allStaticPaths, pageSeoForPath } from "../seo";
+
+const origin = "https://ioai-statistics.org";
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return allStaticPaths().map((pathname) => ({
+    path: pathname === "/" ? [] : pathname.slice(1).split("/"),
+  }));
+}
 
 type ReportPageProps = {
   params: Promise<{ path?: string[] }>;
@@ -10,10 +19,6 @@ type ReportPageProps = {
 export async function generateMetadata({ params }: ReportPageProps): Promise<Metadata> {
   const { path = [] } = await params;
   const page = pageSeoForPath(path);
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "localhost:3000";
-  const protocol = requestHeaders.get("x-forwarded-proto") || (host.startsWith("localhost") ? "http" : "https");
-  const origin = `${protocol}://${host}`;
   const canonicalUrl = new URL(page.canonicalPath, `${origin}/`).toString();
   const image = `${origin}/og.png`;
 

@@ -3,24 +3,11 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname = "/") {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request(`http://localhost${pathname}`, {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+  const metadataRoute = pathname === "/robots.txt" || pathname === "/sitemap.xml";
+  const outputPath = pathname === "/" ? "index.html" : metadataRoute ? pathname.slice(1) : `${pathname.slice(1)}.html`;
+  const html = await readFile(new URL(`../out/${outputPath}`, import.meta.url), "utf8");
+  const contentType = pathname === "/robots.txt" ? "text/plain" : pathname === "/sitemap.xml" ? "application/xml" : "text/html; charset=utf-8";
+  return new Response(html, { headers: { "content-type": contentType } });
 }
 
 test("server-renders the IOAI Statistics shell and updated footer", async () => {
@@ -30,10 +17,10 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
 
   const html = await response.text();
   const head = html.slice(0, html.indexOf("</head>") + "</head>".length);
-  assert.match(html, /<meta name="description" content="An unofficial report of IOAI editions, contestants, countries, tasks and final results\.">/);
-  assert.match(html, /<meta property="og:image:alt" content="IOAI Statistics report">/);
-  assert.match(html, /<meta property="og:image:width" content="1200">/);
-  assert.match(html, /<meta property="og:image:height" content="630">/);
+  assert.match(html, /<meta name="description" content="An unofficial report of IOAI editions, contestants, countries, tasks and final results\."\/>/);
+  assert.match(html, /<meta property="og:image:alt" content="IOAI Statistics report"\/>/);
+  assert.match(html, /<meta property="og:image:width" content="1200"\/>/);
+  assert.match(html, /<meta property="og:image:height" content="630"\/>/);
   assert.doesNotMatch(html, /public archive|data archive/i);
   assert.match(head, /<link rel="icon" href="\/favicon\.ico" sizes="any"\s*\/>/);
   assert.match(head, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"\s*\/>/);
@@ -336,24 +323,24 @@ test("loads the supplied Cloudflare beacon without a consent prompt or browser s
 test("publishes indexable metadata while excluding search and contestant pages", async () => {
   const taskResponse = await render("/tasks/radar");
   const taskHtml = await taskResponse.text();
-  assert.match(taskHtml, /<meta name="robots" content="index, follow">/);
-  assert.match(taskHtml, /<link rel="canonical" href="http:\/\/localhost:3000\/tasks\/radar">/);
+  assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
+  assert.match(taskHtml, /<link rel="canonical" href="https:\/\/ioai-statistics\.org\/tasks\/radar"\/>/);
   assert.match(taskHtml, /class="difficulty-badge-help"/);
   assert.match(taskHtml, /role="tooltip">Half of Individual contestants reached 50\.<\/span>/);
 
   const searchResponse = await render("/search");
-  assert.match(await searchResponse.text(), /<meta name="robots" content="noindex, follow">/);
+  assert.match(await searchResponse.text(), /<meta name="robots" content="noindex, follow"\/>/);
 
   const contestantResponse = await render("/contestants/krzysztof-rojek");
-  assert.match(await contestantResponse.text(), /<meta name="robots" content="noindex, follow">/);
+  assert.match(await contestantResponse.text(), /<meta name="robots" content="noindex, follow"\/>/);
 
   const robotsResponse = await render("/robots.txt");
   assert.equal(robotsResponse.headers.get("content-type"), "text/plain");
-  assert.match(await robotsResponse.text(), /Sitemap: http:\/\/localhost:3000\/sitemap\.xml/);
+  assert.match(await robotsResponse.text(), /Sitemap: https:\/\/ioai-statistics\.org\/sitemap\.xml/);
 
   const sitemapResponse = await render("/sitemap.xml");
   const sitemap = await sitemapResponse.text();
   assert.equal(sitemapResponse.headers.get("content-type"), "application/xml");
-  assert.match(sitemap, /<loc>http:\/\/localhost:3000\/tasks\/radar<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/radar<\/loc>/);
   assert.doesNotMatch(sitemap, /\/search|\/contestants\//);
 });
