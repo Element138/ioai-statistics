@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 import { slugify } from "../slug";
@@ -524,7 +525,15 @@ function TaskTabs({ value, onChange, tracks = ["main", "gaite", "home", "team"] 
 
 function DifficultyLegend({ compact = false }: { compact?: boolean }) {
   const levels: Difficulty[] = ["basic", "bronze", "silver", "gold", "gold+", "extreme"];
-  const popoverId = useId();
+  const [compactOpen, setCompactOpen] = useState(false);
+  useEffect(() => {
+    if (!compactOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setCompactOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [compactOpen]);
   const items = levels.map((difficulty) => (
     <div className="difficulty-item" key={difficulty}>
       <DifficultyBadge difficulty={difficulty} />
@@ -533,10 +542,21 @@ function DifficultyLegend({ compact = false }: { compact?: boolean }) {
   ));
   if (compact) {
     return (
-      <span className="difficulty-legend compact">
-        <button type="button" popoverTarget={popoverId} aria-label="Difficulty scale"><span aria-hidden="true">?</span></button>
-        <div id={popoverId} className="difficulty-grid difficulty-legend-popover" popover="auto">{items}</div>
-      </span>
+      <>
+        <span className="difficulty-legend compact">
+          <button type="button" aria-label="Difficulty scale" aria-expanded={compactOpen} onClick={() => setCompactOpen((open) => !open)}><span aria-hidden="true">?</span></button>
+        </span>
+        {compactOpen && typeof document !== "undefined" ? createPortal(
+          <div className="difficulty-legend-layer">
+            <button className="difficulty-legend-backdrop" type="button" aria-label="Close difficulty scale" onClick={() => setCompactOpen(false)} />
+            <div className="difficulty-grid difficulty-legend-popover" role="dialog" aria-label="Difficulty scale">
+              <button className="difficulty-legend-close" type="button" aria-label="Close difficulty scale" onClick={() => setCompactOpen(false)}>×</button>
+              {items}
+            </div>
+          </div>,
+          document.body,
+        ) : null}
+      </>
     );
   }
   return (

@@ -1521,7 +1521,42 @@ h3 {
 .difficulty-legend-popover {
   position: fixed;
   inset: auto 18px 18px auto;
+  width: min(430px, calc(100vw - 36px));
+  max-height: min(420px, calc(100vh - 36px));
   margin: 0;
+  overflow: auto;
+}
+
+.difficulty-legend-layer {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+}
+
+.difficulty-legend-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.difficulty-legend-close {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .difficulty-grid {
@@ -2252,6 +2287,12 @@ h3 {
     max-height: 70vh;
     overflow: auto;
     grid-template-columns: 1fr;
+  }
+
+  .difficulty-legend-popover {
+    width: auto;
+    max-height: min(420px, 70vh);
+    padding-top: 38px;
   }
 
   .difficulty-item {

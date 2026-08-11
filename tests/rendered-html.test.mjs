@@ -127,7 +127,8 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.data-table th,\s*\.data-table td\s*\{[^}]*min-height:\s*38px;[^}]*padding:\s*9px 11px/s);
   assert.match(css, /\.data-table thead th\s*\{[^}]*font-size:\s*0\.75rem/s);
   assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
-  assert.match(app, /popoverTarget=\{popoverId\}[\s\S]*popover="auto"/s);
+  assert.match(app, /createPortal\([\s\S]*difficulty-legend-layer[\s\S]*document\.body/s);
+  assert.doesNotMatch(app, /popoverTarget|popover="auto"/);
   assert.match(css, /\.difficulty-legend-popover\s*\{[^}]*position:\s*fixed/s);
   assert.doesNotMatch(css, /\.table-wrap:has\(\.difficulty-legend\[open\]\)/);
   assert.match(css, /\.top-nav\s*\{[^}]*overflow-y:\s*hidden;[^}]*touch-action:\s*pan-x/s);
@@ -193,6 +194,7 @@ test("publishes task numbers, at-home records, categories, and official 2026 lin
   assert.match(tasksHtml, /<th class="number">No\.<\/th>/);
   assert.match(tasksHtml, /<th>Category<\/th>/);
   assert.doesNotMatch(tasksHtml, /<th class="number">(?:Max\.|Full)<\/th>/);
+  assert.doesNotMatch(tasksHtml, /difficulty-legend-layer|difficulty-legend-popover/);
   assert.doesNotMatch(tasksHtml, /Category \/ round/);
   assert.match(tasksHtml, />At-home<\/button>/);
 
