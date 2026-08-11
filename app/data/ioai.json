@@ -1,12 +1,14 @@
 {
-  "updated": "2026-08-10",
+  "updated": "2026-08-11",
   "sources": [
     "https://ioai-official.org/",
     "https://ioai-official.org/china-2025/results-2025/",
     "https://ioai2026.kz/",
     "https://github.com/IOAI-official",
     "https://ioai2026.kz/results/",
-    "https://ioai-official.org/republic-of-kazakhstan/international-jury/"
+    "https://ioai-official.org/republic-of-kazakhstan/international-jury/",
+    "https://ioai-official.org/call-for-tasks/",
+    "https://github.com/IOAI-official/IOAI-2026"
   ],
   "editions": [
     {
@@ -24,13 +26,25 @@
         "team"
       ],
       "officialUrl": "https://ioai2026.kz/",
-      "summary": "A punishing break for contestants who prepared for something resembling IOAI 2025. Every Day 1 task shifted sharply from its at-home counterpart, while Day 2 offered no universal source of points. Most leading contestants combined strong scores on two tasks with 25 or more points on another two or three.",
+      "summary": "IOAI 2026 was a punishing break for contestants who expected something resembling IOAI 2025: every task was now genuinely hammer resistant (unable to be solved with off-the-shelf methods), as the IOAI Call for Tasks states. Unlike some tasks from 2025, each problem demanded problem-specific adaptation rather than a ready-made approach. This will probably be the general trend for IOAI in the future.",
+      "commentaryAuthor": "Sasuke Kondo",
+      "commentaryDate": "11 August 2026",
+      "timeLimits": [
+        {
+          "label": "Contest day 1",
+          "duration": "6 hours"
+        },
+        {
+          "label": "Contest day 2",
+          "duration": "6 hours"
+        }
+      ],
       "taskCommentary": [
         "Already entirely different from the at-home task. Many high scorers found an exploitable property of the metric and implemented a trivial solution instead of using the provided model.",
         "The closest to its at-home counterpart and the easiest direction to anticipate, although it demanded substantial manual preprocessing before the model could be used.",
         "A challenging, non-trivial transformation of the at-home task.",
         "Perhaps the clearest textbook example of its underlying method, though the implementation could still be difficult.",
-        "Harder than it first appeared: unlike Task 1, many attempts that avoided the provided model failed badly.",
+        "Harder than it first appeared to many contestants: unlike Task 1, many attempts that avoided the provided model failed badly.",
         "One of the most gamified tasks. Extremely simple solutions could earn solid middle-range scores, but very few contestants scored highly."
       ]
     },
@@ -50,6 +64,18 @@
       ],
       "officialUrl": "https://ioai-official.org/china-2025/",
       "summary": "The first IOAI with individual rounds. Day 1 developed the at-home task ideas to varying degrees, while Day 2 was markedly harder. The leading contestants generally secured strong scores on at least four tasks.",
+      "commentaryAuthor": "Sasuke Kondo",
+      "commentaryDate": "11 August 2026",
+      "timeLimits": [
+        {
+          "label": "Contest day 1",
+          "duration": "6 hours"
+        },
+        {
+          "label": "Contest day 2",
+          "duration": "6 hours"
+        }
+      ],
       "taskCommentary": [
         "Extremely close to the at-home task and an essential source of points.",
         "A moderate shift, though important similarities with the at-home task remained.",
@@ -73,6 +99,12 @@
       ],
       "officialUrl": "https://ioai-official.org/bulgaria-2024/",
       "summary": "",
+      "timeLimits": [
+        {
+          "label": "Scientific round",
+          "duration": "8 hours"
+        }
+      ],
       "taskCommentary": []
     }
   ],
@@ -7260,40 +7292,40 @@
     {
       "slug": "chameleon",
       "year": 2025,
-      "track": "team",
+      "track": "home",
       "day": 0,
       "name": "Chameleon",
-      "category": "At-home round",
+      "category": "CV/NLP",
       "maxScore": null,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/At-Home-Round/Chameleon",
       "tracks": [
-        "team"
+        "home"
       ]
     },
     {
       "slug": "team-radar",
       "year": 2025,
-      "track": "team",
+      "track": "home",
       "day": 0,
       "name": "Radar",
-      "category": "At-home round",
+      "category": "CV",
       "maxScore": null,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/At-Home-Round/Radar",
       "tracks": [
-        "team"
+        "home"
       ]
     },
     {
       "slug": "weather",
       "year": 2025,
-      "track": "team",
+      "track": "home",
       "day": 0,
       "name": "Weather",
-      "category": "At-home round",
+      "category": "CV",
       "maxScore": null,
       "materials": "https://github.com/IOAI-official/IOAI-2025/tree/main/At-Home-Round/Weather",
       "tracks": [
-        "team"
+        "home"
       ]
     },
     {
@@ -7315,7 +7347,7 @@
       "track": "team",
       "day": 1,
       "name": "Help BOBAI",
-      "category": "Scientific round · on-site",
+      "category": "NLP",
       "maxScore": null,
       "materials": "https://github.com/IOAI-official/IOAI-2024/tree/main/On-Site-Round/Help_BOBAI",
       "tracks": [
@@ -7328,7 +7360,7 @@
       "track": "team",
       "day": 1,
       "name": "Lost in Hyperspace",
-      "category": "Scientific round · on-site",
+      "category": "ML",
       "maxScore": null,
       "materials": "https://github.com/IOAI-official/IOAI-2024/tree/main/On-Site-Round/Lost_in_Hyperspace",
       "tracks": [
@@ -7341,7 +7373,7 @@
       "track": "team",
       "day": 1,
       "name": "Madarian Cow",
-      "category": "Scientific round · on-site",
+      "category": "CV",
       "maxScore": null,
       "materials": "https://github.com/IOAI-official/IOAI-2024/tree/main/On-Site-Round/Madarian_Cow",
       "tracks": [
@@ -7351,14 +7383,14 @@
     {
       "slug": "scientific-at-home",
       "year": 2024,
-      "track": "team",
+      "track": "home",
       "day": 0,
       "name": "Scientific at-home set",
       "category": "NLP · ML · computer vision",
       "maxScore": null,
       "materials": "https://ioai-official.org/2024-tasks/",
       "tracks": [
-        "team"
+        "home"
       ]
     },
     {
@@ -7373,6 +7405,48 @@
       "tracks": [
         "team"
       ]
+    },
+    {
+      "slug": "2026-home-task-1",
+      "year": 2026,
+      "track": "home",
+      "tracks": [
+        "home"
+      ],
+      "day": 0,
+      "order": 1,
+      "name": "Operation Night Watch",
+      "category": "Audio",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2026/blob/main/At-Home-Round/Home-Task-1.ipynb"
+    },
+    {
+      "slug": "2026-home-task-2",
+      "year": 2026,
+      "track": "home",
+      "tracks": [
+        "home"
+      ],
+      "day": 0,
+      "order": 2,
+      "name": "Robot Delivery Academy",
+      "category": "ML",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2026/blob/main/At-Home-Round/Home-Task-2.ipynb"
+    },
+    {
+      "slug": "2026-home-task-3",
+      "year": 2026,
+      "track": "home",
+      "tracks": [
+        "home"
+      ],
+      "day": 0,
+      "order": 3,
+      "name": "The Analytical Language of John Wilkins",
+      "category": "NLP",
+      "maxScore": null,
+      "materials": "https://github.com/IOAI-official/IOAI-2026/blob/main/At-Home-Round/Home-Task-3.ipynb"
     },
     {
       "slug": "2026-task-1",
@@ -7462,7 +7536,7 @@
       "name": "IOAI Field",
       "category": "ML",
       "maxScore": 100,
-      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest"
+      "materials": "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/6_IOAI_Field"
     }
   ],
   "administration": {

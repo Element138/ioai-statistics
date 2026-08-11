@@ -50,13 +50,13 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(app, /score > TOP_SOLVER_SCORE_THRESHOLD/);
   assert.match(app, /topSolverEntries\(task, effectiveTrack\)/);
   assert.match(app, /Half of Individual contestants reached 50\./);
-  assert.match(app, /Fewer than half of gold medalists reached 50\./);
+  assert.match(app, /Half of gold medalists reached 20\./);
   assert.match(app, /Fewer than half of gold medalists reached 20\./);
   assert.match(app, /<DifficultyBadge difficulty=\{difficulty\} explain \/>/);
   assert.doesNotMatch(app, /medallists|Gold\+\+|gold-plus-plus/);
   assert.match(app, /Maximum possible score/);
   assert.match(app, /<dt>GAITE tasks<\/dt><dd>Shared with Individual<\/dd>/);
-  assert.match(app, /SectionTitle title="Commentary" \/>/);
+  assert.match(app, /SectionTitle title="Individual contest commentary" \/>/);
   assert.doesNotMatch(app, /Editorial note/);
   assert.match(app, /<p className="eyebrow">Contestant<\/p>/);
   assert.match(css, /\.difficulty-rule\s*\{[^}]*overflow-wrap:\s*anywhere/s);
@@ -70,6 +70,55 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.footer-grid p a\s*\{[^}]*display:\s*inline/s);
   assert.match(layout, /icon:\s*"\/ioai-statistics-logo\.png"/);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));
+});
+
+test("publishes task numbers, at-home records, categories, and official 2026 links", async () => {
+  const data = JSON.parse(await readFile(new URL("../app/data/ioai.json", import.meta.url), "utf8"));
+  const bySlug = new Map(data.tasks.map((task) => [task.slug, task]));
+
+  assert.deepEqual(
+    data.tasks.filter((task) => task.year === 2026 && task.track === "home").map((task) => [task.order, task.name, task.category]),
+    [
+      [1, "Operation Night Watch", "Audio"],
+      [2, "Robot Delivery Academy", "ML"],
+      [3, "The Analytical Language of John Wilkins", "NLP"],
+    ],
+  );
+  assert.equal(bySlug.get("chameleon").category, "CV/NLP");
+  assert.equal(bySlug.get("team-radar").category, "CV");
+  assert.equal(bySlug.get("weather").category, "CV");
+  assert.equal(bySlug.get("help-bobai").category, "NLP");
+  assert.equal(bySlug.get("lost-in-hyperspace").category, "ML");
+  assert.equal(bySlug.get("madarian-cow").category, "CV");
+  assert.equal(bySlug.get("2026-task-6").materials, "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/6_IOAI_Field");
+
+  const tasksHtml = await (await render("/tasks")).text();
+  assert.match(tasksHtml, /<th class="number">No\.<\/th>/);
+  assert.match(tasksHtml, /<th>Category<\/th>/);
+  assert.doesNotMatch(tasksHtml, /Category \/ round/);
+  assert.match(tasksHtml, />At-home<\/button>/);
+
+  const homeTaskHtml = await (await render("/tasks/2026-home-task-1")).text();
+  assert.match(homeTaskHtml, /track-badge home">At-home<\/span>/);
+  assert.match(homeTaskHtml, /At-home task — no individual ranking/);
+});
+
+test("keeps edition section navigation, time limits, and signed commentary", async () => {
+  const tasksHtml = await (await render("/olympiads/2025/tasks")).text();
+  assert.match(tasksHtml, /href="\/olympiads\/2024\/tasks"[^>]*aria-label="Previous edition"/);
+  assert.match(tasksHtml, /href="\/olympiads\/2026\/tasks"[^>]*aria-label="Next edition"/);
+  assert.match(tasksHtml, />At-home<\/button>/);
+
+  const edition2026 = await (await render("/olympiads/2026")).text();
+  assert.match(edition2026, /Contest day 1(?:<!-- -->)? time limit<\/dt><dd>6 hours/);
+  assert.match(edition2026, /Contest day 2(?:<!-- -->)? time limit<\/dt><dd>6 hours/);
+  assert.match(edition2026, /Individual contest commentary/);
+  assert.match(edition2026, /<strong>hammer resistant \(unable to be solved with off-the-shelf methods\)<\/strong>/);
+  assert.match(edition2026, /Harder than it first appeared to many contestants/);
+  assert.match(edition2026, /commentary-byline">Sasuke Kondo(?:<!-- -->)? · (?:<!-- -->)?11 August 2026/);
+
+  const edition2024 = await (await render("/olympiads/2024")).text();
+  assert.match(edition2024, /Scientific round(?:<!-- -->)? time limit<\/dt><dd>8 hours/);
 });
 
 test("publishes indexable metadata while excluding search and contestant pages", async () => {

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 
 type Track = "main" | "gaite" | "team";
+type TaskTrack = Track | "home";
 
 type Edition = {
   year: number;
@@ -19,6 +20,9 @@ type Edition = {
   officialUrl: string;
   summary: string;
   taskCommentary?: string[];
+  commentaryAuthor?: string;
+  commentaryDate?: string;
+  timeLimits?: { label: string; duration: string }[];
 };
 
 type Result = {
@@ -65,13 +69,13 @@ type PracticalResult = {
 type Task = {
   slug: string;
   year: number;
-  track: Track;
+  track: TaskTrack;
   day: number;
   name: string;
   category: string;
   maxScore: number | null;
   materials: string;
-  tracks: Track[];
+  tracks: TaskTrack[];
   order?: number;
 };
 
@@ -362,12 +366,17 @@ const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   extreme: "Extreme",
 };
 
+const TASK_TRACK_LABELS: Record<TaskTrack, string> = {
+  ...TRACK_LABELS,
+  home: "At-home",
+};
+
 const DIFFICULTY_RULES: Record<Difficulty, string> = {
   basic: "Half of Individual contestants reached 50.",
   bronze: "Half of bronze medalists reached 50.",
   silver: "Half of silver medalists reached 50.",
   gold: "Half of gold medalists reached 50.",
-  "gold+": "Fewer than half of gold medalists reached 50.",
+  "gold+": "Half of gold medalists reached 20.",
   extreme: "Fewer than half of gold medalists reached 20.",
 };
 
@@ -463,6 +472,29 @@ function DifficultyBadge({ difficulty, explain = false }: { difficulty: Difficul
         {DIFFICULTY_RULES[difficulty]}
       </span>
     </span>
+  );
+}
+
+function TaskTabs({ value, onChange, tracks = ["main", "gaite", "home", "team"] }: {
+  value: TaskTrack;
+  onChange: (track: TaskTrack) => void;
+  tracks?: TaskTrack[];
+}) {
+  return (
+    <div className="track-tabs" role="tablist" aria-label="Task group">
+      {tracks.map((track) => (
+        <button
+          key={track}
+          type="button"
+          role="tab"
+          aria-selected={value === track}
+          className={value === track ? "active" : ""}
+          onClick={() => onChange(track)}
+        >
+          {TASK_TRACK_LABELS[track]}
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -596,15 +628,20 @@ function ResultsTable({ results, track, compact = false, showYear = false }: {
 }
 
 function TaskTable({ tasks }: { tasks: Task[] }) {
+  const taskNumber = (task: Task) => {
+    if (task.year === 2024 || task.track === "team" || (task.track === "home" && task.year === 2025)) return "—";
+    return task.order ?? "—";
+  };
   return (
     <div className="table-wrap">
       <table className="data-table">
         <thead>
           <tr>
             <th className="number">Year</th>
+            <th className="number">No.</th>
             <th>Task</th>
             <th>Track</th>
-            <th>Category / round</th>
+            <th>Category</th>
             <th><span className="difficulty-heading">Difficulty <DifficultyLegend compact /></span></th>
             <th className="number">Max.</th>
             <th>Materials</th>
@@ -614,8 +651,9 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
           {tasks.map((task) => (
             <tr key={task.slug}>
               <td className="number"><a href={`/olympiads/${task.year}/tasks`}>{task.year}</a></td>
+              <td className="number">{taskNumber(task)}</td>
               <td><a href={`/tasks/${task.slug}`}>{task.name}</a></td>
-              <td>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TRACK_LABELS[track]}</span>)}</td>
+              <td>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TASK_TRACK_LABELS[track]}</span>)}</td>
               <td>{task.category}</td>
               <td>{taskDifficulty(task) ? <DifficultyBadge difficulty={taskDifficulty(task)!} /> : "—"}</td>
               <td className="number">{task.maxScore ?? "—"}</td>
@@ -778,15 +816,16 @@ function EditionNav({ year, section }: { year: number; section: string }) {
 function EditionHeader({ edition, section }: { edition: Edition; section: string }) {
   const years = DATA.editions.map((item) => item.year).sort();
   const index = years.indexOf(edition.year);
+  const sectionPath = section === "main" ? "" : `/${section}`;
   return (
     <>
       <div className="edition-heading">
-        <a className={`year-arrow ${index === 0 ? "disabled" : ""}`} href={index > 0 ? `/olympiads/${years[index - 1]}` : undefined} aria-label="Previous edition">←</a>
+        <a className={`year-arrow ${index === 0 ? "disabled" : ""}`} href={index > 0 ? `/olympiads/${years[index - 1]}${sectionPath}` : undefined} aria-label="Previous edition">←</a>
         <div>
           <p className="eyebrow">{edition.number}{edition.number === 1 ? "st" : edition.number === 2 ? "nd" : "rd"} edition</p>
           <h1>IOAI {edition.year}</h1>
         </div>
-        <a className={`year-arrow ${index === years.length - 1 ? "disabled" : ""}`} href={index < years.length - 1 ? `/olympiads/${years[index + 1]}` : undefined} aria-label="Next edition">→</a>
+        <a className={`year-arrow ${index === years.length - 1 ? "disabled" : ""}`} href={index < years.length - 1 ? `/olympiads/${years[index + 1]}${sectionPath}` : undefined} aria-label="Next edition">→</a>
       </div>
       <EditionNav year={edition.year} section={section} />
     </>
@@ -805,6 +844,7 @@ function EditionMain({ edition }: { edition: Edition }) {
           <dl className="detail-list">
             <div><dt>Host</dt><dd>{edition.city}, <a href={`/countries/${slugify(edition.country)}`}>{edition.country}</a></dd></div>
             <div><dt>Dates</dt><dd>{edition.dates}</dd></div>
+            {edition.timeLimits?.map((limit) => <div key={limit.label}><dt>{limit.label} time limit</dt><dd>{limit.duration}</dd></div>)}
             <div><dt>{hasIndividualResults ? "Ranked contestants" : "Contestants"}</dt><dd>{edition.contestants}</dd></div>
             <div><dt>Countries & territories</dt><dd>{edition.countries}</dd></div>
             <div><dt>Official website</dt><dd><a href={edition.officialUrl} target="_blank" rel="noreferrer">Visit archive ↗</a></dd></div>
@@ -836,13 +876,16 @@ function EditionMain({ edition }: { edition: Edition }) {
       </div>
       {edition.summary ? (
         <section className="edition-commentary">
-          <SectionTitle title="Commentary" />
-          <p>{edition.summary}</p>
+          <SectionTitle title="Individual contest commentary" />
+          {edition.year === 2026 ? (
+            <p>IOAI 2026 was a punishing break for contestants who expected something resembling IOAI 2025: every task was now genuinely <strong>hammer resistant (unable to be solved with off-the-shelf methods)</strong>, as the <a href="https://ioai-official.org/call-for-tasks/" target="_blank" rel="noreferrer">IOAI Call for Tasks</a> states. Unlike some tasks from 2025, each problem demanded problem-specific adaptation rather than a ready-made approach. This will probably be the general trend for IOAI in the future.</p>
+          ) : <p>{edition.summary}</p>}
           {edition.taskCommentary?.length ? (
             <ol className="task-commentary-list">
               {edition.taskCommentary.map((note, index) => <li key={`${edition.year}-commentary-${index}`}><strong>T{index + 1}{tasks[index] ? ` · ${tasks[index].name}` : ""}</strong><span>{note}</span></li>)}
             </ol>
           ) : null}
+          {edition.commentaryAuthor && edition.commentaryDate ? <p className="commentary-byline">{edition.commentaryAuthor} · {edition.commentaryDate}</p> : null}
         </section>
       ) : null}
     </>
@@ -1026,11 +1069,13 @@ function AdministrationSection({ year }: { year: number }) {
   return <div className="table-wrap"><table className="data-table"><thead><tr><th>Role</th><th>Name</th></tr></thead><tbody>{records.map((record) => <tr key={`${record.role}-${record.name}`}><td>{record.role}</td><td>{record.name}</td></tr>)}</tbody></table></div>;
 }
 
-function EditionPage({ year, section, track, setTrack, round, setRound }: {
+function EditionPage({ year, section, track, setTrack, taskTrack, setTaskTrack, round, setRound }: {
   year: number;
   section: string;
   track: Track;
   setTrack: (track: Track) => void;
+  taskTrack: TaskTrack;
+  setTaskTrack: (track: TaskTrack) => void;
   round: string;
   setRound: (round: string) => void;
 }) {
@@ -1038,7 +1083,9 @@ function EditionPage({ year, section, track, setTrack, round, setRound }: {
   if (!edition) return <NotFoundPage />;
   const visibleSection = section === "contestants" ? "results" : section;
   const effectiveTrack: Track = year === 2024 ? "team" : track;
-  const editionTasks = DATA.tasks.filter((task) => task.year === year && taskTracks(task).includes(effectiveTrack));
+  const availableTaskTracks: TaskTrack[] = year === 2024 ? ["team", "home"] : year === 2025 ? ["main", "gaite", "home", "team"] : ["main", "gaite", "home"];
+  const effectiveTaskTrack = availableTaskTracks.includes(taskTrack) ? taskTrack : availableTaskTracks[0];
+  const editionTasks = DATA.tasks.filter((task) => task.year === year && taskTracks(task).includes(effectiveTaskTrack));
   return (
     <>
       <EditionHeader edition={edition} section={visibleSection} />
@@ -1049,7 +1096,7 @@ function EditionPage({ year, section, track, setTrack, round, setRound }: {
           <><div className="toolbar-row"><SectionTitle title={year === 2024 ? "Teams & delegations" : "Delegations"} />{year >= 2025 ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : null}</div><DelegationsTable year={year} track={effectiveTrack} /></>
         ) : null}
         {visibleSection === "tasks" ? (
-          <><div className="toolbar-row"><SectionTitle title="Tasks" />{year >= 2025 ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite", ...(year === 2025 ? ["team" as Track] : [])]} /> : null}</div>{editionTasks.length ? <TaskTable tasks={editionTasks} /> : <EmptyState title="Tasks not yet available">Official task materials will be linked after publication.</EmptyState>}</>
+          <><div className="toolbar-row"><SectionTitle title="Tasks" /><TaskTabs value={effectiveTaskTrack} onChange={setTaskTrack} tracks={availableTaskTracks} /></div>{editionTasks.length ? <TaskTable tasks={editionTasks} /> : <EmptyState title="Tasks not yet available">Official task materials will be linked after publication.</EmptyState>}</>
         ) : null}
         {visibleSection === "administration" ? <><SectionTitle title="Administration" /><AdministrationSection year={year} /></> : null}
       </div>
@@ -1093,12 +1140,12 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   );
 }
 
-function TasksPage({ track, setTrack }: { track: Track; setTrack: (track: Track) => void }) {
+function TasksPage({ track, setTrack }: { track: TaskTrack; setTrack: (track: TaskTrack) => void }) {
   const tasks = DATA.tasks.filter((task) => taskTracks(task).includes(track)).sort((a, b) => b.year - a.year || a.day - b.day || (a.order ?? 0) - (b.order ?? 0));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">Official task archive</p><h1>Tasks</h1></div>
-      <div className="toolbar-row"><TrackTabs value={track} onChange={setTrack} /></div>
+      <div className="toolbar-row"><TaskTabs value={track} onChange={setTrack} /></div>
       <TaskTable tasks={tasks} />
     </>
   );
@@ -1106,19 +1153,20 @@ function TasksPage({ track, setTrack }: { track: Track; setTrack: (track: Track)
 
 function TaskPage({ taskSlug }: { taskSlug: string }) {
   const task = DATA.tasks.find((item) => item.slug === taskSlug);
-  const availableTracks = task ? taskTracks(task).filter((track): track is "main" | "gaite" => track !== "team") : ["main" as const];
-  const [selectedTrack, setSelectedTrack] = useState<Track>(availableTracks[0]);
+  const availableTracks = task ? taskTracks(task).filter((track): track is "main" | "gaite" => track === "main" || track === "gaite") : ["main" as const];
+  const [selectedTrack, setSelectedTrack] = useState<Track>("main");
   if (!task) return <NotFoundPage />;
-  const effectiveTrack = availableTracks.includes(selectedTrack as "main" | "gaite") ? selectedTrack as "main" | "gaite" : availableTracks[0];
-  const allScores = task.track === "team" ? [] : taskScoreEntries(task, effectiveTrack);
+  const effectiveTrack = availableTracks.includes(selectedTrack as "main" | "gaite") ? selectedTrack as "main" | "gaite" : availableTracks[0] ?? "main";
+  const unrankedTask = task.track === "team" || task.track === "home";
+  const allScores = unrankedTask ? [] : taskScoreEntries(task, effectiveTrack);
   const scores = topSolverEntries(task, effectiveTrack);
   const difficulty = taskDifficulty(task);
   return (
     <>
-      <div className="page-heading task-heading"><p className="eyebrow">IOAI {task.year} · {taskTracks(task).map((track) => TRACK_LABELS[track]).join(" / ")}</p><h1>{task.name}</h1><p>{task.category}{task.day ? ` · contest day ${task.day}` : ""}</p></div>
-      <div className="task-actions"><span>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TRACK_LABELS[track]}</span>)}{difficulty ? <DifficultyBadge difficulty={difficulty} explain /> : null}</span><a className="button-link" href={task.materials} target="_blank" rel="noreferrer">Open official materials ↗</a></div>
-      {task.track === "team" ? (
-        <EmptyState title="Team task — no individual ranking">This task is preserved separately and never contributes to the Hall of Fame or country rankings.</EmptyState>
+      <div className="page-heading task-heading"><p className="eyebrow">IOAI {task.year} · {taskTracks(task).map((track) => TASK_TRACK_LABELS[track]).join(" / ")}</p><h1>{task.name}</h1><p>{task.category}{task.day ? ` · contest day ${task.day}` : ""}</p></div>
+      <div className="task-actions"><span>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TASK_TRACK_LABELS[track]}</span>)}{difficulty ? <DifficultyBadge difficulty={difficulty} explain /> : null}</span><a className="button-link" href={task.materials} target="_blank" rel="noreferrer">Open official materials ↗</a></div>
+      {unrankedTask ? (
+        <EmptyState title={task.track === "home" ? "At-home task — no individual ranking" : "Team task — no individual ranking"}>{task.track === "home" ? "This preparatory task is archived separately and has no published individual ranking." : "This task is preserved separately and never contributes to the Hall of Fame or country rankings."}</EmptyState>
       ) : (
         <>
           <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setSelectedTrack} tracks={availableTracks} /></div>
@@ -1353,15 +1401,16 @@ export default function StatsApp() {
   const pathname = usePathname() || "/";
   const parts = pathname.split("/").filter(Boolean);
   const [track, setTrack] = useState<Track>("main");
+  const [taskTrack, setTaskTrack] = useState<TaskTrack>("main");
   const [round, setRound] = useState("scientific");
 
   let page: ReactNode;
   if (!parts.length) page = <HomePage />;
   else if (parts[0] === "olympiads" && !parts[1]) page = <OlympiadsPage />;
-  else if (parts[0] === "olympiads" && parts[1]) page = <EditionPage year={Number(parts[1])} section={parts[2] || "main"} track={track} setTrack={setTrack} round={round} setRound={setRound} />;
+  else if (parts[0] === "olympiads" && parts[1]) page = <EditionPage year={Number(parts[1])} section={parts[2] || "main"} track={track} setTrack={setTrack} taskTrack={taskTrack} setTaskTrack={setTaskTrack} round={round} setRound={setRound} />;
   else if (parts[0] === "countries" && !parts[1]) page = <CountriesPage track={track} setTrack={setTrack} />;
   else if (parts[0] === "countries" && parts[1]) page = <CountryPage countrySlug={parts[1]} track={track} setTrack={setTrack} />;
-  else if (parts[0] === "tasks" && !parts[1]) page = <TasksPage track={track} setTrack={setTrack} />;
+  else if (parts[0] === "tasks" && !parts[1]) page = <TasksPage track={taskTrack} setTrack={setTaskTrack} />;
   else if (parts[0] === "tasks" && parts[1]) page = <TaskPage taskSlug={parts[1]} />;
   else if (parts[0] === "hall-of-fame") page = <HallOfFamePage track={track} setTrack={setTrack} />;
   else if (parts[0] === "search") page = <SearchPage />;

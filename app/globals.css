@@ -1491,6 +1491,14 @@ h3 {
   color: #573c00;
 }
 
+.edition-commentary > .commentary-byline {
+  margin-top: 16px;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
 .difficulty.extreme {
   border-color: #9b2c56;
   background: #f7d8e4;
