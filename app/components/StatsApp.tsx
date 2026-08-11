@@ -792,7 +792,7 @@ function HomePage() {
       <div className="home-content-panel">
       <div className="hero compact-hero">
         <div>
-          <p className="eyebrow">International Olympiad in Artificial Intelligence</p>
+          <p className="eyebrow">International Olympiad in <span className="no-break">Artificial Intelligence</span></p>
           <h1>IOAI Statistics</h1>
           <p className="lede">An unofficial report of IOAI results, countries and tasks.</p>
         </div>

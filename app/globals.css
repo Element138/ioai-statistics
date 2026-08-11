@@ -389,6 +389,10 @@ h3 {
   text-transform: uppercase;
 }
 
+.no-break {
+  white-space: nowrap;
+}
+
 .lede {
   max-width: 770px;
   margin-bottom: 0;
@@ -2340,10 +2344,6 @@ h3 {
 }
 
 @media (max-width: 480px) {
-  .brand-copy {
-    font-size: 0.86rem;
-  }
-
   .hero-index {
     grid-template-columns: 1fr 1fr 1fr;
   }
