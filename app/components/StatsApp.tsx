@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 
@@ -229,7 +230,7 @@ function Flag({ country, large = false, highResolution = false }: { country: str
   const code = COUNTRY_CODES[country];
   if (!code) return <span className={large ? "flag-fallback large" : "flag-fallback"} aria-hidden="true">◆</span>;
   const size = large ? "80x60" : highResolution ? "60x45" : "20x15";
-  return <img className={large ? "flag-image large" : "flag-image"} src={`https://flagcdn.com/${size}/${code.toLowerCase()}.png`} alt="" loading="lazy" referrerPolicy="no-referrer" />;
+  return <img className={large ? "flag-image large" : "flag-image"} src={`https://flagcdn.com/${size}/${code.toLowerCase()}.png`} alt="" loading={large ? "eager" : "lazy"} decoding="async" fetchPriority={large ? "high" : "low"} referrerPolicy="no-referrer" />;
 }
 
 function formatScore(value: number | null | undefined) {
@@ -878,14 +879,14 @@ function EditionMain({ edition }: { edition: Edition }) {
         <section className="edition-commentary">
           <SectionTitle title="Individual contest commentary" />
           {edition.year === 2026 ? (
-            <p>IOAI 2026 was a punishing break for contestants who expected something resembling IOAI 2025: every task was now genuinely <strong>hammer resistant (unable to be solved with off-the-shelf methods)</strong>, as the <a href="https://ioai-official.org/call-for-tasks/" target="_blank" rel="noreferrer">IOAI Call for Tasks</a> states. Unlike some tasks from 2025, each problem demanded problem-specific adaptation rather than a ready-made approach. This will probably be the general trend for IOAI in the future.</p>
-          ) : <p>{edition.summary}</p>}
+            <p className="commentary-summary">IOAI 2026 was a punishing break for contestants expecting something like IOAI 2025. Every task was genuinely <strong>hammer resistant (unable to be solved with off-the-shelf methods)</strong>, as the <a href="https://ioai-official.org/call-for-tasks/" target="_blank" rel="noreferrer">IOAI Call for Tasks</a> puts it: every Day 1 task shifted sharply from its at-home counterpart, while Day 2 offered no universal source of points. Most leading contestants combined strong scores on two tasks with at least 25 points on another two or three. This problem-specific style will probably define future editions.</p>
+          ) : <p className="commentary-summary">{edition.summary}</p>}
           {edition.taskCommentary?.length ? (
             <ol className="task-commentary-list">
               {edition.taskCommentary.map((note, index) => <li key={`${edition.year}-commentary-${index}`}><strong>T{index + 1}{tasks[index] ? ` · ${tasks[index].name}` : ""}</strong><span>{note}</span></li>)}
             </ol>
           ) : null}
-          {edition.commentaryAuthor && edition.commentaryDate ? <p className="commentary-byline">{edition.commentaryAuthor} · {edition.commentaryDate}</p> : null}
+          {edition.commentaryAuthor && edition.commentaryDate ? <p className="commentary-byline">({edition.commentaryAuthor} · {edition.commentaryDate})</p> : null}
         </section>
       ) : null}
     </>
@@ -1027,6 +1028,18 @@ function rankCountrySummaries(summaries: CountrySummary[], track: "main" | "gait
   });
 }
 
+const COUNTRY_RESULTS = {
+  main: allResults("main"),
+  gaite: allResults("gaite"),
+};
+
+const COUNTRY_RANKINGS = {
+  main: rankCountrySummaries(summarizeCountries(COUNTRY_RESULTS.main), "main"),
+  gaite: rankCountrySummaries(summarizeCountries(COUNTRY_RESULTS.gaite), "gaite"),
+};
+
+const COUNTRY_NAMES = [...new Set([...COUNTRY_RESULTS.main, ...COUNTRY_RESULTS.gaite].map((result) => result.country))];
+
 function DelegationsTable({ year, track }: { year: number; track: Track }) {
   if (year === 2024) {
     return (
@@ -1106,7 +1119,7 @@ function EditionPage({ year, section, track, setTrack, taskTrack, setTaskTrack, 
 
 function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Track) => void }) {
   const effectiveTrack = track === "team" ? "main" : track;
-  const summaries = rankCountrySummaries(summarizeCountries(allResults(effectiveTrack)), effectiveTrack);
+  const summaries = COUNTRY_RANKINGS[effectiveTrack];
   return (
     <>
       <div className="page-heading"><p className="eyebrow">Participation & awards</p><h1>Countries</h1></div>
@@ -1117,17 +1130,20 @@ function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Tr
 }
 
 function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; track: Track; setTrack: (track: Track) => void }) {
-  const countries = [...new Set([...allResults("main"), ...allResults("gaite")].map((result) => result.country))];
-  const country = countries.find((item) => slugify(item) === countrySlug);
+  const country = COUNTRY_NAMES.find((item) => slugify(item) === countrySlug);
   if (!country) return <NotFoundPage />;
-  const availableMain = allResults("main").filter((result) => result.country === country);
-  const availableGaite = allResults("gaite").filter((result) => result.country === country);
+  const availableMain = COUNTRY_RESULTS.main.filter((result) => result.country === country);
+  const availableGaite = COUNTRY_RESULTS.gaite.filter((result) => result.country === country);
   const effectiveTrack = track === "gaite" && availableGaite.length ? "gaite" : "main";
+  const latestMainYear = Math.max(0, ...availableMain.map((result) => result.year));
+  const latestGaiteYear = Math.max(0, ...availableGaite.map((result) => result.year));
+  const nationalRankTrack: "main" | "gaite" = availableGaite.length && (!availableMain.length || latestGaiteYear > latestMainYear) ? "gaite" : "main";
+  const nationalRank = COUNTRY_RANKINGS[nationalRankTrack].find((summary) => summary.country === country)?.rank;
   const results = [...(effectiveTrack === "gaite" ? availableGaite : availableMain)].sort((a, b) => b.year - a.year || a.rank - b.rank);
   const awards = countAwards(availableMain);
   return (
     <>
-      <div className="country-heading"><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={`${nationalRankTrack === "main" ? "Individual" : "GAITE"} national rank ${nationalRank}`}><span>{nationalRankTrack === "main" ? "Individual" : "GAITE"} rank</span><strong>#{nationalRank ?? "—"}</strong></div><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
       <div className="metric-strip">
         <div><span>Result entries</span><strong>{availableMain.length + availableGaite.length}</strong></div>
         <div><span>Participating editions</span><strong>{new Set([...availableMain, ...availableGaite].map((result) => result.year)).size}</strong></div>
@@ -1371,14 +1387,14 @@ function SiteHeader({ pathname }: { pathname: string }) {
   return (
     <header className="site-header">
       <div className="brand-row shell">
-        <a className="brand" href="/" aria-label="IOAI Statistics home">
+        <Link className="brand" href="/" aria-label="IOAI Statistics home">
           <img className="brand-mark" src="/ioai-statistics-logo.png" width="34" height="34" alt="" aria-hidden="true" />
           <span className="brand-copy">IOAI Statistics</span>
-        </a>
+        </Link>
       </div>
       <div className="nav-border">
         <nav className="top-nav shell" aria-label="Primary navigation">
-          {nav.map(([href, label]) => <a key={href} className={pathname.startsWith(href) ? "active" : ""} href={href}>{label}</a>)}
+          {nav.map(([href, label]) => <Link key={href} className={pathname.startsWith(href) ? "active" : ""} href={href}>{label}</Link>)}
         </nav>
       </div>
     </header>

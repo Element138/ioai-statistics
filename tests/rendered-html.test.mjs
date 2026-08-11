@@ -68,6 +68,8 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.task-commentary-list li:nth-child\(2\)\s*\{\s*grid-column:\s*1;\s*grid-row:\s*2;/s);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.task-commentary-list li\s*\{[^}]*grid-column:\s*1 !important;[^}]*grid-row:\s*auto !important;/s);
   assert.match(css, /\.footer-grid p a\s*\{[^}]*display:\s*inline/s);
+  assert.match(css, /\.edition-commentary > \.commentary-summary\s*\{[^}]*max-width:\s*none/s);
+  assert.match(css, /\.edition-commentary > \.commentary-byline\s*\{[^}]*text-align:\s*right/s);
   assert.match(layout, /icon:\s*"\/ioai-statistics-logo\.png"/);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));
 });
@@ -90,6 +92,7 @@ test("publishes task numbers, at-home records, categories, and official 2026 lin
   assert.equal(bySlug.get("help-bobai").category, "NLP");
   assert.equal(bySlug.get("lost-in-hyperspace").category, "ML");
   assert.equal(bySlug.get("madarian-cow").category, "CV");
+  assert.equal(bySlug.get("team-challenge-final").category, "Team challenge");
   assert.equal(bySlug.get("2026-task-6").materials, "https://github.com/IOAI-official/IOAI-2026/tree/main/Individual-Contest/6_IOAI_Field");
 
   const tasksHtml = await (await render("/tasks")).text();
@@ -114,11 +117,30 @@ test("keeps edition section navigation, time limits, and signed commentary", asy
   assert.match(edition2026, /Contest day 2(?:<!-- -->)? time limit<\/dt><dd>6 hours/);
   assert.match(edition2026, /Individual contest commentary/);
   assert.match(edition2026, /<strong>hammer resistant \(unable to be solved with off-the-shelf methods\)<\/strong>/);
+  assert.match(edition2026, /every Day 1 task shifted sharply from its at-home counterpart, while Day 2 offered no universal source of points/);
+  assert.match(edition2026, /Most leading contestants combined strong scores on two tasks with at least 25 points on another two or three/);
   assert.match(edition2026, /Harder than it first appeared to many contestants/);
-  assert.match(edition2026, /commentary-byline">Sasuke Kondo(?:<!-- -->)? · (?:<!-- -->)?11 August 2026/);
+  assert.match(edition2026, /commentary-byline">\((?:<!-- -->)?Sasuke Kondo(?:<!-- -->)? · (?:<!-- -->)?11 August 2026(?:<!-- -->)?\)/);
 
   const edition2024 = await (await render("/olympiads/2024")).text();
   assert.match(edition2024, /Scientific round(?:<!-- -->)? time limit<\/dt><dd>8 hours/);
+});
+
+test("shows the appropriate national ranking and caches country summaries", async () => {
+  const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
+  assert.match(app, /const COUNTRY_RANKINGS =/);
+  assert.match(app, /const summaries = COUNTRY_RANKINGS\[effectiveTrack\]/);
+  assert.match(app, /import Link from "next\/link"/);
+  assert.match(app, /nav\.map\(\(\[href, label\]\) => <Link/);
+  assert.match(app, /decoding="async" fetchPriority=\{large \? "high" : "low"\}/);
+
+  const individualHtml = await (await render("/countries/japan")).text();
+  assert.match(individualHtml, /rank-block country-rank-block main/);
+  assert.match(individualHtml, />Individual(?:<!-- -->)? rank<\/span>/);
+
+  const gaiteHtml = await (await render("/countries/puerto-rico")).text();
+  assert.match(gaiteHtml, /rank-block country-rank-block gaite/);
+  assert.match(gaiteHtml, />GAITE(?:<!-- -->)? rank<\/span>/);
 });
 
 test("publishes indexable metadata while excluding search and contestant pages", async () => {

@@ -26,7 +26,7 @@
         "team"
       ],
       "officialUrl": "https://ioai2026.kz/",
-      "summary": "IOAI 2026 was a punishing break for contestants who expected something resembling IOAI 2025: every task was now genuinely hammer resistant (unable to be solved with off-the-shelf methods), as the IOAI Call for Tasks states. Unlike some tasks from 2025, each problem demanded problem-specific adaptation rather than a ready-made approach. This will probably be the general trend for IOAI in the future.",
+      "summary": "IOAI 2026 was a punishing break for contestants expecting something like IOAI 2025. Every task was genuinely hammer resistant (unable to be solved with off-the-shelf methods), as the IOAI Call for Tasks puts it: every Day 1 task shifted sharply from its at-home counterpart, while Day 2 offered no universal source of points. Most leading contestants combined strong scores on two tasks with at least 25 points on another two or three. This problem-specific style will probably define future editions.",
       "commentaryAuthor": "Sasuke Kondo",
       "commentaryDate": "11 August 2026",
       "timeLimits": [
@@ -7334,7 +7334,7 @@
       "track": "team",
       "day": 0,
       "name": "Team Challenge — Final Round",
-      "category": "Collaborative challenge",
+      "category": "Team challenge",
       "maxScore": null,
       "materials": "https://ioai-official.org/team-challenge/",
       "tracks": [

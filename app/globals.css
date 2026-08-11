@@ -1491,12 +1491,21 @@ h3 {
   color: #573c00;
 }
 
+.edition-commentary > .commentary-summary {
+  width: 100%;
+  max-width: none;
+  text-wrap: pretty;
+}
+
 .edition-commentary > .commentary-byline {
+  width: 100%;
+  max-width: none;
   margin-top: 16px;
   color: var(--ink);
   font-size: 0.78rem;
   font-weight: 650;
   letter-spacing: 0.01em;
+  text-align: right;
 }
 
 .difficulty.extreme {
@@ -1709,6 +1718,24 @@ h3 {
 .rank-block strong {
   font-size: 1.7rem;
   letter-spacing: -0.05em;
+}
+
+.country-rank-block {
+  width: 82px;
+  height: 82px;
+  flex: 0 0 82px;
+  border-color: #9eb1cc;
+  background: #f2f6fc;
+}
+
+.country-rank-block.gaite {
+  border-color: #9bcbb1;
+  background: #eef8f2;
+}
+
+.country-rank-block span {
+  max-width: 64px;
+  text-align: center;
 }
 
 .contestant-detail {
@@ -2156,6 +2183,11 @@ h3 {
   .rank-block {
     width: 58px;
     height: 52px;
+  }
+
+  .country-rank-block {
+    height: 58px;
+    flex-basis: 58px;
   }
 
   .big-flag {
