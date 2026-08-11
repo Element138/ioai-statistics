@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 const origin = "https://ioai-statistics.org";
 const description = "An unofficial report of IOAI editions, contestants, countries, tasks and final results.";
-const image = `${origin}/og.png`;
+const image = `${origin}/ioai-statistics-social-20260811.png`;
 
 export const metadata: Metadata = {
     metadataBase: new URL(origin),
@@ -45,7 +46,8 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <script
+        <Script
+          strategy="afterInteractive"
           type="module"
           src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token":"599c2f8ba8b64ef48a2c38f3637f93d5"}'

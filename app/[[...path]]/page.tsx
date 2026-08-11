@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: ReportPageProps): Promise<Met
   const { path = [] } = await params;
   const page = pageSeoForPath(path);
   const canonicalUrl = new URL(page.canonicalPath, `${origin}/`).toString();
-  const image = `${origin}/og.png`;
+  const image = `${origin}/ioai-statistics-social-20260811.png`;
 
   return {
     title: page.title === "IOAI Statistics" ? { absolute: page.title } : page.title,

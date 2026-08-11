@@ -378,6 +378,8 @@ test("publishes indexable metadata while excluding search and contestant pages",
   const taskHtml = await taskResponse.text();
   assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
   assert.match(taskHtml, /<link rel="canonical" href="https:\/\/ioai-statistics\.org\/tasks\/radar"\/>/);
+  assert.match(taskHtml, /ioai-statistics-social-20260811\.png/);
+  assert.doesNotMatch(taskHtml, /https:\/\/ioai-statistics\.org\/og\.png/);
   assert.match(taskHtml, /class="difficulty-badge-help"/);
   assert.match(taskHtml, /role="tooltip">Half of Individual contestants reached 50\.<\/span>/);
 

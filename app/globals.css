@@ -1627,6 +1627,7 @@ h3 {
 
 .difficulty-badge-help > .difficulty {
   cursor: help;
+  font-family: inherit;
 }
 
 .difficulty-tooltip {

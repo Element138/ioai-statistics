@@ -5,6 +5,9 @@ import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 import { slugify } from "../slug";
 
+/* Plain anchors avoid mass prefetching; direct images avoid an optimization runtime. */
+/* eslint-disable @next/next/no-html-link-for-pages, @next/next/no-img-element */
+
 type Track = "main" | "gaite" | "team";
 type TaskTrack = Track | "home";
 
@@ -482,13 +485,13 @@ function DifficultyBadge({ difficulty, explain = false }: { difficulty: Difficul
   const tooltipId = "task-difficulty-explanation";
   return (
     <span className="difficulty-badge-help">
-      <span
+      <button
+        type="button"
         className={`difficulty ${difficultyClassName(difficulty)}`}
-        tabIndex={0}
         aria-describedby={tooltipId}
       >
         {DIFFICULTY_LABELS[difficulty]}
-      </span>
+      </button>
       <span className="difficulty-tooltip" id={tooltipId} role="tooltip">
         {DIFFICULTY_RULES[difficulty]}
       </span>
@@ -866,12 +869,12 @@ function EditionHeader({ edition, section }: { edition: Edition; section: string
   return (
     <>
       <div className="edition-heading">
-        <a className={`year-arrow ${index === 0 ? "disabled" : ""}`} href={index > 0 ? `/olympiads/${years[index - 1]}${sectionPath}` : undefined} aria-label="Previous edition">←</a>
+        {index > 0 ? <a className="year-arrow" href={`/olympiads/${years[index - 1]}${sectionPath}`} aria-label="Previous edition">←</a> : <span className="year-arrow disabled" aria-hidden="true">←</span>}
         <div>
           <p className="eyebrow">{edition.number}{edition.number === 1 ? "st" : edition.number === 2 ? "nd" : "rd"} edition</p>
           <h1>IOAI {edition.year}</h1>
         </div>
-        <a className={`year-arrow ${index === years.length - 1 ? "disabled" : ""}`} href={index < years.length - 1 ? `/olympiads/${years[index + 1]}${sectionPath}` : undefined} aria-label="Next edition">→</a>
+        {index < years.length - 1 ? <a className="year-arrow" href={`/olympiads/${years[index + 1]}${sectionPath}`} aria-label="Next edition">→</a> : <span className="year-arrow disabled" aria-hidden="true">→</span>}
       </div>
       <EditionNav year={edition.year} section={section} />
     </>
@@ -1132,21 +1135,6 @@ function CountrySummaryTable({ summaries, track, showEditions = true }: { summar
   );
 }
 
-function ContestantsSection({ year, track }: { year: number; track: Track }) {
-  if (year === 2024) {
-    return (
-      <>
-        <div className="notice team-notice"><strong>Team-only roster.</strong> Contestants are listed with their teams and have no individual result or rank.</div>
-        <div className="table-wrap"><table className="data-table"><thead><tr><th>Contestant</th><th>Team</th><th>Country or region</th></tr></thead><tbody>
-          {DATA.teams2024.filter((team) => !team.observer).flatMap((team) => team.students.map((student) => ({ student, team: team.name, country: countryFromTeam(team.name) }))).map((item, index) => <tr key={`${item.team}-${item.student}-${index}`}><td>{item.student}</td><td>{item.team}</td><td><span className="country-link"><Flag country={item.country} />{item.country}</span></td></tr>)}
-        </tbody></table></div>
-      </>
-    );
-  }
-  const results = resultsFor(year, track === "gaite" ? "gaite" : "main");
-  return <ResultsTable results={results} track={track === "gaite" ? "gaite" : "main"} compact />;
-}
-
 function AdministrationSection({ year }: { year: number }) {
   const records = DATA.administration[String(year)] || [];
   if (!records.length) return <EmptyState title="No administration records added">The official sources do not yet provide a complete, edition-specific administration roster suitable for this archive.</EmptyState>;
@@ -1389,7 +1377,7 @@ function SearchPage() {
       <div className="page-heading"><p className="eyebrow">Archive index</p><h1>Search</h1></div>
       <div className="search-panel">
         <label htmlFor="archive-search">Search terms</label>
-        <input id="archive-search" autoFocus type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, country, task or year" />
+        <input id="archive-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, country, task or year" />
         <span>{normalized ? `${total} matching records` : "Start typing to search"}</span>
       </div>
       {!normalized ? <EmptyState title="One index, every record">Try a contestant name, a country such as Poland, or a task such as Radar.</EmptyState> : null}
@@ -1469,7 +1457,7 @@ function PrivacyPage() {
 }
 
 function NotFoundPage() {
-  return <EmptyState title="Record not found">Return to the <a href="/">archive home</a> or use <a href="/search">search</a>.</EmptyState>;
+  return <EmptyState title="Record not found">Return to the <a href="/">report home</a> or use <a href="/search">search</a>.</EmptyState>;
 }
 
 function SiteHeader({ pathname }: { pathname: string }) {
