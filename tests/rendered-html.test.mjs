@@ -30,11 +30,17 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
 
   const html = await response.text();
   const head = html.slice(0, html.indexOf("</head>") + "</head>".length);
+  assert.match(html, /<meta name="description" content="An unofficial report of IOAI editions, contestants, countries, tasks and final results\.">/);
+  assert.match(html, /<meta property="og:image:alt" content="IOAI Statistics report">/);
+  assert.doesNotMatch(html, /public archive|data archive/i);
   assert.match(head, /<link rel="icon" href="\/favicon\.ico" sizes="any"\s*\/>/);
   assert.match(head, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"\s*\/>/);
   assert.match(head, /<link rel="manifest" href="\/site\.webmanifest"\s*\/>/);
   assert.match(html, /src="\/ioai-statistics-logo\.png"/);
   assert.match(html, />IOAI Statistics<\/span>/);
+  assert.match(html, /An unofficial report of IOAI results, countries and tasks\./);
+  assert.match(html, /An unofficial report made by/);
+  assert.doesNotMatch(html, /An unofficial (?:reporting )?archive/);
   for (const href of ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/search"]) {
     assert.match(html, new RegExp(`<a[^>]+href="${href.replaceAll("/", "\\/")}"`));
   }
@@ -45,10 +51,12 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
 });
 
 test("keeps the scoring criteria and branding independently configured", async () => {
-  const [app, css, layout] = await Promise.all([
+  const [app, css, layout, seo, page] = await Promise.all([
     readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/seo.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/[[...path]]/page.tsx", import.meta.url), "utf8"),
   ]);
 
   assert.match(app, /DIFFICULTY_SCORE_THRESHOLD = 50/);
@@ -88,6 +96,10 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(layout, /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml" \/>/);
   assert.match(layout, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180" \/>/);
   assert.match(layout, /<link rel="manifest" href="\/site\.webmanifest" \/>/);
+  assert.match(layout, /An unofficial report of IOAI editions, contestants, countries, tasks and final results\./);
+  assert.doesNotMatch(layout, /public archive|data archive/i);
+  assert.doesNotMatch(seo, /description: "[^"]*archive/i);
+  assert.doesNotMatch(page, /IOAI Statistics data archive/i);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));
   for (const asset of [
     "favicon.ico",
@@ -274,16 +286,21 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
 });
 
-test("accurately discloses DNS-verified Google Search Console without claiming embedded analytics", async () => {
+test("accurately and concisely discloses Search Console and FlagCDN", async () => {
   const privacy = await (await render("/privacy")).text();
   assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 11 August 2026/);
   assert.match(privacy, /does not embed visitor analytics or advertising code/);
   assert.match(privacy, />Google Search Console<\/a>/);
   assert.match(privacy, /queries, pages, clicks, impressions, click-through rate, average position, country and device category/);
-  assert.match(privacy, />DNS TXT record<\/a>/);
-  assert.match(privacy, /does not place Search Console, Google Analytics, Tag Manager, pixels or other tracking code on the archive/);
+  assert.match(privacy, /No Google Analytics, Tag Manager, pixel or other Google tracking code has been added to the archive/);
   assert.match(privacy, /Google omits some queries to protect user privacy/);
+  assert.doesNotMatch(privacy, /DNS TXT record|Domain ownership was verified/);
   assert.doesNotMatch(privacy, /no accounts, advertising or first-party analytics|use first-party analytics/);
+  assert.match(privacy, /Country flag images are loaded from (?:<a[^>]*>)?FlagCDN<\/a>/);
+  assert.match(privacy, /FlagCDN receives the visitor(?:&#x27;|')s IP address; requests are sent without a referrer/);
+  const flagParagraphStart = privacy.indexOf("Country flag images are loaded");
+  const flagParagraph = privacy.slice(flagParagraphStart, privacy.indexOf("</p>", flagParagraphStart) + 4);
+  assert.doesNotMatch(flagParagraph, /ordinary connection data|browser information/);
 
   const home = await (await render("/")).text();
   const head = home.slice(0, home.indexOf("</head>") + "</head>".length);

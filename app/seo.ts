@@ -72,7 +72,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (!parts.length) {
     return {
       canonicalPath: "/",
-      description: "A compact public archive of IOAI editions, contestants, countries, tasks and final results.",
+      description: "An unofficial report of IOAI editions, contestants, countries, tasks and final results.",
       indexable: true,
       title: SITE_NAME,
     };
@@ -81,7 +81,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (parts.length === 1 && parts[0] === "olympiads") {
     return {
       canonicalPath: "/olympiads",
-      description: "Browse every International Olympiad in Artificial Intelligence edition in the archive.",
+      description: "Browse every International Olympiad in Artificial Intelligence edition covered by IOAI Statistics.",
       indexable: true,
       title: "Olympiads",
     };
@@ -155,7 +155,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (parts.length === 1 && parts[0] === "privacy") {
     return {
       canonicalPath: "/privacy",
-      description: "Privacy and archive publication policy for IOAI Statistics.",
+      description: "Privacy and publication policy for IOAI Statistics.",
       indexable: true,
       title: "Privacy Policy",
     };
@@ -164,7 +164,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (parts.length === 1 && parts[0] === "search") {
     return {
       canonicalPath: "/search",
-      description: "Search contestants, countries and tasks in the IOAI archive.",
+      description: "Search contestants, countries and tasks in IOAI Statistics.",
       indexable: false,
       title: "Search",
     };

@@ -3,11 +3,11 @@ import { headers } from "next/headers";
 import StatsApp from "../components/StatsApp";
 import { pageSeoForPath } from "../seo";
 
-type ArchivePageProps = {
+type ReportPageProps = {
   params: Promise<{ path?: string[] }>;
 };
 
-export async function generateMetadata({ params }: ArchivePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ReportPageProps): Promise<Metadata> {
   const { path = [] } = await params;
   const page = pageSeoForPath(path);
   const requestHeaders = await headers();
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: ArchivePageProps): Promise<Me
       siteName: "IOAI Statistics",
       title: page.title,
       description: page.description,
-      images: [{ url: image, width: 1732, height: 904, alt: "IOAI Statistics data archive" }],
+      images: [{ url: image, width: 1732, height: 904, alt: "IOAI Statistics report" }],
     },
     twitter: {
       card: "summary_large_image",
@@ -49,6 +49,6 @@ export async function generateMetadata({ params }: ArchivePageProps): Promise<Me
   };
 }
 
-export default function ArchivePage() {
+export default function ReportPage() {
   return <StatsApp />;
 }

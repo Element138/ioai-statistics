@@ -764,7 +764,7 @@ function HomePage() {
         <div>
           <p className="eyebrow">International Olympiad in Artificial Intelligence</p>
           <h1>IOAI Statistics</h1>
-          <p className="lede">An unofficial archive of IOAI results, countries and tasks.</p>
+          <p className="lede">An unofficial report of IOAI results, countries and tasks.</p>
         </div>
         <div className="hero-index" aria-label="Archive summary">
           <div><strong>3</strong><span>editions</span></div>
@@ -1412,7 +1412,7 @@ function PrivacyPage() {
 
       <div className="policy-summary">
         <strong>In brief</strong>
-        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts or advertising and does not embed visitor analytics or advertising code. The operator uses Google Search Console for Google Search performance and indexing information; domain ownership was verified through DNS without adding visitor-side tracking. Its optional general feedback form is designed not to collect personal information.</p>
+        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts or advertising and does not embed visitor analytics or advertising code. The operator uses Google Search Console for Google Search performance and indexing information; it does not add visitor-side tracking to the archive. Its optional general feedback form is designed not to collect personal information.</p>
       </div>
 
       <section>
@@ -1445,8 +1445,8 @@ function PrivacyPage() {
         <h2>5. Visitor data, cookies and external services</h2>
         <p>The archive code does not create user accounts, store information in browser storage, run advertising, embed visitor analytics or advertising trackers, or set cookies. The hosting service may process ordinary technical data—such as IP address, device and browser information, requested URL, timestamps and security events—and may use strictly necessary security technology to deliver and protect the site.</p>
         <p>The site is currently hosted through ChatGPT Sites by OpenAI. OpenAI processes hosted data to provide, secure and support the service under the applicable <a href="https://openai.com/policies/chatgpt-sites-data-processing-addendum/" target="_blank" rel="noreferrer">Sites Data Processing Addendum</a> and <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noreferrer">Privacy Policy</a>.</p>
-        <p>The operator uses <a href="https://support.google.com/webmasters/answer/7576553" target="_blank" rel="noreferrer">Google Search Console</a> to monitor indexing and how the domain appears and performs in Google Search. Search Console can report grouped search-performance information including queries, pages, clicks, impressions, click-through rate, average position, country and device category; Google omits some queries to protect user privacy. Domain ownership was verified using a <a href="https://support.google.com/webmasters/answer/9008080" target="_blank" rel="noreferrer">DNS TXT record</a>. That verification does not place Search Console, Google Analytics, Tag Manager, pixels or other tracking code on the archive and does not make the archive set Google cookies. The information available to the operator is derived from activity on Google&apos;s own services, is handled by Google under its <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>, and is used only to maintain discoverability, diagnose indexing issues and understand search performance.</p>
-        <p>Country flags are delivered by <a href="https://flagcdn.com/" target="_blank" rel="noreferrer">FlagCDN</a>. A flag request necessarily reveals ordinary connection data such as the visitor&apos;s IP address and browser information to that provider. Flag requests are sent without a referrer header. Links to official sources and task materials are external; those sites receive data under their own policies only when followed.</p>
+        <p>The operator uses <a href="https://support.google.com/webmasters/answer/7576553" target="_blank" rel="noreferrer">Google Search Console</a> to monitor indexing and how the domain appears and performs in Google Search. Search Console can report grouped search-performance information including queries, pages, clicks, impressions, click-through rate, average position, country and device category; Google omits some queries to protect user privacy. No Google Analytics, Tag Manager, pixel or other Google tracking code has been added to the archive, and the archive does not set Google cookies. The information available to the operator comes from activity on Google&apos;s own services, is handled by Google under its <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>, and is used only to maintain discoverability, diagnose indexing issues and understand search performance.</p>
+        <p>Country flag images are loaded from <a href="https://flagcdn.com/" target="_blank" rel="noreferrer">FlagCDN</a>. To deliver an image, FlagCDN receives the visitor&apos;s IP address; requests are sent without a referrer. Other external sites receive data under their own policies only when a visitor follows a link.</p>
       </section>
 
       <section id="general-feedback-form">
@@ -1502,7 +1502,7 @@ function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
-        <div><strong>IOAI Statistics</strong><p>An unofficial archive made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
+        <div><strong>IOAI Statistics</strong><p>An unofficial report made by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
         <div><span>Inspired by</span><a href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
         <div className="footer-meta"><p className="footer-corrections"><span>Corrections</span><strong>@aka138</strong><span>on Discord</span></p><nav className="footer-links" aria-label="Footer"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></nav><small>Data snapshot · {DATA.updated}</small></div>
       </div>

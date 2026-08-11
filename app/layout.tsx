@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "localhost:3000";
   const protocol = requestHeaders.get("x-forwarded-proto") || (host.startsWith("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
-  const description = "A compact public archive of IOAI editions, contestants, countries, tasks and final results.";
+  const description = "An unofficial report of IOAI editions, contestants, countries, tasks and final results.";
   const image = `${origin}/og.png`;
 
   return {
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "IOAI Statistics",
       title: "IOAI Statistics",
       description,
-      images: [{ url: image, width: 1732, height: 904, alt: "IOAI Statistics data archive" }],
+      images: [{ url: image, width: 1732, height: 904, alt: "IOAI Statistics report" }],
     },
     twitter: {
       card: "summary_large_image",
