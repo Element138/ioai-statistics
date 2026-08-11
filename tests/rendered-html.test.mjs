@@ -294,7 +294,8 @@ test("accurately discloses consent-based Analytics, Search Console and FlagCDN",
   assert.match(privacy, /Core Web Vitals/);
   assert.match(privacy, /scrolling, outbound-link clicks, downloads, on-site search terms/);
   assert.match(privacy, /without Google advertising storage, advertising user data, advertising personalization or Google Signals/);
-  assert.match(privacy, /<code>_ga<\/code>/);
+  assert.match(privacy, /Google Analytics may set first-party analytics cookies after consent/);
+  assert.doesNotMatch(privacy, /property-specific|lasts for up to two years/);
   assert.match(privacy, />Analytics settings<\/button>/);
   assert.match(privacy, />How Google uses information from sites or apps that use its services<\/a>/);
   assert.match(privacy, />Google Search Console<\/a>/);
