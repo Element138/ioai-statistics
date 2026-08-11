@@ -32,6 +32,13 @@ test("maps exported HTML files to extensionless Vercel routes", async () => {
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
   assert.equal(config.outputDirectory, "out");
   assert.equal(config.cleanUrls, true);
+  const cacheHeader = (source) => config.headers.find((rule) => rule.source === source)?.headers.find((header) => header.key === "Cache-Control")?.value;
+  assert.equal(cacheHeader("/_next/static/:path*"), "public, max-age=31536000, immutable");
+  assert.equal(cacheHeader("/fonts/:path*"), "public, max-age=31536000, immutable");
+  assert.equal(cacheHeader("/ioai-statistics-social-20260811.png"), "public, max-age=31536000, immutable");
+  for (const source of ["/ioai-statistics-logo.png", "/favicon.ico", "/favicon.svg", "/favicon-96x96.png", "/apple-touch-icon.png", "/web-app-manifest-192x192.png", "/web-app-manifest-512x512.png", "/site.webmanifest"]) {
+    assert.equal(cacheHeader(source), "public, max-age=86400");
+  }
 
   for (const outputPath of [
     "countries.html",
