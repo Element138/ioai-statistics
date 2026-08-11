@@ -785,6 +785,7 @@ function FlagRing() {
 
 function HomePage() {
   const awards = countAwards(DATA.mainResults2026);
+  const rankedCountryCount = new Set([...COUNTRY_RANKINGS.main, ...COUNTRY_RANKINGS.gaite].map((summary) => summary.country)).size;
   return (
     <div className="home-page">
       <FlagRing />
@@ -797,7 +798,7 @@ function HomePage() {
         </div>
         <div className="hero-index" aria-label="Archive summary">
           <div><strong>3</strong><span>editions</span></div>
-          <div><strong>{COUNTRY_RANKINGS.main.length}</strong><span>countries ranked</span></div>
+          <div><strong>{rankedCountryCount}</strong><span>countries ranked</span></div>
           <div><strong>{DATA.tasks.length}</strong><span>task records</span></div>
         </div>
       </div>
