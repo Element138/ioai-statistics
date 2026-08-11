@@ -266,6 +266,18 @@ test("orders the Hall of Fame by visible award counts without synthetic ranks", 
   assert.match(table, /class="number medal-count bronze-count">—<\/td>/);
 });
 
+test("links every edition results page to its official source", async () => {
+  const sources = new Map([
+    [2024, "https://ioai-official.org/bulgaria-2024/results/"],
+    [2025, "https://ioai-official.org/china-2025/results-2025/"],
+    [2026, "https://ioai2026.kz/results/"],
+  ]);
+  for (const [year, source] of sources) {
+    const html = await (await render(`/olympiads/${year}/results`)).text();
+    assert.match(html, new RegExp(`<a href="${source.replaceAll("/", "\\/")}"[^>]*>Source<\\/a>`));
+  }
+});
+
 test("prefixes every displayed GAITE award badge", async () => {
   const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
   assert.match(app, /return "GAITE First Award"/);

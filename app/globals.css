@@ -1083,6 +1083,19 @@ h3 {
   margin-bottom: 0;
 }
 
+.results-source {
+  margin: -2px 0 12px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  text-align: right;
+}
+
+.results-source a {
+  color: inherit;
+  text-decoration-color: color-mix(in srgb, currentColor 48%, transparent);
+  text-underline-offset: 2px;
+}
+
 .compact-filter input {
   width: 100%;
   min-width: 0;

@@ -216,6 +216,12 @@ const TRACK_LABELS: Record<Track, string> = {
   team: "Team",
 };
 
+const RESULT_SOURCE_URLS: Record<number, string> = {
+  2024: "https://ioai-official.org/bulgaria-2024/results/",
+  2025: "https://ioai-official.org/china-2025/results-2025/",
+  2026: "https://ioai2026.kz/results/",
+};
+
 function slugify(value: string) {
   return value
     .normalize("NFKD")
@@ -971,6 +977,7 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
           </div>
           <CompactFilter id="results-filter" value={query} onChange={setQuery} placeholder="Filter teams or countries" label="Filter 2024 results" count={round === "scientific" ? scientificResults.length : round === "practical" ? practicalResults.length : specialAwards.length} />
         </div>
+        <p className="results-source"><a href={RESULT_SOURCE_URLS[year]} target="_blank" rel="noreferrer">Source</a></p>
         {distribution.length ? <ScoreDistribution title={`${round[0].toUpperCase() + round.slice(1)} team scores`} entries={distribution} maxScore={100} track="main" showCutoffs /> : null}
         <div className="notice team-notice"><strong>2024 was entirely a team competition.</strong> These records never feed the Hall of Fame or country medal tables.</div>
         <div className="table-wrap">
@@ -1003,6 +1010,7 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
   return (
     <>
       <div className="toolbar-row"><TrackTabs value={track} onChange={setTrack} /><CompactFilter id="results-filter" value={query} onChange={setQuery} placeholder={track === "team" ? "Filter teams" : "Filter people or countries"} label="Filter edition results" count={track === "team" ? teamResults.length : results.length} /></div>
+      <p className="results-source"><a href={RESULT_SOURCE_URLS[year]} target="_blank" rel="noreferrer">Source</a></p>
       {track !== "team" && editionResults.length ? <ScoreDistribution title={`${TRACK_LABELS[track]} final scores`} entries={editionResults.map((result) => ({ score: result.total, award: result.award }))} maxScore={maxScore} track={individualTrack} showCutoffs /> : null}
       {track === "main" ? <ResultsTable results={results} track="main" /> : null}
       {track === "gaite" ? (
