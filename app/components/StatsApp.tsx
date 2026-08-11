@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 
@@ -1387,14 +1386,14 @@ function SiteHeader({ pathname }: { pathname: string }) {
   return (
     <header className="site-header">
       <div className="brand-row shell">
-        <Link className="brand" href="/" aria-label="IOAI Statistics home">
+        <a className="brand" href="/" aria-label="IOAI Statistics home">
           <img className="brand-mark" src="/ioai-statistics-logo.png" width="34" height="34" alt="" aria-hidden="true" />
           <span className="brand-copy">IOAI Statistics</span>
-        </Link>
+        </a>
       </div>
       <div className="nav-border">
         <nav className="top-nav shell" aria-label="Primary navigation">
-          {nav.map(([href, label]) => <Link key={href} className={pathname.startsWith(href) ? "active" : ""} href={href}>{label}</Link>)}
+          {nav.map(([href, label]) => <a key={href} className={pathname.startsWith(href) ? "active" : ""} href={href}>{label}</a>)}
         </nav>
       </div>
     </header>

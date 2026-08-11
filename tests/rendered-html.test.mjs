@@ -31,6 +31,9 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
   const html = await response.text();
   assert.match(html, /src="\/ioai-statistics-logo\.png"/);
   assert.match(html, />IOAI Statistics<\/span>/);
+  for (const href of ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/search"]) {
+    assert.match(html, new RegExp(`<a[^>]+href="${href.replaceAll("/", "\\/")}"`));
+  }
   assert.match(html, /Sasuke Kondo<\/a>\.<\/p>/);
   assert.match(html, />Inspired by<\/span>/);
   assert.match(html, /<span>Corrections<\/span><strong>@aka138<\/strong><span>on Discord<\/span>/);
@@ -130,8 +133,8 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
   assert.match(app, /const COUNTRY_RANKINGS =/);
   assert.match(app, /const summaries = COUNTRY_RANKINGS\[effectiveTrack\]/);
-  assert.match(app, /import Link from "next\/link"/);
-  assert.match(app, /nav\.map\(\(\[href, label\]\) => <Link/);
+  assert.doesNotMatch(app, /import Link from "next\/link"/);
+  assert.match(app, /nav\.map\(\(\[href, label\]\) => <a/);
   assert.match(app, /decoding="async" fetchPriority=\{large \? "high" : "low"\}/);
 
   const individualHtml = await (await render("/countries/japan")).text();
