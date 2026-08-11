@@ -332,7 +332,8 @@ function taskScoreEntries(task: Task, track: "main" | "gaite") {
 }
 
 const DIFFICULTY_SCORE_THRESHOLD = 50;
-const EXTREME_SCORE_THRESHOLD = 20;
+const GOLD_PLUS_SCORE_THRESHOLD = 25;
+const GOLD_PLUS_PASS_RATE = 0.25;
 const TOP_SOLVER_SCORE_THRESHOLD = 0;
 
 function isTopSolver(task: Task, track: "main" | "gaite", score: number | null | undefined) {
@@ -376,8 +377,8 @@ const DIFFICULTY_RULES: Record<Difficulty, string> = {
   bronze: "Half of bronze medalists reached 50.",
   silver: "Half of silver medalists reached 50.",
   gold: "Half of gold medalists reached 50.",
-  "gold+": "Half of gold medalists reached 20.",
-  extreme: "Fewer than half of gold medalists reached 20.",
+  "gold+": "A quarter of gold medalists reached 25.",
+  extreme: "Fewer than a quarter of gold medalists reached 25.",
 };
 
 function difficultyClassName(difficulty: Difficulty) {
@@ -396,7 +397,7 @@ function taskDifficulty(task: Task): Difficulty | null {
   if (passRate(cohort("silver")) >= 0.5) return "silver";
   const gold = cohort("gold");
   if (passRate(gold) >= 0.5) return "gold";
-  if (passRate(gold, EXTREME_SCORE_THRESHOLD) >= 0.5) return "gold+";
+  if (passRate(gold, GOLD_PLUS_SCORE_THRESHOLD) >= GOLD_PLUS_PASS_RATE) return "gold+";
   return "extreme";
 }
 

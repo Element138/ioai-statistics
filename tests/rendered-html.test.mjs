@@ -48,13 +48,14 @@ test("keeps the scoring criteria and branding independently configured", async (
   ]);
 
   assert.match(app, /DIFFICULTY_SCORE_THRESHOLD = 50/);
-  assert.match(app, /EXTREME_SCORE_THRESHOLD = 20/);
+  assert.match(app, /GOLD_PLUS_SCORE_THRESHOLD = 25/);
+  assert.match(app, /GOLD_PLUS_PASS_RATE = 0\.25/);
   assert.match(app, /TOP_SOLVER_SCORE_THRESHOLD = 0/);
   assert.match(app, /score > TOP_SOLVER_SCORE_THRESHOLD/);
   assert.match(app, /topSolverEntries\(task, effectiveTrack\)/);
   assert.match(app, /Half of Individual contestants reached 50\./);
-  assert.match(app, /Half of gold medalists reached 20\./);
-  assert.match(app, /Fewer than half of gold medalists reached 20\./);
+  assert.match(app, /A quarter of gold medalists reached 25\./);
+  assert.match(app, /Fewer than a quarter of gold medalists reached 25\./);
   assert.match(app, /<DifficultyBadge difficulty=\{difficulty\} explain \/>/);
   assert.doesNotMatch(app, /medallists|Gold\+\+|gold-plus-plus/);
   assert.match(app, /Maximum possible score/);
