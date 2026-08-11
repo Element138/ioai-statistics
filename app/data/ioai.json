@@ -169,7 +169,7 @@
     {
       "year": 2025,
       "rank": 4,
-      "slug": "vershinin-mikhail",
+      "slug": "mikhail-vershinin",
       "name": "Vershinin Mikhail",
       "country": "Russia",
       "scores": [
@@ -264,7 +264,7 @@
     {
       "year": 2025,
       "rank": 9,
-      "slug": "kanabek-abu",
+      "slug": "abu-kanabek",
       "name": "Kanabek Abu",
       "country": "Kazakhstan",
       "scores": [
@@ -359,7 +359,7 @@
     {
       "year": 2025,
       "rank": 14,
-      "slug": "teo-lovmar",
+      "slug": "karl-teo-lovmar",
       "name": "Teo Lovmar",
       "country": "Sweden",
       "scores": [
@@ -378,7 +378,7 @@
     {
       "year": 2025,
       "rank": 15,
-      "slug": "issatay-sultanbi",
+      "slug": "sultanbi-issatay",
       "name": "Issatay Sultanbi",
       "country": "Kazakhstan",
       "scores": [
@@ -511,7 +511,7 @@
     {
       "year": 2025,
       "rank": 22,
-      "slug": "kassymkan-zhanibek",
+      "slug": "zhanibek-kassymkan",
       "name": "Kassymkan Zhanibek",
       "country": "Kazakhstan",
       "scores": [
@@ -606,7 +606,7 @@
     {
       "year": 2025,
       "rank": 27,
-      "slug": "anango-prabhat",
+      "slug": "anango-dev-prabhat",
       "name": "Anango Prabhat",
       "country": "United Kingdom",
       "scores": [
@@ -682,7 +682,7 @@
     {
       "year": 2025,
       "rank": 31,
-      "slug": "matthew-pramana",
+      "slug": "matthew-hutama-pramana",
       "name": "Matthew Pramana",
       "country": "Indonesia",
       "scores": [
@@ -853,7 +853,7 @@
     {
       "year": 2025,
       "rank": 40,
-      "slug": "vince-ungar",
+      "slug": "ungar-vince",
       "name": "Vince Ungár",
       "country": "Hungary",
       "scores": [
@@ -948,7 +948,7 @@
     {
       "year": 2025,
       "rank": 45,
-      "slug": "matan-israel",
+      "slug": "israel-matan",
       "name": "Matan Israël",
       "country": "France",
       "scores": [
@@ -1100,7 +1100,7 @@
     {
       "year": 2025,
       "rank": 53,
-      "slug": "matthew-williams",
+      "slug": "matthew-lloyd-williams",
       "name": "Matthew Williams",
       "country": "Jamaica",
       "scores": [
@@ -1803,7 +1803,7 @@
     {
       "year": 2025,
       "rank": 90,
-      "slug": "bryan-zhu",
+      "slug": "zhu-bryan-rui",
       "name": "Bryan Zhu",
       "country": "United States",
       "scores": [
@@ -1955,7 +1955,7 @@
     {
       "year": 2025,
       "rank": 98,
-      "slug": "ali-ayman-h-alkhabbaz",
+      "slug": "ali-ayman-alkhabbaz",
       "name": "Ali Ayman H Alkhabbaz",
       "country": "Saudi Arabia",
       "scores": [
@@ -2012,7 +2012,7 @@
     {
       "year": 2025,
       "rank": 101,
-      "slug": "ayaan-wolven",
+      "slug": "ayaan-erik-bari-wolven",
       "name": "Ayaan Wolvén",
       "country": "Sweden",
       "scores": [
@@ -2126,7 +2126,7 @@
     {
       "year": 2025,
       "rank": 107,
-      "slug": "mario-petkov",
+      "slug": "mario-mitkov-petkov",
       "name": "Mario Petkov",
       "country": "Bulgaria",
       "scores": [
@@ -2145,7 +2145,7 @@
     {
       "year": 2025,
       "rank": 108,
-      "slug": "qusai-emad-a-jadallah",
+      "slug": "qusai-emad-jadallah",
       "name": "Qusai Emad A Jadallah",
       "country": "Saudi Arabia",
       "scores": [
@@ -2658,7 +2658,7 @@
     {
       "year": 2025,
       "rank": 135,
-      "slug": "beketov-dauzhan",
+      "slug": "dauzhan-beketov",
       "name": "Beketov Dauzhan",
       "country": "Kazakhstan",
       "scores": [
@@ -2848,7 +2848,7 @@
     {
       "year": 2025,
       "rank": 145,
-      "slug": "simon-persson-holm",
+      "slug": "simon-harry-kasper-persson-holm",
       "name": "Simon Persson Holm",
       "country": "Sweden",
       "scores": [
@@ -2886,7 +2886,7 @@
     {
       "year": 2025,
       "rank": 147,
-      "slug": "shohjahon-isroilov",
+      "slug": "isroilov-shohjahon-anvarovich",
       "name": "Shohjahon Isroilov",
       "country": "Uzbekistan",
       "scores": [
@@ -3247,7 +3247,7 @@
     {
       "year": 2025,
       "rank": 166,
-      "slug": "pluzyan-vahe",
+      "slug": "vahe-pluzyan",
       "name": "Pluzyan Vahe",
       "country": "Armenia",
       "scores": [
@@ -3380,7 +3380,7 @@
     {
       "year": 2025,
       "rank": 173,
-      "slug": "u-erkhes",
+      "slug": "erkhes-unentugs",
       "name": "U.Erkhes",
       "country": "Mongolia",
       "scores": [
@@ -3456,7 +3456,7 @@
     {
       "year": 2025,
       "rank": 177,
-      "slug": "bozhidara-puhaleva",
+      "slug": "bozhidara-filipova-puhaleva",
       "name": "Bozhidara Puhaleva",
       "country": "Bulgaria",
       "scores": [
@@ -3798,7 +3798,7 @@
     {
       "year": 2025,
       "rank": 195,
-      "slug": "aleksandar-slavov",
+      "slug": "alexandar-lyubomirov-slavov",
       "name": "Aleksandar Slavov",
       "country": "Bulgaria",
       "scores": [
@@ -4178,7 +4178,7 @@
     {
       "year": 2025,
       "rank": 215,
-      "slug": "seryozha-nazaryan",
+      "slug": "nazaryan-seryozha",
       "name": "Seryozha Nazaryan",
       "country": "Armenia",
       "scores": [
@@ -4444,7 +4444,7 @@
     {
       "year": 2025,
       "rank": 229,
-      "slug": "bater-habtoosh",
+      "slug": "bater-ayman-faisal-habtoosh",
       "name": "Bater Habtoosh",
       "country": "Jordan",
       "scores": [
@@ -4862,7 +4862,7 @@
     {
       "year": 2025,
       "rank": 251,
-      "slug": "mamoun-ben-ameur",
+      "slug": "maamoune-ben-ameur",
       "name": "Mamoun Ben Ameur",
       "country": "Tunisia",
       "scores": [
@@ -5109,7 +5109,7 @@
     {
       "year": 2025,
       "rank": 264,
-      "slug": "amin-ben-ameur",
+      "slug": "amine-ben-ameur",
       "name": "Amin Ben Ameur",
       "country": "Tunisia",
       "scores": [
@@ -5166,7 +5166,7 @@
     {
       "year": 2025,
       "rank": 267,
-      "slug": "muyao-zhang",
+      "slug": "zhang-muyao",
       "name": "Muyao Zhang",
       "country": "Australia",
       "scores": [
@@ -5432,7 +5432,7 @@
     {
       "year": 2025,
       "rank": 281,
-      "slug": "vincent-yingxi-chen",
+      "slug": "chen-vincent-yingxi",
       "name": "Vincent Yingxi Chen",
       "country": "Australia",
       "scores": [
@@ -7934,7 +7934,7 @@
       "total": 405.5759,
       "award": "Gold + 2nd Place Trophy",
       "track": "main",
-      "contestantId": "contestant-dauzhan-beketov"
+      "contestantId": "contestant-beketov-dauzhan"
     },
     {
       "year": 2026,
@@ -7996,7 +7996,7 @@
     {
       "year": 2026,
       "rank": 6,
-      "slug": "anango-prabhat",
+      "slug": "anango-dev-prabhat",
       "name": "Anango Dev Prabhat",
       "country": "United Kingdom",
       "scores": [
@@ -8162,7 +8162,7 @@
       "total": 306.8896,
       "award": "Gold",
       "track": "main",
-      "contestantId": "contestant-mikhail-vershinin"
+      "contestantId": "contestant-vershinin-mikhail"
     },
     {
       "year": 2026,
@@ -8219,7 +8219,7 @@
       "total": 292.4444,
       "award": "Gold",
       "track": "main",
-      "contestantId": "contestant-karl-teo-lovmar"
+      "contestantId": "contestant-teo-lovmar"
     },
     {
       "year": 2026,
@@ -8523,7 +8523,7 @@
       "total": 241.8351,
       "award": "Gold",
       "track": "main",
-      "contestantId": "contestant-sultanbi-issatay"
+      "contestantId": "contestant-issatay-sultanbi"
     },
     {
       "year": 2026,
@@ -8694,7 +8694,7 @@
       "total": 215.5063,
       "award": "Silver",
       "track": "main",
-      "contestantId": "contestant-zhu-bryan-rui"
+      "contestantId": "contestant-bryan-zhu"
     },
     {
       "year": 2026,
@@ -8808,7 +8808,7 @@
       "total": 200.5786,
       "award": "Silver",
       "track": "main",
-      "contestantId": "contestant-abu-kanabek"
+      "contestantId": "contestant-kanabek-abu"
     },
     {
       "year": 2026,
@@ -9017,7 +9017,7 @@
       "total": 166.6154,
       "award": "Silver",
       "track": "main",
-      "contestantId": "contestant-israel-matan"
+      "contestantId": "contestant-matan-israel"
     },
     {
       "year": 2026,
@@ -9131,7 +9131,7 @@
       "total": 160.3759,
       "award": "Silver",
       "track": "main",
-      "contestantId": "contestant-matthew-hutama-pramana"
+      "contestantId": "contestant-matthew-pramana"
     },
     {
       "year": 2026,
@@ -9207,7 +9207,7 @@
       "total": 151.5992,
       "award": "Silver",
       "track": "main",
-      "contestantId": "contestant-simon-harry-kasper-persson-holm"
+      "contestantId": "contestant-simon-persson-holm"
     },
     {
       "year": 2026,
@@ -9226,7 +9226,7 @@
       "total": 151.4325,
       "award": "Silver",
       "track": "main",
-      "contestantId": "contestant-ayaan-erik-bari-wolven"
+      "contestantId": "contestant-ayaan-wolven"
     },
     {
       "year": 2026,
@@ -9283,7 +9283,7 @@
       "total": 144.5827,
       "award": "Silver",
       "track": "main",
-      "contestantId": "contestant-ungar-vince"
+      "contestantId": "contestant-vince-ungar"
     },
     {
       "year": 2026,
@@ -10100,7 +10100,7 @@
       "total": 98.2009,
       "award": "Bronze",
       "track": "main",
-      "contestantId": "contestant-matthew-lloyd-williams"
+      "contestantId": "contestant-matthew-williams"
     },
     {
       "year": 2026,
@@ -10233,7 +10233,7 @@
       "total": 92.9625,
       "award": "Bronze",
       "track": "main",
-      "contestantId": "contestant-ali-ayman-alkhabbaz"
+      "contestantId": "contestant-ali-ayman-h-alkhabbaz"
     },
     {
       "year": 2026,
@@ -10252,7 +10252,7 @@
       "total": 91.4109,
       "award": "Bronze",
       "track": "main",
-      "contestantId": "contestant-zhanibek-kassymkan"
+      "contestantId": "contestant-kassymkan-zhanibek"
     },
     {
       "year": 2026,
@@ -10480,7 +10480,7 @@
       "total": 83.4036,
       "award": "Bronze",
       "track": "main",
-      "contestantId": "contestant-erkhes-unentugs"
+      "contestantId": "contestant-u-erkhes"
     },
     {
       "year": 2026,
@@ -10727,7 +10727,7 @@
       "total": 75.245,
       "award": "Bronze",
       "track": "main",
-      "contestantId": "contestant-mario-mitkov-petkov"
+      "contestantId": "contestant-mario-petkov"
     },
     {
       "year": 2026,
@@ -10822,7 +10822,7 @@
       "total": 73.2476,
       "award": "Bronze",
       "track": "main",
-      "contestantId": "contestant-qusai-emad-jadallah"
+      "contestantId": "contestant-qusai-emad-a-jadallah"
     },
     {
       "year": 2026,
@@ -12076,7 +12076,7 @@
       "total": 42.8335,
       "award": "Bronze",
       "track": "main",
-      "contestantId": "contestant-bater-ayman-faisal-habtoosh"
+      "contestantId": "contestant-bater-habtoosh"
     },
     {
       "year": 2026,
@@ -12912,7 +12912,7 @@
       "total": 28.7222,
       "award": "Honourable Mention",
       "track": "main",
-      "contestantId": "contestant-alexandar-lyubomirov-slavov"
+      "contestantId": "contestant-aleksandar-slavov"
     },
     {
       "year": 2026,
@@ -13064,7 +13064,7 @@
       "total": 27.0416,
       "award": "Honourable Mention",
       "track": "main",
-      "contestantId": "contestant-chen-vincent-yingxi"
+      "contestantId": "contestant-vincent-yingxi-chen"
     },
     {
       "year": 2026,
@@ -13159,7 +13159,7 @@
       "total": 25.6685,
       "award": "No award",
       "track": "main",
-      "contestantId": "contestant-vahe-pluzyan"
+      "contestantId": "contestant-pluzyan-vahe"
     },
     {
       "year": 2026,
@@ -13349,7 +13349,7 @@
       "total": 23.3713,
       "award": "No award",
       "track": "main",
-      "contestantId": "contestant-amine-ben-ameur"
+      "contestantId": "contestant-amin-ben-ameur"
     },
     {
       "year": 2026,
@@ -13843,7 +13843,7 @@
       "total": 18.2596,
       "award": "Honourable Mention",
       "track": "main",
-      "contestantId": "contestant-maamoune-ben-ameur"
+      "contestantId": "contestant-mamoun-ben-ameur"
     },
     {
       "year": 2026,
@@ -14033,7 +14033,7 @@
       "total": 16.0186,
       "award": "No award",
       "track": "main",
-      "contestantId": "contestant-isroilov-shohjahon-anvarovich"
+      "contestantId": "contestant-shohjahon-isroilov"
     },
     {
       "year": 2026,
@@ -14223,7 +14223,7 @@
       "total": 13.6421,
       "award": "No award",
       "track": "main",
-      "contestantId": "contestant-bozhidara-filipova-puhaleva"
+      "contestantId": "contestant-bozhidara-puhaleva"
     },
     {
       "year": 2026,
@@ -14983,7 +14983,7 @@
       "total": 1.7034,
       "award": "No award",
       "track": "main",
-      "contestantId": "contestant-zhang-muyao"
+      "contestantId": "contestant-muyao-zhang"
     },
     {
       "year": 2026,
@@ -15268,7 +15268,7 @@
       "total": 0,
       "award": "No award",
       "track": "main",
-      "contestantId": "contestant-nazaryan-seryozha"
+      "contestantId": "contestant-seryozha-nazaryan"
     },
     {
       "year": 2026,

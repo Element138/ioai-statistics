@@ -5,11 +5,34 @@
   "outputDirectory": "out",
   "cleanUrls": true,
   "redirects": [
-    {
-      "source": "/contestants/anango-dev-prabhat",
-      "destination": "/contestants/anango-prabhat",
-      "permanent": true
-    }
+    { "source": "/contestants/anango-prabhat", "destination": "/contestants/anango-dev-prabhat", "permanent": true },
+    { "source": "/contestants/ali-ayman-h-alkhabbaz", "destination": "/contestants/ali-ayman-alkhabbaz", "permanent": true },
+    { "source": "/contestants/ayaan-wolven", "destination": "/contestants/ayaan-erik-bari-wolven", "permanent": true },
+    { "source": "/contestants/bater-habtoosh", "destination": "/contestants/bater-ayman-faisal-habtoosh", "permanent": true },
+    { "source": "/contestants/beketov-dauzhan", "destination": "/contestants/dauzhan-beketov", "permanent": true },
+    { "source": "/contestants/bozhidara-puhaleva", "destination": "/contestants/bozhidara-filipova-puhaleva", "permanent": true },
+    { "source": "/contestants/bryan-zhu", "destination": "/contestants/zhu-bryan-rui", "permanent": true },
+    { "source": "/contestants/issatay-sultanbi", "destination": "/contestants/sultanbi-issatay", "permanent": true },
+    { "source": "/contestants/kanabek-abu", "destination": "/contestants/abu-kanabek", "permanent": true },
+    { "source": "/contestants/kassymkan-zhanibek", "destination": "/contestants/zhanibek-kassymkan", "permanent": true },
+    { "source": "/contestants/mario-petkov", "destination": "/contestants/mario-mitkov-petkov", "permanent": true },
+    { "source": "/contestants/matan-israel", "destination": "/contestants/israel-matan", "permanent": true },
+    { "source": "/contestants/matthew-pramana", "destination": "/contestants/matthew-hutama-pramana", "permanent": true },
+    { "source": "/contestants/matthew-williams", "destination": "/contestants/matthew-lloyd-williams", "permanent": true },
+    { "source": "/contestants/muyao-zhang", "destination": "/contestants/zhang-muyao", "permanent": true },
+    { "source": "/contestants/pluzyan-vahe", "destination": "/contestants/vahe-pluzyan", "permanent": true },
+    { "source": "/contestants/qusai-emad-a-jadallah", "destination": "/contestants/qusai-emad-jadallah", "permanent": true },
+    { "source": "/contestants/seryozha-nazaryan", "destination": "/contestants/nazaryan-seryozha", "permanent": true },
+    { "source": "/contestants/shohjahon-isroilov", "destination": "/contestants/isroilov-shohjahon-anvarovich", "permanent": true },
+    { "source": "/contestants/simon-persson-holm", "destination": "/contestants/simon-harry-kasper-persson-holm", "permanent": true },
+    { "source": "/contestants/teo-lovmar", "destination": "/contestants/karl-teo-lovmar", "permanent": true },
+    { "source": "/contestants/vershinin-mikhail", "destination": "/contestants/mikhail-vershinin", "permanent": true },
+    { "source": "/contestants/vince-ungar", "destination": "/contestants/ungar-vince", "permanent": true },
+    { "source": "/contestants/vincent-yingxi-chen", "destination": "/contestants/chen-vincent-yingxi", "permanent": true },
+    { "source": "/contestants/amin-ben-ameur", "destination": "/contestants/amine-ben-ameur", "permanent": true },
+    { "source": "/contestants/mamoun-ben-ameur", "destination": "/contestants/maamoune-ben-ameur", "permanent": true },
+    { "source": "/contestants/aleksandar-slavov", "destination": "/contestants/alexandar-lyubomirov-slavov", "permanent": true },
+    { "source": "/contestants/u-erkhes", "destination": "/contestants/erkhes-unentugs", "permanent": true }
   ],
   "headers": [
     {

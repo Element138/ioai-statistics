@@ -51,7 +51,7 @@ test("maps exported HTML files to extensionless Vercel routes", async () => {
   }
 });
 
-test("publishes stable contestant identities and oldest-name canonical slugs", async () => {
+test("publishes stable contestant identities with latest-name canonical slugs", async () => {
   const data = JSON.parse(await readFile(new URL("../app/data/ioai.json", import.meta.url), "utf8"));
   const results = Object.values(data).filter(Array.isArray).flat().filter((entry) => entry?.slug && entry?.name && Array.isArray(entry?.scores) && typeof entry?.award === "string");
   const identities = new Map();
@@ -63,7 +63,7 @@ test("publishes stable contestant identities and oldest-name canonical slugs", a
   }
   for (const entries of identities.values()) {
     entries.sort((a, b) => a.year - b.year || a.rank - b.rank);
-    assert.equal(entries[0].slug, canonicalSlug(entries[0].name), entries[0].name);
+    assert.equal(entries.at(-1).slug, canonicalSlug(entries.at(-1).name), entries.at(-1).name);
     assert.equal(new Set(entries.map((entry) => entry.slug)).size, 1, entries[0].contestantId);
   }
   const slugOwners = new Map();
@@ -76,26 +76,34 @@ test("publishes stable contestant identities and oldest-name canonical slugs", a
 
   const anango = identities.get("contestant-anango-prabhat");
   assert.deepEqual(anango.map((entry) => [entry.year, entry.name, entry.slug]), [
-    [2025, "Anango Prabhat", "anango-prabhat"],
-    [2026, "Anango Dev Prabhat", "anango-prabhat"],
+    [2025, "Anango Prabhat", "anango-dev-prabhat"],
+    [2026, "Anango Dev Prabhat", "anango-dev-prabhat"],
   ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.deepEqual(config.redirects, [{ source: "/contestants/anango-dev-prabhat", destination: "/contestants/anango-prabhat", permanent: true }]);
+  assert.equal(config.redirects.length, 28);
+  assert.ok(config.redirects.every((redirect) => redirect.permanent));
+  assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/anango-prabhat"), {
+    source: "/contestants/anango-prabhat",
+    destination: "/contestants/anango-dev-prabhat",
+    permanent: true,
+  });
 
   for (const slug of new Set(results.map((result) => result.slug))) await access(new URL(`../out/contestants/${slug}.html`, import.meta.url));
-  for (const oldSlug of ["anango-dev-prabhat", "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
+  for (const oldSlug of [...config.redirects.map((redirect) => redirect.source.split("/").at(-1)), "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
     await assert.rejects(access(new URL(`../out/contestants/${oldSlug}.html`, import.meta.url)));
   }
 
-  const contestant = await (await render("/contestants/anango-prabhat")).text();
-  assert.match(contestant, /<h1>Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat<\/h1>/);
+  const contestant = await (await render("/contestants/anango-dev-prabhat")).text();
+  assert.match(contestant, /<h1>Anango Dev Prabhat<\/h1>/);
+  assert.doesNotMatch(contestant, /Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat/);
   const results2025 = await (await render("/olympiads/2025/results")).text();
   const results2026 = await (await render("/olympiads/2026/results")).text();
-  assert.match(results2025, /href="\/contestants\/anango-prabhat">Anango Prabhat<\/a>/);
-  assert.match(results2026, /href="\/contestants\/anango-prabhat">Anango Dev Prabhat<\/a>/);
+  assert.match(results2025, /href="\/contestants\/anango-dev-prabhat">Anango Prabhat<\/a>/);
+  assert.match(results2026, /href="\/contestants\/anango-dev-prabhat">Anango Dev Prabhat<\/a>/);
   const hall = await (await render("/hall-of-fame")).text();
-  assert.match(hall, /href="\/contestants\/anango-prabhat">Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat<\/a>/);
+  assert.match(hall, /href="\/contestants\/anango-dev-prabhat">Anango Dev Prabhat<\/a>/);
+  assert.doesNotMatch(hall, /Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat/);
 });
 
 test("server-renders the IOAI Statistics shell and updated footer", async () => {

@@ -43,10 +43,12 @@ const RESULTS = [
   ...DATA.gaiteResults2026,
 ];
 
-const CONTESTANT_IDENTITIES = new Map<string, { contestantId: string; slug: string; aliases: string[] }>();
+const CONTESTANT_IDENTITIES = new Map<string, { contestantId: string; slug: string; name: string; aliases: string[] }>();
 for (const result of [...RESULTS].sort((a, b) => a.year - b.year)) {
-  const identity = CONTESTANT_IDENTITIES.get(result.contestantId) ?? { contestantId: result.contestantId, slug: result.slug, aliases: [] };
+  const identity = CONTESTANT_IDENTITIES.get(result.contestantId) ?? { contestantId: result.contestantId, slug: result.slug, name: result.name, aliases: [] };
   if (!identity.aliases.includes(result.name)) identity.aliases.push(result.name);
+  identity.slug = result.slug;
+  identity.name = result.name;
   CONTESTANT_IDENTITIES.set(result.contestantId, identity);
 }
 
@@ -173,7 +175,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (parts.length === 2 && parts[0] === "contestants") {
     const contestant = [...CONTESTANT_IDENTITIES.values()].find((identity) => identity.slug === parts[1]);
     if (!contestant) return unknownPage(parts);
-    const name = contestant.aliases.join(" / ");
+    const name = contestant.name;
     return {
       canonicalPath: `/contestants/${contestant.slug}`,
       description: `${name}'s published IOAI results and task scores.`,

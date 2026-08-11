@@ -342,13 +342,16 @@ function allResults(track: "main" | "gaite") {
 type ContestantIdentity = {
   contestantId: string;
   slug: string;
+  name: string;
   aliases: string[];
 };
 
 const CONTESTANT_IDENTITIES = new Map<string, ContestantIdentity>();
 for (const result of [...allResults("main"), ...allResults("gaite")].sort((a, b) => a.year - b.year || a.rank - b.rank)) {
-  const identity = CONTESTANT_IDENTITIES.get(result.contestantId) ?? { contestantId: result.contestantId, slug: result.slug, aliases: [] };
+  const identity = CONTESTANT_IDENTITIES.get(result.contestantId) ?? { contestantId: result.contestantId, slug: result.slug, name: result.name, aliases: [] };
   if (!identity.aliases.includes(result.name)) identity.aliases.push(result.name);
+  identity.slug = result.slug;
+  identity.name = result.name;
   CONTESTANT_IDENTITIES.set(result.contestantId, identity);
 }
 
@@ -357,7 +360,11 @@ function contestantIdentity(result: Result) {
 }
 
 function contestantAliasLabel(result: Result) {
-  return contestantIdentity(result).aliases.join(" / ");
+  return contestantIdentity(result).name;
+}
+
+function contestantSearchText(result: Result) {
+  return contestantIdentity(result).aliases.join(" ");
 }
 
 function taskTracks(task: Task) {
@@ -1332,6 +1339,7 @@ type HallRecord = {
   contestantId: string;
   slug: string;
   name: string;
+  searchNames: string;
   country: string;
   entries: number;
   gold: number;
@@ -1347,7 +1355,8 @@ function hallRecords(track: "main" | "gaite") {
   const records = new Map<string, HallRecord>();
   for (const result of allResults(track)) {
     const key = `${result.contestantId}|${result.country}`;
-    const record = records.get(key) || { contestantId: result.contestantId, slug: contestantIdentity(result).slug, name: contestantAliasLabel(result), country: result.country, entries: 0, gold: 0, silver: 0, bronze: 0, mention: 0, level1: 0, level2: 0, level3: 0 };
+    const identity = contestantIdentity(result);
+    const record = records.get(key) || { contestantId: result.contestantId, slug: identity.slug, name: identity.name, searchNames: identity.aliases.join(" "), country: result.country, entries: 0, gold: 0, silver: 0, bronze: 0, mention: 0, level1: 0, level2: 0, level3: 0 };
     record.entries += 1;
     const type = awardType(result.award);
     if (type === "Gold") record.gold += 1;
@@ -1385,7 +1394,7 @@ function HallOfFamePage({ track, setTrack }: { track: Track; setTrack: (track: T
   const [query, setQuery] = useState("");
   const effectiveTrack = track === "team" ? "main" : track;
   const normalized = query.trim().toLocaleLowerCase();
-  const records = hallRecords(effectiveTrack).filter((record) => !normalized || `${record.name} ${record.country}`.toLocaleLowerCase().includes(normalized));
+  const records = hallRecords(effectiveTrack).filter((record) => !normalized || `${record.searchNames} ${record.country}`.toLocaleLowerCase().includes(normalized));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">All-time individual records</p><h1>Hall of Fame</h1></div>
@@ -1405,7 +1414,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
   const awards = awardTypeCounts(entries);
   return (
     <>
-      <div className="person-heading"><div><p className="eyebrow">Contestant</p><h1>{identity!.aliases.join(" / ")}</h1><a className="country-link" href={`/countries/${slugify(latest.country)}`}><Flag country={latest.country} />{latest.country}</a></div>{awards.length ? <div className="person-awards" aria-label="Awards received">{awards.map(({ type, count }) => <div className={`person-award-count ${type.toLowerCase().replace(" ", "-")}`} key={type}><span>{type}</span><strong>{count}</strong></div>)}</div> : null}</div>
+      <div className="person-heading"><div><p className="eyebrow">Contestant</p><h1>{identity!.name}</h1><a className="country-link" href={`/countries/${slugify(latest.country)}`}><Flag country={latest.country} />{latest.country}</a></div>{awards.length ? <div className="person-awards" aria-label="Awards received">{awards.map(({ type, count }) => <div className={`person-award-count ${type.toLowerCase().replace(" ", "-")}`} key={type}><span>{type}</span><strong>{count}</strong></div>)}</div> : null}</div>
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
@@ -1433,7 +1442,7 @@ function SearchPage() {
   const normalized = query.trim().toLocaleLowerCase();
   const people = useMemo(() => {
     if (!normalized) return [];
-    const matches = [...allResults("main"), ...allResults("gaite")].filter((result) => `${contestantAliasLabel(result)} ${result.country} ${result.year}`.toLocaleLowerCase().includes(normalized));
+    const matches = [...allResults("main"), ...allResults("gaite")].filter((result) => `${contestantSearchText(result)} ${result.country} ${result.year}`.toLocaleLowerCase().includes(normalized));
     return matches
       .sort((a, b) => b.year - a.year || competitionRank(a) - competitionRank(b) || a.name.localeCompare(b.name))
       .slice(0, 80);
