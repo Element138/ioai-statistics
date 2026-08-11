@@ -10,6 +10,24 @@ async function render(pathname = "/") {
   return new Response(html, { headers: { "content-type": contentType } });
 }
 
+const DIRECT_TRANSLITERATION = {
+  ł: "l", Ł: "L", ı: "i", İ: "I", đ: "d", Đ: "D", ð: "d", Ð: "D", þ: "th", Þ: "Th",
+  æ: "ae", Æ: "Ae", œ: "oe", Œ: "Oe", ø: "o", Ø: "O", ß: "ss", ħ: "h", Ħ: "H",
+  ŋ: "n", Ŋ: "N", ŧ: "t", Ŧ: "T",
+};
+
+function canonicalSlug(value) {
+  return [...value]
+    .map((character) => DIRECT_TRANSLITERATION[character] ?? character)
+    .join("")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/['’ʼʻ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 test("maps exported HTML files to extensionless Vercel routes", async () => {
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
   assert.equal(config.outputDirectory, "out");
@@ -24,6 +42,30 @@ test("maps exported HTML files to extensionless Vercel routes", async () => {
   ]) {
     await access(new URL(`../out/${outputPath}`, import.meta.url));
   }
+});
+
+test("publishes legible canonical contestant slugs with permanent legacy redirects", async () => {
+  const data = JSON.parse(await readFile(new URL("../app/data/ioai.json", import.meta.url), "utf8"));
+  const results = Object.values(data).filter(Array.isArray).flat().filter((entry) => entry?.slug && entry?.name && Array.isArray(entry?.scores) && typeof entry?.award === "string");
+  for (const result of results) assert.equal(result.slug, canonicalSlug(result.name), result.name);
+
+  const expectedRedirects = new Map([
+    ["/contestants/micha-karp", "/contestants/michal-karp"],
+    ["/contestants/ethem-yagz-calk", "/contestants/ethem-yagiz-calik"],
+    ["/contestants/micha-masny", "/contestants/michal-masny"],
+    ["/contestants/miko-aj-zra-ek", "/contestants/mikolaj-zralek"],
+    ["/contestants/ahmet-alp-orakc", "/contestants/ahmet-alp-orakci"],
+    ["/contestants/rakotondrazaka-irintsoa-omban-ny-avo", "/contestants/rakotondrazaka-irintsoa-ombanny-avo"],
+    ["/contestants/m-po-yeti-dereck", "/contestants/mpo-yeti-dereck"],
+  ]);
+  const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
+  assert.deepEqual(new Map(config.redirects.map(({ source, destination, permanent }) => {
+    assert.equal(permanent, true);
+    return [source, destination];
+  })), expectedRedirects);
+
+  for (const slug of new Set(results.map((result) => result.slug))) await access(new URL(`../out/contestants/${slug}.html`, import.meta.url));
+  for (const oldPath of expectedRedirects.keys()) await assert.rejects(access(new URL(`../out/${oldPath.slice(1)}.html`, import.meta.url)));
 });
 
 test("server-renders the IOAI Statistics shell and updated footer", async () => {

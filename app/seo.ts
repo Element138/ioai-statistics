@@ -1,4 +1,5 @@
 import rawData from "./data/ioai.json";
+import { slugify } from "./slug";
 
 const SITE_NAME = "IOAI Statistics";
 const EDITION_SECTIONS = ["main", "results", "delegations", "tasks", "administration"] as const;
@@ -49,15 +50,6 @@ export type PageSeo = {
 };
 
 export const DATA_UPDATED = DATA.updated;
-
-export function slugify(value: string) {
-  return value
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
 
 function unknownPage(parts: string[]): PageSeo {
   return {

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
+import { slugify } from "../slug";
 
 type Track = "main" | "gaite" | "team";
 type TaskTrack = Track | "home";
@@ -221,15 +222,6 @@ const RESULT_SOURCE_URLS: Record<number, string> = {
   2025: "https://ioai-official.org/china-2025/results-2025/",
   2026: "https://ioai2026.kz/results/",
 };
-
-function slugify(value: string) {
-  return value
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
 
 function Flag({ country, large = false, highResolution = false }: { country: string; large?: boolean; highResolution?: boolean }) {
   const code = COUNTRY_CODES[country];
