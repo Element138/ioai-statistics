@@ -756,7 +756,7 @@ h3 {
   align-items: center;
   padding: 1px 6px;
   border: 1px solid;
-  border-radius: 99px;
+  border-radius: 0;
   font-size: 0.67rem;
   font-weight: 650;
   line-height: 1.2;
@@ -1579,6 +1579,12 @@ h3 {
   white-space: normal;
 }
 
+.difficulty-grid.difficulty-legend-popover {
+  position: fixed;
+  inset: auto 18px 18px auto;
+  width: min(430px, calc(100vw - 36px));
+}
+
 .difficulty-item {
   min-width: 0;
   display: grid;
@@ -1606,11 +1612,12 @@ h3 {
   min-height: 18px;
   width: max-content;
   align-items: center;
-  padding: 1px 6px;
+  padding: 2px 6px;
   border: 1px solid;
-  border-radius: 2px;
-  font-size: 0.65rem;
+  border-radius: 0;
+  font-size: 0.64rem;
   font-weight: 700;
+  letter-spacing: 0.035em;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -1765,7 +1772,7 @@ h3 {
   display: inline-flex;
   align-items: center;
   border: 1px solid;
-  border-radius: 99px;
+  border-radius: 0;
   font-size: 0.64rem;
   font-weight: 700;
   line-height: 1.2;
@@ -1893,6 +1900,20 @@ h3 {
   line-height: 1.05;
   text-align: center;
   white-space: nowrap;
+}
+
+.country-rank-block strong {
+  display: grid;
+  justify-items: center;
+  line-height: 0.9;
+}
+
+.country-rank-block strong small {
+  margin-top: 2px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
 }
 
 .contestant-detail {
@@ -2297,7 +2318,8 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .difficulty-legend-popover {
+  .difficulty-grid.difficulty-legend-popover {
+    inset: auto 11px max(11px, env(safe-area-inset-bottom));
     width: auto;
     max-height: min(420px, 70vh);
     padding-top: 38px;
@@ -2377,17 +2399,21 @@ h3 {
     flex-basis: 58px;
     align-content: space-between;
     box-sizing: border-box;
-    padding-block: 7px;
+    padding-block: 4px;
   }
 
   .country-rank-block span {
-    font-size: 0.54rem;
+    font-size: 0.5rem;
     line-height: 1;
   }
 
   .country-rank-block strong {
-    font-size: 1.45rem;
-    line-height: 1;
+    font-size: 1.25rem;
+    line-height: 0.9;
+  }
+
+  .country-rank-block strong small {
+    font-size: 0.5rem;
   }
 
   .big-flag {

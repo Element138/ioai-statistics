@@ -18,6 +18,7 @@ type Task = {
 };
 
 type Result = {
+  contestantId: string;
   slug: string;
   name: string;
   country: string;
@@ -41,6 +42,13 @@ const RESULTS = [
   ...DATA.mainResults2026,
   ...DATA.gaiteResults2026,
 ];
+
+const CONTESTANT_IDENTITIES = new Map<string, { contestantId: string; slug: string; aliases: string[] }>();
+for (const result of [...RESULTS].sort((a, b) => a.year - b.year)) {
+  const identity = CONTESTANT_IDENTITIES.get(result.contestantId) ?? { contestantId: result.contestantId, slug: result.slug, aliases: [] };
+  if (!identity.aliases.includes(result.name)) identity.aliases.push(result.name);
+  CONTESTANT_IDENTITIES.set(result.contestantId, identity);
+}
 
 export type PageSeo = {
   canonicalPath: string;
@@ -163,13 +171,14 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   }
 
   if (parts.length === 2 && parts[0] === "contestants") {
-    const contestant = RESULTS.find((result) => result.slug === parts[1]);
+    const contestant = [...CONTESTANT_IDENTITIES.values()].find((identity) => identity.slug === parts[1]);
     if (!contestant) return unknownPage(parts);
+    const name = contestant.aliases.join(" / ");
     return {
       canonicalPath: `/contestants/${contestant.slug}`,
-      description: `${contestant.name}'s published IOAI results and task scores.`,
+      description: `${name}'s published IOAI results and task scores.`,
       indexable: false,
-      title: contestant.name,
+      title: name,
     };
   }
 
@@ -191,7 +200,7 @@ export function allIndexablePaths() {
 }
 
 export function allStaticPaths() {
-  const contestantPaths = [...new Set(RESULTS.map((result) => result.slug))]
+  const contestantPaths = [...CONTESTANT_IDENTITIES.values()].map((identity) => identity.slug)
     .sort((a, b) => a.localeCompare(b))
     .map((slug) => `/contestants/${slug}`);
 

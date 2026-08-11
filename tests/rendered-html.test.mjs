@@ -51,18 +51,51 @@ test("maps exported HTML files to extensionless Vercel routes", async () => {
   }
 });
 
-test("publishes only legible canonical contestant slugs", async () => {
+test("publishes stable contestant identities and oldest-name canonical slugs", async () => {
   const data = JSON.parse(await readFile(new URL("../app/data/ioai.json", import.meta.url), "utf8"));
   const results = Object.values(data).filter(Array.isArray).flat().filter((entry) => entry?.slug && entry?.name && Array.isArray(entry?.scores) && typeof entry?.award === "string");
-  for (const result of results) assert.equal(result.slug, canonicalSlug(result.name), result.name);
+  const identities = new Map();
+  for (const result of results) {
+    assert.match(result.contestantId, /^contestant-[a-z0-9-]+$/);
+    const entries = identities.get(result.contestantId) || [];
+    entries.push(result);
+    identities.set(result.contestantId, entries);
+  }
+  for (const entries of identities.values()) {
+    entries.sort((a, b) => a.year - b.year || a.rank - b.rank);
+    assert.equal(entries[0].slug, canonicalSlug(entries[0].name), entries[0].name);
+    assert.equal(new Set(entries.map((entry) => entry.slug)).size, 1, entries[0].contestantId);
+  }
+  const slugOwners = new Map();
+  for (const [contestantId, entries] of identities) {
+    const owners = slugOwners.get(entries[0].slug) || new Set();
+    owners.add(contestantId);
+    slugOwners.set(entries[0].slug, owners);
+  }
+  for (const [slug, owners] of slugOwners) assert.equal(owners.size, 1, slug);
+
+  const anango = identities.get("contestant-anango-prabhat");
+  assert.deepEqual(anango.map((entry) => [entry.year, entry.name, entry.slug]), [
+    [2025, "Anango Prabhat", "anango-prabhat"],
+    [2026, "Anango Dev Prabhat", "anango-prabhat"],
+  ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.equal(config.redirects, undefined);
+  assert.deepEqual(config.redirects, [{ source: "/contestants/anango-dev-prabhat", destination: "/contestants/anango-prabhat", permanent: true }]);
 
   for (const slug of new Set(results.map((result) => result.slug))) await access(new URL(`../out/contestants/${slug}.html`, import.meta.url));
-  for (const oldSlug of ["micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
+  for (const oldSlug of ["anango-dev-prabhat", "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
     await assert.rejects(access(new URL(`../out/contestants/${oldSlug}.html`, import.meta.url)));
   }
+
+  const contestant = await (await render("/contestants/anango-prabhat")).text();
+  assert.match(contestant, /<h1>Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat<\/h1>/);
+  const results2025 = await (await render("/olympiads/2025/results")).text();
+  const results2026 = await (await render("/olympiads/2026/results")).text();
+  assert.match(results2025, /href="\/contestants\/anango-prabhat">Anango Prabhat<\/a>/);
+  assert.match(results2026, /href="\/contestants\/anango-prabhat">Anango Dev Prabhat<\/a>/);
+  const hall = await (await render("/hall-of-fame")).text();
+  assert.match(hall, /href="\/contestants\/anango-prabhat">Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat<\/a>/);
 });
 
 test("server-renders the IOAI Statistics shell and updated footer", async () => {
@@ -107,8 +140,9 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(app, /GOLD_PLUS_SCORE_THRESHOLD = 25/);
   assert.match(app, /GOLD_PLUS_PASS_RATE = 0\.25/);
   assert.match(app, /TOP_SOLVER_SCORE_THRESHOLD = 0/);
-  assert.match(app, /score > TOP_SOLVER_SCORE_THRESHOLD/);
-  assert.match(app, /topSolverEntries\(task, effectiveTrack\)/);
+  assert.match(app, /const limit = track === "gaite" \? 5 : 10/);
+  assert.match(app, /taskLeaderboardEntries\(task, effectiveTrack\)/);
+  assert.doesNotMatch(app, /topSolverEntries/);
   assert.match(app, /Half of Individual contestants reached 50\./);
   assert.match(app, /A quarter of gold medalists reached 25\./);
   assert.match(app, /Fewer than a quarter of gold medalists reached 25\./);
@@ -130,6 +164,8 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(app, /createPortal\([\s\S]*difficulty-legend-layer[\s\S]*document\.body/s);
   assert.doesNotMatch(app, /popoverTarget|popover="auto"/);
   assert.match(css, /\.difficulty-legend-popover\s*\{[^}]*position:\s*fixed/s);
+  assert.ok(css.indexOf(".difficulty-grid {") < css.indexOf(".difficulty-grid.difficulty-legend-popover {"));
+  assert.match(css, /\.difficulty-grid\.difficulty-legend-popover\s*\{[^}]*position:\s*fixed;[^}]*inset:\s*auto 18px 18px auto/s);
   assert.doesNotMatch(css, /\.table-wrap:has\(\.difficulty-legend\[open\]\)/);
   assert.match(css, /\.top-nav\s*\{[^}]*overflow-y:\s*hidden;[^}]*touch-action:\s*pan-x/s);
   assert.match(css, /\.edition-nav\s*\{[^}]*overflow-y:\s*hidden;[^}]*touch-action:\s*pan-x/s);
@@ -143,6 +179,9 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.hall-table td:nth-child\(5\) > a\s*\{[^}]*font-size:\s*0\.84rem/s);
   assert.match(css, /\.difficulty\.gold-plus\s*\{[^}]*background:\s*#efd478/s);
   assert.match(css, /\.difficulty\.extreme\s*\{[^}]*background:\s*#f7d8e4/s);
+  assert.match(css, /\.award\s*\{[^}]*border-radius:\s*0/s);
+  assert.match(css, /\.difficulty\s*\{[^}]*padding:\s*2px 6px;[^}]*border-radius:\s*0;[^}]*font-size:\s*0\.64rem;[^}]*letter-spacing:\s*0\.035em/s);
+  assert.match(css, /\.achievement-badge\s*\{[^}]*border-radius:\s*0/s);
   assert.match(css, /\.difficulty-badge-help:hover \.difficulty-tooltip,[\s\S]*\.difficulty-badge-help:focus-within \.difficulty-tooltip\s*\{[^}]*visibility:\s*visible/s);
   assert.match(css, /\.task-commentary-list li:nth-child\(2\)\s*\{\s*grid-column:\s*1;\s*grid-row:\s*2;/s);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.task-commentary-list li\s*\{[^}]*grid-column:\s*1 !important;[^}]*grid-row:\s*auto !important;/s);
@@ -205,6 +244,10 @@ test("publishes task numbers, at-home records, categories, and official 2026 lin
 
   const homeTaskHtml = await (await render("/tasks/2026-home-task-1")).text();
   assert.match(homeTaskHtml, /track-badge home">At-home<\/span>/);
+  const rankedTaskHtml = await (await render("/tasks/radar")).text();
+  assert.match(rankedTaskHtml, />Task leaderboard<\/h2>/);
+  assert.doesNotMatch(rankedTaskHtml, />Top solvers<\/h2>/);
+  assert.match(rankedTaskHtml, /<th class="number">Task rank<\/th>/);
   assert.match(homeTaskHtml, /At-home task — no individual ranking/);
 });
 
@@ -215,6 +258,8 @@ test("keeps edition section navigation, time limits, and signed commentary", asy
   assert.match(tasksHtml, />At-home<\/button>/);
 
   const edition2026 = await (await render("/olympiads/2026")).text();
+  assert.match(edition2026, /Individual ranked contestants<\/dt><dd>440<\/dd>/);
+  assert.match(edition2026, /GAITE ranked contestants<\/dt><dd>26<\/dd>/);
   assert.match(edition2026, /Contest day 1(?:<!-- -->)? time limit<\/dt><dd>6 hours/);
   assert.match(edition2026, /Contest day 2(?:<!-- -->)? time limit<\/dt><dd>6 hours/);
   assert.match(edition2026, /Individual contest commentary/);
@@ -247,7 +292,8 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   assert.match(individualHtml, />Year-level national results<\/h2>/);
   assert.match(individualHtml, /<th class="number">National rank<\/th>/);
   assert.match(individualHtml, /href="\/olympiads\/2026\/delegations"/);
-  assert.match(individualHtml, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? of (?:<!-- -->)?\d+<\/td>/);
+  assert.match(individualHtml, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?\d+<\/td>/);
+  assert.match(individualHtml, /<strong>#(?:<!-- -->)?\d+<small>\/(?:<!-- -->)?\d+<\/small><\/strong>/);
   assert.match(individualHtml, /<span>Individual awards<\/span>/);
   assert.match(individualHtml, /<small>G<\/small><strong>1<\/strong>/);
   assert.match(individualHtml, /<small>HM<\/small><strong>0<\/strong>/);
@@ -281,7 +327,7 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   assert.doesNotMatch(allTime, />IOAI Team<\/a>/);
 
   const ioaiTeam = await (await render("/countries/ioai-team")).text();
-  assert.match(ioaiTeam, /<span>ALL-TIME<\/span><strong>#(?:<!-- -->)?—<\/strong>/);
+  assert.match(ioaiTeam, /<span>ALL-TIME<\/span><strong>#(?:<!-- -->)?—<small>\/(?:<!-- -->)?\d+<\/small><\/strong>/);
   assert.match(ioaiTeam, />Year-level national results<\/h2>/);
 
   const unranked2024 = await (await render("/olympiads/2024/delegations")).text();
@@ -356,15 +402,19 @@ test("prefixes every displayed GAITE award badge", async () => {
 
   const gaite2025 = await (await render("/contestants/kabel-cisse")).text();
   assert.match(gaite2025, />GAITE First Award<\/span>/);
-  assert.match(gaite2025, />GAITE top solver<\/span>/);
+  assert.match(gaite2025, />GAITE top 5 solver<\/span>/);
   assert.doesNotMatch(gaite2025, />First Level<\/span>/);
 
   const gaite2026 = await (await render("/contestants/kadanga-essognim-elisee")).text();
   assert.match(gaite2026, />GAITE Level 1 Award<\/span>/);
 
   const individual = await (await render("/contestants/krzysztof-rojek")).text();
-  assert.match(individual, />Top solver<\/span>/);
-  assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
+  assert.match(individual, />Top 10 solver<\/span>/);
+  assert.doesNotMatch(individual, />GAITE top 5 solver<\/span>/);
+  assert.match(individual, /<th class="number">Rank<\/th>/);
+  assert.match(individual, /<tr class="total-row"><td>Overall<\/td>/);
+  assert.match(individual, /class="number rank">\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
+  assert.doesNotMatch(individual, /<strong>Rank (?:<!-- -->)?\d+<\/strong>/);
 });
 
 test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
