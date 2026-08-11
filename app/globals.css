@@ -279,7 +279,6 @@ h3 {
   width: 28px;
   height: 21px;
   display: block;
-  animation: flag-counter-spin 180s linear infinite;
   pointer-events: auto;
 }
 
@@ -350,20 +349,13 @@ h3 {
 }
 
 .flag-ring-track:has(.flag-ring-link:hover),
-.flag-ring-track:has(.flag-ring-link:focus-visible),
-.flag-ring-track:has(.flag-ring-link:hover) .flag-ring-link,
-.flag-ring-track:has(.flag-ring-link:focus-visible) .flag-ring-link {
+.flag-ring-track:has(.flag-ring-link:focus-visible) {
   animation-play-state: paused;
 }
 
 @keyframes flag-ring-spin {
   from { transform: rotate(var(--ring-start-angle)); }
   to { transform: rotate(calc(var(--ring-start-angle) + 360deg)); }
-}
-
-@keyframes flag-counter-spin {
-  from { transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle))); }
-  to { transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle) - 360deg)); }
 }
 
 .hero {
@@ -1840,7 +1832,9 @@ h3 {
 
 .country-rank-block span {
   max-width: 64px;
+  line-height: 1.05;
   text-align: center;
+  white-space: nowrap;
 }
 
 .contestant-detail {
@@ -2029,8 +2023,7 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .flag-ring-track,
-  .flag-ring-link {
+  .flag-ring-track {
     animation: none;
   }
 
@@ -2038,9 +2031,6 @@ h3 {
     transform: rotate(var(--ring-start-angle));
   }
 
-  .flag-ring-link {
-    transform: rotate(calc(var(--flag-counter-angle) - var(--ring-start-angle)));
-  }
 }
 
 .footer-grid p {

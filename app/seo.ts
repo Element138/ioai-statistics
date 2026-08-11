@@ -64,7 +64,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (!parts.length) {
     return {
       canonicalPath: "/",
-      description: "An unofficial report of IOAI editions, contestants, countries, tasks and final results.",
+      description: "An unofficial report website covering IOAI editions, contestants, countries, tasks and final results.",
       indexable: true,
       title: SITE_NAME,
     };

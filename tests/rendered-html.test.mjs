@@ -72,7 +72,7 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
 
   const html = await response.text();
   const head = html.slice(0, html.indexOf("</head>") + "</head>".length);
-  assert.match(html, /<meta name="description" content="An unofficial report of IOAI editions, contestants, countries, tasks and final results\."\/>/);
+  assert.match(html, /<meta name="description" content="An unofficial report website covering IOAI editions, contestants, countries, tasks and final results\."\/>/);
   assert.match(html, /<meta property="og:image:alt" content="IOAI Statistics report"\/>/);
   assert.match(html, /<meta property="og:image:width" content="1200"\/>/);
   assert.match(html, /<meta property="og:image:height" content="630"\/>/);
@@ -140,7 +140,7 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(layout, /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml" \/>/);
   assert.match(layout, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180" \/>/);
   assert.match(layout, /<link rel="manifest" href="\/site\.webmanifest" \/>/);
-  assert.match(layout, /An unofficial report of IOAI editions, contestants, countries, tasks and final results\./);
+  assert.match(layout, /An unofficial report website covering IOAI editions, contestants, countries, tasks and final results\./);
   assert.doesNotMatch(layout, /public archive|data archive/i);
   assert.doesNotMatch(seo, /description: "[^"]*archive/i);
   assert.doesNotMatch(page, /IOAI Statistics data archive/i);
@@ -156,6 +156,15 @@ test("keeps the scoring criteria and branding independently configured", async (
   ]) {
     await access(new URL(`../public/${asset}`, import.meta.url));
   }
+});
+
+test("lets home flags rotate naturally with their orbit", async () => {
+  const [app, styles] = await Promise.all([
+    readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.doesNotMatch(app + styles, /flag-counter-(?:angle|spin)/);
+  assert.match(styles, /\.flag-ring-slot[\s\S]*transform: rotate\(var\(--flag-angle\)\)/);
 });
 
 test("publishes task numbers, at-home records, categories, and official 2026 links", async () => {
@@ -226,8 +235,8 @@ test("shows the appropriate national ranking and caches country summaries", asyn
 
   const individualHtml = await (await render("/countries/japan")).text();
   assert.match(individualHtml, /rank-block country-rank-block main/);
-  assert.match(individualHtml, /<span>Individual<\/span><strong>#/);
-  assert.doesNotMatch(individualHtml, />All-time (?:<!-- -->)?Individual/);
+  assert.match(individualHtml, /<span>ALL-TIME<\/span><strong>#/);
+  assert.doesNotMatch(individualHtml, /<span>Individual<\/span>/);
   assert.match(individualHtml, />Year-level national results<\/h2>/);
   assert.match(individualHtml, /<th class="number">National rank<\/th>/);
   assert.match(individualHtml, /href="\/olympiads\/2026\/delegations"/);
@@ -239,7 +248,7 @@ test("shows the appropriate national ranking and caches country summaries", asyn
 
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
   assert.match(gaiteHtml, /rank-block country-rank-block gaite/);
-  assert.match(gaiteHtml, /<span>GAITE<\/span><strong>#/);
+  assert.match(gaiteHtml, /<span>GAITE<br\/>ALL-TIME<\/span><strong>#/);
   assert.match(gaiteHtml, /track-badge gaite">GAITE<\/span>/);
   assert.doesNotMatch(gaiteHtml, />Individual<\/button>|No results in this track/);
   assert.match(gaiteHtml, /<small>L1<\/small><strong>\d+<\/strong>/);
@@ -265,7 +274,7 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   assert.doesNotMatch(allTime, />IOAI Team<\/a>/);
 
   const ioaiTeam = await (await render("/countries/ioai-team")).text();
-  assert.match(ioaiTeam, /<span>Individual<\/span><strong>#(?:<!-- -->)?—<\/strong>/);
+  assert.match(ioaiTeam, /<span>ALL-TIME<\/span><strong>#(?:<!-- -->)?—<\/strong>/);
   assert.match(ioaiTeam, />Year-level national results<\/h2>/);
 
   const unranked2024 = await (await render("/olympiads/2024/delegations")).text();

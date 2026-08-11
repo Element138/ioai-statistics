@@ -3,7 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 
 const origin = "https://ioai-statistics.org";
-const description = "An unofficial report of IOAI editions, contestants, countries, tasks and final results.";
+const description = "An unofficial report website covering IOAI editions, contestants, countries, tasks and final results.";
 const image = `${origin}/ioai-statistics-social-20260811.png`;
 
 export const metadata: Metadata = {

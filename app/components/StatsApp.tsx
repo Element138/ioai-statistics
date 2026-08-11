@@ -742,7 +742,7 @@ function FlagRing() {
           const countryResults = results.filter((result) => result.country === country);
           const awards = countryResults.filter((result) => hasAward(result.award)).length;
           const angle = index * 360 / countries.length;
-          const style = { "--flag-angle": `${angle}deg`, "--flag-counter-angle": `${-angle}deg` } as CSSProperties;
+          const style = { "--flag-angle": `${angle}deg` } as CSSProperties;
           return (
             <span className="flag-ring-slot" style={style} key={country}>
               <a className="flag-ring-link" href={`/countries/${slugify(country)}`} aria-label={`${country}: ${countryResults.length} entries, ${awards} awards`}>
@@ -1216,7 +1216,7 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   const gaiteAwards = countGaiteAwards(availableGaite);
   return (
     <>
-      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={`All-time ${nationalRankTrack === "main" ? "Individual" : "GAITE"} national rank ${nationalRank}`}><span>{nationalRankTrack === "main" ? "Individual" : "GAITE"}</span><strong>#{nationalRank ?? "—"}</strong></div><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={`All-time ${nationalRankTrack === "main" ? "Individual" : "GAITE"} national rank ${nationalRank}`}><span>{nationalRankTrack === "main" ? "ALL-TIME" : <>GAITE<br />ALL-TIME</>}</span><strong>#{nationalRank ?? "—"}</strong></div><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
       <div className="metric-strip">
         <div><span>Result entries</span><strong>{availableMain.length + availableGaite.length}</strong></div>
         <div><span>Participating editions</span><strong>{new Set([...availableMain, ...availableGaite].map((result) => result.year)).size}</strong></div>
