@@ -539,12 +539,15 @@ function DifficultyLegend({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = false }: {
+function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = false, entryLabel = "Contestants", entryCount = entries.length, meanAvailable = true }: {
   title: string;
   entries: { score: number; award: string }[];
   maxScore: number;
   track: "main" | "gaite";
   showCutoffs?: boolean;
+  entryLabel?: string;
+  entryCount?: number;
+  meanAvailable?: boolean;
 }) {
   const binCount = 10;
   const binSize = maxScore / binCount;
@@ -561,7 +564,7 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
     bins[index][medalBand(entry.award)] += 1;
   }
   const maxBin = Math.max(1, ...bins.map((bin) => bin.gold + bin.silver + bin.bronze + bin.other));
-  const mean = entries.length ? entries.reduce((sum, entry) => sum + entry.score, 0) / entries.length : 0;
+  const mean = meanAvailable && entries.length ? entries.reduce((sum, entry) => sum + entry.score, 0) / entries.length : null;
   const cutoffDefinitions = track === "main"
     ? [["Gold", "gold"], ["Silver", "silver"], ["Bronze", "bronze"]] as const
     : [["Level 1", "Level 1"], ["Level 2", "Level 2"], ["Level 3", "Level 3"]] as const;
@@ -595,7 +598,7 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
         })}
       </div>
       <div className="distribution-stats">
-        <span>Contestants <strong>{entries.length}</strong></span>
+        <span>{entryLabel} <strong>{entryCount}</strong></span>
         <span>Mean score <strong>{formatScore(mean)}</strong></span>
         <span>Full score <strong>{formatScore(maxScore)}</strong></span>
         {showCutoffs ? cutoffs.map((cutoff) => <span key={cutoff.label}>{cutoff.label} cutoff <strong>{formatScore(cutoff.score)}</strong></span>) : null}
@@ -973,7 +976,7 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
           <CompactFilter id="results-filter" value={query} onChange={setQuery} placeholder="Filter teams or countries" label="Filter 2024 results" count={round === "scientific" ? scientificResults.length : round === "practical" ? practicalResults.length : specialAwards.length} />
         </div>
         <p className="results-source"><a href={RESULT_SOURCE_URLS[year]} target="_blank" rel="noreferrer">Source</a></p>
-        {distribution.length ? <ScoreDistribution title={`${round[0].toUpperCase() + round.slice(1)} team scores`} entries={distribution} maxScore={100} track="main" showCutoffs /> : null}
+        {distribution.length ? <ScoreDistribution title={`${round[0].toUpperCase() + round.slice(1)} team scores`} entries={distribution} maxScore={100} track="main" showCutoffs entryLabel="Teams" entryCount={41} meanAvailable={false} /> : null}
         <div className="notice team-notice"><strong>2024 was entirely a team competition.</strong> These records never feed the Hall of Fame or country medal tables.</div>
         <div className="table-wrap">
           {round === "scientific" ? (

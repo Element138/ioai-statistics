@@ -203,6 +203,10 @@ test("keeps edition section navigation, time limits, and signed commentary", asy
 
   const edition2024 = await (await render("/olympiads/2024")).text();
   assert.match(edition2024, /Scientific round(?:<!-- -->)? time limit<\/dt><dd>8 hours/);
+  const edition2024Results = await (await render("/olympiads/2024/results")).text();
+  assert.match(edition2024Results, /<span>Teams(?:<!-- -->)? <strong>41<\/strong><\/span>/);
+  assert.match(edition2024Results, /<span>Mean score <strong>—<\/strong><\/span>/);
+  assert.doesNotMatch(edition2024Results, /<span>Contestants(?:<!-- -->)? <strong>21<\/strong><\/span>/);
 });
 
 test("shows the appropriate national ranking and caches country summaries", async () => {
