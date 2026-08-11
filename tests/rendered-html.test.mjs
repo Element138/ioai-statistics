@@ -324,6 +324,7 @@ test("loads GA and real-user performance measurement only after consent", async 
   assert.match(analytics, /googletagmanager\.com\/gtag\/js/);
   assert.match(analytics, /allow_google_signals: false/);
   assert.match(analytics, /allow_ad_personalization_signals: false/);
+  assert.match(analytics, /window\.gtag\?\.\("event", metric\.name/);
   assert.match(analytics, /onCLS\(sendWebVital\)/);
   assert.match(analytics, /onINP\(sendWebVital\)/);
   assert.match(analytics, /onLCP\(sendWebVital\)/);

@@ -66,7 +66,7 @@ function clearGoogleAnalyticsCookies() {
 }
 
 function sendWebVital(metric: Metric) {
-  window.gtag?.("event", "web_vital", {
+  window.gtag?.("event", metric.name, {
     metric_name: metric.name,
     metric_id: metric.id,
     metric_value: metric.value,
