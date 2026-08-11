@@ -1,10 +1,12 @@
 .openai
+.next
 .wrangler
 build
 db
 dist
 drizzle
 examples
+out
 scripts/run-vinext.mjs
 tests
 worker
