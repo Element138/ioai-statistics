@@ -45,12 +45,15 @@ test("keeps the scoring criteria and branding independently configured", async (
   ]);
 
   assert.match(app, /DIFFICULTY_SCORE_THRESHOLD = 50/);
+  assert.match(app, /EXTREME_SCORE_THRESHOLD = 20/);
   assert.match(app, /TOP_SOLVER_SCORE_THRESHOLD = 0/);
   assert.match(app, /score > TOP_SOLVER_SCORE_THRESHOLD/);
   assert.match(app, /topSolverEntries\(task, effectiveTrack\)/);
   assert.match(app, /Half of Individual contestants reached 50\./);
-  assert.match(app, /className="difficulty basic">Basic<\/b>/);
-  assert.match(app, /Fewer than a quarter reached 50\./);
+  assert.match(app, /Fewer than half of gold medalists reached 50\./);
+  assert.match(app, /Fewer than half of gold medalists reached 20\./);
+  assert.match(app, /<DifficultyBadge difficulty=\{difficulty\} explain \/>/);
+  assert.doesNotMatch(app, /medallists|Gold\+\+|gold-plus-plus/);
   assert.match(app, /Maximum possible score/);
   assert.match(app, /<dt>GAITE tasks<\/dt><dd>Shared with Individual<\/dd>/);
   assert.match(app, /SectionTitle title="Commentary" \/>/);
@@ -59,9 +62,37 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.difficulty-rule\s*\{[^}]*overflow-wrap:\s*anywhere/s);
   assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
   assert.match(css, /\.main-content:has\(\.difficulty-legend\[open\]\)\s*\{[^}]*z-index:\s*20/s);
+  assert.match(css, /\.difficulty\.gold-plus\s*\{[^}]*background:\s*#efd478/s);
+  assert.match(css, /\.difficulty\.extreme\s*\{[^}]*background:\s*#f7d8e4/s);
+  assert.match(css, /\.difficulty-badge-help:hover \.difficulty-tooltip,[\s\S]*\.difficulty-badge-help:focus-within \.difficulty-tooltip\s*\{[^}]*visibility:\s*visible/s);
   assert.match(css, /\.task-commentary-list li:nth-child\(2\)\s*\{\s*grid-column:\s*1;\s*grid-row:\s*2;/s);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.task-commentary-list li\s*\{[^}]*grid-column:\s*1 !important;[^}]*grid-row:\s*auto !important;/s);
   assert.match(css, /\.footer-grid p a\s*\{[^}]*display:\s*inline/s);
   assert.match(layout, /icon:\s*"\/ioai-statistics-logo\.png"/);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));
+});
+
+test("publishes indexable metadata while excluding search and contestant pages", async () => {
+  const taskResponse = await render("/tasks/radar");
+  const taskHtml = await taskResponse.text();
+  assert.match(taskHtml, /<meta name="robots" content="index, follow">/);
+  assert.match(taskHtml, /<link rel="canonical" href="http:\/\/localhost:3000\/tasks\/radar">/);
+  assert.match(taskHtml, /class="difficulty-badge-help"/);
+  assert.match(taskHtml, /role="tooltip">Half of Individual contestants reached 50\.<\/span>/);
+
+  const searchResponse = await render("/search");
+  assert.match(await searchResponse.text(), /<meta name="robots" content="noindex, follow">/);
+
+  const contestantResponse = await render("/contestants/krzysztof-rojek");
+  assert.match(await contestantResponse.text(), /<meta name="robots" content="noindex, follow">/);
+
+  const robotsResponse = await render("/robots.txt");
+  assert.equal(robotsResponse.headers.get("content-type"), "text/plain");
+  assert.match(await robotsResponse.text(), /Sitemap: http:\/\/localhost:3000\/sitemap\.xml/);
+
+  const sitemapResponse = await render("/sitemap.xml");
+  const sitemap = await sitemapResponse.text();
+  assert.equal(sitemapResponse.headers.get("content-type"), "application/xml");
+  assert.match(sitemap, /<loc>http:\/\/localhost:3000\/tasks\/radar<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/search|\/contestants\//);
 });

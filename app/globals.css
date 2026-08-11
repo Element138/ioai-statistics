@@ -1486,15 +1486,71 @@ h3 {
 }
 
 .difficulty.gold-plus {
-  border-color: #c99d2d;
-  background: #f9e8af;
-  color: #735000;
+  border-color: #b88918;
+  background: #efd478;
+  color: #573c00;
 }
 
-.difficulty.gold-plus-plus {
-  border-color: #b48614;
-  background: #f1d47d;
-  color: #563c00;
+.difficulty.extreme {
+  border-color: #9b2c56;
+  background: #f7d8e4;
+  color: #7a193f;
+}
+
+.difficulty-badge-help {
+  position: relative;
+  display: inline-flex;
+  margin: 1px 0;
+  vertical-align: middle;
+}
+
+.difficulty-badge-help > .difficulty {
+  cursor: help;
+}
+
+.difficulty-tooltip {
+  position: absolute;
+  z-index: 12;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 32px));
+  padding: 8px 10px;
+  border: 1px solid #273957;
+  border-radius: 4px;
+  background: #17243a;
+  box-shadow: 0 9px 24px rgba(20, 32, 52, 0.2);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: none;
+  transform: translateY(3px);
+  transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
+  visibility: hidden;
+  white-space: normal;
+}
+
+.difficulty-tooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 14px;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid #273957;
+  border-bottom: 1px solid #273957;
+  background: #17243a;
+  content: "";
+  transform: translateY(-4px) rotate(45deg);
+}
+
+.difficulty-badge-help:hover .difficulty-tooltip,
+.difficulty-badge-help:focus-within .difficulty-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .participation-list {

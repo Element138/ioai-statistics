@@ -328,6 +328,7 @@ function taskScoreEntries(task: Task, track: "main" | "gaite") {
 }
 
 const DIFFICULTY_SCORE_THRESHOLD = 50;
+const EXTREME_SCORE_THRESHOLD = 20;
 const TOP_SOLVER_SCORE_THRESHOLD = 0;
 
 function isTopSolver(task: Task, track: "main" | "gaite", score: number | null | undefined) {
@@ -350,13 +351,35 @@ function isFirstInDelegation(result: Result) {
   return result.total === Math.max(...delegation.map((candidate) => candidate.total));
 }
 
-type Difficulty = "basic" | "bronze" | "silver" | "gold" | "gold+" | "gold++";
+type Difficulty = "basic" | "bronze" | "silver" | "gold" | "gold+" | "extreme";
+
+const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+  basic: "Basic",
+  bronze: "Bronze",
+  silver: "Silver",
+  gold: "Gold",
+  "gold+": "Gold+",
+  extreme: "Extreme",
+};
+
+const DIFFICULTY_RULES: Record<Difficulty, string> = {
+  basic: "Half of Individual contestants reached 50.",
+  bronze: "Half of bronze medalists reached 50.",
+  silver: "Half of silver medalists reached 50.",
+  gold: "Half of gold medalists reached 50.",
+  "gold+": "Fewer than half of gold medalists reached 50.",
+  extreme: "Fewer than half of gold medalists reached 20.",
+};
+
+function difficultyClassName(difficulty: Difficulty) {
+  return difficulty.replaceAll("+", "-plus");
+}
 
 function taskDifficulty(task: Task): Difficulty | null {
   if (!taskTracks(task).includes("main")) return null;
   const entries = taskScoreEntries(task, "main");
   if (!entries.length) return null;
-  const passRate = (items: typeof entries) => items.length ? items.filter((item) => item.score >= DIFFICULTY_SCORE_THRESHOLD).length / items.length : 0;
+  const passRate = (items: typeof entries, threshold = DIFFICULTY_SCORE_THRESHOLD) => items.length ? items.filter((item) => item.score >= threshold).length / items.length : 0;
   if (passRate(entries) >= 0.5) return "basic";
 
   const cohort = (medal: "bronze" | "silver" | "gold") => entries.filter((item) => medalBand(item.result.award) === medal);
@@ -364,8 +387,8 @@ function taskDifficulty(task: Task): Difficulty | null {
   if (passRate(cohort("silver")) >= 0.5) return "silver";
   const gold = cohort("gold");
   if (passRate(gold) >= 0.5) return "gold";
-  if (passRate(gold) >= 0.25) return "gold+";
-  return "gold++";
+  if (passRate(gold, EXTREME_SCORE_THRESHOLD) >= 0.5) return "gold+";
+  return "extreme";
 }
 
 function countryFromTeam(team: string) {
@@ -421,17 +444,40 @@ function EmptyState({ title, children }: { title: string; children: ReactNode })
   );
 }
 
+function DifficultyBadge({ difficulty, explain = false }: { difficulty: Difficulty; explain?: boolean }) {
+  if (!explain) {
+    return <span className={`difficulty ${difficultyClassName(difficulty)}`}>{DIFFICULTY_LABELS[difficulty]}</span>;
+  }
+
+  const tooltipId = "task-difficulty-explanation";
+  return (
+    <span className="difficulty-badge-help">
+      <span
+        className={`difficulty ${difficultyClassName(difficulty)}`}
+        tabIndex={0}
+        aria-describedby={tooltipId}
+      >
+        {DIFFICULTY_LABELS[difficulty]}
+      </span>
+      <span className="difficulty-tooltip" id={tooltipId} role="tooltip">
+        {DIFFICULTY_RULES[difficulty]}
+      </span>
+    </span>
+  );
+}
+
 function DifficultyLegend({ compact = false }: { compact?: boolean }) {
+  const levels: Difficulty[] = ["basic", "bronze", "silver", "gold", "gold+", "extreme"];
   return (
     <details className={`difficulty-legend${compact ? " compact" : ""}`}>
       <summary>{compact ? <><span aria-hidden="true">?</span><span className="sr-only">Difficulty scale</span></> : "Difficulty scale"}</summary>
       <div className="difficulty-grid">
-        <div className="difficulty-item"><b className="difficulty basic">Basic</b><span className="difficulty-rule">Half of Individual contestants reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty bronze">Bronze</b><span className="difficulty-rule">Half of bronze medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty silver">Silver</b><span className="difficulty-rule">Half of silver medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty gold">Gold</b><span className="difficulty-rule">Half of gold medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty gold-plus">Gold+</b><span className="difficulty-rule">A quarter of gold medallists reached 50.</span></div>
-        <div className="difficulty-item"><b className="difficulty gold-plus-plus">Gold++</b><span className="difficulty-rule">Fewer than a quarter reached 50.</span></div>
+        {levels.map((difficulty) => (
+          <div className="difficulty-item" key={difficulty}>
+            <DifficultyBadge difficulty={difficulty} />
+            <span className="difficulty-rule">{DIFFICULTY_RULES[difficulty]}</span>
+          </div>
+        ))}
       </div>
     </details>
   );
@@ -571,7 +617,7 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
               <td><a href={`/tasks/${task.slug}`}>{task.name}</a></td>
               <td>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TRACK_LABELS[track]}</span>)}</td>
               <td>{task.category}</td>
-              <td>{taskDifficulty(task) ? <span className={`difficulty ${taskDifficulty(task)!.replaceAll("+", "-plus")}`}>{taskDifficulty(task)}</span> : "—"}</td>
+              <td>{taskDifficulty(task) ? <DifficultyBadge difficulty={taskDifficulty(task)!} /> : "—"}</td>
               <td className="number">{task.maxScore ?? "—"}</td>
               <td><a href={task.materials} target="_blank" rel="noreferrer">Official ↗</a></td>
             </tr>
@@ -1070,7 +1116,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
   return (
     <>
       <div className="page-heading task-heading"><p className="eyebrow">IOAI {task.year} · {taskTracks(task).map((track) => TRACK_LABELS[track]).join(" / ")}</p><h1>{task.name}</h1><p>{task.category}{task.day ? ` · contest day ${task.day}` : ""}</p></div>
-      <div className="task-actions"><span>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TRACK_LABELS[track]}</span>)}{difficulty ? <span className={`difficulty ${difficulty.replaceAll("+", "-plus")}`}>{difficulty}</span> : null}</span><a className="button-link" href={task.materials} target="_blank" rel="noreferrer">Open official materials ↗</a></div>
+      <div className="task-actions"><span>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TRACK_LABELS[track]}</span>)}{difficulty ? <DifficultyBadge difficulty={difficulty} explain /> : null}</span><a className="button-link" href={task.materials} target="_blank" rel="noreferrer">Open official materials ↗</a></div>
       {task.track === "team" ? (
         <EmptyState title="Team task — no individual ranking">This task is preserved separately and never contributes to the Hall of Fame or country rankings.</EmptyState>
       ) : (
