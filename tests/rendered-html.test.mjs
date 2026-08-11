@@ -300,7 +300,7 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
 });
 
-test("accurately discloses cookie-free Cloudflare Web Analytics, Search Console and FlagCDN", async () => {
+test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   const privacy = await (await render("/privacy")).text();
   assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 11 August 2026/);
   assert.match(privacy, /no accounts, advertising or tracking cookies/);
@@ -310,15 +310,7 @@ test("accurately discloses cookie-free Cloudflare Web Analytics, Search Console 
   assert.match(privacy, /cookie-free and does not use local storage/);
   assert.match(privacy, /does not collect or use visitors(?:&#x27;|') personal data or track individual visitors/);
   assert.doesNotMatch(privacy, /Google Analytics|Google Signals|Analytics settings/);
-  assert.match(privacy, />Google Search Console<\/a>/);
-  assert.match(privacy, /queries, pages, clicks, impressions, click-through rate, average position, country and device category/);
-  assert.match(privacy, /Google omits some queries to protect user privacy/);
-  assert.doesNotMatch(privacy, /DNS TXT record|Domain ownership was verified/);
-  assert.match(privacy, /Country flag images are loaded from (?:<a[^>]*>)?FlagCDN<\/a>/);
-  assert.match(privacy, /FlagCDN receives the visitor(?:&#x27;|')s IP address; requests are sent without a referrer/);
-  const flagParagraphStart = privacy.indexOf("Country flag images are loaded");
-  const flagParagraph = privacy.slice(flagParagraphStart, privacy.indexOf("</p>", flagParagraphStart) + 4);
-  assert.doesNotMatch(flagParagraph, /ordinary connection data|browser information/);
+  assert.doesNotMatch(privacy, /ChatGPT Sites|Sites Data Processing Addendum|Google Search Console|FlagCDN|flagcdn\.com/);
 
   const home = await (await render("/")).text();
   assert.match(home, /https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js/);
