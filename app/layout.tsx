@@ -16,11 +16,6 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s · IOAI Statistics",
     },
     description,
-    icons: {
-      icon: "/ioai-statistics-logo.png",
-      shortcut: "/ioai-statistics-logo.png",
-      apple: "/ioai-statistics-logo.png",
-    },
     openGraph: {
       type: "website",
       url: origin,
@@ -45,6 +40,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <link rel="manifest" href="/site.webmanifest" />
+      </head>
       <body>{children}</body>
     </html>
   );

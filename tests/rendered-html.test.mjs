@@ -29,6 +29,10 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
+  const head = html.slice(0, html.indexOf("</head>") + "</head>".length);
+  assert.match(head, /<link rel="icon" href="\/favicon\.ico" sizes="any"\s*\/>/);
+  assert.match(head, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"\s*\/>/);
+  assert.match(head, /<link rel="manifest" href="\/site\.webmanifest"\s*\/>/);
   assert.match(html, /src="\/ioai-statistics-logo\.png"/);
   assert.match(html, />IOAI Statistics<\/span>/);
   for (const href of ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/search"]) {
@@ -74,8 +78,22 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.footer-grid p a\s*\{[^}]*display:\s*inline/s);
   assert.match(css, /\.edition-commentary > \.commentary-summary\s*\{[^}]*max-width:\s*none/s);
   assert.match(css, /\.edition-commentary > \.commentary-byline\s*\{[^}]*text-align:\s*right/s);
-  assert.match(layout, /icon:\s*"\/ioai-statistics-logo\.png"/);
+  assert.match(layout, /<link rel="icon" href="\/favicon\.ico" sizes="any" \/>/);
+  assert.match(layout, /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml" \/>/);
+  assert.match(layout, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180" \/>/);
+  assert.match(layout, /<link rel="manifest" href="\/site\.webmanifest" \/>/);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));
+  for (const asset of [
+    "favicon.ico",
+    "favicon.svg",
+    "favicon-96x96.png",
+    "apple-touch-icon.png",
+    "site.webmanifest",
+    "web-app-manifest-192x192.png",
+    "web-app-manifest-512x512.png",
+  ]) {
+    await access(new URL(`../public/${asset}`, import.meta.url));
+  }
 });
 
 test("publishes task numbers, at-home records, categories, and official 2026 links", async () => {
