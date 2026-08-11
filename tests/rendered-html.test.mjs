@@ -32,6 +32,8 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
   const head = html.slice(0, html.indexOf("</head>") + "</head>".length);
   assert.match(html, /<meta name="description" content="An unofficial report of IOAI editions, contestants, countries, tasks and final results\.">/);
   assert.match(html, /<meta property="og:image:alt" content="IOAI Statistics report">/);
+  assert.match(html, /<meta property="og:image:width" content="1200">/);
+  assert.match(html, /<meta property="og:image:height" content="630">/);
   assert.doesNotMatch(html, /public archive|data archive/i);
   assert.match(head, /<link rel="icon" href="\/favicon\.ico" sizes="any"\s*\/>/);
   assert.match(head, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"\s*\/>/);

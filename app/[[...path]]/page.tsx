@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: ReportPageProps): Promise<Met
       siteName: "IOAI Statistics",
       title: page.title,
       description: page.description,
-      images: [{ url: image, width: 1732, height: 904, alt: "IOAI Statistics report" }],
+      images: [{ url: image, width: 1200, height: 630, alt: "IOAI Statistics report" }],
     },
     twitter: {
       card: "summary_large_image",
