@@ -274,6 +274,22 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
 });
 
+test("accurately discloses DNS-verified Google Search Console without claiming embedded analytics", async () => {
+  const privacy = await (await render("/privacy")).text();
+  assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 11 August 2026/);
+  assert.match(privacy, /does not embed visitor analytics or advertising code/);
+  assert.match(privacy, />Google Search Console<\/a>/);
+  assert.match(privacy, /queries, pages, clicks, impressions, click-through rate, average position, country and device category/);
+  assert.match(privacy, />DNS TXT record<\/a>/);
+  assert.match(privacy, /does not place Search Console, Google Analytics, Tag Manager, pixels or other tracking code on the archive/);
+  assert.match(privacy, /Google omits some queries to protect user privacy/);
+  assert.doesNotMatch(privacy, /no accounts, advertising or first-party analytics|use first-party analytics/);
+
+  const home = await (await render("/")).text();
+  const head = home.slice(0, home.indexOf("</head>") + "</head>".length);
+  assert.doesNotMatch(head, /googletagmanager\.com|google-analytics\.com|gtag\s*\(/i);
+});
+
 test("publishes indexable metadata while excluding search and contestant pages", async () => {
   const taskResponse = await render("/tasks/radar");
   const taskHtml = await taskResponse.text();

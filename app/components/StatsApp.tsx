@@ -1407,12 +1407,12 @@ function PrivacyPage() {
       <header className="page-heading policy-heading">
         <p className="eyebrow">Legal and privacy</p>
         <h1>Privacy policy</h1>
-        <p>Effective 11 August 2026 · Last updated 11 August 2026</p>
+        <p>Effective 11 August 2026 · Amended 11 August 2026</p>
       </header>
 
       <div className="policy-summary">
         <strong>In brief</strong>
-        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts, advertising or first-party analytics. Its optional general feedback form is designed not to collect personal information.</p>
+        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts or advertising and does not embed visitor analytics or advertising code. The operator uses Google Search Console for Google Search performance and indexing information; domain ownership was verified through DNS without adding visitor-side tracking. Its optional general feedback form is designed not to collect personal information.</p>
       </div>
 
       <section>
@@ -1443,8 +1443,9 @@ function PrivacyPage() {
 
       <section>
         <h2>5. Visitor data, cookies and external services</h2>
-        <p>The archive code does not create user accounts, store information in browser storage, run advertising, use first-party analytics or set cookies. The hosting service may process ordinary technical data—such as IP address, device and browser information, requested URL, timestamps and security events—and may use strictly necessary security technology to deliver and protect the site.</p>
+        <p>The archive code does not create user accounts, store information in browser storage, run advertising, embed visitor analytics or advertising trackers, or set cookies. The hosting service may process ordinary technical data—such as IP address, device and browser information, requested URL, timestamps and security events—and may use strictly necessary security technology to deliver and protect the site.</p>
         <p>The site is currently hosted through ChatGPT Sites by OpenAI. OpenAI processes hosted data to provide, secure and support the service under the applicable <a href="https://openai.com/policies/chatgpt-sites-data-processing-addendum/" target="_blank" rel="noreferrer">Sites Data Processing Addendum</a> and <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noreferrer">Privacy Policy</a>.</p>
+        <p>The operator uses <a href="https://support.google.com/webmasters/answer/7576553" target="_blank" rel="noreferrer">Google Search Console</a> to monitor indexing and how the domain appears and performs in Google Search. Search Console can report grouped search-performance information including queries, pages, clicks, impressions, click-through rate, average position, country and device category; Google omits some queries to protect user privacy. Domain ownership was verified using a <a href="https://support.google.com/webmasters/answer/9008080" target="_blank" rel="noreferrer">DNS TXT record</a>. That verification does not place Search Console, Google Analytics, Tag Manager, pixels or other tracking code on the archive and does not make the archive set Google cookies. The information available to the operator is derived from activity on Google&apos;s own services, is handled by Google under its <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>, and is used only to maintain discoverability, diagnose indexing issues and understand search performance.</p>
         <p>Country flags are delivered by <a href="https://flagcdn.com/" target="_blank" rel="noreferrer">FlagCDN</a>. A flag request necessarily reveals ordinary connection data such as the visitor&apos;s IP address and browser information to that provider. Flag requests are sent without a referrer header. Links to official sources and task materials are external; those sites receive data under their own policies only when followed.</p>
       </section>
 
