@@ -3,14 +3,5 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": "out",
-  "cleanUrls": true,
-  "redirects": [
-    { "source": "/contestants/micha-karp", "destination": "/contestants/michal-karp", "permanent": true },
-    { "source": "/contestants/ethem-yagz-calk", "destination": "/contestants/ethem-yagiz-calik", "permanent": true },
-    { "source": "/contestants/micha-masny", "destination": "/contestants/michal-masny", "permanent": true },
-    { "source": "/contestants/miko-aj-zra-ek", "destination": "/contestants/mikolaj-zralek", "permanent": true },
-    { "source": "/contestants/ahmet-alp-orakc", "destination": "/contestants/ahmet-alp-orakci", "permanent": true },
-    { "source": "/contestants/rakotondrazaka-irintsoa-omban-ny-avo", "destination": "/contestants/rakotondrazaka-irintsoa-ombanny-avo", "permanent": true },
-    { "source": "/contestants/m-po-yeti-dereck", "destination": "/contestants/mpo-yeti-dereck", "permanent": true }
-  ]
+  "cleanUrls": true
 }
