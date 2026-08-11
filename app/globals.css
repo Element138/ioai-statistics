@@ -781,9 +781,9 @@ h3 {
 }
 
 .award.mention {
-  border-color: #9bb5ea;
-  background: #eff4ff;
-  color: #315eaf;
+  border-color: #626b78;
+  background: transparent;
+  color: #343b46;
 }
 
 .award.gaite-level-1 {
@@ -1733,12 +1733,23 @@ h3 {
 }
 
 .participation-list {
+  width: 100%;
+  min-width: 0;
   display: grid;
   gap: 22px;
 }
 
 .participation-card {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   border-top: 2px solid var(--ink);
+}
+
+.participation-card .table-wrap {
+  min-width: 0;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .participation-head {
@@ -2397,9 +2408,11 @@ h3 {
   .country-rank-block {
     height: 58px;
     flex-basis: 58px;
-    align-content: space-between;
+    align-content: center;
+    justify-items: center;
     box-sizing: border-box;
     padding-block: 4px;
+    gap: 3px;
   }
 
   .country-rank-block span {

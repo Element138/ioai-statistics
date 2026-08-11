@@ -188,8 +188,12 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.difficulty\.gold-plus\s*\{[^}]*background:\s*#efd478/s);
   assert.match(css, /\.difficulty\.extreme\s*\{[^}]*background:\s*#f7d8e4/s);
   assert.match(css, /\.award\s*\{[^}]*border-radius:\s*0/s);
+  assert.match(css, /\.award\.mention\s*\{[^}]*border-color:\s*#626b78;[^}]*background:\s*transparent;[^}]*color:\s*#343b46/s);
   assert.match(css, /\.difficulty\s*\{[^}]*padding:\s*2px 6px;[^}]*border-radius:\s*0;[^}]*font-size:\s*0\.64rem;[^}]*letter-spacing:\s*0\.035em/s);
   assert.match(css, /\.achievement-badge\s*\{[^}]*border-radius:\s*0/s);
+  assert.match(css, /\.participation-list\s*\{[^}]*width:\s*100%;[^}]*min-width:\s*0/s);
+  assert.match(css, /\.participation-card\s*\{[^}]*width:\s*100%;[^}]*min-width:\s*0;[^}]*max-width:\s*100%/s);
+  assert.match(css, /@media \(max-width: 480px\)[\s\S]*\.country-rank-block\s*\{[^}]*align-content:\s*center;[^}]*justify-items:\s*center;[^}]*gap:\s*3px/s);
   assert.match(css, /\.difficulty-badge-help:hover \.difficulty-tooltip,[\s\S]*\.difficulty-badge-help:focus-within \.difficulty-tooltip\s*\{[^}]*visibility:\s*visible/s);
   assert.match(css, /\.task-commentary-list li:nth-child\(2\)\s*\{\s*grid-column:\s*1;\s*grid-row:\s*2;/s);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.task-commentary-list li\s*\{[^}]*grid-column:\s*1 !important;[^}]*grid-row:\s*auto !important;/s);
