@@ -1069,6 +1069,57 @@ h3 {
   margin-bottom: 0;
 }
 
+.compact-filter {
+  width: min(100%, 310px);
+  min-height: 32px;
+  margin: 0 0 10px auto;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  background: white;
+}
+
+.toolbar-row > .compact-filter {
+  margin-bottom: 0;
+}
+
+.compact-filter input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 9px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.compact-filter:focus-within {
+  border-color: #7894bd;
+  box-shadow: 0 0 0 2px rgb(34 91 166 / 10%);
+}
+
+.compact-filter-count {
+  flex: 0 0 auto;
+  padding: 0 9px;
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.precision-note {
+  margin: -2px 0 8px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  text-align: right;
+}
+
+.country-year-ranks {
+  margin-bottom: 24px;
+}
+
 .track-tabs {
   display: inline-flex;
   align-items: center;
@@ -2081,6 +2132,12 @@ h3 {
   .toolbar-row > .section-title-row {
     width: 100%;
     min-width: 0;
+  }
+
+  .toolbar-row > .compact-filter,
+  .compact-filter {
+    width: 100%;
+    margin-left: 0;
   }
 
   .distribution-card {

@@ -232,9 +232,17 @@ function Flag({ country, large = false, highResolution = false }: { country: str
   return <img className={large ? "flag-image large" : "flag-image"} src={`https://flagcdn.com/${size}/${code.toLowerCase()}.png`} alt="" loading={large ? "eager" : "lazy"} decoding="async" fetchPriority={large ? "high" : "low"} referrerPolicy="no-referrer" />;
 }
 
-function formatScore(value: number | null | undefined) {
+function formatScore(value: number | null | undefined, maximumFractionDigits = 8) {
   if (value === null || value === undefined) return "—";
-  return value.toFixed(8).replace(/\.?0+$/, "");
+  return value.toFixed(maximumFractionDigits).replace(/\.?0+$/, "");
+}
+
+function formatTaskScore(value: number | null | undefined) {
+  return formatScore(value, 2);
+}
+
+function formatTotalScore(value: number | null | undefined) {
+  return formatScore(value, 4);
 }
 
 function formatAwardCount(value: number) {
@@ -588,7 +596,7 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
       <div className="distribution-stats">
         <span>Contestants <strong>{entries.length}</strong></span>
         <span>Mean score <strong>{formatScore(mean)}</strong></span>
-        <span>Maximum <strong>{formatScore(maxScore)}</strong></span>
+        <span>Full score <strong>{formatScore(maxScore)}</strong></span>
         {showCutoffs ? cutoffs.map((cutoff) => <span key={cutoff.label}>{cutoff.label} cutoff <strong>{formatScore(cutoff.score)}</strong></span>) : null}
       </div>
     </section>
@@ -603,8 +611,10 @@ function ResultsTable({ results, track, compact = false, showYear = false }: {
 }) {
   const taskNames = results.length ? contestTasks(results[0].year, track).map((task) => task.name) : [];
   return (
-    <div className="table-wrap">
-      <table className="data-table results-table">
+    <>
+      {!compact ? <p className="precision-note">Score precision: up to 2 decimal places per task and 4 for totals.</p> : null}
+      <div className="table-wrap">
+        <table className="data-table results-table">
         <thead>
           <tr>
             <th className="number">Rank</th>
@@ -630,15 +640,16 @@ function ResultsTable({ results, track, compact = false, showYear = false }: {
                 </a>
               </td>
               {!compact && result.scores.map((score, index) => (
-                <td key={index} className="number score">{formatScore(score)}</td>
+                <td key={index} className="number score">{formatTaskScore(score)}</td>
               ))}
-              <td className="number total">{formatScore(result.total)}</td>
+              <td className="number total">{formatTotalScore(result.total)}</td>
               <td><AwardBadge award={result.award} track={track} /></td>
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
+        </table>
+      </div>
+    </>
   );
 }
 
@@ -869,7 +880,7 @@ function EditionMain({ edition }: { edition: Edition }) {
           <SectionTitle title={hasIndividualResults ? "Awards" : "Competition format"} />
           {hasIndividualResults && awards ? (
             <dl className="detail-list awards-list">
-              <div><dt>Maximum possible score</dt><dd>600</dd></div>
+              <div><dt>Full score</dt><dd>600</dd></div>
               <div><dt><span className="medal-dot gold-dot" />Gold medals</dt><dd>{awards.gold}</dd></div>
               <div><dt><span className="medal-dot silver-dot" />Silver medals</dt><dd>{awards.silver}</dd></div>
               <div><dt><span className="medal-dot bronze-dot" />Bronze medals</dt><dd>{awards.bronze}</dd></div>
@@ -914,7 +925,13 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
   round: string;
   setRound: (round: string) => void;
 }) {
+  const [query, setQuery] = useState("");
+  const normalized = query.trim().toLocaleLowerCase();
   if (year === 2024) {
+    const matchesTeam = (team: string) => !normalized || `${team} ${countryFromTeam(team)}`.toLocaleLowerCase().includes(normalized);
+    const scientificResults = DATA.scientificResults2024.filter((result) => matchesTeam(result.team));
+    const practicalResults = DATA.practicalResults2024.filter((result) => matchesTeam(result.team));
+    const specialAwards = DATA.specialAwards2024.filter((result) => matchesTeam(result.team));
     const distribution = round === "scientific"
       ? DATA.scientificResults2024.map((result) => ({ score: result.score, award: result.award }))
       : round === "practical"
@@ -930,22 +947,22 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
               </button>
             ))}
           </div>
-          <span className="muted">Team results · not ranked globally</span>
+          <CompactFilter id="results-filter" value={query} onChange={setQuery} placeholder="Filter teams or countries" label="Filter 2024 results" count={round === "scientific" ? scientificResults.length : round === "practical" ? practicalResults.length : specialAwards.length} />
         </div>
         {distribution.length ? <ScoreDistribution title={`${round[0].toUpperCase() + round.slice(1)} team scores`} entries={distribution} maxScore={100} track="main" showCutoffs /> : null}
         <div className="notice team-notice"><strong>2024 was entirely a team competition.</strong> These records never feed the Hall of Fame or country medal tables.</div>
         <div className="table-wrap">
           {round === "scientific" ? (
             <table className="data-table"><thead><tr><th className="number">Rank</th><th>Team</th><th>Country</th><th className="number">Final score</th><th>Medal</th></tr></thead><tbody>
-              {DATA.scientificResults2024.map((result) => <tr key={result.team} className={medalRowClass(result.award)}><td className="number rank">{result.rank}</td><td>{result.team}</td><td><span className="country-link"><Flag country={countryFromTeam(result.team)} />{countryFromTeam(result.team)}</span></td><td className="number total">{formatScore(result.score)}</td><td><AwardBadge award={result.award} /></td></tr>)}
+              {scientificResults.map((result) => <tr key={result.team} className={medalRowClass(result.award)}><td className="number rank">{result.rank}</td><td>{result.team}</td><td><span className="country-link"><Flag country={countryFromTeam(result.team)} />{countryFromTeam(result.team)}</span></td><td className="number total">{formatTotalScore(result.score)}</td><td><AwardBadge award={result.award} /></td></tr>)}
             </tbody></table>
           ) : round === "practical" ? (
             <table className="data-table"><thead><tr><th className="number">Rank</th><th>Team</th><th>Country</th><th className="number">Jury score</th><th className="number">Peer score</th><th>Award</th></tr></thead><tbody>
-              {DATA.practicalResults2024.map((result) => <tr key={result.team} className={medalRowClass(result.award)}><td className="number rank">{result.rank}</td><td>{result.team}</td><td><span className="country-link"><Flag country={countryFromTeam(result.team)} />{countryFromTeam(result.team)}</span></td><td className="number total">{formatScore(result.juryScore)}</td><td className="number">{formatScore(result.peerScore)}</td><td><AwardBadge award={result.award} /></td></tr>)}
+              {practicalResults.map((result) => <tr key={result.team} className={medalRowClass(result.award)}><td className="number rank">{result.rank}</td><td>{result.team}</td><td><span className="country-link"><Flag country={countryFromTeam(result.team)} />{countryFromTeam(result.team)}</span></td><td className="number total">{formatTotalScore(result.juryScore)}</td><td className="number">{formatTotalScore(result.peerScore)}</td><td><AwardBadge award={result.award} /></td></tr>)}
             </tbody></table>
           ) : (
             <table className="data-table"><thead><tr><th className="number">Rank</th><th>Team</th><th>Country</th></tr></thead><tbody>
-              {DATA.specialAwards2024.map((result) => <tr key={result.team}><td className="number rank">{result.rank}</td><td>{result.team}</td><td><span className="country-link"><Flag country={countryFromTeam(result.team)} />{countryFromTeam(result.team)}</span></td></tr>)}
+              {specialAwards.map((result) => <tr key={result.team}><td className="number rank">{result.rank}</td><td>{result.team}</td><td><span className="country-link"><Flag country={countryFromTeam(result.team)} />{countryFromTeam(result.team)}</span></td></tr>)}
             </tbody></table>
           )}
         </div>
@@ -954,15 +971,17 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
   }
 
   const individualTrack = track === "gaite" ? "gaite" : "main";
-  const results = track === "team" ? [] : resultsFor(year, individualTrack);
+  const editionResults = track === "team" ? [] : resultsFor(year, individualTrack);
+  const results = editionResults.filter((result) => !normalized || `${result.name} ${result.country}`.toLocaleLowerCase().includes(normalized));
+  const teamResults = year === 2025 ? DATA.teamChallenge2025.filter((result) => !normalized || result.team.toLocaleLowerCase().includes(normalized)) : [];
   const maxScore = track === "team"
     ? 100
     : contestTasks(year, individualTrack).reduce((sum, task) => sum + (task.maxScore ?? 0), 0);
 
   return (
     <>
-      <div className="toolbar-row"><TrackTabs value={track} onChange={setTrack} /></div>
-      {track !== "team" && results.length ? <ScoreDistribution title={`${TRACK_LABELS[track]} final scores`} entries={results.map((result) => ({ score: result.total, award: result.award }))} maxScore={maxScore} track={individualTrack} showCutoffs /> : null}
+      <div className="toolbar-row"><TrackTabs value={track} onChange={setTrack} /><CompactFilter id="results-filter" value={query} onChange={setQuery} placeholder={track === "team" ? "Filter teams" : "Filter people or countries"} label="Filter edition results" count={track === "team" ? teamResults.length : results.length} /></div>
+      {track !== "team" && editionResults.length ? <ScoreDistribution title={`${TRACK_LABELS[track]} final scores`} entries={editionResults.map((result) => ({ score: result.total, award: result.award }))} maxScore={maxScore} track={individualTrack} showCutoffs /> : null}
       {track === "main" ? <ResultsTable results={results} track="main" /> : null}
       {track === "gaite" ? (
         <>
@@ -975,7 +994,7 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
           <ScoreDistribution title="Team Challenge final scores" entries={DATA.teamChallenge2025.map((result) => ({ score: result.total, award: result.award }))} maxScore={Math.ceil(Math.max(...DATA.teamChallenge2025.map((result) => result.total)) / 10) * 10} track="main" showCutoffs />
           <div className="notice team-notice"><strong>Team Challenge.</strong> Collaborative scores are archived here but excluded from every individual, Hall of Fame and country ranking.</div>
           <div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Rank</th><th>Team</th><th className="number">Final score</th><th>Award</th></tr></thead><tbody>
-            {DATA.teamChallenge2025.map((result) => <tr key={result.team} className={medalRowClass(result.award)}><td className="number rank">{result.rank}</td><td>{result.team}</td><td className="number total">{formatScore(result.total)}</td><td><AwardBadge award={result.award} /></td></tr>)}
+            {teamResults.map((result) => <tr key={result.team} className={medalRowClass(result.award)}><td className="number rank">{result.rank}</td><td>{result.team}</td><td className="number total">{formatTotalScore(result.total)}</td><td><AwardBadge award={result.award} /></td></tr>)}
           </tbody></table></div>
         </>
       ) : null}
@@ -999,10 +1018,10 @@ type CountrySummary = {
   awarded: number;
 };
 
-function summarizeCountries(results: Result[]) {
+function summarizeCountries(results: Result[], includeIOAITeam = false) {
   const summaries = new Map<string, CountrySummary>();
   for (const result of results) {
-    if (result.country === "IOAI Team") continue;
+    if (!includeIOAITeam && result.country === "IOAI Team") continue;
     const summary = summaries.get(result.country) || { country: result.country, contestants: 0, years: [], gold: 0, silver: 0, bronze: 0, mention: 0, level1: 0, level2: 0, level3: 0, awarded: 0 };
     summary.contestants += 1;
     if (!summary.years.includes(result.year)) summary.years.push(result.year);
@@ -1052,26 +1071,41 @@ const COUNTRY_RANKINGS = {
   gaite: rankCountrySummaries(summarizeCountries(COUNTRY_RESULTS.gaite), "gaite"),
 };
 
+function yearCountryRankings(year: number, track: "main" | "gaite") {
+  if (year === 2024) return [];
+  return rankCountrySummaries(summarizeCountries(resultsFor(year, track), true), track);
+}
+
 const COUNTRY_NAMES = [...new Set([...COUNTRY_RESULTS.main, ...COUNTRY_RESULTS.gaite].map((result) => result.country))];
 
 function DelegationsTable({ year, track }: { year: number; track: Track }) {
+  const [query, setQuery] = useState("");
+  const normalized = query.trim().toLocaleLowerCase();
   if (year === 2024) {
+    const teams = DATA.teams2024.filter((team) => {
+      const country = countryFromTeam(team.name);
+      return !normalized || `${team.name} ${country} ${team.leader} ${team.students.join(" ")}`.toLocaleLowerCase().includes(normalized);
+    });
     return (
-      <div className="table-wrap"><table className="data-table"><thead><tr><th>Team</th><th>Country or region</th><th>Team leader</th><th className="number">Contestants</th></tr></thead><tbody>
-        {DATA.teams2024.map((team) => <tr key={team.name}><td>{team.name}{team.observer ? <span className="observer-tag">Observer</span> : null}</td><td><span className="country-link"><Flag country={countryFromTeam(team.name)} />{countryFromTeam(team.name)}</span></td><td>{team.leader || "—"}</td><td className="number">{team.students.length || "—"}</td></tr>)}
-      </tbody></table></div>
+      <>
+        <CompactFilter id="delegations-filter" value={query} onChange={setQuery} placeholder="Filter teams or countries" label="Filter delegations" count={teams.length} />
+        <div className="table-wrap"><table className="data-table"><thead><tr><th>Team</th><th>Country or region</th><th>Team leader</th><th className="number">Contestants</th></tr></thead><tbody>
+          {teams.map((team) => <tr key={team.name}><td>{team.name}{team.observer ? <span className="observer-tag">Observer</span> : null}</td><td><span className="country-link"><Flag country={countryFromTeam(team.name)} />{countryFromTeam(team.name)}</span></td><td>{team.leader || "—"}</td><td className="number">{team.students.length || "—"}</td></tr>)}
+        </tbody></table></div>
+      </>
     );
   }
-  const summaries = summarizeCountries(resultsFor(year, track === "gaite" ? "gaite" : "main"));
-  return <CountrySummaryTable summaries={summaries} track={track} />;
+  const effectiveTrack = track === "gaite" ? "gaite" : "main";
+  const summaries = yearCountryRankings(year, effectiveTrack).filter((summary) => !normalized || summary.country.toLocaleLowerCase().includes(normalized));
+  return <><CompactFilter id="delegations-filter" value={query} onChange={setQuery} placeholder="Filter countries" label="Filter delegations by country" count={summaries.length} /><CountrySummaryTable summaries={summaries} track={effectiveTrack} showEditions={false} /></>;
 }
 
-function CountrySummaryTable({ summaries, track }: { summaries: CountrySummary[]; track: Track }) {
+function CountrySummaryTable({ summaries, track, showEditions = true }: { summaries: CountrySummary[]; track: Track; showEditions?: boolean }) {
   const showRank = summaries.some((summary) => summary.rank !== undefined);
   const displayAwardCount = (value: number) => showRank ? formatAwardCount(value) : value;
   return (
-    <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? <th className="number">Rank</th> : null}<th>Country or region</th><th className="number">Entries</th><th className="number">Editions</th>{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
-      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a></td><td className="number">{summary.contestants}</td><td className="number">{summary.years.length}</td>{track === "main" ? <><td className="number medal-count gold-count">{displayAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{displayAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{displayAwardCount(summary.bronze)}</td><td className="number">{displayAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{displayAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{displayAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{displayAwardCount(summary.level3)}</td><td className="number">{displayAwardCount(summary.mention)}</td></>}</tr>)}
+    <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? <th className="number">Rank</th> : null}<th>Country or region</th><th className="number">Entries</th>{showEditions ? <th className="number">Editions</th> : null}{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
+      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a></td><td className="number">{summary.contestants}</td>{showEditions ? <td className="number">{summary.years.length}</td> : null}{track === "main" ? <><td className="number medal-count gold-count">{displayAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{displayAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{displayAwardCount(summary.bronze)}</td><td className="number">{displayAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{displayAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{displayAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{displayAwardCount(summary.level3)}</td><td className="number">{displayAwardCount(summary.mention)}</td></>}</tr>)}
     </tbody></table></div>
   );
 }
@@ -1133,12 +1167,14 @@ function EditionPage({ year, section, track, setTrack, taskTrack, setTaskTrack, 
 }
 
 function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Track) => void }) {
+  const [query, setQuery] = useState("");
   const effectiveTrack = track === "team" ? "main" : track;
-  const summaries = COUNTRY_RANKINGS[effectiveTrack];
+  const normalized = query.trim().toLocaleLowerCase();
+  const summaries = COUNTRY_RANKINGS[effectiveTrack].filter((summary) => !normalized || summary.country.toLocaleLowerCase().includes(normalized));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">Participation & awards</p><h1>Countries</h1></div>
-      <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /></div>
+      <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /><CompactFilter id="countries-filter" value={query} onChange={setQuery} placeholder="Filter countries" label="Filter country rankings" count={summaries.length} /></div>
       <CountrySummaryTable summaries={summaries} track={effectiveTrack} />
     </>
   );
@@ -1155,28 +1191,38 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   const nationalRankTrack: "main" | "gaite" = availableGaite.length && (!availableMain.length || latestGaiteYear > latestMainYear) ? "gaite" : "main";
   const nationalRank = COUNTRY_RANKINGS[nationalRankTrack].find((summary) => summary.country === country)?.rank;
   const results = [...(effectiveTrack === "gaite" ? availableGaite : availableMain)].sort((a, b) => b.year - a.year || a.rank - b.rank);
+  const yearRankRows = [...new Set(results.map((result) => result.year))]
+    .sort((a, b) => b - a)
+    .flatMap((year) => {
+      const summary = yearCountryRankings(year, effectiveTrack).find((item) => item.country === country);
+      return summary ? [{ year, summary }] : [];
+    });
   const awards = countAwards(availableMain);
   return (
     <>
-      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={`${nationalRankTrack === "main" ? "Individual" : "GAITE"} national rank ${nationalRank}`}><span>{nationalRankTrack === "main" ? "Individual" : "GAITE"} rank</span><strong>#{nationalRank ?? "—"}</strong></div><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={`All-time ${nationalRankTrack === "main" ? "Individual" : "GAITE"} national rank ${nationalRank}`}><span>All-time {nationalRankTrack === "main" ? "Individual" : "GAITE"} rank</span><strong>#{nationalRank ?? "—"}</strong></div><span className="big-flag"><Flag country={country} large /></span><div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
       <div className="metric-strip">
         <div><span>Result entries</span><strong>{availableMain.length + availableGaite.length}</strong></div>
         <div><span>Participating editions</span><strong>{new Set([...availableMain, ...availableGaite].map((result) => result.year)).size}</strong></div>
         <div><span>Individual medals</span><strong>{awards.gold + awards.silver + awards.bronze}</strong></div>
         <div><span>GAITE entries</span><strong>{availableGaite.length}</strong></div>
       </div>
-      <div className="toolbar-row"><SectionTitle title="All editions" />{availableGaite.length ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : <span className="track-badge main">Individual</span>}</div>
+      <div className="toolbar-row"><SectionTitle title="Year-level national ranks" />{availableGaite.length ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : <span className="track-badge main">Individual</span>}</div>
+      {yearRankRows.length ? <div className="table-wrap country-year-ranks"><table className="data-table"><thead><tr><th className="number">Year</th><th className="number">National rank</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>{yearRankRows.map(({ year, summary }) => <tr key={`${year}-${effectiveTrack}`}><td className="number"><a href={`/olympiads/${year}/delegations`}>{year}</a></td><td className="number rank">#{summary.rank}</td><td className="number">{summary.contestants}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(summary.bronze)}</td><td className="number">{formatAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(summary.level3)}</td><td className="number">{formatAwardCount(summary.mention)}</td></>}</tr>)}</tbody></table></div> : null}
+      <SectionTitle title="Contestant results" />
       {results.length ? <ResultsTable results={results} track={effectiveTrack === "gaite" ? "gaite" : "main"} compact showYear /> : <EmptyState title="No results in this track">This country has no published final scores for the selected track.</EmptyState>}
     </>
   );
 }
 
 function TasksPage({ track, setTrack }: { track: TaskTrack; setTrack: (track: TaskTrack) => void }) {
-  const tasks = DATA.tasks.filter((task) => taskTracks(task).includes(track)).sort((a, b) => b.year - a.year || a.day - b.day || (a.order ?? 0) - (b.order ?? 0));
+  const [query, setQuery] = useState("");
+  const normalized = query.trim().toLocaleLowerCase();
+  const tasks = DATA.tasks.filter((task) => taskTracks(task).includes(track) && (!normalized || `${task.name} ${task.category} ${task.year}`.toLocaleLowerCase().includes(normalized))).sort((a, b) => b.year - a.year || a.day - b.day || (a.order ?? 0) - (b.order ?? 0));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">Official task archive</p><h1>Tasks</h1></div>
-      <div className="toolbar-row"><TaskTabs value={track} onChange={setTrack} /></div>
+      <div className="toolbar-row"><TaskTabs value={track} onChange={setTrack} /><CompactFilter id="tasks-filter" value={query} onChange={setQuery} placeholder="Filter tasks" label="Filter tasks" count={tasks.length} /></div>
       <TaskTable tasks={tasks} />
     </>
   );
@@ -1203,8 +1249,9 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
           <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setSelectedTrack} tracks={availableTracks} /></div>
           <ScoreDistribution title={`${TRACK_LABELS[effectiveTrack]} · ${task.name}`} entries={allScores.map(({ result, score }) => ({ score, award: result.award }))} maxScore={task.maxScore ?? 100} track={effectiveTrack} />
           <SectionTitle title="Top solvers" meta={`IOAI ${task.year}`} />
+          <p className="precision-note">Task scores are shown to up to 2 decimal places.</p>
           {scores.length ? <div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th>Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
-            {scores.map(({ result, score, taskRank }) => <tr key={result.slug} className={medalRowClass(result.award)}><td className="number rank">{taskRank}</td><td><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatScore(score)}</td><td className="number">{competitionRank(result)}</td><td><AwardBadge award={result.award} track={effectiveTrack} /></td></tr>)}
+            {scores.map(({ result, score, taskRank }) => <tr key={result.slug} className={medalRowClass(result.award)}><td className="number rank">{taskRank}</td><td><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatTaskScore(score)}</td><td className="number">{competitionRank(result)}</td><td><AwardBadge award={result.award} track={effectiveTrack} /></td></tr>)}
           </tbody></table></div> : <EmptyState title="No positive task scores">No published score exceeds 0.0 points for this track.</EmptyState>}
         </>
       )}
@@ -1247,13 +1294,32 @@ function hallRecords(track: "main" | "gaite") {
     : b.level1 - a.level1 || b.level2 - a.level2 || b.level3 - a.level3 || b.mention - a.mention || a.name.localeCompare(b.name));
 }
 
+function CompactFilter({ id, value, onChange, placeholder, label, count }: {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  label: string;
+  count: number;
+}) {
+  return (
+    <label className="compact-filter" htmlFor={id}>
+      <span className="sr-only">{label}</span>
+      <input id={id} type="search" value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} />
+      <span className="compact-filter-count">{count} shown</span>
+    </label>
+  );
+}
+
 function HallOfFamePage({ track, setTrack }: { track: Track; setTrack: (track: Track) => void }) {
+  const [query, setQuery] = useState("");
   const effectiveTrack = track === "team" ? "main" : track;
-  const records = hallRecords(effectiveTrack);
+  const normalized = query.trim().toLocaleLowerCase();
+  const records = hallRecords(effectiveTrack).filter((record) => !normalized || `${record.name} ${record.country}`.toLocaleLowerCase().includes(normalized));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">All-time individual records</p><h1>Hall of Fame</h1></div>
-      <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /></div>
+      <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /><CompactFilter id="hall-filter" value={query} onChange={setQuery} placeholder="Filter people or countries" label="Filter Hall of Fame" count={records.length} /></div>
       <div className="table-wrap"><table className="data-table hall-table"><thead><tr>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}<th>Contestant</th><th>Country or region</th><th className="number">Entries</th></tr></thead><tbody>
         {records.map((record) => <tr key={`${record.slug}-${record.country}`}>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(record.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(record.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(record.bronze)}</td><td className="number">{formatAwardCount(record.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(record.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(record.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(record.level3)}</td><td className="number">{formatAwardCount(record.mention)}</td></>}<td><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td></tr>)}
       </tbody></table></div>
@@ -1272,7 +1338,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
-          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} track={result.track} />{isFirstInDelegation(result) ? <span className="achievement-badge delegation-first">1st in delegation</span> : null}<strong>Rank {competitionRank(result)}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">{result.track === "gaite" ? "GAITE top solver" : "Top solver"}</span> : null}</td><td className="number total">{formatScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatScore(result.total)}</td></tr></tbody></table></div></section>;
+          return <section className="participation-card" key={`${result.year}-${result.track}`}><div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} track={result.track} />{isFirstInDelegation(result) ? <span className="achievement-badge delegation-first">1st in delegation</span> : null}<strong>Rank {competitionRank(result)}</strong></div></div><div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th></tr></thead><tbody>{tasks.map((task, index) => <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">{result.track === "gaite" ? "GAITE top solver" : "Top solver"}</span> : null}</td><td className="number total">{formatTaskScore(result.scores[index])}</td></tr>)}<tr className="total-row"><td>Total</td><td className="number">{formatTotalScore(result.total)}</td></tr></tbody></table></div></section>;
         })}
       </div>
     </>

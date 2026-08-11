@@ -62,7 +62,9 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(app, /Fewer than a quarter of gold medalists reached 25\./);
   assert.match(app, /<DifficultyBadge difficulty=\{difficulty\} explain \/>/);
   assert.doesNotMatch(app, /medallists|Gold\+\+|gold-plus-plus/);
-  assert.match(app, /Maximum possible score/);
+  assert.match(app, /<dt>Full score<\/dt><dd>600<\/dd>/);
+  assert.match(app, /function formatTaskScore[\s\S]*formatScore\(value, 2\)/);
+  assert.match(app, /function formatTotalScore[\s\S]*formatScore\(value, 4\)/);
   assert.match(app, /<dt>GAITE tasks<\/dt><dd>Shared with Individual<\/dd>/);
   assert.match(app, /SectionTitle title="Individual contest commentary" \/>/);
   assert.doesNotMatch(app, /Editorial note/);
@@ -164,16 +166,65 @@ test("shows the appropriate national ranking and caches country summaries", asyn
 
   const individualHtml = await (await render("/countries/japan")).text();
   assert.match(individualHtml, /rank-block country-rank-block main/);
-  assert.match(individualHtml, />Individual(?:<!-- -->)? rank<\/span>/);
+  assert.match(individualHtml, />All-time (?:<!-- -->)?Individual(?:<!-- -->)? rank<\/span>/);
+  assert.match(individualHtml, />Year-level national ranks<\/h2>/);
+  assert.match(individualHtml, /<th class="number">National rank<\/th>/);
+  assert.match(individualHtml, /href="\/olympiads\/2026\/delegations"/);
 
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
   assert.match(gaiteHtml, /rank-block country-rank-block gaite/);
-  assert.match(gaiteHtml, />GAITE(?:<!-- -->)? rank<\/span>/);
+  assert.match(gaiteHtml, />All-time (?:<!-- -->)?GAITE(?:<!-- -->)? rank<\/span>/);
 
   const countriesHtml = await (await render("/countries")).text();
   assert.match(countriesHtml, /class="number medal-count gold-count">—<\/td>/);
   assert.match(countriesHtml, /class="number medal-count silver-count">—<\/td>/);
   assert.match(individualHtml, /<span>GAITE entries<\/span><strong>0<\/strong>/);
+});
+
+test("ranks year-level delegations, includes IOAI Team there only, and leaves 2024 unranked", async () => {
+  const ranked = await (await render("/olympiads/2025/delegations")).text();
+  const rankedTable = ranked.slice(ranked.indexOf('<table class="data-table country-table">'));
+  const rankedHeader = rankedTable.slice(0, rankedTable.indexOf("</thead>"));
+  assert.match(ranked, /id="delegations-filter"/);
+  assert.match(rankedHeader, />Rank<\/th>.*>Country or region<\/th>.*>Entries<\/th>/s);
+  assert.doesNotMatch(rankedHeader, />Editions<\/th>/);
+  assert.match(rankedTable, />IOAI Team<\/a>/);
+  assert.match(rankedTable, />—<\/td>/);
+
+  const allTime = await (await render("/countries")).text();
+  assert.doesNotMatch(allTime, />IOAI Team<\/a>/);
+
+  const ioaiTeam = await (await render("/countries/ioai-team")).text();
+  assert.match(ioaiTeam, />All-time (?:<!-- -->)?Individual(?:<!-- -->)? rank<\/span><strong>#(?:<!-- -->)?—<\/strong>/);
+  assert.match(ioaiTeam, />Year-level national ranks<\/h2>/);
+
+  const unranked2024 = await (await render("/olympiads/2024/delegations")).text();
+  const unrankedTable = unranked2024.slice(unranked2024.indexOf('<table class="data-table">'));
+  const unrankedHeader = unrankedTable.slice(0, unrankedTable.indexOf("</thead>"));
+  assert.match(unranked2024, /id="delegations-filter"/);
+  assert.doesNotMatch(unrankedHeader, />Rank<\/th>/);
+});
+
+test("adds compact contextual filters and bounded leaderboard score precision", async () => {
+  const routes = [
+    ["/countries", "countries-filter"],
+    ["/hall-of-fame", "hall-filter"],
+    ["/tasks", "tasks-filter"],
+    ["/olympiads/2026/results", "results-filter"],
+    ["/olympiads/2026/delegations", "delegations-filter"],
+  ];
+  for (const [route, id] of routes) {
+    const html = await (await render(route)).text();
+    assert.match(html, new RegExp(`class="compact-filter"[^>]*for="${id}"`));
+    assert.match(html, new RegExp(`id="${id}"[^>]*type="search"`));
+  }
+
+  const results = await (await render("/olympiads/2026/results")).text();
+  assert.match(results, /Score precision: up to 2 decimal places per task and 4 for totals\./);
+  assert.match(results, />88\.69<\/td>/);
+  assert.match(results, />271\.3354<\/td>/);
+  assert.doesNotMatch(results, />88\.6853<\/td>|>271\.335403874227<\/td>/);
+  assert.match(results, />Full score(?:<!-- -->)? <strong>600<\/strong>/);
 });
 
 test("orders the Hall of Fame by visible award counts without synthetic ranks", async () => {
