@@ -147,6 +147,23 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   assert.match(gaiteHtml, />GAITE(?:<!-- -->)? rank<\/span>/);
 });
 
+test("prefixes every displayed GAITE award badge", async () => {
+  const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
+  assert.match(app, /return "GAITE First Award"/);
+  assert.match(app, /return "GAITE Second Award"/);
+  assert.match(app, /return "GAITE Third Award"/);
+  assert.match(app, /track=\{track\}/);
+  assert.match(app, /track=\{effectiveTrack\}/);
+  assert.match(app, /track=\{result\.track\}/);
+
+  const gaite2025 = await (await render("/contestants/kabel-cisse")).text();
+  assert.match(gaite2025, />GAITE First Award<\/span>/);
+  assert.doesNotMatch(gaite2025, />First Level<\/span>/);
+
+  const gaite2026 = await (await render("/contestants/kadanga-essognim-elisee")).text();
+  assert.match(gaite2026, />GAITE Level 1 Award<\/span>/);
+});
+
 test("publishes indexable metadata while excluding search and contestant pages", async () => {
   const taskResponse = await render("/tasks/radar");
   const taskHtml = await taskResponse.text();
