@@ -169,6 +169,19 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   assert.match(gaiteHtml, />GAITE(?:<!-- -->)? rank<\/span>/);
 });
 
+test("orders the Hall of Fame by visible award counts without synthetic ranks", async () => {
+  const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
+  assert.doesNotMatch(app, /type HallRecord = \{\s*rank:/);
+  assert.doesNotMatch(app, /record\.rank/);
+
+  const html = await (await render("/hall-of-fame")).text();
+  const table = html.slice(html.indexOf('<table class="data-table hall-table">'));
+  const header = table.slice(0, table.indexOf("</thead>"));
+  assert.match(header, />G<\/th>.*>S<\/th>.*>B<\/th>.*>HM<\/th>.*>Contestant<\/th>.*>Country or region<\/th>.*>Entries<\/th>/s);
+  assert.doesNotMatch(header, />Rank<\/th>/);
+  assert.match(table, /<tbody><tr><td class="number medal-count gold-count">/);
+});
+
 test("prefixes every displayed GAITE award badge", async () => {
   const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
   assert.match(app, /return "GAITE First Award"/);

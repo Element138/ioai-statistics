@@ -1208,7 +1208,6 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
 }
 
 type HallRecord = {
-  rank: number;
   slug: string;
   name: string;
   country: string;
@@ -1226,7 +1225,7 @@ function hallRecords(track: "main" | "gaite") {
   const records = new Map<string, HallRecord>();
   for (const result of allResults(track)) {
     const key = `${result.slug}|${result.country}`;
-    const record = records.get(key) || { rank: 0, slug: result.slug, name: result.name, country: result.country, entries: 0, gold: 0, silver: 0, bronze: 0, mention: 0, level1: 0, level2: 0, level3: 0 };
+    const record = records.get(key) || { slug: result.slug, name: result.name, country: result.country, entries: 0, gold: 0, silver: 0, bronze: 0, mention: 0, level1: 0, level2: 0, level3: 0 };
     record.entries += 1;
     const type = awardType(result.award);
     if (type === "Gold") record.gold += 1;
@@ -1238,18 +1237,9 @@ function hallRecords(track: "main" | "gaite") {
     else if (type === "HM") record.mention += 1;
     records.set(key, record);
   }
-  const sorted = [...records.values()].sort((a, b) => track === "main"
+  return [...records.values()].sort((a, b) => track === "main"
     ? b.gold - a.gold || b.silver - a.silver || b.bronze - a.bronze || b.mention - a.mention || a.name.localeCompare(b.name)
     : b.level1 - a.level1 || b.level2 - a.level2 || b.level3 - a.level3 || b.mention - a.mention || a.name.localeCompare(b.name));
-  let lastKey = "";
-  let rank = 0;
-  sorted.forEach((record, index) => {
-    const key = track === "main" ? `${record.gold}|${record.silver}|${record.bronze}|${record.mention}` : `${record.level1}|${record.level2}|${record.level3}|${record.mention}`;
-    if (key !== lastKey) rank = index + 1;
-    record.rank = rank;
-    lastKey = key;
-  });
-  return sorted;
 }
 
 function HallOfFamePage({ track, setTrack }: { track: Track; setTrack: (track: Track) => void }) {
@@ -1259,8 +1249,8 @@ function HallOfFamePage({ track, setTrack }: { track: Track; setTrack: (track: T
     <>
       <div className="page-heading"><p className="eyebrow">All-time individual records</p><h1>Hall of Fame</h1></div>
       <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /></div>
-      <div className="table-wrap"><table className="data-table hall-table"><thead><tr><th className="number">Rank</th><th>Contestant</th><th>Country or region</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
-        {records.map((record) => <tr key={`${record.slug}-${record.country}`}><td className="number rank">{record.rank}</td><td><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{record.gold}</td><td className="number medal-count silver-count">{record.silver}</td><td className="number medal-count bronze-count">{record.bronze}</td><td className="number">{record.mention}</td></> : <><td className="number gaite-level-1-count">{record.level1}</td><td className="number gaite-level-2-count">{record.level2}</td><td className="number gaite-level-3-count">{record.level3}</td><td className="number">{record.mention}</td></>}</tr>)}
+      <div className="table-wrap"><table className="data-table hall-table"><thead><tr>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}<th>Contestant</th><th>Country or region</th><th className="number">Entries</th></tr></thead><tbody>
+        {records.map((record) => <tr key={`${record.slug}-${record.country}`}>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{record.gold}</td><td className="number medal-count silver-count">{record.silver}</td><td className="number medal-count bronze-count">{record.bronze}</td><td className="number">{record.mention}</td></> : <><td className="number gaite-level-1-count">{record.level1}</td><td className="number gaite-level-2-count">{record.level2}</td><td className="number gaite-level-3-count">{record.level3}</td><td className="number">{record.mention}</td></>}<td><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td></tr>)}
       </tbody></table></div>
     </>
   );
