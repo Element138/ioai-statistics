@@ -158,10 +158,15 @@ test("prefixes every displayed GAITE award badge", async () => {
 
   const gaite2025 = await (await render("/contestants/kabel-cisse")).text();
   assert.match(gaite2025, />GAITE First Award<\/span>/);
+  assert.match(gaite2025, />GAITE top solver<\/span>/);
   assert.doesNotMatch(gaite2025, />First Level<\/span>/);
 
   const gaite2026 = await (await render("/contestants/kadanga-essognim-elisee")).text();
   assert.match(gaite2026, />GAITE Level 1 Award<\/span>/);
+
+  const individual = await (await render("/contestants/krzysztof-rojek")).text();
+  assert.match(individual, />Top solver<\/span>/);
+  assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
 });
 
 test("publishes indexable metadata while excluding search and contestant pages", async () => {
