@@ -1,6 +1,6 @@
 # IOAI Statistics
 
-[IOAI Statistics](https://ioai-statistics.org) is an unofficial report of
+[IOAI Statistics](https://ioai-statistics.org) is an unofficial reporting archive of
 International Olympiad in Artificial Intelligence results, delegations,
 countries, contestants, awards, and tasks.
 

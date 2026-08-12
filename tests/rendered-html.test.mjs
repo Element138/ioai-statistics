@@ -63,7 +63,8 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   }
   for (const entries of identities.values()) {
     entries.sort((a, b) => a.year - b.year || a.rank - b.rank);
-    assert.equal(entries.at(-1).slug, canonicalSlug(entries.at(-1).name), entries.at(-1).name);
+    const expectedSlug = entries[0].contestantId === "contestant-martin-zhang" ? "martin-haoxuan-zhang" : canonicalSlug(entries.at(-1).name);
+    assert.equal(entries.at(-1).slug, expectedSlug, entries.at(-1).name);
     assert.equal(new Set(entries.map((entry) => entry.slug)).size, 1, entries[0].contestantId);
   }
   const slugOwners = new Map();
@@ -81,13 +82,20 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.equal(config.redirects.length, 28);
+  assert.equal(config.redirects.length, 30);
   assert.ok(config.redirects.every((redirect) => redirect.permanent));
   assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/anango-prabhat"), {
     source: "/contestants/anango-prabhat",
     destination: "/contestants/anango-dev-prabhat",
     permanent: true,
   });
+  for (const source of ["/contestants/martin-zhang", "/contestants/haoxuan-zhang"]) {
+    assert.deepEqual(config.redirects.find((redirect) => redirect.source === source), {
+      source,
+      destination: "/contestants/martin-haoxuan-zhang",
+      permanent: true,
+    });
+  }
 
   for (const slug of new Set(results.map((result) => result.slug))) await access(new URL(`../out/contestants/${slug}.html`, import.meta.url));
   for (const oldSlug of [...config.redirects.map((redirect) => redirect.source.split("/").at(-1)), "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
@@ -104,6 +112,13 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   const hall = await (await render("/hall-of-fame")).text();
   assert.match(hall, /href="\/contestants\/anango-dev-prabhat">Anango Dev Prabhat<\/a>/);
   assert.doesNotMatch(hall, /Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat/);
+  const martin = await (await render("/contestants/martin-haoxuan-zhang")).text();
+  assert.match(martin, /<h1>Martin Haoxuan Zhang<\/h1>/);
+  for (const names of [["César Murat Cepeda Beltrán", "Cesar Murat Cepeda Beltran"], ["Alier Sánchez Y Sánchez", "Alier Sanchez y Sanchez"], ["M’PO YETI Déreck", "M'Po Yeti Déreck"]]) {
+    const matching = results.filter((result) => names.includes(result.name));
+    assert.equal(matching.length, 2);
+    assert.equal(new Set(matching.map((result) => result.contestantId)).size, 1);
+  }
 });
 
 test("server-renders the IOAI Statistics shell and updated footer", async () => {
@@ -113,7 +128,7 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
 
   const html = await response.text();
   const head = html.slice(0, html.indexOf("</head>") + "</head>".length);
-  assert.match(html, /<meta name="description" content="An unofficial report website covering IOAI editions, contestants, countries, tasks and final results\."\/>/);
+  assert.match(html, /<meta name="description" content="An unofficial reporting archive covering IOAI editions, contestants, countries, tasks and final results\."\/>/);
   assert.match(html, /<meta property="og:image:alt" content="IOAI Statistics report"\/>/);
   assert.match(html, /<meta property="og:image:width" content="1200"\/>/);
   assert.match(html, /<meta property="og:image:height" content="630"\/>/);
@@ -121,11 +136,11 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
   assert.match(head, /<link rel="icon" href="\/favicon\.ico" sizes="any"\s*\/>/);
   assert.match(head, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180"\s*\/>/);
   assert.match(head, /<link rel="manifest" href="\/site\.webmanifest"\s*\/>/);
+  assert.match(head, /<meta name="format-detection" content="telephone=no"\s*\/>/);
   assert.match(html, /src="\/ioai-statistics-logo\.png"/);
   assert.match(html, />IOAI Statistics<\/span>/);
-  assert.match(html, /An unofficial report of IOAI results, countries and tasks\./);
-  assert.match(html, /An unofficial report made by/);
-  assert.doesNotMatch(html, /An unofficial (?:reporting )?archive/);
+  assert.match(html, /An unofficial reporting archive of IOAI results, countries and tasks\./);
+  assert.match(html, /An unofficial reporting archive by/);
   for (const href of ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/search"]) {
     assert.match(html, new RegExp(`<a[^>]+href="${href.replaceAll("/", "\\/")}"`));
   }
@@ -205,9 +220,10 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(layout, /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml" \/>/);
   assert.match(layout, /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180" \/>/);
   assert.match(layout, /<link rel="manifest" href="\/site\.webmanifest" \/>/);
-  assert.match(layout, /An unofficial report website covering IOAI editions, contestants, countries, tasks and final results\./);
+  assert.match(layout, /An unofficial reporting archive covering IOAI editions, contestants, countries, tasks and final results\./);
+  assert.doesNotMatch(css, /\.difficulty-item:nth-child/);
   assert.doesNotMatch(layout, /public archive|data archive/i);
-  assert.doesNotMatch(seo, /description: "[^"]*archive/i);
+  assert.doesNotMatch(seo, /public archive|data archive/i);
   assert.doesNotMatch(page, /IOAI Statistics data archive/i);
   await access(new URL("../public/ioai-statistics-logo.png", import.meta.url));
   for (const asset of [
@@ -285,7 +301,8 @@ test("keeps edition section navigation, time limits, and signed commentary", asy
   assert.match(edition2024, /Scientific round(?:<!-- -->)? time limit<\/dt><dd>8 hours/);
   const edition2024Results = await (await render("/olympiads/2024/results")).text();
   assert.match(edition2024Results, /<span>Teams(?:<!-- -->)? <strong>41<\/strong><\/span>/);
-  assert.match(edition2024Results, /<span>Mean score <strong>—<\/strong><\/span>/);
+  assert.match(edition2024Results, /<span>Median score <strong>—<\/strong><\/span>/);
+  assert.doesNotMatch(edition2024Results, /<span>Full score/);
   assert.doesNotMatch(edition2024Results, /<span>Contestants(?:<!-- -->)? <strong>21<\/strong><\/span>/);
 });
 
@@ -308,7 +325,7 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   assert.match(individualHtml, /<strong>#(?:<!-- -->)?\d+<small>\/(?:<!-- -->)?\d+<\/small><\/strong>/);
   assert.match(individualHtml, /<span>Individual awards<\/span>/);
   assert.match(individualHtml, /<small>G<\/small><strong>1<\/strong>/);
-  assert.match(individualHtml, /<small>HM<\/small><strong>0<\/strong>/);
+  assert.match(individualHtml, /<small>HM<\/small><strong>—<\/strong>/);
   assert.match(individualHtml, /<span>GAITE awards<\/span>/);
 
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
@@ -368,7 +385,13 @@ test("adds compact contextual filters and bounded leaderboard score precision", 
   assert.match(results, />88\.69<\/td>/);
   assert.match(results, />271\.3354<\/td>/);
   assert.doesNotMatch(results, />88\.6853<\/td>|>271\.335403874227<\/td>/);
-  assert.match(results, />Full score(?:<!-- -->)? <strong>600<\/strong>/);
+  assert.match(results, />Median score(?:<!-- -->)? <strong>[\d.]+<\/strong>/);
+  assert.doesNotMatch(results, />Full score(?:<!-- -->)? <strong>/);
+
+  const task = await (await render("/tasks/radar")).text();
+  assert.match(task, /<th class="number">Overall rank<\/th>/);
+  assert.match(task, /<td class="number">#(?:<!-- -->)?\d+<\/td>/);
+  assert.doesNotMatch(task, /<td class="number">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?\d+<\/td>/);
 });
 
 test("orders the Hall of Fame by visible award counts without synthetic ranks", async () => {
@@ -414,18 +437,20 @@ test("prefixes every displayed GAITE award badge", async () => {
 
   const gaite2025 = await (await render("/contestants/kabel-cisse")).text();
   assert.match(gaite2025, />GAITE First Award<\/span>/);
-  assert.match(gaite2025, />GAITE top 5 solver<\/span>/);
+  assert.match(gaite2025, />GAITE top solver<\/span>/);
   assert.doesNotMatch(gaite2025, />First Level<\/span>/);
 
   const gaite2026 = await (await render("/contestants/kadanga-essognim-elisee")).text();
   assert.match(gaite2026, />GAITE Level 1 Award<\/span>/);
 
   const individual = await (await render("/contestants/krzysztof-rojek")).text();
-  assert.match(individual, />Top 10 solver<\/span>/);
-  assert.doesNotMatch(individual, />GAITE top 5 solver<\/span>/);
+  assert.match(individual, />Top solver<\/span>/);
+  assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
   assert.match(individual, /<th class="number">Rank<\/th>/);
   assert.match(individual, /<tr class="total-row"><td>Overall<\/td>/);
-  assert.match(individual, /class="number rank">\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
+  assert.match(individual, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
+  assert.match(individual, />1st in delegation<\/span>/);
+  assert.doesNotMatch(individual, />1st \/ \d+ in delegation<\/span>/);
   assert.doesNotMatch(individual, /<strong>Rank (?:<!-- -->)?\d+<\/strong>/);
 });
 
@@ -462,7 +487,7 @@ test("loads the supplied Cloudflare beacon without a consent prompt or browser s
   await assert.rejects(access(new URL("../app/components/AnalyticsConsent.tsx", import.meta.url)));
 });
 
-test("publishes indexable metadata while excluding search and contestant pages", async () => {
+test("publishes indexable metadata while excluding contestant pages", async () => {
   const taskResponse = await render("/tasks/radar");
   const taskHtml = await taskResponse.text();
   assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
@@ -473,7 +498,7 @@ test("publishes indexable metadata while excluding search and contestant pages",
   assert.match(taskHtml, /role="tooltip">Half of Individual contestants reached 50\.<\/span>/);
 
   const searchResponse = await render("/search");
-  assert.match(await searchResponse.text(), /<meta name="robots" content="noindex, follow"\/>/);
+  assert.match(await searchResponse.text(), /<meta name="robots" content="index, follow"\/>/);
 
   const contestantResponse = await render("/contestants/krzysztof-rojek");
   assert.match(await contestantResponse.text(), /<meta name="robots" content="noindex, follow"\/>/);
@@ -486,5 +511,6 @@ test("publishes indexable metadata while excluding search and contestant pages",
   const sitemap = await sitemapResponse.text();
   assert.equal(sitemapResponse.headers.get("content-type"), "application/xml");
   assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/radar<\/loc>/);
-  assert.doesNotMatch(sitemap, /\/search|\/contestants\//);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/contestants\//);
 });

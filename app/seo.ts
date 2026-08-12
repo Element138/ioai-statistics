@@ -44,12 +44,19 @@ const RESULTS = [
 ];
 
 const CONTESTANT_IDENTITIES = new Map<string, { contestantId: string; slug: string; name: string; aliases: string[] }>();
+const CONTESTANT_CANONICAL_OVERRIDES = new Map([
+  ["contestant-martin-zhang", { name: "Martin Haoxuan Zhang", slug: "martin-haoxuan-zhang" }],
+]);
 for (const result of [...RESULTS].sort((a, b) => a.year - b.year)) {
   const identity = CONTESTANT_IDENTITIES.get(result.contestantId) ?? { contestantId: result.contestantId, slug: result.slug, name: result.name, aliases: [] };
   if (!identity.aliases.includes(result.name)) identity.aliases.push(result.name);
   identity.slug = result.slug;
   identity.name = result.name;
   CONTESTANT_IDENTITIES.set(result.contestantId, identity);
+}
+for (const [contestantId, override] of CONTESTANT_CANONICAL_OVERRIDES) {
+  const identity = CONTESTANT_IDENTITIES.get(contestantId);
+  if (identity) Object.assign(identity, override);
 }
 
 export type PageSeo = {
@@ -74,7 +81,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (!parts.length) {
     return {
       canonicalPath: "/",
-      description: "An unofficial report website covering IOAI editions, contestants, countries, tasks and final results.",
+      description: "An unofficial reporting archive covering IOAI editions, contestants, countries, tasks and final results.",
       indexable: true,
       title: SITE_NAME,
     };
@@ -167,7 +174,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     return {
       canonicalPath: "/search",
       description: "Search contestants, countries and tasks in IOAI Statistics.",
-      indexable: false,
+      indexable: true,
       title: "Search",
     };
   }
@@ -188,7 +195,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
 }
 
 export function allIndexablePaths() {
-  const staticPaths = ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/privacy"];
+  const staticPaths = ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/privacy", "/search"];
   const editionPaths = DATA.editions.flatMap((edition) =>
     EDITION_SECTIONS.map((section) => section === "main" ? `/olympiads/${edition.year}` : `/olympiads/${edition.year}/${section}`),
   );
@@ -206,5 +213,5 @@ export function allStaticPaths() {
     .sort((a, b) => a.localeCompare(b))
     .map((slug) => `/contestants/${slug}`);
 
-  return [...allIndexablePaths(), "/search", "/countries/ioai-team", ...contestantPaths];
+  return [...allIndexablePaths(), "/countries/ioai-team", ...contestantPaths];
 }

@@ -3,7 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 
 const origin = "https://ioai-statistics.org";
-const description = "An unofficial report website covering IOAI editions, contestants, countries, tasks and final results.";
+const description = "An unofficial reporting archive covering IOAI editions, contestants, countries, tasks and final results.";
 const image = `${origin}/ioai-statistics-social-20260811.png`;
 
 export const metadata: Metadata = {
@@ -37,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="format-detection" content="telephone=no" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />

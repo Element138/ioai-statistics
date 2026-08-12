@@ -32,7 +32,9 @@
     { "source": "/contestants/amin-ben-ameur", "destination": "/contestants/amine-ben-ameur", "permanent": true },
     { "source": "/contestants/mamoun-ben-ameur", "destination": "/contestants/maamoune-ben-ameur", "permanent": true },
     { "source": "/contestants/aleksandar-slavov", "destination": "/contestants/alexandar-lyubomirov-slavov", "permanent": true },
-    { "source": "/contestants/u-erkhes", "destination": "/contestants/erkhes-unentugs", "permanent": true }
+    { "source": "/contestants/u-erkhes", "destination": "/contestants/erkhes-unentugs", "permanent": true },
+    { "source": "/contestants/martin-zhang", "destination": "/contestants/martin-haoxuan-zhang", "permanent": true },
+    { "source": "/contestants/haoxuan-zhang", "destination": "/contestants/martin-haoxuan-zhang", "permanent": true }
   ],
   "headers": [
     {

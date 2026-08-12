@@ -35,6 +35,7 @@ const identityGroups = [
   ["contestant-mamoun-ben-ameur", "maamoune-ben-ameur", ["Mamoun Ben Ameur", "Maamoune Ben Ameur"]],
   ["contestant-aleksandar-slavov", "alexandar-lyubomirov-slavov", ["Aleksandar Slavov", "Alexandar Lyubomirov Slavov"]],
   ["contestant-u-erkhes", "erkhes-unentugs", ["U.Erkhes", "Erkhes Unentugs"]],
+  ["contestant-martin-zhang", "martin-haoxuan-zhang", ["Martin Zhang", "Haoxuan Zhang"]],
 ];
 
 const identityOverrides = new Map(identityGroups.flatMap(([contestantId, slug, names]) =>
