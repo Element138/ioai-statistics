@@ -101,10 +101,11 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     const section = parts[2] || "main";
     if (!edition || !EDITION_SECTIONS.includes(section as (typeof EDITION_SECTIONS)[number])) return unknownPage(parts);
 
-    const sectionTitle = section === "main" ? `IOAI ${edition.year}` : `IOAI ${edition.year} ${section}`;
+    const sectionLabel = section[0].toUpperCase() + section.slice(1);
+    const sectionTitle = section === "main" ? `IOAI ${edition.year}` : `IOAI ${edition.year} ${sectionLabel}`;
     return {
       canonicalPath: section === "main" ? `/olympiads/${edition.year}` : `/olympiads/${edition.year}/${section}`,
-      description: `${section === "main" ? "Overview" : section[0].toUpperCase() + section.slice(1)} of IOAI ${edition.year} in ${edition.city}, ${edition.country}.`,
+      description: `${section === "main" ? "Overview" : sectionLabel} of IOAI ${edition.year} in ${edition.city}, ${edition.country}.`,
       indexable: true,
       title: sectionTitle,
     };
@@ -128,7 +129,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
       canonicalPath: `/countries/${parts[1]}`,
       description: `${country}'s participation, results, medals and awards at IOAI.`,
       indexable: true,
-      title: country,
+      title: `${country} at IOAI`,
     };
   }
 
@@ -148,7 +149,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
       canonicalPath: `/tasks/${task.slug}`,
       description: `${task.name}, a ${task.category} task from IOAI ${task.year}, with difficulty, score statistics and official materials.`,
       indexable: true,
-      title: task.name,
+      title: `${task.name} — IOAI ${task.year} Task`,
     };
   }
 
@@ -174,7 +175,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     return {
       canonicalPath: "/search",
       description: "Search contestants, countries and tasks in IOAI Statistics.",
-      indexable: true,
+      indexable: false,
       title: "Search",
     };
   }
@@ -195,7 +196,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
 }
 
 export function allIndexablePaths() {
-  const staticPaths = ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/privacy", "/search"];
+  const staticPaths = ["/", "/olympiads", "/countries", "/tasks", "/hall-of-fame", "/privacy"];
   const editionPaths = DATA.editions.flatMap((edition) =>
     EDITION_SECTIONS.map((section) => section === "main" ? `/olympiads/${edition.year}` : `/olympiads/${edition.year}/${section}`),
   );
@@ -213,5 +214,5 @@ export function allStaticPaths() {
     .sort((a, b) => a.localeCompare(b))
     .map((slug) => `/contestants/${slug}`);
 
-  return [...allIndexablePaths(), "/countries/ioai-team", ...contestantPaths];
+  return [...allIndexablePaths(), "/search", "/countries/ioai-team", ...contestantPaths];
 }

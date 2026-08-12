@@ -491,14 +491,24 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   const taskResponse = await render("/tasks/radar");
   const taskHtml = await taskResponse.text();
   assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
+  assert.match(taskHtml, /<title>Radar — IOAI 2025 Task · IOAI Statistics<\/title>/);
   assert.match(taskHtml, /<link rel="canonical" href="https:\/\/ioai-statistics\.org\/tasks\/radar"\/>/);
+  assert.match(taskHtml, /"@type":"BreadcrumbList"/);
+  assert.match(taskHtml, /"name":"Tasks","item":"https:\/\/ioai-statistics\.org\/tasks"/);
   assert.match(taskHtml, /ioai-statistics-social-20260811\.png/);
   assert.doesNotMatch(taskHtml, /https:\/\/ioai-statistics\.org\/og\.png/);
   assert.match(taskHtml, /class="difficulty-badge-help"/);
   assert.match(taskHtml, /role="tooltip">Half of Individual contestants reached 50\.<\/span>/);
 
   const searchResponse = await render("/search");
-  assert.match(await searchResponse.text(), /<meta name="robots" content="index, follow"\/>/);
+  const searchHtml = await searchResponse.text();
+  assert.match(searchHtml, /<meta name="robots" content="noindex, follow"\/>/);
+  assert.match(await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"), /SectionTitle title="Entries"/);
+
+  const homeResponse = await render("/");
+  const homeHtml = await homeResponse.text();
+  assert.match(homeHtml, /"@type":"WebSite"/);
+  assert.match(homeHtml, /"name":"IOAI Statistics","alternateName":"IOAI Stats"/);
 
   const contestantResponse = await render("/contestants/krzysztof-rojek");
   assert.match(await contestantResponse.text(), /<meta name="robots" content="noindex, follow"\/>/);
@@ -511,6 +521,7 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   const sitemap = await sitemapResponse.text();
   assert.equal(sitemapResponse.headers.get("content-type"), "application/xml");
   assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/radar<\/loc>/);
-  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
   assert.doesNotMatch(sitemap, /\/contestants\//);
+  assert.doesNotMatch(sitemap, /<priority>|<changefreq>/);
 });

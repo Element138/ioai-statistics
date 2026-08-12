@@ -11,7 +11,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return allIndexablePaths().map((path) => ({
     url: new URL(path, `${origin}/`).toString(),
     lastModified,
-    changeFrequency: path === "/" ? "weekly" : "monthly",
-    priority: path === "/" ? 1 : path.split("/").filter(Boolean).length === 1 ? 0.8 : 0.6,
   }));
 }
