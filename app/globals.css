@@ -908,7 +908,7 @@ h3 {
 }
 
 .medal-row.silver-row td:first-child {
-  box-shadow: inset 4px 0 #7e8da2;
+  box-shadow: inset 5px 0 #7e8da2;
 }
 
 .medal-row.bronze-row td:first-child {
@@ -920,7 +920,7 @@ h3 {
 }
 
 .medal-row.gaite-level-2-row td:first-child {
-  box-shadow: inset 4px 0 #4c9d70;
+  box-shadow: inset 5px 0 #4c9d70;
 }
 
 .medal-row.gaite-level-3-row td:first-child {
@@ -2219,6 +2219,11 @@ h3 {
 :root[data-theme="dark"] .top-nav a:hover,
 :root[data-theme="dark"] .top-nav a.active { color: var(--ink); }
 :root[data-theme="dark"] .notice { color: #c0cbe0; }
+:root[data-theme="dark"] .lede,
+:root[data-theme="dark"] .edition-commentary > p,
+:root[data-theme="dark"] .task-commentary-list li,
+:root[data-theme="dark"] .body-copy,
+:root[data-theme="dark"] .footer-grid { color: #c7d0de; }
 :root[data-theme="dark"] .gaite-notice { background: #122b24; }
 :root[data-theme="dark"] .team-notice { background: #251d38; }
 :root[data-theme="dark"] .status { color: #b8c4d7; }
