@@ -665,6 +665,10 @@ h3 {
   border-right: 0;
 }
 
+.data-table td.grouped-year {
+  vertical-align: middle;
+}
+
 .data-table tbody tr:last-child td {
   border-bottom: 0;
 }

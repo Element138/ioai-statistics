@@ -129,7 +129,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
       canonicalPath: `/countries/${parts[1]}`,
       description: `${country}'s participation, results, medals and awards at IOAI.`,
       indexable: true,
-      title: `${country} at IOAI`,
+      title: country,
     };
   }
 

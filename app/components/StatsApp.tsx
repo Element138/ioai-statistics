@@ -673,15 +673,24 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
   );
 }
 
-function ResultsTable({ results, track, compact = false, showYear = false, showAliases = false, showRankPool = false }: {
+function ResultsTable({ results, track, compact = false, showYear = false, showAliases = false, showRankPool = false, mergeYears = false, showTaskScores = false }: {
   results: Result[];
   track?: "main" | "gaite";
   compact?: boolean;
   showYear?: boolean;
   showAliases?: boolean;
   showRankPool?: boolean;
+  mergeYears?: boolean;
+  showTaskScores?: boolean;
 }) {
-  const taskNames = !compact && results.length && track ? contestTasks(results[0].year, track).map((task) => task.name) : [];
+  const taskCount = showTaskScores ? Math.max(0, ...results.map((result) => result.scores.length)) : 0;
+  const taskNames = !compact && !showTaskScores && results.length && track ? contestTasks(results[0].year, track).map((task) => task.name) : [];
+  const yearSpans = results.map((result, index) => {
+    if (!mergeYears || (index > 0 && results[index - 1].year === result.year)) return 0;
+    let span = 1;
+    while (results[index + span]?.year === result.year) span += 1;
+    return span;
+  });
   return (
     <>
       {!compact ? <p className="precision-note">Score precision: up to 2 decimal places per task and 4 for totals.</p> : null}
@@ -692,7 +701,8 @@ function ResultsTable({ results, track, compact = false, showYear = false, showA
             <th className="number">Rank</th>
             {showYear ? <th className="number">Year</th> : null}
             <th>Contestant</th>
-            <th>Country or region</th>
+            {!showTaskScores ? <th>Country or region</th> : null}
+            {showTaskScores ? Array.from({ length: taskCount }, (_, index) => <th key={index} className="number task-score" title={`Task ${index + 1} score`}>T{index + 1}</th>) : null}
             {!compact && taskNames.map((name, index) => (
               <th key={name} className="number task-score" title={name}>T{index + 1}</th>
             ))}
@@ -701,16 +711,17 @@ function ResultsTable({ results, track, compact = false, showYear = false, showA
           </tr>
         </thead>
         <tbody>
-          {results.map((result) => (
+          {results.map((result, resultIndex) => (
             <tr key={`${result.year}-${result.track}-${result.rank}-${result.contestantId}`} className={medalRowClass(result.award)}>
               <td className="number rank">{showRankPool ? "#" : ""}{competitionRank(result)}{showRankPool ? ` / ${resultsFor(result.year, result.track).length}` : ""}</td>
-              {showYear ? <td className="number"><a href={`/olympiads/${result.year}/results`}>{result.year}</a></td> : null}
+              {showYear && (!mergeYears || yearSpans[resultIndex] > 0) ? <td className="number grouped-year" rowSpan={mergeYears ? yearSpans[resultIndex] : undefined}><a href={`/olympiads/${result.year}/results`}>{result.year}</a></td> : null}
               <td><a href={`/contestants/${result.slug}`}>{showAliases ? contestantAliasLabel(result) : result.name}</a></td>
-              <td>
+              {!showTaskScores ? <td>
                 <a className="country-link" href={`/countries/${slugify(result.country)}`}>
                   <Flag country={result.country} />{result.country}
                 </a>
-              </td>
+              </td> : null}
+              {showTaskScores ? Array.from({ length: taskCount }, (_, index) => <td key={index} className="number score">{formatTaskScore(result.scores[index] ?? null)}</td>) : null}
               {!compact && result.scores.map((score, index) => (
                 <td key={index} className="number score">{formatTaskScore(score)}</td>
               ))}
@@ -725,11 +736,17 @@ function ResultsTable({ results, track, compact = false, showYear = false, showA
   );
 }
 
-function TaskTable({ tasks }: { tasks: Task[] }) {
+function TaskTable({ tasks, mergeYears = true }: { tasks: Task[]; mergeYears?: boolean }) {
   const taskNumber = (task: Task) => {
     if (task.year === 2024 || task.track === "team" || (task.track === "home" && task.year === 2025)) return "—";
     return task.order ?? "—";
   };
+  const yearSpans = tasks.map((task, index) => {
+    if (!mergeYears || (index > 0 && tasks[index - 1].year === task.year)) return 0;
+    let span = 1;
+    while (tasks[index + span]?.year === task.year) span += 1;
+    return span;
+  });
   return (
     <div className="table-wrap">
       <table className="data-table">
@@ -745,9 +762,9 @@ function TaskTable({ tasks }: { tasks: Task[] }) {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task) => (
+          {tasks.map((task, index) => (
             <tr key={task.slug}>
-              <td className="number"><a href={`/olympiads/${task.year}/tasks`}>{task.year}</a></td>
+              {(!mergeYears || yearSpans[index] > 0) ? <td className="number grouped-year" rowSpan={mergeYears ? yearSpans[index] : undefined}><a href={`/olympiads/${task.year}/tasks`}>{task.year}</a></td> : null}
               <td className="number">{taskNumber(task)}</td>
               <td><a href={`/tasks/${task.slug}`}>{task.name}</a></td>
               <td>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TASK_TRACK_LABELS[track]}</span>)}</td>
@@ -1293,10 +1310,10 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
         <div className="country-awards-metric"><span>Individual awards</span><CountryAwardSummary track="main" counts={awards} /></div>
         <div className="country-awards-metric"><span>GAITE awards</span><CountryAwardSummary track="gaite" counts={gaiteAwards} /></div>
       </div>
-      <div className="toolbar-row"><SectionTitle title="Year-level national results" />{availableMain.length && availableGaite.length ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : <span className={`track-badge ${effectiveTrack}`}>{effectiveTrack === "gaite" ? "GAITE" : "Individual"}</span>}</div>
+      <div className="toolbar-row"><SectionTitle title="Results" />{availableMain.length && availableGaite.length ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : <span className={`track-badge ${effectiveTrack}`}>{effectiveTrack === "gaite" ? "GAITE" : "Individual"}</span>}</div>
       {yearRankRows.length ? <div className="table-wrap country-year-ranks"><table className="data-table"><thead><tr><th className="number">Year</th><th className="number">National rank</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>{yearRankRows.map(({ year, summary, poolSize }) => <tr key={`${year}-${effectiveTrack}`}><td className="number"><a href={`/olympiads/${year}/delegations`}>{year}</a></td><td className="number rank">#{summary.rank} / {poolSize}</td><td className="number">{summary.contestants}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(summary.bronze)}</td><td className="number">{formatAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(summary.level3)}</td><td className="number">{formatAwardCount(summary.mention)}</td></>}</tr>)}</tbody></table></div> : null}
-      <SectionTitle title="Contestant results" />
-      {results.length ? <ResultsTable results={results} track={effectiveTrack === "gaite" ? "gaite" : "main"} compact showYear showRankPool /> : <EmptyState title="No results in this track">This country has no published final scores for the selected track.</EmptyState>}
+      <SectionTitle title="Entries" />
+      {results.length ? <ResultsTable results={results} track={effectiveTrack === "gaite" ? "gaite" : "main"} compact showYear showRankPool mergeYears showTaskScores /> : <EmptyState title="No results in this track">This country has no published final scores for the selected track.</EmptyState>}
     </>
   );
 }
@@ -1472,7 +1489,7 @@ function SearchPage() {
       {normalized && !total ? <EmptyState title="No matching records">Check the spelling or try a broader term.</EmptyState> : null}
       {people.length ? <section className="search-section"><SectionTitle title="Entries" meta={people.length} /><ResultsTable results={people} compact showYear showAliases showRankPool /></section> : null}
       {countries.length ? <section className="search-section"><SectionTitle title="Countries" meta={countries.length} /><div className="search-links">{countries.map((country) => <a key={country} href={`/countries/${slugify(country)}`}><Flag country={country} />{country}<span>→</span></a>)}</div></section> : null}
-      {tasks.length ? <section className="search-section"><SectionTitle title="Tasks" meta={tasks.length} /><TaskTable tasks={tasks} /></section> : null}
+      {tasks.length ? <section className="search-section"><SectionTitle title="Tasks" meta={tasks.length} /><TaskTable tasks={tasks} mergeYears={false} /></section> : null}
     </>
   );
 }

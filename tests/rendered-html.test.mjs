@@ -269,6 +269,7 @@ test("publishes task numbers, at-home records, categories, and official 2026 lin
   assert.doesNotMatch(tasksHtml, /difficulty-legend-layer|difficulty-legend-popover/);
   assert.doesNotMatch(tasksHtml, /Category \/ round/);
   assert.match(tasksHtml, />At-home<\/button>/);
+  assert.match(tasksHtml, /class="number grouped-year" rowSpan="\d+"/);
 
   const homeTaskHtml = await (await render("/tasks/2026-home-task-1")).text();
   assert.match(homeTaskHtml, /track-badge home">At-home<\/span>/);
@@ -318,7 +319,7 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   assert.match(individualHtml, /rank-block country-rank-block main/);
   assert.match(individualHtml, /<span>ALL-TIME<\/span><strong>#/);
   assert.doesNotMatch(individualHtml, /<span>Individual<\/span>/);
-  assert.match(individualHtml, />Year-level national results<\/h2>/);
+  assert.match(individualHtml, />Results<\/h2>/);
   assert.match(individualHtml, /<th class="number">National rank<\/th>/);
   assert.match(individualHtml, /href="\/olympiads\/2026\/delegations"/);
   assert.match(individualHtml, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?\d+<\/td>/);
@@ -327,6 +328,12 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   assert.match(individualHtml, /<small>G<\/small><strong>1<\/strong>/);
   assert.match(individualHtml, /<small>HM<\/small><strong>—<\/strong>/);
   assert.match(individualHtml, /<span>GAITE awards<\/span>/);
+  assert.match(individualHtml, />Entries<\/h2>/);
+  const entriesTable = individualHtml.slice(individualHtml.lastIndexOf('<table class="data-table results-table">'));
+  const entriesHeader = entriesTable.slice(0, entriesTable.indexOf("</thead>"));
+  assert.doesNotMatch(entriesHeader, />Country or region<\/th>/);
+  assert.match(entriesHeader, /title="Task 1 score">T(?:<!-- -->)?1<\/th>/);
+  assert.match(entriesTable, /class="number grouped-year" rowSpan="\d+"/);
 
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
   assert.match(gaiteHtml, /rank-block country-rank-block gaite/);
@@ -357,7 +364,7 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
 
   const ioaiTeam = await (await render("/countries/ioai-team")).text();
   assert.match(ioaiTeam, /<span>ALL-TIME<\/span><strong>#(?:<!-- -->)?—<small>\/(?:<!-- -->)?\d+<\/small><\/strong>/);
-  assert.match(ioaiTeam, />Year-level national results<\/h2>/);
+  assert.match(ioaiTeam, />Results<\/h2>/);
 
   const unranked2024 = await (await render("/olympiads/2024/delegations")).text();
   const unrankedTable = unranked2024.slice(unranked2024.indexOf('<table class="data-table">'));
@@ -504,6 +511,13 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   const searchHtml = await searchResponse.text();
   assert.match(searchHtml, /<meta name="robots" content="noindex, follow"\/>/);
   assert.match(await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"), /SectionTitle title="Entries"/);
+  assert.match(await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"), /<TaskTable tasks=\{tasks\} mergeYears=\{false\} \/>/);
+
+  const delegationHtml = await (await render("/olympiads/2026/delegations")).text();
+  assert.match(delegationHtml, /<title>IOAI 2026 Delegations · IOAI Statistics<\/title>/);
+  const countryHtml = await (await render("/countries/cote-divoire")).text();
+  assert.match(countryHtml, /<title>Côte d(?:&#x27;|')Ivoire · IOAI Statistics<\/title>/);
+  assert.doesNotMatch(countryHtml, / at IOAI · IOAI Statistics<\/title>/);
 
   const homeResponse = await render("/");
   const homeHtml = await homeResponse.text();
