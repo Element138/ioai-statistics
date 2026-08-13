@@ -465,7 +465,7 @@ test("prefixes every displayed GAITE award badge", async () => {
 
 test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   const privacy = await (await render("/privacy")).text();
-  assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 11 August 2026/);
+  assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 14 August 2026/);
   assert.match(privacy, /no accounts, advertising or tracking cookies/);
   assert.match(privacy, />Cloudflare Web Analytics<\/a>/);
   assert.match(privacy, /count aggregate visits and page views and measure real-user performance/);

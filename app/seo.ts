@@ -15,6 +15,10 @@ type Task = {
   year: number;
   name: string;
   category: string;
+  track: "main" | "gaite" | "team" | "home";
+  tracks?: ("main" | "gaite" | "team" | "home")[];
+  day: number;
+  order?: number;
 };
 
 type Result = {
@@ -23,6 +27,8 @@ type Result = {
   name: string;
   country: string;
   year: number;
+  award: string;
+  scores: number[];
 };
 
 type SeoData = {
@@ -42,6 +48,75 @@ const RESULTS = [
   ...DATA.mainResults2026,
   ...DATA.gaiteResults2026,
 ];
+const MAIN_RESULTS = [...DATA.mainResults2025, ...DATA.mainResults2026];
+const GAITE_RESULTS = [...DATA.gaiteResults2025, ...DATA.gaiteResults2026];
+
+function awardType(award: string) {
+  const value = award.toLowerCase();
+  if (value.includes("gold")) return "gold";
+  if (value.includes("silver")) return "silver";
+  if (value.includes("bronze")) return "bronze";
+  if (value.includes("level 1") || value.includes("first level")) return "level1";
+  if (value.includes("level 2") || value.includes("second level")) return "level2";
+  if (value.includes("level 3") || value.includes("third level")) return "level3";
+  if (value.includes("honour") || value.includes("honorable")) return "mention";
+  return "other";
+}
+
+function countryRanks(results: Result[], track: "main" | "gaite") {
+  const counts = new Map<string, number[]>();
+  for (const result of results) {
+    if (result.country === "IOAI Team") continue;
+    const vector = counts.get(result.country) ?? [0, 0, 0, 0];
+    const type = awardType(result.award);
+    const index = track === "main"
+      ? ["gold", "silver", "bronze", "mention"].indexOf(type)
+      : ["level1", "level2", "level3", "mention"].indexOf(type);
+    if (index >= 0) vector[index] += 1;
+    counts.set(result.country, vector);
+  }
+  const sorted = [...counts].sort((a, b) => {
+    for (let index = 0; index < 4; index += 1) {
+      if (a[1][index] !== b[1][index]) return b[1][index] - a[1][index];
+    }
+    return a[0].localeCompare(b[0]);
+  });
+  let previous = "";
+  let rank = 0;
+  return new Map(sorted.map(([country, vector], index) => {
+    const key = vector.join("|");
+    if (key !== previous) rank = index + 1;
+    previous = key;
+    return [country, rank];
+  }));
+}
+
+const COUNTRY_RANKS = {
+  main: countryRanks(MAIN_RESULTS, "main"),
+  gaite: countryRanks(GAITE_RESULTS, "gaite"),
+};
+
+function taskDifficulty(task: Task) {
+  const tracks = task.tracks?.length ? task.tracks : [task.track];
+  if (!tracks.includes("main")) return null;
+  const tasks = DATA.tasks
+    .filter((item) => item.year === task.year && (item.tracks?.length ? item.tracks : [item.track]).includes("main"))
+    .sort((a, b) => a.day - b.day || (a.order ?? DATA.tasks.indexOf(a)) - (b.order ?? DATA.tasks.indexOf(b)));
+  const scoreIndex = tasks.findIndex((item) => item.slug === task.slug);
+  const results = task.year === 2026 ? DATA.mainResults2026 : task.year === 2025 ? DATA.mainResults2025 : [];
+  if (scoreIndex < 0 || !results.length) return null;
+  const passRate = (items: Result[], threshold = 50) => items.length
+    ? items.filter((result) => (result.scores[scoreIndex] ?? 0) >= threshold).length / items.length
+    : 0;
+  if (passRate(results) >= 0.5) return "Basic";
+  const cohort = (type: string) => results.filter((result) => awardType(result.award) === type);
+  if (passRate(cohort("bronze")) >= 0.5) return "Bronze";
+  if (passRate(cohort("silver")) >= 0.5) return "Silver";
+  const gold = cohort("gold");
+  if (passRate(gold) >= 0.5) return "Gold";
+  if (passRate(gold, 25) >= 0.25) return "Gold+";
+  return "Extreme";
+}
 
 const CONTESTANT_IDENTITIES = new Map<string, { contestantId: string; slug: string; name: string; aliases: string[] }>();
 const CONTESTANT_CANONICAL_OVERRIDES = new Map([
@@ -125,9 +200,13 @@ export function pageSeoForPath(parts: string[]): PageSeo {
       .filter((item) => item !== "IOAI Team")
       .find((item) => slugify(item) === parts[1]);
     if (!country) return unknownPage(parts);
+    const ranks = [
+      COUNTRY_RANKS.main.has(country) ? `Individual #${COUNTRY_RANKS.main.get(country)}/${COUNTRY_RANKS.main.size}` : null,
+      COUNTRY_RANKS.gaite.has(country) ? `GAITE #${COUNTRY_RANKS.gaite.get(country)}/${COUNTRY_RANKS.gaite.size}` : null,
+    ].filter(Boolean).join("; ");
     return {
       canonicalPath: `/countries/${parts[1]}`,
-      description: `${country}'s participation, results, medals and awards at IOAI.`,
+      description: `${country}'s IOAI participation, results and awards.${ranks ? ` All-time national rank: ${ranks}.` : ""}`,
       indexable: true,
       title: country,
     };
@@ -145,9 +224,10 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (parts.length === 2 && parts[0] === "tasks") {
     const task = DATA.tasks.find((item) => item.slug === parts[1]);
     if (!task) return unknownPage(parts);
+    const difficulty = taskDifficulty(task);
     return {
       canonicalPath: `/tasks/${task.slug}`,
-      description: `${task.name}, a ${task.category} task from IOAI ${task.year}, with difficulty, score statistics and official materials.`,
+      description: `${task.name}, a ${task.category} task from IOAI ${task.year}.${difficulty ? ` Difficulty: ${difficulty}.` : ""} View score statistics and official materials.`,
       indexable: true,
       title: `${task.name} — IOAI ${task.year} Task`,
     };

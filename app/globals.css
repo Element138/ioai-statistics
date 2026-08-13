@@ -55,7 +55,7 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   --ink: #edf3fc;
-  --muted: #a5b2c7;
+  --muted: #bac5d6;
   --line: #2b3950;
   --line-strong: #43536b;
   --paper: #0d1420;
@@ -72,6 +72,32 @@
   --table-head: #1a2637;
   --table-stripe: #121d2b;
   --table-hover: #1b2b41;
+}
+
+/* Match the operating-system palette on the very first paint, before the saved
+   preference script runs. This avoids a light canvas flash without a cookie. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ink: #edf3fc;
+    --muted: #bac5d6;
+    --line: #2b3950;
+    --line-strong: #43536b;
+    --paper: #0d1420;
+    --soft: #151f2e;
+    --blue-soft: #17294a;
+    --blue: #78a9ff;
+    --blue-dark: #a9c8ff;
+    --cyan: #4ed1e2;
+    --green: #65c89d;
+    --gold: #e5bd55;
+    --silver: #bcc7d7;
+    --bronze: #dda17f;
+    --surface: #111a28;
+    --table-head: #1a2637;
+    --table-stripe: #121d2b;
+    --table-hover: #1b2b41;
+  }
 }
 
 * {
@@ -352,8 +378,8 @@ h3 {
   gap: 1px;
   transform: translate(-50%, 3px);
   border: 1px solid #26334a;
-  background: var(--ink);
-  color: white;
+  background: #152035;
+  color: #f7f9fc;
   font-size: 0.82rem;
   line-height: 1.4;
   opacity: 0;
@@ -367,7 +393,7 @@ h3 {
 }
 
 .flag-ring-popover small {
-  color: #cbd4e3;
+  color: #d4ddeb;
   font-size: 0.76rem;
   white-space: nowrap;
 }
@@ -878,27 +904,27 @@ h3 {
 }
 
 .medal-row.gold-row td:first-child {
-  box-shadow: inset 3px 0 #d8ad32;
+  box-shadow: inset 6px 0 #c99712;
 }
 
 .medal-row.silver-row td:first-child {
-  box-shadow: inset 3px 0 #9aa8b8;
+  box-shadow: inset 4px 0 #7e8da2;
 }
 
 .medal-row.bronze-row td:first-child {
-  box-shadow: inset 3px 0 #bd7650;
+  box-shadow: inset 3px 0 #a9542e;
 }
 
 .medal-row.gaite-level-1-row td:first-child {
-  box-shadow: inset 3px 0 #176a45;
+  box-shadow: inset 6px 0 #087746;
 }
 
 .medal-row.gaite-level-2-row td:first-child {
-  box-shadow: inset 3px 0 #58a97b;
+  box-shadow: inset 4px 0 #4c9d70;
 }
 
 .medal-row.gaite-level-3-row td:first-child {
-  box-shadow: inset 3px 0 #a7d7b8;
+  box-shadow: inset 3px 0 #87b99a;
 }
 
 .gold-col,
@@ -1690,9 +1716,9 @@ h3 {
 }
 
 .difficulty.bronze {
-  border-color: #ce9c7c;
-  background: #fff0e7;
-  color: #814a29;
+  border-color: #b96740;
+  background: #f9dfd0;
+  color: #71391f;
 }
 
 .difficulty.silver {
@@ -1702,9 +1728,9 @@ h3 {
 }
 
 .difficulty.gold {
-  border-color: #d1ae52;
-  background: #fff7dc;
-  color: #795500;
+  border-color: #c79a20;
+  background: #fff3bd;
+  color: #684600;
 }
 
 .difficulty.gold-plus {
@@ -2204,6 +2230,8 @@ h3 {
   box-shadow: 0 0 0 1px rgb(255 255 255 / 8%);
 }
 :root[data-theme="dark"] .flag-ring-link .flag-image { box-shadow: 0 2px 8px rgb(0 0 0 / 45%); }
+:root[data-theme="dark"] .flag-ring-popover { border-color: #66768e; background: #1c293b; color: #f5f8fc; box-shadow: 0 9px 24px rgb(0 0 0 / 55%); }
+:root[data-theme="dark"] .flag-ring-popover small { color: #c8d3e3; }
 :root[data-theme="dark"] .award.gold,
 :root[data-theme="dark"] .gold-col,
 :root[data-theme="dark"] .gold-count,
@@ -2232,10 +2260,24 @@ h3 {
 :root[data-theme="dark"] .distribution-card,
 :root[data-theme="dark"] .policy-references { background: var(--surface); box-shadow: 0 12px 30px rgb(0 0 0 / 35%); }
 :root[data-theme="dark"] .difficulty.basic { border-color: #4f8066; background: #183026; color: #a2d7ba; }
-:root[data-theme="dark"] .difficulty.bronze { border-color: #895c43; background: #34241d; color: #e6ae8e; }
+:root[data-theme="dark"] .difficulty.bronze { border-color: #b96843; background: #3b2118; color: #f3b08b; }
 :root[data-theme="dark"] .difficulty.silver { border-color: #66748a; background: #252e3c; color: #d0d9e7; }
-:root[data-theme="dark"] .difficulty.gold { border-color: #9f7f31; background: #332b17; color: #efd076; }
-:root[data-theme="dark"] .difficulty.gold-plus { border-color: #ba9131; background: #443719; color: #ffe08a; }
+:root[data-theme="dark"] .difficulty.gold { border-color: #a88427; background: #342a12; color: #f3cf63; }
+:root[data-theme="dark"] .difficulty.gold-plus { border-color: #e0ae2f; background: #674900; color: #fff1b2; }
+:root[data-theme="dark"] .distribution-legend .gold,
+:root[data-theme="dark"] .bar-stack .gold { background: #a47b1c; }
+:root[data-theme="dark"] .distribution-legend .silver,
+:root[data-theme="dark"] .bar-stack .silver { background: #657287; }
+:root[data-theme="dark"] .distribution-legend .bronze,
+:root[data-theme="dark"] .bar-stack .bronze { background: #8f5138; }
+:root[data-theme="dark"] .distribution-legend .other,
+:root[data-theme="dark"] .bar-stack .other { background: #354154; }
+:root[data-theme="dark"] .distribution-card.gaite .distribution-legend .gold,
+:root[data-theme="dark"] .distribution-card.gaite .bar-stack .gold { background: #17613f; }
+:root[data-theme="dark"] .distribution-card.gaite .distribution-legend .silver,
+:root[data-theme="dark"] .distribution-card.gaite .bar-stack .silver { background: #397b5a; }
+:root[data-theme="dark"] .distribution-card.gaite .distribution-legend .bronze,
+:root[data-theme="dark"] .distribution-card.gaite .bar-stack .bronze { background: #5c876d; }
 :root[data-theme="dark"] .difficulty.extreme { border-color: #9e4b70; background: #3c1d2c; color: #f3a9c7; }
 :root[data-theme="dark"] .country-rank-block { border-color: #506683; background: #172437; }
 :root[data-theme="dark"] .country-rank-block.gaite { border-color: #477761; background: #172c25; }
@@ -2302,7 +2344,7 @@ h3 {
 }
 
 .footer-grid small {
-  color: #7b8698;
+  color: var(--muted);
 }
 
 @media (max-width: 900px) {

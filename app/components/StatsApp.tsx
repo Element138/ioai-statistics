@@ -1513,7 +1513,7 @@ function PrivacyPage() {
       <header className="page-heading policy-heading">
         <p className="eyebrow">Legal and privacy</p>
         <h1>Privacy policy</h1>
-        <p>Effective 11 August 2026 · Amended 11 August 2026</p>
+        <p>Effective 11 August 2026 · Amended 14 August 2026</p>
       </header>
 
       <div className="policy-summary">
