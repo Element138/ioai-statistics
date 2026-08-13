@@ -252,6 +252,16 @@ function formatAwardCount(value: number) {
   return value === 0 ? "—" : value;
 }
 
+function normalizeSearchText(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[łŁ]/g, "l").replace(/[đĐðÐ]/g, "d").replace(/[þÞ]/g, "th").replace(/[æÆ]/g, "ae").replace(/[œŒ]/g, "oe").toLocaleLowerCase();
+}
+
+function matchesSearch(value: string, query: string) {
+  const haystack = normalizeSearchText(value);
+  const terms = normalizeSearchText(query).trim().split(/\s+/).filter(Boolean);
+  return terms.every((term) => haystack.includes(term));
+}
+
 function medalClass(award: string) {
   const type = awardType(award);
   if (type === "Gold") return "award gold";
@@ -1038,9 +1048,9 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
   setRound: (round: string) => void;
 }) {
   const [query, setQuery] = useState("");
-  const normalized = query.trim().toLocaleLowerCase();
+  const normalized = query.trim();
   if (year === 2024) {
-    const matchesTeam = (team: string) => !normalized || `${team} ${countryFromTeam(team)}`.toLocaleLowerCase().includes(normalized);
+    const matchesTeam = (team: string) => !normalized || matchesSearch(`${team} ${countryFromTeam(team)}`, normalized);
     const scientificResults = DATA.scientificResults2024.filter((result) => matchesTeam(result.team));
     const practicalResults = DATA.practicalResults2024.filter((result) => matchesTeam(result.team));
     const specialAwards = DATA.specialAwards2024.filter((result) => matchesTeam(result.team));
@@ -1085,8 +1095,8 @@ function EditionResults({ year, track, setTrack, round, setRound }: {
 
   const individualTrack = track === "gaite" ? "gaite" : "main";
   const editionResults = track === "team" ? [] : resultsFor(year, individualTrack);
-  const results = editionResults.filter((result) => !normalized || `${result.name} ${result.country}`.toLocaleLowerCase().includes(normalized));
-  const teamResults = year === 2025 ? DATA.teamChallenge2025.filter((result) => !normalized || result.team.toLocaleLowerCase().includes(normalized)) : [];
+  const results = editionResults.filter((result) => !normalized || matchesSearch(`${contestantSearchText(result)} ${result.country}`, normalized));
+  const teamResults = year === 2025 ? DATA.teamChallenge2025.filter((result) => !normalized || matchesSearch(result.team, normalized)) : [];
   const maxScore = track === "team"
     ? 100
     : contestTasks(year, individualTrack).reduce((sum, task) => sum + (task.maxScore ?? 0), 0);
@@ -1194,11 +1204,11 @@ const COUNTRY_NAMES = [...new Set([...COUNTRY_RESULTS.main, ...COUNTRY_RESULTS.g
 
 function DelegationsTable({ year, track }: { year: number; track: Track }) {
   const [query, setQuery] = useState("");
-  const normalized = query.trim().toLocaleLowerCase();
+  const normalized = query.trim();
   if (year === 2024) {
     const teams = DATA.teams2024.filter((team) => {
       const country = countryFromTeam(team.name);
-      return !normalized || `${team.name} ${country} ${team.leader} ${team.students.join(" ")}`.toLocaleLowerCase().includes(normalized);
+      return !normalized || matchesSearch(`${team.name} ${country} ${team.leader} ${team.students.join(" ")}`, normalized);
     });
     return (
       <>
@@ -1210,7 +1220,7 @@ function DelegationsTable({ year, track }: { year: number; track: Track }) {
     );
   }
   const effectiveTrack = track === "gaite" ? "gaite" : "main";
-  const summaries = yearCountryRankings(year, effectiveTrack).filter((summary) => !normalized || summary.country.toLocaleLowerCase().includes(normalized));
+  const summaries = yearCountryRankings(year, effectiveTrack).filter((summary) => !normalized || matchesSearch(summary.country, normalized));
   return <><CompactFilter id="delegations-filter" value={query} onChange={setQuery} placeholder="Filter countries" label="Filter delegations by country" count={summaries.length} /><CountrySummaryTable summaries={summaries} track={effectiveTrack} showEditions={false} /></>;
 }
 
@@ -1268,8 +1278,8 @@ function EditionPage({ year, section, track, setTrack, taskTrack, setTaskTrack, 
 function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Track) => void }) {
   const [query, setQuery] = useState("");
   const effectiveTrack = track === "team" ? "main" : track;
-  const normalized = query.trim().toLocaleLowerCase();
-  const summaries = COUNTRY_RANKINGS[effectiveTrack].filter((summary) => !normalized || summary.country.toLocaleLowerCase().includes(normalized));
+  const normalized = query.trim();
+  const summaries = COUNTRY_RANKINGS[effectiveTrack].filter((summary) => !normalized || matchesSearch(summary.country, normalized));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">All-time national records</p><h1>Countries</h1></div>
@@ -1280,6 +1290,7 @@ function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Tr
 }
 
 function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; track: Track; setTrack: (track: Track) => void }) {
+  const [query, setQuery] = useState("");
   const country = COUNTRY_NAMES.find((item) => slugify(item) === countrySlug);
   if (!country) return <NotFoundPage />;
   const availableMain = COUNTRY_RESULTS.main.filter((result) => result.country === country);
@@ -1291,7 +1302,8 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   const nationalRankTrack: "main" | "gaite" = availableGaite.length && (!availableMain.length || latestGaiteYear > latestMainYear) ? "gaite" : "main";
   const nationalRank = COUNTRY_RANKINGS[nationalRankTrack].find((summary) => summary.country === country)?.rank;
   const nationalRankPool = COUNTRY_RANKINGS[nationalRankTrack].length;
-  const results = [...(effectiveTrack === "gaite" ? availableGaite : availableMain)].sort((a, b) => b.year - a.year || a.rank - b.rank);
+  const allCountryResults = [...(effectiveTrack === "gaite" ? availableGaite : availableMain)].sort((a, b) => b.year - a.year || a.rank - b.rank);
+  const results = allCountryResults.filter((result) => !query.trim() || matchesSearch(`${contestantSearchText(result)} ${result.year}`, query));
   const yearRankRows = [...new Set(results.map((result) => result.year))]
     .sort((a, b) => b - a)
     .flatMap((year) => {
@@ -1312,7 +1324,7 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
       </div>
       <div className="toolbar-row"><SectionTitle title="Results" />{availableMain.length && availableGaite.length ? <TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /> : <span className={`track-badge ${effectiveTrack}`}>{effectiveTrack === "gaite" ? "GAITE" : "Individual"}</span>}</div>
       {yearRankRows.length ? <div className="table-wrap country-year-ranks"><table className="data-table"><thead><tr><th className="number">Year</th><th className="number">National rank</th><th className="number">Entries</th>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>{yearRankRows.map(({ year, summary, poolSize }) => <tr key={`${year}-${effectiveTrack}`}><td className="number"><a href={`/olympiads/${year}/delegations`}>{year}</a></td><td className="number rank">#{summary.rank} / {poolSize}</td><td className="number">{summary.contestants}</td>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(summary.bronze)}</td><td className="number">{formatAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(summary.level3)}</td><td className="number">{formatAwardCount(summary.mention)}</td></>}</tr>)}</tbody></table></div> : null}
-      <SectionTitle title="Entries" />
+      <div className="toolbar-row"><SectionTitle title="Entries" /><CompactFilter id="country-entries-filter" value={query} onChange={setQuery} placeholder="Filter entries" label={`Filter ${country} entries`} count={results.length} /></div>
       {results.length ? <ResultsTable results={results} track={effectiveTrack === "gaite" ? "gaite" : "main"} compact showYear showRankPool mergeYears showTaskScores /> : <EmptyState title="No results in this track">This country has no published final scores for the selected track.</EmptyState>}
     </>
   );
@@ -1320,8 +1332,8 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
 
 function TasksPage({ track, setTrack }: { track: TaskTrack; setTrack: (track: TaskTrack) => void }) {
   const [query, setQuery] = useState("");
-  const normalized = query.trim().toLocaleLowerCase();
-  const tasks = DATA.tasks.filter((task) => taskTracks(task).includes(track) && (!normalized || `${task.name} ${task.category} ${task.year}`.toLocaleLowerCase().includes(normalized))).sort((a, b) => b.year - a.year || a.day - b.day || (a.order ?? 0) - (b.order ?? 0));
+  const normalized = query.trim();
+  const tasks = DATA.tasks.filter((task) => taskTracks(task).includes(track) && (!normalized || matchesSearch(`${task.name} ${task.category} ${task.year}`, normalized))).sort((a, b) => b.year - a.year || a.day - b.day || (a.order ?? 0) - (b.order ?? 0));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">Official task archive</p><h1>Tasks</h1></div>
@@ -1335,11 +1347,12 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
   const task = DATA.tasks.find((item) => item.slug === taskSlug);
   const availableTracks = task ? taskTracks(task).filter((track): track is "main" | "gaite" => track === "main" || track === "gaite") : ["main" as const];
   const [selectedTrack, setSelectedTrack] = useState<Track>("main");
+  const [query, setQuery] = useState("");
   if (!task) return <NotFoundPage />;
   const effectiveTrack = availableTracks.includes(selectedTrack as "main" | "gaite") ? selectedTrack as "main" | "gaite" : availableTracks[0] ?? "main";
   const unrankedTask = task.track === "team" || task.track === "home";
   const allScores = unrankedTask ? [] : taskScoreEntries(task, effectiveTrack);
-  const scores = taskLeaderboardEntries(task, effectiveTrack);
+  const scores = taskLeaderboardEntries(task, effectiveTrack).filter(({ result }) => !query.trim() || matchesSearch(`${contestantSearchText(result)} ${result.country}`, query));
   const difficulty = taskDifficulty(task);
   return (
     <>
@@ -1351,7 +1364,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
         <>
           <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setSelectedTrack} tracks={availableTracks} /></div>
           <ScoreDistribution title={`${TRACK_LABELS[effectiveTrack]} · ${task.name}`} entries={allScores.map(({ result, score }) => ({ score, award: result.award }))} maxScore={task.maxScore ?? 100} track={effectiveTrack} />
-          <SectionTitle title="Task leaderboard" meta={`IOAI ${task.year}`} />
+          <div className="toolbar-row"><SectionTitle title="Task leaderboard" meta={`IOAI ${task.year}`} /><CompactFilter id="task-leaderboard-filter" value={query} onChange={setQuery} placeholder="Filter people or countries" label="Filter task leaderboard" count={scores.length} /></div>
           <p className="precision-note">Task scores are shown to up to 2 decimal places.</p>
           {scores.length ? <div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th>Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
             {scores.map(({ result, score, taskRank }) => <tr key={result.contestantId} className={medalRowClass(result.award)}><td className="number rank">{taskRank}</td><td><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatTaskScore(score)}</td><td className="number">#{competitionRank(result)}</td><td><AwardBadge award={result.award} track={effectiveTrack} /></td></tr>)}
@@ -1420,8 +1433,8 @@ function CompactFilter({ id, value, onChange, placeholder, label, count }: {
 function HallOfFamePage({ track, setTrack }: { track: Track; setTrack: (track: Track) => void }) {
   const [query, setQuery] = useState("");
   const effectiveTrack = track === "team" ? "main" : track;
-  const normalized = query.trim().toLocaleLowerCase();
-  const records = hallRecords(effectiveTrack).filter((record) => !normalized || `${record.searchNames} ${record.country}`.toLocaleLowerCase().includes(normalized));
+  const normalized = query.trim();
+  const records = hallRecords(effectiveTrack).filter((record) => !normalized || matchesSearch(`${record.searchNames} ${record.country}`, normalized));
   return (
     <>
       <div className="page-heading"><p className="eyebrow">All-time individual records</p><h1>Hall of Fame</h1></div>
@@ -1466,16 +1479,16 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
 function SearchPage() {
   const initial = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : "";
   const [query, setQuery] = useState(initial);
-  const normalized = query.trim().toLocaleLowerCase();
+  const normalized = query.trim();
   const people = useMemo(() => {
     if (!normalized) return [];
-    const matches = [...allResults("main"), ...allResults("gaite")].filter((result) => `${contestantSearchText(result)} ${result.country} ${result.year}`.toLocaleLowerCase().includes(normalized));
+    const matches = [...allResults("main"), ...allResults("gaite")].filter((result) => matchesSearch(`${contestantSearchText(result)} ${result.country} ${result.year}`, normalized));
     return matches
       .sort((a, b) => b.year - a.year || competitionRank(a) - competitionRank(b) || a.name.localeCompare(b.name))
       .slice(0, 80);
   }, [normalized]);
-  const countries = useMemo(() => normalized ? [...new Set([...allResults("main"), ...allResults("gaite")].map((result) => result.country))].filter((country) => country.toLocaleLowerCase().includes(normalized)) : [], [normalized]);
-  const tasks = useMemo(() => normalized ? DATA.tasks.filter((task) => `${task.name} ${task.category} ${task.year}`.toLocaleLowerCase().includes(normalized)) : [], [normalized]);
+  const countries = useMemo(() => normalized ? [...new Set([...allResults("main"), ...allResults("gaite")].map((result) => result.country))].filter((country) => matchesSearch(country, normalized)) : [], [normalized]);
+  const tasks = useMemo(() => normalized ? DATA.tasks.filter((task) => matchesSearch(`${task.name} ${task.category} ${task.year}`, normalized)) : [], [normalized]);
   const total = people.length + countries.length + tasks.length;
   return (
     <>
@@ -1536,7 +1549,7 @@ function PrivacyPage() {
 
       <section id="analytics">
         <h2>5. Visitor data, cookies and external services</h2>
-        <p>The archive does not create user accounts, run advertising, store information in browser storage or set cookies.</p>
+        <p>The archive does not create user accounts, run advertising or set cookies. If a visitor chooses light or dark mode, that appearance preference alone is saved in the browser&apos;s local storage; it contains no identifier and is not used for analytics.</p>
         <p>The operator uses <a href="https://developers.cloudflare.com/web-analytics/about/" target="_blank" rel="noreferrer">Cloudflare Web Analytics</a> to count aggregate visits and page views and measure real-user performance, including Core Web Vitals. The service is cookie-free and does not use local storage. Cloudflare states that Web Analytics does not collect or use visitors&apos; personal data or track individual visitors across its customers&apos; sites. The resulting aggregate reports are used only to understand readership and improve site performance, navigation and content.</p>
         <p>The hosting service may process ordinary technical data—such as IP address, device and browser information, requested URL, timestamps and security events—and may use strictly necessary security technology to deliver and protect the site.</p>
       </section>
@@ -1565,6 +1578,37 @@ function NotFoundPage() {
   return <EmptyState title="Record not found">Return to the <a href="/">report home</a> or use <a href="/search">search</a>.</EmptyState>;
 }
 
+function ThemeToggle() {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const update = () => {
+      const saved = localStorage.getItem("ioai-theme");
+      const resolved = saved === "light" || saved === "dark" ? saved : media.matches ? "dark" : "light";
+      document.documentElement.dataset.theme = resolved;
+      setTheme(resolved);
+    };
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  const toggle = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem("ioai-theme", next);
+    setTheme(next);
+  };
+
+  return (
+    <button className="theme-toggle" type="button" onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}>
+      <svg className="theme-icon sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
+      <svg className="theme-icon moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z"/></svg>
+    </button>
+  );
+}
+
 function SiteHeader({ pathname }: { pathname: string }) {
   const nav = [
     ["/olympiads", "Olympiads"],
@@ -1577,9 +1621,10 @@ function SiteHeader({ pathname }: { pathname: string }) {
     <header className="site-header">
       <div className="brand-row shell">
         <a className="brand" href="/" aria-label="IOAI Statistics home">
-          <img className="brand-mark" src="/ioai-statistics-logo.png" width="34" height="34" alt="" aria-hidden="true" />
+          <span className="brand-marks"><img className="brand-mark brand-mark-light" src="/ioai-statistics-logo.png" width="34" height="34" alt="" aria-hidden="true" /><img className="brand-mark brand-mark-dark" src="/ioai-statistics-logo-dark.png" width="34" height="34" alt="" aria-hidden="true" /></span>
           <span className="brand-copy">IOAI Statistics</span>
         </a>
+        <ThemeToggle />
       </div>
       <div className="nav-border">
         <nav className="top-nav shell" aria-label="Primary navigation">

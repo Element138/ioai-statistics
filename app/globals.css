@@ -31,6 +31,7 @@
 }
 
 :root {
+  color-scheme: light;
   --ink: #111b2e;
   --muted: #657087;
   --line: #dce2ea;
@@ -45,6 +46,32 @@
   --gold: #9a6b00;
   --silver: #58667b;
   --bronze: #955633;
+  --surface: #ffffff;
+  --table-head: #eef1f5;
+  --table-stripe: #fbfcfd;
+  --table-hover: #f1f5fc;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #edf3fc;
+  --muted: #a5b2c7;
+  --line: #2b3950;
+  --line-strong: #43536b;
+  --paper: #0d1420;
+  --soft: #151f2e;
+  --blue-soft: #17294a;
+  --blue: #78a9ff;
+  --blue-dark: #a9c8ff;
+  --cyan: #4ed1e2;
+  --green: #65c89d;
+  --gold: #e5bd55;
+  --silver: #bcc7d7;
+  --bronze: #dda17f;
+  --surface: #111a28;
+  --table-head: #1a2637;
+  --table-stripe: #121d2b;
+  --table-hover: #1b2b41;
 }
 
 * {
@@ -291,7 +318,7 @@ h3 {
   height: 21px;
   display: block;
   border: 0;
-  background: white;
+  background: var(--surface);
   box-shadow: 0 2px 7px rgba(18, 30, 50, 0.16);
   transition: transform 140ms ease, box-shadow 140ms ease;
 }
@@ -358,6 +385,40 @@ h3 {
 .flag-ring-track:has(.flag-ring-link:focus-visible) .flag-ring-link {
   animation-play-state: paused;
 }
+
+.brand-marks {
+  width: 38px;
+  height: 38px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.brand-marks .brand-mark { position: absolute; inset: 0; }
+.brand-mark-dark { display: none; }
+:root[data-theme="dark"] .brand-mark-light { display: none; }
+:root[data-theme="dark"] .brand-mark-dark { display: block; }
+
+.theme-toggle {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+}
+
+.theme-toggle:hover { border-color: var(--blue); background: var(--blue-soft); }
+.theme-toggle:active { transform: scale(0.94); }
+.theme-icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.theme-icon.moon { display: none; fill: currentColor; stroke: none; }
+:root[data-theme="dark"] .theme-icon.sun { display: none; }
+:root[data-theme="dark"] .theme-icon.moon { display: block; }
 
 @keyframes flag-ring-spin {
   from { transform: rotate(var(--ring-start-angle)); }
@@ -533,7 +594,7 @@ h3 {
   min-height: 20px;
   padding: 2px 7px;
   border: 1px solid var(--line-strong);
-  background: white;
+  background: var(--surface);
   color: #58647a;
   font-size: 0.68rem;
   font-weight: 600;
@@ -597,7 +658,7 @@ h3 {
 .search-panel input {
   min-width: 0;
   border: 1px solid var(--line-strong);
-  background: white;
+  background: var(--surface);
   font-size: 0.9rem;
 }
 
@@ -638,7 +699,7 @@ h3 {
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--line-strong);
-  background: white;
+  background: var(--surface);
 }
 
 .data-table {
@@ -667,7 +728,10 @@ h3 {
 
 .data-table td.grouped-year {
   vertical-align: middle;
+  background: var(--surface);
 }
+
+.data-table tbody tr:hover td.grouped-year { background: var(--surface); }
 
 .data-table tbody tr:last-child td {
   border-bottom: 0;
@@ -677,7 +741,7 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 1;
-  background: #eef1f5;
+  background: var(--table-head);
   color: #435069;
   font-size: 0.75rem;
   font-weight: 700;
@@ -686,11 +750,11 @@ h3 {
 }
 
 .data-table tbody tr:nth-child(even) {
-  background: #fbfcfd;
+  background: var(--table-stripe);
 }
 
 .data-table tbody tr:hover {
-  background: #f1f5fc;
+  background: var(--table-hover);
 }
 
 .data-table .number {
@@ -1090,7 +1154,7 @@ h3 {
   display: flex;
   align-items: center;
   border: 1px solid var(--line-strong);
-  background: white;
+  background: transparent;
 }
 
 .toolbar-row > .compact-filter {
@@ -2124,6 +2188,71 @@ h3 {
   }
 }
 
+/* Dark theme keeps hierarchy and award semantics while reducing glare. */
+:root[data-theme="dark"] .top-nav a { color: #b3bfd1; }
+:root[data-theme="dark"] .top-nav a:hover,
+:root[data-theme="dark"] .top-nav a.active { color: var(--ink); }
+:root[data-theme="dark"] .notice { color: #c0cbe0; }
+:root[data-theme="dark"] .gaite-notice { background: #122b24; }
+:root[data-theme="dark"] .team-notice { background: #251d38; }
+:root[data-theme="dark"] .status { color: #b8c4d7; }
+:root[data-theme="dark"] .data-table thead th { color: #bdc9da; }
+:root[data-theme="dark"] .data-table .rank,
+:root[data-theme="dark"] .data-table .score { color: #b3bfd1; }
+:root[data-theme="dark"] .flag-image {
+  border-color: #526078;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 8%);
+}
+:root[data-theme="dark"] .flag-ring-link .flag-image { box-shadow: 0 2px 8px rgb(0 0 0 / 45%); }
+:root[data-theme="dark"] .award.gold,
+:root[data-theme="dark"] .gold-col,
+:root[data-theme="dark"] .gold-count,
+:root[data-theme="dark"] .achievement-badge.top-solver { border-color: #9f7f31; background: #332b17; color: #efd076; }
+:root[data-theme="dark"] .award.silver,
+:root[data-theme="dark"] .silver-col,
+:root[data-theme="dark"] .silver-count { border-color: #66748a; background: #252e3c; color: #d0d9e7; }
+:root[data-theme="dark"] .award.bronze,
+:root[data-theme="dark"] .bronze-col,
+:root[data-theme="dark"] .bronze-count { border-color: #895c43; background: #34241d; color: #e6ae8e; }
+:root[data-theme="dark"] .award.mention { border-color: #778398; color: #d1d9e6; }
+:root[data-theme="dark"] .award.gaite-level-1,
+:root[data-theme="dark"] .gaite-level-1-col,
+:root[data-theme="dark"] .gaite-level-1-count { border-color: #388866; background: #163328; color: #9de0bf; }
+:root[data-theme="dark"] .award.gaite-level-2,
+:root[data-theme="dark"] .gaite-level-2-col,
+:root[data-theme="dark"] .gaite-level-2-count { border-color: #477b65; background: #1a2d27; color: #99ccb4; }
+:root[data-theme="dark"] .award.gaite-level-3,
+:root[data-theme="dark"] .gaite-level-3-col,
+:root[data-theme="dark"] .gaite-level-3-count { border-color: #496c5c; background: #1c2925; color: #a7c8b9; }
+:root[data-theme="dark"] .track-badge.main,
+:root[data-theme="dark"] .achievement-badge.delegation-first { border-color: #4f6f9e; background: #192b47; color: #a9c9ff; }
+:root[data-theme="dark"] .track-badge.gaite { border-color: #467f6a; background: #172f27; color: #96d6ba; }
+:root[data-theme="dark"] .track-badge.team { border-color: #69578a; background: #29213a; color: #c7b0ed; }
+:root[data-theme="dark"] .difficulty-grid,
+:root[data-theme="dark"] .distribution-card,
+:root[data-theme="dark"] .policy-references { background: var(--surface); box-shadow: 0 12px 30px rgb(0 0 0 / 35%); }
+:root[data-theme="dark"] .difficulty.basic { border-color: #4f8066; background: #183026; color: #a2d7ba; }
+:root[data-theme="dark"] .difficulty.bronze { border-color: #895c43; background: #34241d; color: #e6ae8e; }
+:root[data-theme="dark"] .difficulty.silver { border-color: #66748a; background: #252e3c; color: #d0d9e7; }
+:root[data-theme="dark"] .difficulty.gold { border-color: #9f7f31; background: #332b17; color: #efd076; }
+:root[data-theme="dark"] .difficulty.gold-plus { border-color: #ba9131; background: #443719; color: #ffe08a; }
+:root[data-theme="dark"] .difficulty.extreme { border-color: #9e4b70; background: #3c1d2c; color: #f3a9c7; }
+:root[data-theme="dark"] .country-rank-block { border-color: #506683; background: #172437; }
+:root[data-theme="dark"] .country-rank-block.gaite { border-color: #477761; background: #172c25; }
+:root[data-theme="dark"] .total-row { background: #1a2a40 !important; }
+:root[data-theme="dark"] .policy-summary p,
+:root[data-theme="dark"] .policy-page section p,
+:root[data-theme="dark"] .policy-references p { color: #bdc8d9; }
+:root[data-theme="dark"] .empty-state { background: var(--surface); }
+:root[data-theme="dark"] .button-link,
+:root[data-theme="dark"] .inline-search button { border-color: #5d8ee0; background: #356dcc; color: #ffffff; }
+:root[data-theme="dark"] .button-link:hover,
+:root[data-theme="dark"] .inline-search button:hover { background: #467fdf; color: #ffffff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle { transition: none; }
+}
+
 .footer-grid p {
   margin-bottom: 4px;
 }
@@ -2213,6 +2342,8 @@ h3 {
     width: 42px;
     height: 42px;
   }
+
+  .brand-marks { width: 42px; height: 42px; }
 
   .brand-copy {
     max-width: 55vw;

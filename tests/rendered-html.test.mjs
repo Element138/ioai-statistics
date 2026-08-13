@@ -334,6 +334,7 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   assert.doesNotMatch(entriesHeader, />Country or region<\/th>/);
   assert.match(entriesHeader, /title="Task 1 score">T(?:<!-- -->)?1<\/th>/);
   assert.match(entriesTable, /class="number grouped-year" rowSpan="\d+"/);
+  assert.match(individualHtml, /id="country-entries-filter"[^>]*type="search"/);
 
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
   assert.match(gaiteHtml, /rank-block country-rank-block gaite/);
@@ -396,6 +397,7 @@ test("adds compact contextual filters and bounded leaderboard score precision", 
   assert.doesNotMatch(results, />Full score(?:<!-- -->)? <strong>/);
 
   const task = await (await render("/tasks/radar")).text();
+  assert.match(task, /id="task-leaderboard-filter"[^>]*type="search"/);
   assert.match(task, /<th class="number">Overall rank<\/th>/);
   assert.match(task, /<td class="number">#(?:<!-- -->)?\d+<\/td>/);
   assert.doesNotMatch(task, /<td class="number">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?\d+<\/td>/);
@@ -469,6 +471,8 @@ test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   assert.match(privacy, /count aggregate visits and page views and measure real-user performance/);
   assert.match(privacy, /Core Web Vitals/);
   assert.match(privacy, /cookie-free and does not use local storage/);
+  assert.match(privacy, /appearance preference alone is saved in the browser(?:&#x27;|')s local storage/);
+  assert.match(privacy, /contains no identifier and is not used for analytics/);
   assert.match(privacy, /does not collect or use visitors(?:&#x27;|') personal data or track individual visitors/);
   assert.doesNotMatch(privacy, /Google Analytics|Google Signals|Analytics settings/);
   assert.doesNotMatch(privacy, /ChatGPT Sites|Sites Data Processing Addendum|Google Search Console|FlagCDN|flagcdn\.com/);
@@ -489,7 +493,9 @@ test("loads the supplied Cloudflare beacon without a consent prompt or browser s
   assert.match(layout, /type="module"/);
   assert.match(layout, /static\.cloudflareinsights\.com\/beacon\.min\.js/);
   assert.match(layout, /data-cf-beacon='\{"token":"599c2f8ba8b64ef48a2c38f3637f93d5"\}'/);
-  assert.doesNotMatch(layout + app + page, /Google Analytics|G-CFGLEYBWXG|AnalyticsConsent|localStorage/);
+  assert.doesNotMatch(layout + app + page, /Google Analytics|G-CFGLEYBWXG|AnalyticsConsent/);
+  assert.match(layout, /localStorage\.getItem\('ioai-theme'\)/);
+  assert.doesNotMatch(layout, /localStorage\.(?:getItem|setItem)\(['"](?!ioai-theme)/);
   assert.doesNotMatch(packageJson, /"web-vitals"/);
   await assert.rejects(access(new URL("../app/components/AnalyticsConsent.tsx", import.meta.url)));
 });
@@ -538,4 +544,21 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
   assert.doesNotMatch(sitemap, /\/contestants\//);
   assert.doesNotMatch(sitemap, /<priority>|<changefreq>/);
+});
+
+test("ships accessible system-aware dark mode and normalized unordered search", async () => {
+  const [layout, app, css] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(layout, /prefers-color-scheme:dark/);
+  assert.match(app, /className="theme-toggle"/);
+  assert.match(app, /aria-label=\{`Switch to \$\{theme === "dark" \? "light" : "dark"\} mode`\}/);
+  assert.match(app, /ioai-statistics-logo-dark\.png/);
+  assert.match(app, /normalize\("NFD"\)/);
+  assert.match(app, /terms\.every\(\(term\) => haystack\.includes\(term\)\)/);
+  assert.match(app, /replace\(\/\[łŁ\]\/g, "l"\)/);
+  assert.match(css, /:root\[data-theme="dark"\]/);
+  assert.match(css, /\.data-table tbody tr:hover td\.grouped-year \{ background: var\(--surface\); \}/);
 });
