@@ -198,7 +198,6 @@ export function pageSeoForPath(parts: string[]): PageSeo {
 
   if (parts.length === 2 && parts[0] === "countries") {
     const country = [...new Set(RESULTS.map((result) => result.country))]
-      .filter((item) => item !== "IOAI Team")
       .find((item) => slugify(item) === parts[1]);
     if (!country) return unknownPage(parts);
     const ranks = [
@@ -208,7 +207,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     return {
       canonicalPath: `/countries/${parts[1]}`,
       description: `${country}'s IOAI participation, results and awards.${ranks ? ` All-time national rank: ${ranks}.` : ""}`,
-      indexable: true,
+      indexable: country !== "IOAI Team",
       title: country,
     };
   }

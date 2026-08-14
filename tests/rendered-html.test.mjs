@@ -380,6 +380,9 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   assert.doesNotMatch(allTime, />IOAI Team<\/a>/);
 
   const ioaiTeam = await (await render("/countries/ioai-team")).text();
+  assert.match(ioaiTeam, /<title>IOAI Team · IOAI Statistics<\/title>/);
+  assert.match(ioaiTeam, /<meta property="og:title" content="IOAI Team"\/>/);
+  assert.match(ioaiTeam, /<meta name="robots" content="noindex, follow"\/>/);
   assert.match(ioaiTeam, /<span>ALL-TIME<\/span><strong>#(?:<!-- -->)?—<small>\/(?:<!-- -->)?\d+<\/small><\/strong>/);
   assert.match(ioaiTeam, />Results<\/h2>/);
 
