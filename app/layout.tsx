@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import "@fontsource-variable/source-sans-3";
 import "./globals.css";
 
 const origin = "https://ioai-statistics.org";
