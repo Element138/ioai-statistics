@@ -63,7 +63,11 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   }
   for (const entries of identities.values()) {
     entries.sort((a, b) => a.year - b.year || a.rank - b.rank);
-    const expectedSlug = entries[0].contestantId === "contestant-martin-zhang" ? "martin-haoxuan-zhang" : canonicalSlug(entries.at(-1).name);
+    const expectedSlug = entries[0].contestantId === "contestant-martin-zhang"
+      ? "martin-haoxuan-zhang"
+      : entries[0].contestantId === "contestant-vince-ungar"
+        ? "vince-ungar"
+        : canonicalSlug(entries.at(-1).name);
     assert.equal(entries.at(-1).slug, expectedSlug, entries.at(-1).name);
     assert.equal(new Set(entries.map((entry) => entry.slug)).size, 1, entries[0].contestantId);
   }
@@ -96,6 +100,11 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
       permanent: true,
     });
   }
+  assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/ungar-vince"), {
+    source: "/contestants/ungar-vince",
+    destination: "/contestants/vince-ungar",
+    permanent: true,
+  });
 
   for (const slug of new Set(results.map((result) => result.slug))) await access(new URL(`../out/contestants/${slug}.html`, import.meta.url));
   for (const oldSlug of [...config.redirects.map((redirect) => redirect.source.split("/").at(-1)), "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
@@ -114,6 +123,13 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   assert.doesNotMatch(hall, /Anango Prabhat(?:<!-- -->)? \/ (?:<!-- -->)?Anango Dev Prabhat/);
   const martin = await (await render("/contestants/martin-haoxuan-zhang")).text();
   assert.match(martin, /<h1>Martin Haoxuan Zhang<\/h1>/);
+  const vince = await (await render("/contestants/vince-ungar")).text();
+  assert.match(vince, /<h1>Vince Ungár<\/h1>/);
+  const vinceSearch = await (await render("/search")).text();
+  assert.doesNotMatch(vinceSearch, /Ungár Vince/);
+  const vinceHall = await (await render("/hall-of-fame")).text();
+  assert.match(vinceHall, /href="\/contestants\/vince-ungar">Vince Ungár<\/a>/);
+  assert.doesNotMatch(vinceHall, /Ungár Vince/);
   for (const names of [["César Murat Cepeda Beltrán", "Cesar Murat Cepeda Beltran"], ["Alier Sánchez Y Sánchez", "Alier Sanchez y Sanchez"], ["M’PO YETI Déreck", "M'Po Yeti Déreck"]]) {
     const matching = results.filter((result) => names.includes(result.name));
     assert.equal(matching.length, 2);

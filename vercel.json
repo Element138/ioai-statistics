@@ -27,7 +27,7 @@
     { "source": "/contestants/simon-persson-holm", "destination": "/contestants/simon-harry-kasper-persson-holm", "permanent": true },
     { "source": "/contestants/teo-lovmar", "destination": "/contestants/karl-teo-lovmar", "permanent": true },
     { "source": "/contestants/vershinin-mikhail", "destination": "/contestants/mikhail-vershinin", "permanent": true },
-    { "source": "/contestants/vince-ungar", "destination": "/contestants/ungar-vince", "permanent": true },
+    { "source": "/contestants/ungar-vince", "destination": "/contestants/vince-ungar", "permanent": true },
     { "source": "/contestants/vincent-yingxi-chen", "destination": "/contestants/chen-vincent-yingxi", "permanent": true },
     { "source": "/contestants/amin-ben-ameur", "destination": "/contestants/amine-ben-ameur", "permanent": true },
     { "source": "/contestants/mamoun-ben-ameur", "destination": "/contestants/maamoune-ben-ameur", "permanent": true },

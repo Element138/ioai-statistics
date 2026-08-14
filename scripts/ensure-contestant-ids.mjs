@@ -29,7 +29,7 @@ const identityGroups = [
   ["contestant-simon-persson-holm", "simon-harry-kasper-persson-holm", ["Simon Persson Holm", "Simon Harry Kasper Persson Holm"]],
   ["contestant-teo-lovmar", "karl-teo-lovmar", ["Teo Lovmar", "Karl Teo Lovmar"]],
   ["contestant-vershinin-mikhail", "mikhail-vershinin", ["Vershinin Mikhail", "Mikhail Vershinin"]],
-  ["contestant-vince-ungar", "ungar-vince", ["Vince Ungár", "Ungár Vince"]],
+  ["contestant-vince-ungar", "vince-ungar", ["Vince Ungár", "Ungár Vince"]],
   ["contestant-vincent-yingxi-chen", "chen-vincent-yingxi", ["Vincent Yingxi Chen", "Chen Vincent Yingxi"]],
   ["contestant-amin-ben-ameur", "amine-ben-ameur", ["Amin Ben Ameur", "Amine Ben Ameur"]],
   ["contestant-mamoun-ben-ameur", "maamoune-ben-ameur", ["Mamoun Ben Ameur", "Maamoune Ben Ameur"]],

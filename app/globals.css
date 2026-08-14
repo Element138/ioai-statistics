@@ -904,11 +904,11 @@ h3 {
 }
 
 .medal-row.gold-row td:first-child {
-  box-shadow: inset 6px 0 #c99712;
+  box-shadow: inset 5.4px 0 #c99712;
 }
 
 .medal-row.silver-row td:first-child {
-  box-shadow: inset 5px 0 #7e8da2;
+  box-shadow: inset 4.8px 0 #7e8da2;
 }
 
 .medal-row.bronze-row td:first-child {

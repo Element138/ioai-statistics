@@ -359,6 +359,7 @@ type ContestantIdentity = {
 const CONTESTANT_IDENTITIES = new Map<string, ContestantIdentity>();
 const CONTESTANT_CANONICAL_OVERRIDES = new Map([
   ["contestant-martin-zhang", { name: "Martin Haoxuan Zhang", slug: "martin-haoxuan-zhang" }],
+  ["contestant-vince-ungar", { name: "Vince Ungár", slug: "vince-ungar" }],
 ]);
 for (const result of [...allResults("main"), ...allResults("gaite")].sort((a, b) => a.year - b.year || a.rank - b.rank)) {
   const identity = CONTESTANT_IDENTITIES.get(result.contestantId) ?? { contestantId: result.contestantId, slug: result.slug, name: result.name, aliases: [] };
