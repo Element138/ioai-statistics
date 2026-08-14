@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import "@fontsource-variable/ibm-plex-sans";
 import "./globals.css";
 
 const origin = "https://ioai-statistics.org";

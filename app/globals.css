@@ -108,7 +108,7 @@ html {
   min-width: 320px;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "IBM Plex Sans Variable", sans-serif;
   font-size: 16px;
 }
 
@@ -117,8 +117,9 @@ body {
   min-height: 100vh;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Space Grotesk", sans-serif;
-  line-height: 1.45;
+  font-family: "IBM Plex Sans Variable", sans-serif;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -160,7 +161,7 @@ h1 {
   margin-bottom: 8px;
   font-size: clamp(2rem, 4vw, 3.35rem);
   font-weight: 650;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.035em;
   line-height: 1.02;
 }
 
@@ -168,7 +169,7 @@ h2 {
   margin-bottom: 0;
   font-size: 1.08rem;
   font-weight: 650;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.005em;
 }
 
 h3 {
