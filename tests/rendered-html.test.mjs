@@ -86,7 +86,7 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.equal(config.redirects.length, 30);
+  assert.equal(config.redirects.length, 33);
   assert.ok(config.redirects.every((redirect) => redirect.permanent));
   assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/anango-prabhat"), {
     source: "/contestants/anango-prabhat",
@@ -105,6 +105,13 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
     destination: "/contestants/vince-ungar",
     permanent: true,
   });
+  for (const [source, destination] of [
+    ["/contestants/khairakov-murodjon", "/contestants/murodjon-khairakov"],
+    ["/contestants/kandikov-sinan", "/contestants/sinan-kandikov"],
+    ["/contestants/haitova-farangis", "/contestants/farangis-haitova"],
+  ]) {
+    assert.deepEqual(config.redirects.find((redirect) => redirect.source === source), { source, destination, permanent: true });
+  }
 
   for (const slug of new Set(results.map((result) => result.slug))) await access(new URL(`../out/contestants/${slug}.html`, import.meta.url));
   for (const oldSlug of [...config.redirects.map((redirect) => redirect.source.split("/").at(-1)), "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
@@ -130,6 +137,14 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   const vinceHall = await (await render("/hall-of-fame")).text();
   assert.match(vinceHall, /href="\/contestants\/vince-ungar">Vince Ungár<\/a>/);
   assert.doesNotMatch(vinceHall, /Ungár Vince/);
+  for (const [slug, name] of [
+    ["murodjon-khairakov", "Murodjon Khairakov"],
+    ["sinan-kandikov", "Sinan Kandikov"],
+    ["farangis-haitova", "Farangis Haitova"],
+  ]) {
+    const contestant = await (await render(`/contestants/${slug}`)).text();
+    assert.match(contestant, new RegExp(`<h1>${name}<\\/h1>`));
+  }
   for (const names of [["César Murat Cepeda Beltrán", "Cesar Murat Cepeda Beltran"], ["Alier Sánchez Y Sánchez", "Alier Sanchez y Sanchez"], ["M’PO YETI Déreck", "M'Po Yeti Déreck"]]) {
     const matching = results.filter((result) => names.includes(result.name));
     assert.equal(matching.length, 2);
