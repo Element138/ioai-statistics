@@ -108,7 +108,7 @@ html {
   min-width: 320px;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
   font-size: 16px;
 }
 
@@ -117,8 +117,9 @@ body {
   min-height: 100vh;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Space Grotesk", sans-serif;
-  line-height: 1.45;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-feature-settings: "tnum" 1;
+  line-height: 1.48;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -160,7 +161,7 @@ h1 {
   margin-bottom: 8px;
   font-size: clamp(2rem, 4vw, 3.35rem);
   font-weight: 650;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.045em;
   line-height: 1.02;
 }
 
