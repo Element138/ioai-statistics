@@ -490,6 +490,7 @@ test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   assert.match(privacy, /appearance preference alone is saved in the browser(?:&#x27;|')s local storage/);
   assert.match(privacy, /contains no identifier and is not used for analytics/);
   assert.match(privacy, /does not collect or use visitors(?:&#x27;|') personal data or track individual visitors/);
+  assert.doesNotMatch(privacy, /If another mandatory law applies|Non-identifying statistics may be retained indefinitely/);
   assert.doesNotMatch(privacy, /Google Analytics|Google Signals|Analytics settings/);
   assert.doesNotMatch(privacy, /ChatGPT Sites|Sites Data Processing Addendum|Google Search Console|FlagCDN|flagcdn\.com/);
 

@@ -1337,7 +1337,7 @@ function TasksPage({ track, setTrack }: { track: TaskTrack; setTrack: (track: Ta
   const tasks = DATA.tasks.filter((task) => taskTracks(task).includes(track) && (!normalized || matchesSearch(`${task.name} ${task.category} ${task.year}`, normalized))).sort((a, b) => b.year - a.year || a.day - b.day || (a.order ?? 0) - (b.order ?? 0));
   return (
     <>
-      <div className="page-heading"><p className="eyebrow">Official task archive</p><h1>Tasks</h1></div>
+      <div className="page-heading"><p className="eyebrow">Historical task records</p><h1>Tasks</h1></div>
       <div className="toolbar-row"><TaskTabs value={track} onChange={setTrack} /><CompactFilter id="tasks-filter" value={query} onChange={setQuery} placeholder="Filter tasks" label="Filter tasks" count={tasks.length} /></div>
       <TaskTable tasks={tasks} />
     </>
@@ -1525,7 +1525,7 @@ function PrivacyPage() {
       <section>
         <h2>1. Operator, scope and applicable law</h2>
         <p>IOAI Statistics is personally operated by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>, an IOAI 2026 alumnus residing in Japan. The archive is unofficial and independent of IOAI and its organizers.</p>
-        <p>The site is operated from Japan and handles personal information in accordance with Japan&apos;s Act on the Protection of Personal Information (APPI) where applicable. It is available worldwide but is not directed at users in any particular country or region. If another mandatory law applies to particular processing, that law will be considered for that processing.</p>
+        <p>The site is operated from Japan and handles personal information in accordance with Japan&apos;s Act on the Protection of Personal Information (APPI) where applicable. It is available worldwide but is not directed at users in any particular country or region.</p>
       </section>
 
       <section>
@@ -1538,7 +1538,7 @@ function PrivacyPage() {
       <section>
         <h2>3. Publication, accuracy and retention of archive records</h2>
         <p>The archive is published on the open web. Its pages may be viewed, indexed, quoted or copied by people and services anywhere in the world. Removing information here does not remove it from an official source, a search-engine cache or an independent copy outside the operator&apos;s control. Archive data is not sold, used for advertising or supplied to data brokers.</p>
-        <p>Identifying archive records are retained while they remain relevant to the site&apos;s reporting, educational and historical purposes. Non-identifying statistics may be retained indefinitely. The operator reviews a record when an official source changes or a credible error or privacy concern is reported. Corrections to official results will normally be reflected here; a well-supported correction may be noted while an official correction is pending.</p>
+        <p>Identifying archive records are retained while they remain relevant to the site&apos;s reporting, educational and historical purposes. The operator reviews a record when an official source changes or a credible error or privacy concern is reported. Corrections to official results will normally be reflected here; a well-supported correction may be noted while an official correction is pending.</p>
         <p>A person concerned, or their authorized representative, may report an accuracy or privacy concern using the corrections contact in the footer. The operator considers correction, anonymization, suppression and removal individually in light of accuracy, public interest, the circumstances of the person and applicable law. Replacing a name with &quot;Anonymized&quot; may not prevent re-identification from an unchanged official source or a distinctive combination of year, country and result.</p>
       </section>
 
