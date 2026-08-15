@@ -398,7 +398,7 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   assert.match(ioaiTeam, /<title>IOAI Team · IOAI Statistics<\/title>/);
   assert.match(ioaiTeam, /<meta property="og:title" content="IOAI Team"\/>/);
   assert.match(ioaiTeam, /<meta name="robots" content="noindex, follow"\/>/);
-  assert.match(ioaiTeam, /<span>UNRANKED<\/span><strong>—<\/strong>/);
+  assert.match(ioaiTeam, /<span>UNRANKED<\/span><strong>#—<\/strong>/);
   assert.match(ioaiTeam, />Results<\/h2>/);
 
   const unranked2024 = await (await render("/olympiads/2024/delegations")).text();
@@ -415,16 +415,20 @@ test("publishes 2024 team records without changing individual national rankings"
   const results2024 = await (await render("/olympiads/2024/results")).text();
   assert.match(results2024, /href="\/countries\/letovo"[^>]*>Letovo<\/a>/);
   assert.match(results2024, /<td class="number rank">—<\/td>/);
+  assert.doesNotMatch(results2024, /rowSpan="2"><a class="country-link" href="\/countries\/australia"/);
   assert.match(results2024, /Individual \+ 2024 Scientific|dedicated combined Hall of Fame view/);
   assert.doesNotMatch(results2024, /These records never feed the Hall of Fame/);
 
   const delegations2024 = await (await render("/olympiads/2024/delegations")).text();
   assert.match(delegations2024, /rowSpan="2"><a class="country-link" href="\/countries\/australia"/);
-  assert.match(delegations2024, /href="\/contestants\/vince-ungar">Vince Ungár<\/a>/);
+  assert.match(delegations2024, /href="\/contestants\/vince-ungar">Ungár Vince<\/a>/);
 
   const letovo = await (await render("/countries/letovo")).text();
   assert.match(letovo, /<title>Letovo · IOAI Statistics<\/title>/);
-  assert.match(letovo, /<span>TEAM<br\/>ONLY<\/span><strong>—<\/strong>/);
+  assert.match(letovo, /<span>TEAM<br\/>ONLY<\/span><strong>#—<\/strong>/);
+  assert.match(letovo, /#1 \/ 41/);
+  assert.match(letovo, /#10 \/ 41/);
+  assert.match(letovo, /rowSpan="4">2024<\/td><td rowSpan="4">Letovo<\/td>/);
   assert.match(letovo, /<span class="track-badge team">Team<\/span>/);
   assert.match(letovo, /href="\/contestants\/andrey-gromyko">Andrey Gromyko<\/a>/);
   assert.doesNotMatch(letovo, /flagcdn\.com/);
@@ -438,6 +442,8 @@ test("publishes 2024 team records without changing individual national rankings"
 
   const hall = await (await render("/hall-of-fame")).text();
   assert.match(hall, />Individual \+ 2024 Scientific<\/button>/);
+  assert.equal((hall.match(/class="hall-pagination"/g) || []).length, 2);
+  assert.ok((hall.match(/<tr/g) || []).length < 120);
 
   const countries = await (await render("/countries")).text();
   assert.doesNotMatch(countries, />Team<\/button>/);

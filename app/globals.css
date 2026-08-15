@@ -1349,6 +1349,46 @@ h3 {
   border: 1px solid var(--line-strong);
 }
 
+.hall-pagination {
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.hall-pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.hall-pagination button {
+  min-width: 31px;
+  min-height: 31px;
+  padding: 5px 8px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--blue-dark);
+  cursor: pointer;
+  font: inherit;
+}
+
+.hall-pagination button:hover:not(:disabled),
+.hall-pagination button.active {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.hall-pagination button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
 .metric-strip.team-only {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1670,6 +1710,8 @@ h3 {
   padding: 12px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
   gap: 8px 14px;
   border: 1px solid var(--line-strong);
   background: #fff;
@@ -2533,6 +2575,8 @@ h3 {
     max-height: 70vh;
     overflow: auto;
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-flow: row;
   }
 
   .difficulty-grid.difficulty-legend-popover {
@@ -2549,6 +2593,15 @@ h3 {
 
   .hall-table td:nth-child(5) > a {
     font-size: 0.84rem;
+  }
+
+  .hall-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hall-pagination-controls {
+    justify-content: flex-start;
   }
 
   .task-commentary-list {

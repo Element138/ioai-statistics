@@ -49,8 +49,9 @@ function mongeElkan(left, right) {
 const resultSets = [data.mainResults2025, data.gaiteResults2025, data.mainResults2026, data.gaiteResults2026];
 const identities = new Map();
 for (const result of resultSets.flat()) {
-  const identity = identities.get(result.contestantId) ?? { contestantId: result.contestantId, country: result.country, aliases: [] };
+  const identity = identities.get(result.contestantId) ?? { contestantId: result.contestantId, countries: [], aliases: [] };
   if (!identity.aliases.includes(result.name)) identity.aliases.push(result.name);
+  if (!identity.countries.includes(result.country)) identity.countries.push(result.country);
   identities.set(result.contestantId, identity);
 }
 for (const [contestantId, canonicalName] of Object.entries({
@@ -61,24 +62,43 @@ for (const [contestantId, canonicalName] of Object.entries({
   if (identity && !identity.aliases.includes(canonicalName)) identity.aliases.push(canonicalName);
 }
 
-const roster = data.teams2024.flatMap((team) => team.students.map((name) => ({ name, team: team.name })));
-const pairs = roster.map((student) => [...identities.values()].map((identity) => {
-  const candidates = identity.aliases.map((alias) => ({ alias, score: mongeElkan(student.name, alias) }));
-  const best = candidates.sort((a, b) => b.score - a.score)[0];
-  return { ...student, ...identity, matchedAlias: best.alias, score: best.score };
-}).sort((a, b) => b.score - a.score)[0]);
+const teamAliases = {
+  "USA 1": "United States 1",
+  "USA 2": "United States 2",
+  UAE: "United Arab Emirates",
+  Macau: "Macao, China",
+  "Hong Kong": "Hong Kong, China",
+};
+const countryFromTeam = (team) => (teamAliases[team] || team).replace(/\s+[12]$/, "");
+const matchingCountryFromTeam = (team) => countryFromTeam(team) === "Letovo" ? "Russia" : countryFromTeam(team);
+const tokenSignature = (value) => normalize(value).split(/\s+/).filter(Boolean).sort().join("|");
+const confirmedSignatures = new Set([...identities.values()].flatMap((identity) => identity.aliases.map(tokenSignature)));
+
+const roster = data.teams2024
+  .flatMap((team) => team.students.map((name) => ({ name, team: team.name, country: countryFromTeam(team.name), matchingCountry: matchingCountryFromTeam(team.name) })))
+  .filter((student) => !confirmedSignatures.has(tokenSignature(student.name)));
+const pairs = roster.flatMap((student) => {
+  const sameCountryIdentities = [...identities.values()].filter((identity) => identity.countries.includes(student.matchingCountry));
+  if (!sameCountryIdentities.length) return [];
+  return [sameCountryIdentities.map((identity) => {
+    const candidates = identity.aliases.map((alias) => ({ alias, score: mongeElkan(student.name, alias) }));
+    const best = candidates.sort((a, b) => b.score - a.score)[0];
+    return { ...student, ...identity, matchedAlias: best.alias, score: best.score };
+  }).sort((a, b) => b.score - a.score)[0]];
+});
 
 const top = pairs
   .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name) || a.matchedAlias.localeCompare(b.matchedAlias))
   .slice(0, Number(process.argv[2] || 50));
 
-console.log("rank\t2024 name\t2024 team\t2025-26 alias\t2025-26 country\tcontestant ID\tMonge-Elkan");
+console.log("rank\t2024 name\t2024 team\t2024 country\t2025-26 alias\t2025-26 country\tcontestant ID\tMonge-Elkan");
 top.forEach((pair, index) => console.log([
   index + 1,
   pair.name,
   pair.team,
-  pair.matchedAlias,
   pair.country,
+  pair.matchedAlias,
+  pair.countries.join(" / "),
   pair.contestantId,
   pair.score.toFixed(4),
 ].join("\t")));
