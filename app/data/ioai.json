@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-11",
+  "updated": "2026-08-16",
   "sources": [
     "https://ioai-official.org/",
     "https://ioai-official.org/china-2025/results-2025/",
@@ -6762,7 +6762,12 @@
     {
       "name": "Bulgaria 1",
       "leader": "Yoan Georgiev Salambashev",
-      "students": [],
+      "students": [
+        "Vanesa Angelova Kalinkova",
+        "Delyan Lyubomirov Boychev",
+        "Deyan Deyanov Hadzhi-Manich",
+        "Elitsa Emilova Basheva"
+      ],
       "observer": false
     },
     {

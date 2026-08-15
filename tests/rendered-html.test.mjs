@@ -348,7 +348,7 @@ test("shows the appropriate national ranking and caches country summaries", asyn
 
   const individualHtml = await (await render("/countries/japan")).text();
   assert.match(individualHtml, /rank-block country-rank-block main/);
-  assert.match(individualHtml, /<span>ALL-TIME<\/span><strong>#/);
+  assert.match(individualHtml, /<span>INDIVIDUAL<br\/>ALL-TIME<\/span><strong>#/);
   assert.doesNotMatch(individualHtml, /<span>Individual<\/span>/);
   assert.match(individualHtml, />Results<\/h2>/);
   assert.match(individualHtml, /<th class="number">National rank<\/th>/);
@@ -398,7 +398,7 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   assert.match(ioaiTeam, /<title>IOAI Team · IOAI Statistics<\/title>/);
   assert.match(ioaiTeam, /<meta property="og:title" content="IOAI Team"\/>/);
   assert.match(ioaiTeam, /<meta name="robots" content="noindex, follow"\/>/);
-  assert.match(ioaiTeam, /<span>ALL-TIME<\/span><strong>#(?:<!-- -->)?—<small>\/(?:<!-- -->)?\d+<\/small><\/strong>/);
+  assert.match(ioaiTeam, /<span>UNRANKED<\/span><strong>—<\/strong>/);
   assert.match(ioaiTeam, />Results<\/h2>/);
 
   const unranked2024 = await (await render("/olympiads/2024/delegations")).text();
@@ -406,6 +406,41 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   const unrankedHeader = unrankedTable.slice(0, unrankedTable.indexOf("</thead>"));
   assert.match(unranked2024, /id="delegations-filter"/);
   assert.doesNotMatch(unrankedHeader, />Rank<\/th>/);
+});
+
+test("publishes 2024 team records without changing individual national rankings", async () => {
+  const data = JSON.parse(await readFile(new URL("../app/data/ioai.json", import.meta.url), "utf8"));
+  assert.equal(data.teams2024.find((team) => team.name === "Bulgaria 1").students.length, 4);
+
+  const results2024 = await (await render("/olympiads/2024/results")).text();
+  assert.match(results2024, /href="\/countries\/letovo"[^>]*>Letovo<\/a>/);
+  assert.match(results2024, /<td class="number rank">—<\/td>/);
+  assert.match(results2024, /Individual \+ 2024 Scientific|dedicated combined Hall of Fame view/);
+  assert.doesNotMatch(results2024, /These records never feed the Hall of Fame/);
+
+  const delegations2024 = await (await render("/olympiads/2024/delegations")).text();
+  assert.match(delegations2024, /rowSpan="2"><a class="country-link" href="\/countries\/australia"/);
+  assert.match(delegations2024, /href="\/contestants\/vince-ungar">Vince Ungár<\/a>/);
+
+  const letovo = await (await render("/countries/letovo")).text();
+  assert.match(letovo, /<title>Letovo · IOAI Statistics<\/title>/);
+  assert.match(letovo, /<span>TEAM<br\/>ONLY<\/span><strong>—<\/strong>/);
+  assert.match(letovo, /<span class="track-badge team">Team<\/span>/);
+  assert.match(letovo, /href="\/contestants\/andrey-gromyko">Andrey Gromyko<\/a>/);
+  assert.doesNotMatch(letovo, /flagcdn\.com/);
+  assert.doesNotMatch(letovo, /Individual awards|GAITE awards/);
+
+  const vince = await (await render("/contestants/vince-ungar")).text();
+  assert.match(vince, /2024 Scientific (?:<!-- -->)?Silver/);
+  assert.match(vince, /Member of <strong>Hungary 1<\/strong>/);
+  assert.match(vince, /Scientific Silver/);
+  assert.match(vince, /Practical Silver/);
+
+  const hall = await (await render("/hall-of-fame")).text();
+  assert.match(hall, />Individual \+ 2024 Scientific<\/button>/);
+
+  const countries = await (await render("/countries")).text();
+  assert.doesNotMatch(countries, />Team<\/button>/);
 });
 
 test("adds compact contextual filters and bounded leaderboard score precision", async () => {

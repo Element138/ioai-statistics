@@ -31,6 +31,11 @@ type Result = {
   scores: number[];
 };
 
+type TeamCard = {
+  name: string;
+  students: string[];
+};
+
 type SeoData = {
   updated: string;
   editions: Edition[];
@@ -39,6 +44,7 @@ type SeoData = {
   gaiteResults2025: Result[];
   mainResults2026: Result[];
   gaiteResults2026: Result[];
+  teams2024: TeamCard[];
 };
 
 const DATA = rawData as SeoData;
@@ -135,6 +141,45 @@ for (const [contestantId, override] of CONTESTANT_CANONICAL_OVERRIDES) {
   if (identity) Object.assign(identity, override);
 }
 
+function normalizeName(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9\s]/g, " ");
+}
+
+function nameTokenSignature(value: string) {
+  return normalizeName(value).split(/\s+/).filter(Boolean).sort().join("|");
+}
+
+const identitiesBySignature = new Map<string, (typeof CONTESTANT_IDENTITIES extends Map<string, infer T> ? T : never)[]>();
+for (const identity of CONTESTANT_IDENTITIES.values()) {
+  for (const alias of identity.aliases) {
+    const signature = nameTokenSignature(alias);
+    const identities = identitiesBySignature.get(signature) ?? [];
+    if (!identities.includes(identity)) identities.push(identity);
+    identitiesBySignature.set(signature, identities);
+  }
+}
+for (const team of DATA.teams2024) {
+  for (const name of team.students) {
+    const matches = identitiesBySignature.get(nameTokenSignature(name)) ?? [];
+    if (matches.length === 1) {
+      if (!matches[0].aliases.includes(name)) matches[0].aliases.push(name);
+      continue;
+    }
+    const contestantId = `contestant-2024-${slugify(name)}`;
+    CONTESTANT_IDENTITIES.set(contestantId, { contestantId, slug: slugify(name), name, aliases: [name] });
+  }
+}
+
+function canonicalTeamName(team: string) {
+  return ({ "USA 1": "United States 1", "USA 2": "United States 2", UAE: "United Arab Emirates", Macau: "Macao, China", "Hong Kong": "Hong Kong, China" } as Record<string, string>)[team] ?? team;
+}
+
+function countryFromTeam(team: string) {
+  return canonicalTeamName(team).replace(/\s+[12]$/, "");
+}
+
+const TEAM_COUNTRIES = [...new Set(DATA.teams2024.map((team) => countryFromTeam(team.name)))];
+
 export type PageSeo = {
   canonicalPath: string;
   description: string;
@@ -197,7 +242,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   }
 
   if (parts.length === 2 && parts[0] === "countries") {
-    const country = [...new Set(RESULTS.map((result) => result.country))]
+    const country = [...new Set([...RESULTS.map((result) => result.country), ...TEAM_COUNTRIES])]
       .find((item) => slugify(item) === parts[1]);
     if (!country) return unknownPage(parts);
     const ranks = [
@@ -207,7 +252,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     return {
       canonicalPath: `/countries/${parts[1]}`,
       description: `${country}'s IOAI participation, results and awards.${ranks ? ` All-time national rank: ${ranks}.` : ""}`,
-      indexable: country !== "IOAI Team",
+      indexable: country !== "IOAI Team" && country !== "Letovo",
       title: country,
     };
   }
@@ -280,8 +325,8 @@ export function allIndexablePaths() {
   const editionPaths = DATA.editions.flatMap((edition) =>
     EDITION_SECTIONS.map((section) => section === "main" ? `/olympiads/${edition.year}` : `/olympiads/${edition.year}/${section}`),
   );
-  const countryPaths = [...new Set(RESULTS.map((result) => result.country))]
-    .filter((country) => country !== "IOAI Team")
+  const countryPaths = [...new Set([...RESULTS.map((result) => result.country), ...TEAM_COUNTRIES])]
+    .filter((country) => country !== "IOAI Team" && country !== "Letovo")
     .sort((a, b) => a.localeCompare(b))
     .map((country) => `/countries/${slugify(country)}`);
   const taskPaths = DATA.tasks.map((task) => `/tasks/${task.slug}`);
@@ -294,5 +339,5 @@ export function allStaticPaths() {
     .sort((a, b) => a.localeCompare(b))
     .map((slug) => `/contestants/${slug}`);
 
-  return [...allIndexablePaths(), "/search", "/countries/ioai-team", ...contestantPaths];
+  return [...allIndexablePaths(), "/search", "/countries/ioai-team", "/countries/letovo", ...contestantPaths];
 }

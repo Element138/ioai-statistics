@@ -1349,6 +1349,10 @@ h3 {
   border: 1px solid var(--line-strong);
 }
 
+.metric-strip.team-only {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .metric-strip > div {
   padding: 12px 14px;
   border-right: 1px solid var(--line);
@@ -1863,6 +1867,24 @@ h3 {
   font-size: 0.76rem;
 }
 
+.team-membership-note {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.team-roster-links {
+  display: grid;
+  gap: 2px;
+}
+
+.alias-note {
+  margin-top: 2px;
+  display: block;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
 .achievement-badge {
   min-height: 18px;
   margin-left: 6px;
@@ -1953,6 +1975,15 @@ h3 {
 .person-award-count.level-3 strong {
   color: #79b891;
 }
+
+.person-award-count.team-scientific {
+  min-width: 112px;
+  background: var(--soft);
+}
+
+.person-award-count.team-scientific.gold strong { color: var(--gold); }
+.person-award-count.team-scientific.silver strong { color: var(--silver); }
+.person-award-count.team-scientific.bronze strong { color: var(--bronze); }
 
 .no-award {
   color: var(--muted);
