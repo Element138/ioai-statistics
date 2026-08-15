@@ -137,6 +137,22 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   const vinceHall = await (await render("/hall-of-fame")).text();
   assert.match(vinceHall, /href="\/contestants\/vince-ungar">Vince Ungár<\/a>/);
   assert.doesNotMatch(vinceHall, /Ungár Vince/);
+  const delegations2024 = await (await render("/olympiads/2024/delegations")).text();
+  for (const [canonicalSlug, canonicalName, rosterName, discardedSlug] of [
+    ["sean-xiao", "Sean Xiao", "Jiaboa Sean Xiao", "jiaboa-sean-xiao"],
+    ["velislav-dzhelepov", "Velislav Dzhelepov", "Velislav Teodorov Dzhelepov", "velislav-teodorov-dzhelepov"],
+    ["aybak-samiz", "Aybak Samiz", "Aybak Samer Aref Samiz", "aybak-samer-aref-samiz"],
+    ["matthijs-schrijvers", "Matthijs Schrijvers", "Matthijs Alexander Schrijvers", "matthijs-alexander-schrijvers"],
+    ["leo-nagy", "Leó Nagy", "Nagy Dávid Leonárd", "nagy-david-leonard"],
+    ["stefano-larsen", "Stefano Larsen", "Stefano Pio Schack Larsen", "stefano-pio-schack-larsen"],
+  ]) {
+    const contestant = await (await render(`/contestants/${canonicalSlug}`)).text();
+    assert.match(contestant, new RegExp(`<h1>${canonicalName}<\\/h1>`));
+    assert.match(contestant, /Member of <strong>.*<\/strong>/);
+    assert.match(delegations2024, new RegExp(`href="/contestants/${canonicalSlug}">${rosterName}<\\/a>`));
+    await assert.rejects(access(new URL(`../out/contestants/${discardedSlug}.html`, import.meta.url)));
+    assert.equal(config.redirects.some((redirect) => redirect.source === `/contestants/${discardedSlug}`), false);
+  }
   for (const [slug, name] of [
     ["murodjon-khairakov", "Murodjon Khairakov"],
     ["sinan-kandikov", "Sinan Kandikov"],

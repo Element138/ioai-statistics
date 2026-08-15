@@ -518,9 +518,19 @@ for (const identity of CONTESTANT_IDENTITIES.values()) {
   }
 }
 
+const CONTESTANT_2024_IDENTITY_OVERRIDES = new Map<string, string>([
+  ["Jiaboa Sean Xiao", "contestant-sean-xiao"],
+  ["Velislav Teodorov Dzhelepov", "contestant-velislav-dzhelepov"],
+  ["Aybak Samer Aref Samiz", "contestant-aybak-samiz"],
+  ["Matthijs Alexander Schrijvers", "contestant-matthijs-schrijvers"],
+  ["Nagy Dávid Leonárd", "contestant-leo-nagy"],
+  ["Stefano Pio Schack Larsen", "contestant-stefano-larsen"],
+]);
+
 const TEAM_PARTICIPATIONS_2024: TeamParticipation2024[] = DATA.teams2024.flatMap((team) => team.students.map((rosterName) => {
   const matches = EXISTING_IDENTITIES_BY_TOKEN_SIGNATURE.get(nameTokenSignature(rosterName)) ?? [];
-  const existing = matches.length === 1 ? matches[0] : null;
+  const overrideId = CONTESTANT_2024_IDENTITY_OVERRIDES.get(rosterName);
+  const existing = overrideId ? CONTESTANT_IDENTITIES.get(overrideId) ?? null : matches.length === 1 ? matches[0] : null;
   const contestantId = existing?.contestantId ?? `contestant-2024-${slugify(rosterName)}`;
   const slug = existing?.slug ?? slugify(rosterName);
   const identity = existing ?? { contestantId, slug, name: rosterName, aliases: [rosterName] };

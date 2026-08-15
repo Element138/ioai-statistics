@@ -158,8 +158,22 @@ for (const identity of CONTESTANT_IDENTITIES.values()) {
     identitiesBySignature.set(signature, identities);
   }
 }
+const contestant2024IdentityOverrides = new Map<string, string>([
+  ["Jiaboa Sean Xiao", "contestant-sean-xiao"],
+  ["Velislav Teodorov Dzhelepov", "contestant-velislav-dzhelepov"],
+  ["Aybak Samer Aref Samiz", "contestant-aybak-samiz"],
+  ["Matthijs Alexander Schrijvers", "contestant-matthijs-schrijvers"],
+  ["Nagy Dávid Leonárd", "contestant-leo-nagy"],
+  ["Stefano Pio Schack Larsen", "contestant-stefano-larsen"],
+]);
 for (const team of DATA.teams2024) {
   for (const name of team.students) {
+    const overrideId = contestant2024IdentityOverrides.get(name);
+    const overrideIdentity = overrideId ? CONTESTANT_IDENTITIES.get(overrideId) : null;
+    if (overrideIdentity) {
+      if (!overrideIdentity.aliases.includes(name)) overrideIdentity.aliases.push(name);
+      continue;
+    }
     const matches = identitiesBySignature.get(nameTokenSignature(name)) ?? [];
     if (matches.length === 1) {
       if (!matches[0].aliases.includes(name)) matches[0].aliases.push(name);

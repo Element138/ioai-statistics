@@ -54,12 +54,18 @@ for (const result of resultSets.flat()) {
   if (!identity.countries.includes(result.country)) identity.countries.push(result.country);
   identities.set(result.contestantId, identity);
 }
-for (const [contestantId, canonicalName] of Object.entries({
-  "contestant-martin-zhang": "Martin Haoxuan Zhang",
-  "contestant-vince-ungar": "Vince Ungár",
+for (const [contestantId, knownNames] of Object.entries({
+  "contestant-martin-zhang": ["Martin Haoxuan Zhang"],
+  "contestant-vince-ungar": ["Vince Ungár"],
+  "contestant-sean-xiao": ["Jiaboa Sean Xiao"],
+  "contestant-velislav-dzhelepov": ["Velislav Teodorov Dzhelepov"],
+  "contestant-aybak-samiz": ["Aybak Samer Aref Samiz"],
+  "contestant-matthijs-schrijvers": ["Matthijs Alexander Schrijvers"],
+  "contestant-leo-nagy": ["Nagy Dávid Leonárd"],
+  "contestant-stefano-larsen": ["Stefano Pio Schack Larsen"],
 })) {
   const identity = identities.get(contestantId);
-  if (identity && !identity.aliases.includes(canonicalName)) identity.aliases.push(canonicalName);
+  for (const knownName of knownNames) if (identity && !identity.aliases.includes(knownName)) identity.aliases.push(knownName);
 }
 
 const teamAliases = {
