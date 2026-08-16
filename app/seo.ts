@@ -237,10 +237,10 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     if (!edition || !EDITION_SECTIONS.includes(section as (typeof EDITION_SECTIONS)[number])) return unknownPage(parts);
 
     const sectionLabel = section[0].toUpperCase() + section.slice(1);
-    const sectionTitle = section === "main" ? `IOAI ${edition.year}` : `IOAI ${edition.year} ${sectionLabel}`;
+    const sectionTitle = section === "main" ? `IOAI ${edition.year}` : section === "delegations" ? `IOAI ${edition.year} National Rankings` : `IOAI ${edition.year} ${sectionLabel}`;
     return {
       canonicalPath: section === "main" ? `/olympiads/${edition.year}` : `/olympiads/${edition.year}/${section}`,
-      description: `${section === "main" ? "Overview" : sectionLabel} of IOAI ${edition.year} in ${edition.city}, ${edition.country}.`,
+      description: section === "delegations" ? `National rankings and delegation records for IOAI ${edition.year} in ${edition.city}, ${edition.country}.` : `${section === "main" ? "Overview" : sectionLabel} of IOAI ${edition.year} in ${edition.city}, ${edition.country}.`,
       indexable: true,
       title: sectionTitle,
     };
@@ -249,9 +249,9 @@ export function pageSeoForPath(parts: string[]): PageSeo {
   if (parts.length === 1 && parts[0] === "countries") {
     return {
       canonicalPath: "/countries",
-      description: "Compare IOAI participation, medals and awards by country or region.",
+      description: "Compare all-time IOAI national rankings, participation, medals and awards by country or region.",
       indexable: true,
-      title: "Countries",
+      title: "IOAI All-Time National Rankings",
     };
   }
 

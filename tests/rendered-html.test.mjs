@@ -230,6 +230,14 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.data-table\s*\{[^}]*font-size:\s*0\.875rem/s);
   assert.match(css, /\.data-table th,\s*\.data-table td\s*\{[^}]*min-height:\s*38px;[^}]*padding:\s*9px 11px/s);
   assert.match(css, /\.data-table thead th\s*\{[^}]*font-size:\s*0\.75rem/s);
+  assert.match(css, /\.contestant-col\s*\{[^}]*max-width:\s*210px;[^}]*overflow-wrap:\s*anywhere/s);
+  assert.match(css, /\.medal-row\.gold-row td:first-child\s*\{[^}]*inset 5\.4px/s);
+  assert.match(css, /\.medal-row\.silver-row td:first-child\s*\{[^}]*inset 4\.8px/s);
+  assert.match(css, /\.medal-row\.bronze-row td:first-child\s*\{[^}]*inset 3px/s);
+  assert.match(css, /\.medal-row\.gaite-level-1-row td:first-child\s*\{[^}]*inset 5\.4px/s);
+  assert.match(css, /\.medal-row\.gaite-level-2-row td:first-child\s*\{[^}]*inset 4\.8px/s);
+  assert.match(css, /\.medal-row\.gaite-level-3-row td:first-child\s*\{[^}]*inset 3px/s);
+  assert.match(css, /\.data-table thead th\.gold-col\s*\{[^}]*background:\s*#fff7dc/s);
   assert.match(css, /\.difficulty-grid\s*\{[^}]*white-space:\s*normal/s);
   assert.match(app, /createPortal\([\s\S]*difficulty-legend-layer[\s\S]*document\.body/s);
   assert.doesNotMatch(app, /popoverTarget|popover="auto"/);
@@ -458,14 +466,14 @@ test("publishes 2024 team records without changing individual national rankings"
 
   const hall = await (await render("/hall-of-fame")).text();
   assert.match(hall, />Individual \+ 2024 Scientific<\/button>/);
-  assert.equal((hall.match(/class="hall-pagination"/g) || []).length, 2);
+  assert.equal((hall.match(/class="leaderboard-pagination"/g) || []).length, 2);
   assert.ok((hall.match(/<tr/g) || []).length < 120);
 
   const countries = await (await render("/countries")).text();
   assert.doesNotMatch(countries, />Team<\/button>/);
 });
 
-test("adds compact contextual filters and bounded leaderboard score precision", async () => {
+test("adds compact filters, score summaries, day totals, sorting, and paginated leaderboards", async () => {
   const routes = [
     ["/countries", "countries-filter"],
     ["/hall-of-fame", "hall-filter"],
@@ -480,15 +488,23 @@ test("adds compact contextual filters and bounded leaderboard score precision", 
   }
 
   const results = await (await render("/olympiads/2026/results")).text();
-  assert.match(results, /Score precision: up to 2 decimal places per task and 4 for totals\./);
+  assert.doesNotMatch(results, /Score precision:/);
   assert.match(results, />88\.69<\/td>/);
   assert.match(results, />271\.3354<\/td>/);
   assert.doesNotMatch(results, />88\.6853<\/td>|>271\.335403874227<\/td>/);
+  assert.match(results, />Mean score(?:<!-- -->)? <strong>[\d.]+<\/strong>/);
   assert.match(results, />Median score(?:<!-- -->)? <strong>[\d.]+<\/strong>/);
+  assert.match(results, />Day 1<\/span><button[^>]*aria-label="Sort by Day 1/);
+  assert.match(results, />Day 2<\/span><button[^>]*aria-label="Sort by Day 2/);
+  assert.match(results, /aria-label="Sort by T1/);
+  assert.equal((results.match(/class="leaderboard-pagination"/g) || []).length, 2);
+  assert.ok((results.match(/<tr/g) || []).length < 120);
   assert.doesNotMatch(results, />Full score(?:<!-- -->)? <strong>/);
 
   const task = await (await render("/tasks/radar")).text();
   assert.match(task, /id="task-leaderboard-filter"[^>]*type="search"/);
+  assert.doesNotMatch(task, /Task scores are shown/);
+  assert.equal((task.match(/class="leaderboard-pagination"/g) || []).length, 2);
   assert.match(task, /<th class="number">Overall rank<\/th>/);
   assert.match(task, /<td class="number">#(?:<!-- -->)?\d+<\/td>/);
   assert.doesNotMatch(task, /<td class="number">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?\d+<\/td>/);
@@ -612,7 +628,9 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   assert.match(await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"), /<TaskTable tasks=\{tasks\} mergeYears=\{false\} \/>/);
 
   const delegationHtml = await (await render("/olympiads/2026/delegations")).text();
-  assert.match(delegationHtml, /<title>IOAI 2026 Delegations · IOAI Statistics<\/title>/);
+  assert.match(delegationHtml, /<title>IOAI 2026 National Rankings · IOAI Statistics<\/title>/);
+  const countriesHtml = await (await render("/countries")).text();
+  assert.match(countriesHtml, /<title>IOAI All-Time National Rankings · IOAI Statistics<\/title>/);
   const countryHtml = await (await render("/countries/cote-divoire")).text();
   assert.match(countryHtml, /<title>Côte d(?:&#x27;|')Ivoire · IOAI Statistics<\/title>/);
   assert.doesNotMatch(countryHtml, / at IOAI · IOAI Statistics<\/title>/);
