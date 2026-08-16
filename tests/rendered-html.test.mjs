@@ -388,7 +388,10 @@ test("shows the appropriate national ranking and caches country summaries", asyn
   const entriesHeader = entriesTable.slice(0, entriesTable.indexOf("</thead>"));
   assert.doesNotMatch(entriesHeader, />Country or region<\/th>/);
   assert.match(entriesHeader, /title="Task 1 score">T(?:<!-- -->)?1<\/th>/);
+  assert.match(entriesHeader, />Day 1<\/th>.*>Day 2<\/th>.*>Total<\/th>/s);
+  assert.match(entriesTable, /class="number total day-total">\d+\.\d{2}<\/td>/);
   assert.match(entriesTable, /class="number grouped-year" rowSpan="\d+"/);
+  assert.match(app, /const tasks = contestTasks\(result\.year, result\.track\)/);
   assert.match(individualHtml, /id="country-entries-filter"[^>]*type="search"/);
 
   const gaiteHtml = await (await render("/countries/puerto-rico")).text();
