@@ -702,6 +702,8 @@ test("supports a draggable inertial home flag ring and marks former GAITE partic
   assert.match(app, /onDragStart=\{\(event\) => event\.preventDefault\(\)\}/);
   assert.match(app, /draggable=\{false\}/);
   assert.match(app, /setPointerCapture/);
+  assert.match(app, /captureTarget = event\.target as Element/);
+  assert.match(app, /drag\.captureTarget\.releasePointerCapture/);
   assert.match(app, /requestAnimationFrame\(coast\)/);
   assert.match(app, /resumeAutomaticRotation/);
   assert.match(app, /style\.setProperty\("--ring-start-angle", `\$\{rotationRef\.current\}deg`\)/);

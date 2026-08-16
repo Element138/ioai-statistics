@@ -1016,7 +1016,7 @@ function FlagRing() {
   const rotationRef = useRef(0);
   const momentumFrameRef = useRef<number | null>(null);
   const suppressClickRef = useRef(false);
-  const dragRef = useRef<{ pointerId: number; startX: number; startY: number; lastAngle: number; lastTime: number; velocity: number } | null>(null);
+  const dragRef = useRef<{ pointerId: number; captureTarget: Element; startX: number; startY: number; lastAngle: number; lastTime: number; velocity: number } | null>(null);
   useEffect(() => {
     const startAngle = Math.random() * 360;
     rotationRef.current = startAngle;
@@ -1048,8 +1048,9 @@ function FlagRing() {
     }
     sceneRef.current?.classList.add("is-manual", "is-dragging");
     setRotation(rotationRef.current);
-    dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, lastAngle: pointerAngle(event), lastTime: performance.now(), velocity: 0 };
-    event.currentTarget.setPointerCapture(event.pointerId);
+    const captureTarget = event.target as Element;
+    dragRef.current = { pointerId: event.pointerId, captureTarget, startX: event.clientX, startY: event.clientY, lastAngle: pointerAngle(event), lastTime: performance.now(), velocity: 0 };
+    captureTarget.setPointerCapture(event.pointerId);
   };
   const moveDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
@@ -1069,7 +1070,7 @@ function FlagRing() {
     if (!drag || drag.pointerId !== event.pointerId) return;
     dragRef.current = null;
     sceneRef.current?.classList.remove("is-dragging");
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    if (drag.captureTarget.hasPointerCapture(event.pointerId)) drag.captureTarget.releasePointerCapture(event.pointerId);
     const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let velocity = Math.max(-1.5, Math.min(1.5, drag.velocity));
     let previousTime = performance.now();
