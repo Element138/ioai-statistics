@@ -86,7 +86,7 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.equal(config.redirects.length, 36 + data.tasks.length);
+  assert.equal(config.redirects.length, 37 + data.tasks.length);
   assert.ok(config.redirects.every((redirect) => redirect.permanent));
   assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/anango-prabhat"), {
     source: "/contestants/anango-prabhat",
@@ -122,6 +122,7 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
     ["/contestants/ainafi", "/contestants/manandraibe-soamihantanandrasana-ainafinaritra-fiderana"],
     ["/contestants/zayed-abdulla-mohammed-sabain", "/contestants/zayed-abdulla-mohammed-sabain-almuharrami"],
     ["/contestants/almuharrami", "/contestants/zayed-abdulla-mohammed-sabain-almuharrami"],
+    ["/contestants/ali", "/contestants/khydyr-ali-yerlan"],
   ]) {
     assert.deepEqual(config.redirects.find((redirect) => redirect.source === source), { source, destination, permanent: true });
   }
@@ -181,6 +182,10 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   const zayed = await (await render("/contestants/zayed-abdulla-mohammed-sabain-almuharrami")).text();
   assert.match(zayed, /<h1>Zayed Abdulla Mohammed Sabain Almuharrami<\/h1>/);
   assert.match(delegations2024, /href="\/contestants\/zayed-abdulla-mohammed-sabain-almuharrami">Zayed Abdulla Mohammed Sabain Almuharrami<\/a>/);
+  const khydyrAli = await (await render("/contestants/khydyr-ali-yerlan")).text();
+  assert.match(khydyrAli, /<h1>Khydyr-Ali Yerlan<\/h1>/);
+  assert.match(khydyrAli, />2025</);
+  assert.match(khydyrAli, />2026</);
   for (const names of [["César Murat Cepeda Beltrán", "Cesar Murat Cepeda Beltran"], ["Alier Sánchez Y Sánchez", "Alier Sanchez y Sanchez"], ["M’PO YETI Déreck", "M'Po Yeti Déreck"]]) {
     const matching = results.filter((result) => names.includes(result.name));
     assert.equal(matching.length, 2);
