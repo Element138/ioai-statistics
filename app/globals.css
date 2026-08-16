@@ -46,6 +46,9 @@
   --gold: #9a6b00;
   --silver: #58667b;
   --bronze: #955633;
+  --award-bar-gold: #b7922d;
+  --award-bar-silver: #657f9f;
+  --award-bar-bronze: #956147;
   --surface: #ffffff;
   --table-head: #eef1f5;
   --table-stripe: #fbfcfd;
@@ -68,6 +71,9 @@
   --gold: #e5bd55;
   --silver: #bcc7d7;
   --bronze: #dda17f;
+  --award-bar-gold: #b59746;
+  --award-bar-silver: #9eb2cc;
+  --award-bar-bronze: #a06d54;
   --surface: #111a28;
   --table-head: #1a2637;
   --table-stripe: #121d2b;
@@ -93,6 +99,9 @@
     --gold: #e5bd55;
     --silver: #bcc7d7;
     --bronze: #dda17f;
+    --award-bar-gold: #b59746;
+    --award-bar-silver: #9eb2cc;
+    --award-bar-bronze: #a06d54;
     --surface: #111a28;
     --table-head: #1a2637;
     --table-stripe: #121d2b;
@@ -359,6 +368,12 @@ h3 {
   cursor: grab;
 }
 
+.flag-ring-link,
+.flag-ring-link .flag-image {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 .flag-ring-scene.is-dragging,
 .flag-ring-scene.is-dragging * {
   cursor: grabbing !important;
@@ -586,7 +601,7 @@ h3 {
   min-height: 20px;
   padding: 2px 7px;
   border: 1px solid #99a8bd;
-  border-radius: 999px;
+  border-radius: 0;
   background: #edf2f8;
   color: #465a75;
   font-size: 0.68rem;
@@ -1008,15 +1023,15 @@ h3 {
 }
 
 .medal-row.gold-row td:first-child {
-  box-shadow: inset 5.4px 0 #c99712;
+  box-shadow: inset 5.4px 0 var(--award-bar-gold);
 }
 
 .medal-row.silver-row td:first-child {
-  box-shadow: inset 4.8px 0 #7e8da2;
+  box-shadow: inset 4.8px 0 var(--award-bar-silver);
 }
 
 .medal-row.bronze-row td:first-child {
-  box-shadow: inset 3px 0 #a9542e;
+  box-shadow: inset 3px 0 var(--award-bar-bronze);
 }
 
 .medal-row.gaite-level-1-row td:first-child {
@@ -1857,7 +1872,7 @@ h3 {
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.035em;
-  line-height: 1.2;
+  line-height: 1.45;
   text-transform: uppercase;
 }
 

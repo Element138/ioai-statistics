@@ -682,6 +682,8 @@ test("supports a draggable inertial home flag ring and marks former GAITE partic
 
   assert.match(home, /class="flag-ring-drag-surface"/);
   assert.match(app, /onPointerDown=\{beginDrag\}/);
+  assert.match(app, /onDragStart=\{\(event\) => event\.preventDefault\(\)\}/);
+  assert.match(app, /draggable=\{false\}/);
   assert.match(app, /setPointerCapture/);
   assert.match(app, /requestAnimationFrame\(coast\)/);
   assert.match(app, /resumeAutomaticRotation/);
@@ -689,9 +691,15 @@ test("supports a draggable inertial home flag ring and marks former GAITE partic
   assert.match(app, /prefers-reduced-motion: reduce/);
   assert.match(css, /\.flag-ring-drag-surface circle[\s\S]*pointer-events: stroke/);
   assert.match(css, /\.flag-ring-scene\.is-manual \.flag-ring-track/);
+  assert.match(css, /-webkit-user-drag: none/);
 
   assert.match(app, /className="former-gaite-badge">Now Individual/);
   assert.doesNotMatch(app, /Historical GAITE records/);
   assert.match(app, /markFormerGaite=\{effectiveTrack === "gaite"\}/);
   assert.match(css, /\.former-gaite-badge/);
+  assert.match(css, /\.former-gaite-badge[\s\S]*?border-radius: 0/);
+  assert.match(css, /\.difficulty \{[\s\S]*?line-height: 1\.45/);
+  assert.match(css, /--award-bar-silver: #657f9f/);
+  assert.match(css, /--award-bar-silver: #9eb2cc/);
+  assert.match(css, /inset 4\.8px 0 var\(--award-bar-silver\)/);
 });

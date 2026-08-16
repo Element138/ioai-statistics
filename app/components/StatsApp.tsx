@@ -1063,7 +1063,7 @@ function FlagRing() {
   const results = [...allResults("main"), ...allResults("gaite")].filter((result) => result.country !== "IOAI Team");
   const countries = [...new Set(results.map((result) => result.country))].sort((a, b) => a.localeCompare(b));
   return (
-    <div className="flag-ring-scene" ref={sceneRef} aria-label="Participating countries" onPointerDown={beginDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onClickCapture={(event) => { if (suppressClickRef.current) { event.preventDefault(); event.stopPropagation(); } }}>
+    <div className="flag-ring-scene" ref={sceneRef} aria-label="Participating countries" onPointerDown={beginDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onDragStart={(event) => event.preventDefault()} onClickCapture={(event) => { if (suppressClickRef.current) { event.preventDefault(); event.stopPropagation(); } }}>
       <svg className="flag-ring-drag-surface" viewBox="0 0 1600 1600" aria-hidden="true"><circle cx="800" cy="800" r="780" /></svg>
       <div className="flag-ring-track" ref={ringRef}>
         {countries.map((country, index) => {
@@ -1073,7 +1073,7 @@ function FlagRing() {
           const style = { "--flag-angle": `${angle}deg`, "--flag-counter-angle": `${-angle}deg` } as CSSProperties;
           return (
             <span className="flag-ring-slot" style={style} key={country}>
-              <a className="flag-ring-link" href={`/countries/${slugify(country)}`} aria-label={`${country}: ${countryResults.length} entries, ${awards} awards`}>
+              <a className="flag-ring-link" href={`/countries/${slugify(country)}`} aria-label={`${country}: ${countryResults.length} entries, ${awards} awards`} draggable={false}>
                 <Flag country={country} highResolution />
                 <span className="flag-ring-popover" role="tooltip"><strong>{country}</strong><small>{countryResults.length} entries · {awards} awards</small></span>
               </a>
