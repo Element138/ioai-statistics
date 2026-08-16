@@ -495,7 +495,8 @@ test("publishes 2024 team records without changing individual national rankings"
   assert.match(vince, /Practical Silver/);
 
   const hall = await (await render("/hall-of-fame")).text();
-  assert.match(hall, />Individual \+ 2024 Scientific<\/button>/);
+  assert.match(hall, />Indiv \+ 2024<\/button>/);
+  assert.doesNotMatch(hall, /Include 2024 Practical awards/);
   assert.equal((hall.match(/class="leaderboard-pagination"/g) || []).length, 2);
   assert.ok((hall.match(/<tr/g) || []).length < 120);
 
