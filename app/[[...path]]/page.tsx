@@ -27,6 +27,7 @@ function breadcrumbName(parts: string[], index: number, pageTitle: string) {
   if (part === "olympiads") return "Olympiads";
   if (part === "countries") return "Countries";
   if (part === "tasks") return "Tasks";
+  if (parts[0] === "tasks" && index === 1) return `IOAI ${part} tasks`;
   if (parts[0] === "olympiads" && index === 1) return `IOAI ${part}`;
   return part;
 }
@@ -50,7 +51,9 @@ function structuredData(parts: string[]) {
         "@type": "ListItem",
         position: index + 2,
         name: breadcrumbName(parts, index, page.title),
-        item: new URL(`/${parts.slice(0, index + 1).join("/")}`, `${origin}/`).toString(),
+        item: parts[0] === "tasks" && index === 1
+          ? new URL(`/olympiads/${parts[index]}/tasks`, `${origin}/`).toString()
+          : new URL(`/${parts.slice(0, index + 1).join("/")}`, `${origin}/`).toString(),
       })),
     ];
     items.push({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: breadcrumbs });

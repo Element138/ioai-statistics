@@ -1,5 +1,6 @@
 import rawData from "./data/ioai.json";
 import { slugify } from "./slug";
+import { taskPath, taskRouteSlug } from "./task-path";
 
 const SITE_NAME = "IOAI Statistics";
 const EDITION_SECTIONS = ["main", "results", "delegations", "tasks", "administration"] as const;
@@ -280,12 +281,12 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     };
   }
 
-  if (parts.length === 2 && parts[0] === "tasks") {
-    const task = DATA.tasks.find((item) => item.slug === parts[1]);
+  if (parts.length === 3 && parts[0] === "tasks" && /^\d{4}$/.test(parts[1])) {
+    const task = DATA.tasks.find((item) => item.year === Number(parts[1]) && taskRouteSlug(item) === parts[2]);
     if (!task) return unknownPage(parts);
     const difficulty = taskDifficulty(task);
     return {
-      canonicalPath: `/tasks/${task.slug}`,
+      canonicalPath: taskPath(task),
       description: `${task.name}, a ${task.category} task from IOAI ${task.year}.${difficulty ? ` Difficulty: ${difficulty}.` : ""} View score statistics and official materials.`,
       indexable: true,
       title: `${task.name} — IOAI ${task.year} Task`,
@@ -343,7 +344,7 @@ export function allIndexablePaths() {
     .filter((country) => country !== "IOAI Team" && country !== "Letovo")
     .sort((a, b) => a.localeCompare(b))
     .map((country) => `/countries/${slugify(country)}`);
-  const taskPaths = DATA.tasks.map((task) => `/tasks/${task.slug}`);
+  const taskPaths = DATA.tasks.map(taskPath);
 
   return [...staticPaths, ...editionPaths, ...countryPaths, ...taskPaths];
 }

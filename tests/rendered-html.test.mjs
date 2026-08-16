@@ -45,7 +45,7 @@ test("maps exported HTML files to extensionless Vercel routes", async () => {
     "countries/japan.html",
     "hall-of-fame.html",
     "olympiads/2026/results.html",
-    "tasks/radar.html",
+    "tasks/2025/radar.html",
   ]) {
     await access(new URL(`../out/${outputPath}`, import.meta.url));
   }
@@ -86,7 +86,7 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.equal(config.redirects.length, 33);
+  assert.equal(config.redirects.length, 33 + data.tasks.length);
   assert.ok(config.redirects.every((redirect) => redirect.permanent));
   assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/anango-prabhat"), {
     source: "/contestants/anango-prabhat",
@@ -105,6 +105,16 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
     destination: "/contestants/vince-ungar",
     permanent: true,
   });
+  assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/tasks/radar"), {
+    source: "/tasks/radar",
+    destination: "/tasks/2025/radar",
+    permanent: true,
+  });
+  assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/tasks/2026-task-1"), {
+    source: "/tasks/2026-task-1",
+    destination: "/tasks/2026/find-the-order",
+    permanent: true,
+  });
   for (const [source, destination] of [
     ["/contestants/khairakov-murodjon", "/contestants/murodjon-khairakov"],
     ["/contestants/kandikov-sinan", "/contestants/sinan-kandikov"],
@@ -114,7 +124,7 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   }
 
   for (const slug of new Set(results.map((result) => result.slug))) await access(new URL(`../out/contestants/${slug}.html`, import.meta.url));
-  for (const oldSlug of [...config.redirects.map((redirect) => redirect.source.split("/").at(-1)), "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
+  for (const oldSlug of [...config.redirects.filter((redirect) => redirect.source.startsWith("/contestants/")).map((redirect) => redirect.source.split("/").at(-1)), "micha-karp", "ethem-yagz-calk", "micha-masny", "miko-aj-zra-ek", "ahmet-alp-orakc", "rakotondrazaka-irintsoa-omban-ny-avo", "m-po-yeti-dereck"]) {
     await assert.rejects(access(new URL(`../out/contestants/${oldSlug}.html`, import.meta.url)));
   }
 
@@ -326,10 +336,11 @@ test("publishes task numbers, at-home records, categories, and official 2026 lin
   assert.match(tasksHtml, />At-home<\/button>/);
   assert.match(tasksHtml, /class="number grouped-year" rowSpan="\d+"/);
 
-  const homeTaskHtml = await (await render("/tasks/2026-home-task-1")).text();
+  const homeTaskHtml = await (await render("/tasks/2026/operation-night-watch")).text();
   assert.match(homeTaskHtml, /track-badge home">At-home<\/span>/);
-  const rankedTaskHtml = await (await render("/tasks/radar")).text();
+  const rankedTaskHtml = await (await render("/tasks/2025/radar")).text();
   assert.match(rankedTaskHtml, />Task leaderboard<\/h2>/);
+  assert.doesNotMatch(rankedTaskHtml, /<h2>Task leaderboard<\/h2><div class="section-meta">IOAI 2025<\/div>/);
   assert.doesNotMatch(rankedTaskHtml, />Top solvers<\/h2>/);
   assert.match(rankedTaskHtml, /<th class="number">Task rank<\/th>/);
   assert.match(homeTaskHtml, /At-home task — no individual ranking/);
@@ -504,7 +515,7 @@ test("adds compact filters, score summaries, day totals, sorting, and paginated 
   assert.ok((results.match(/<tr/g) || []).length < 120);
   assert.doesNotMatch(results, />Full score(?:<!-- -->)? <strong>/);
 
-  const task = await (await render("/tasks/radar")).text();
+  const task = await (await render("/tasks/2025/radar")).text();
   assert.match(task, /id="task-leaderboard-filter"[^>]*type="search"/);
   assert.doesNotMatch(task, /Task scores are shown/);
   assert.equal((task.match(/class="leaderboard-pagination"/g) || []).length, 2);
@@ -567,8 +578,8 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
   assert.match(individual, /<th class="number">Rank<\/th>/);
   assert.match(individual, /<tr class="total-row"><td>Overall<\/td>/);
-  assert.match(individual, /<tr class="day-total-row"><td>Day 1 total<\/td><td class="number total">\d+\.\d{2}<\/td>/);
-  assert.match(individual, /<tr class="day-total-row"><td>Day 2 total<\/td><td class="number total">\d+\.\d{2}<\/td>/);
+  assert.match(individual, /<tr class="day-total-row"><td>Day 1 total<\/td><td class="number total">\d+\.\d{2}<\/td><td class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
+  assert.match(individual, /<tr class="day-total-row"><td>Day 2 total<\/td><td class="number total">\d+\.\d{2}<\/td><td class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
   assert.match(individual, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
   assert.match(individual, />1st in country<\/span>/);
   assert.doesNotMatch(individual, />1st \/ \d+ in delegation<\/span>/);
@@ -614,11 +625,11 @@ test("loads the supplied Cloudflare beacon without a consent prompt or browser s
 });
 
 test("publishes indexable metadata while excluding contestant pages", async () => {
-  const taskResponse = await render("/tasks/radar");
+  const taskResponse = await render("/tasks/2025/radar");
   const taskHtml = await taskResponse.text();
   assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
   assert.match(taskHtml, /<title>Radar — IOAI 2025 Task · IOAI Statistics<\/title>/);
-  assert.match(taskHtml, /<link rel="canonical" href="https:\/\/ioai-statistics\.org\/tasks\/radar"\/>/);
+  assert.match(taskHtml, /<link rel="canonical" href="https:\/\/ioai-statistics\.org\/tasks\/2025\/radar"\/>/);
   assert.match(taskHtml, /"@type":"BreadcrumbList"/);
   assert.match(taskHtml, /"name":"Tasks","item":"https:\/\/ioai-statistics\.org\/tasks"/);
   assert.match(taskHtml, /ioai-statistics-social-20260811\.png/);
@@ -655,7 +666,8 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   const sitemapResponse = await render("/sitemap.xml");
   const sitemap = await sitemapResponse.text();
   assert.equal(sitemapResponse.headers.get("content-type"), "application/xml");
-  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/radar<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/2025\/radar<\/loc>/);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/radar<\/loc>/);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
   assert.doesNotMatch(sitemap, /\/contestants\//);
   assert.doesNotMatch(sitemap, /<priority>|<changefreq>/);

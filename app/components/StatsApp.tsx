@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
 import { slugify } from "../slug";
+import { taskPath, taskRouteSlug } from "../task-path";
 
 /* Plain anchors avoid mass prefetching; direct images avoid an optimization runtime. */
 /* eslint-disable @next/next/no-html-link-for-pages, @next/next/no-img-element */
@@ -442,6 +443,33 @@ function isTopSolver(task: Task, track: "main" | "gaite", score: number | null |
   return taskLeaderboardEntries(task, track).some((entry) => entry.score === score && entry.taskRank <= limit);
 }
 
+function resultDayTotal(result: Result, day: number) {
+  const tasks = contestTasks(result.year, result.track);
+  return result.scores.reduce<number>((sum, score, index) => tasks[index]?.day === day ? sum + (score ?? 0) : sum, 0);
+}
+
+const DAY_RANK_CACHE = new Map<string, Map<string, number>>();
+
+function resultDayRank(result: Result, day: number) {
+  const cacheKey = `${result.year}-${result.track}-${day}`;
+  let ranks = DAY_RANK_CACHE.get(cacheKey);
+  if (!ranks) {
+    ranks = new Map();
+    let rank = 0;
+    let previousScore: number | null = null;
+    [...resultsFor(result.year, result.track)]
+      .sort((left, right) => resultDayTotal(right, day) - resultDayTotal(left, day) || competitionRank(left) - competitionRank(right))
+      .forEach((entry, index) => {
+        const score = resultDayTotal(entry, day);
+        if (previousScore === null || score !== previousScore) rank = index + 1;
+        previousScore = score;
+        ranks!.set(entry.contestantId, rank);
+      });
+    DAY_RANK_CACHE.set(cacheKey, ranks);
+  }
+  return ranks.get(result.contestantId) ?? 0;
+}
+
 const TASK_LEADERBOARD_CACHE = new Map<string, { result: Result; score: number; taskRank: number }[]>();
 
 function taskLeaderboardEntries(task: Task, track: "main" | "gaite") {
@@ -828,10 +856,7 @@ function ResultsTable({ results, track, compact = false, showYear = false, showA
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const taskCount = showTaskScores ? Math.max(0, ...results.map((result) => result.scores.length)) : 0;
   const resultTasks = !compact && !showTaskScores && results.length && track ? contestTasks(results[0].year, track) : [];
-  const dayTotal = (result: Result, day: number) => {
-    const tasks = contestTasks(result.year, result.track);
-    return result.scores.reduce<number>((sum, score, index) => tasks[index]?.day === day ? sum + (score ?? 0) : sum, 0);
-  };
+  const dayTotal = resultDayTotal;
   const sortResults = (key: ResultsSortKey) => {
     if (sortKey === key) setSortDirection((current) => current === "asc" ? "desc" : "asc");
     else {
@@ -938,7 +963,7 @@ function TaskTable({ tasks, mergeYears = true }: { tasks: Task[]; mergeYears?: b
             <tr key={task.slug}>
               {(!mergeYears || yearSpans[index] > 0) ? <td className="number grouped-year" rowSpan={mergeYears ? yearSpans[index] : undefined}><a href={`/olympiads/${task.year}/tasks`}>{task.year}</a></td> : null}
               <td className="number">{taskNumber(task)}</td>
-              <td><a href={`/tasks/${task.slug}`}>{task.name}</a></td>
+              <td><a href={taskPath(task)}>{task.name}</a></td>
               <td>{taskTracks(task).map((track) => <span key={track} className={`track-badge ${track}`}>{TASK_TRACK_LABELS[track]}</span>)}</td>
               <td>{task.category}</td>
               <td>{taskDifficulty(task) ? <DifficultyBadge difficulty={taskDifficulty(task)!} /> : "—"}</td>
@@ -1614,8 +1639,8 @@ function TasksPage({ track, setTrack }: { track: TaskTrack; setTrack: (track: Ta
   );
 }
 
-function TaskPage({ taskSlug }: { taskSlug: string }) {
-  const task = DATA.tasks.find((item) => item.slug === taskSlug);
+function TaskPage({ taskYear, taskSlug }: { taskYear: number; taskSlug: string }) {
+  const task = DATA.tasks.find((item) => item.year === taskYear && taskRouteSlug(item) === taskSlug);
   const availableTracks = task ? taskTracks(task).filter((track): track is "main" | "gaite" => track === "main" || track === "gaite") : ["main" as const];
   const [selectedTrack, setSelectedTrack] = useState<Track>("main");
   const [query, setQuery] = useState("");
@@ -1641,7 +1666,7 @@ function TaskPage({ taskSlug }: { taskSlug: string }) {
         <>
           <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={changeTrack} tracks={availableTracks} /></div>
           <ScoreDistribution title={`${TRACK_LABELS[effectiveTrack]} · ${task.name}`} entries={allScores.map(({ result, score }) => ({ score, award: result.award }))} maxScore={task.maxScore ?? 100} track={effectiveTrack} />
-          <div className="toolbar-row"><SectionTitle title="Task leaderboard" meta={`IOAI ${task.year}`} /><CompactFilter id="task-leaderboard-filter" value={query} onChange={changeQuery} placeholder="Filter people or countries" label="Filter task leaderboard" count={scores.length} /></div>
+          <div className="toolbar-row"><SectionTitle title="Task leaderboard" /><CompactFilter id="task-leaderboard-filter" value={query} onChange={changeQuery} placeholder="Filter people or countries" label="Filter task leaderboard" count={scores.length} /></div>
           {scores.length ? <><LeaderboardPagination page={currentPage} pageCount={pageCount} total={scores.length} onChange={setPage} /><div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th className="contestant-col">Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
             {visibleScores.map(({ result, score, taskRank }) => <tr key={result.contestantId} className={medalRowClass(result.award)}><td className="number rank">{taskRank}</td><td className="contestant-col"><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatTaskScore(score)}</td><td className="number">#{competitionRank(result)}</td><td><AwardBadge award={result.award} track={effectiveTrack} /></td></tr>)}
           </tbody></table></div><LeaderboardPagination page={currentPage} pageCount={pageCount} total={scores.length} onChange={setPage} /></> : <EmptyState title="No positive task scores">No published score exceeds 0.0 points for this track.</EmptyState>}
@@ -1778,7 +1803,8 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
-          const dayTotals = [1, 2].map((day) => result.scores.reduce<number>((sum, score, index) => tasks[index]?.day === day ? sum + (score ?? 0) : sum, 0));
+          const dayTotals = [1, 2].map((day) => resultDayTotal(result, day));
+          const dayRanks = [1, 2].map((day) => resultDayRank(result, day));
           const overallPool = resultsFor(result.year, result.track).length;
           const delegationPool = firstInDelegationPool(result);
           return <section className="participation-card" key={`${result.year}-${result.track}`}>
@@ -1786,10 +1812,10 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
             <div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th><th className="number">Rank</th></tr></thead><tbody>
               {tasks.map((task, index) => {
                 const taskEntry = taskLeaderboardEntries(task, result.track).find((entry) => entry.result.contestantId === result.contestantId);
-                return <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">{result.track === "gaite" ? "GAITE top solver" : "Top solver"}</span> : null}</td><td className="number total">{formatTaskScore(result.scores[index])}</td><td className="number rank">#{taskEntry?.taskRank ?? "—"} / {overallPool}</td></tr>;
+                return <tr key={task.slug}><td><a href={taskPath(task)}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">{result.track === "gaite" ? "GAITE top solver" : "Top solver"}</span> : null}</td><td className="number total">{formatTaskScore(result.scores[index])}</td><td className="number rank">#{taskEntry?.taskRank ?? "—"} / {overallPool}</td></tr>;
               })}
-              <tr className="day-total-row"><td>Day 1 total</td><td className="number total">{dayTotals[0].toFixed(2)}</td><td className="number rank">—</td></tr>
-              <tr className="day-total-row"><td>Day 2 total</td><td className="number total">{dayTotals[1].toFixed(2)}</td><td className="number rank">—</td></tr>
+              <tr className="day-total-row"><td>Day 1 total</td><td className="number total">{dayTotals[0].toFixed(2)}</td><td className="number rank">#{dayRanks[0]} / {overallPool}</td></tr>
+              <tr className="day-total-row"><td>Day 2 total</td><td className="number total">{dayTotals[1].toFixed(2)}</td><td className="number rank">#{dayRanks[1]} / {overallPool}</td></tr>
               <tr className="total-row"><td>Overall</td><td className="number">{formatTotalScore(result.total)}</td><td className="number rank">#{competitionRank(result)} / {overallPool}</td></tr>
             </tbody></table></div>
           </section>;
@@ -1995,7 +2021,7 @@ export default function StatsApp() {
   else if (parts[0] === "countries" && !parts[1]) page = <CountriesPage track={track} setTrack={setTrack} />;
   else if (parts[0] === "countries" && parts[1]) page = <CountryPage countrySlug={parts[1]} track={track} setTrack={setTrack} />;
   else if (parts[0] === "tasks" && !parts[1]) page = <TasksPage track={taskTrack} setTrack={setTaskTrack} />;
-  else if (parts[0] === "tasks" && parts[1]) page = <TaskPage taskSlug={parts[1]} />;
+  else if (parts[0] === "tasks" && parts.length === 3 && /^\d{4}$/.test(parts[1])) page = <TaskPage taskYear={Number(parts[1])} taskSlug={parts[2]} />;
   else if (parts[0] === "hall-of-fame") page = <HallOfFamePage />;
   else if (parts[0] === "search") page = <SearchPage />;
   else if (parts[0] === "privacy") page = <PrivacyPage />;
