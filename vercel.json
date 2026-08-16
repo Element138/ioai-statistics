@@ -5,6 +5,7 @@
   "outputDirectory": "out",
   "cleanUrls": true,
   "redirects": [
+    { "source": "/countries/letovo", "destination": "/countries/russia", "permanent": true },
     { "source": "/contestants/anango-prabhat", "destination": "/contestants/anango-dev-prabhat", "permanent": true },
     { "source": "/contestants/ali-ayman-h-alkhabbaz", "destination": "/contestants/ali-ayman-alkhabbaz", "permanent": true },
     { "source": "/contestants/ayaan-wolven", "destination": "/contestants/ayaan-erik-bari-wolven", "permanent": true },

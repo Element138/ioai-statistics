@@ -86,8 +86,13 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.equal(config.redirects.length, 37 + data.tasks.length);
+  assert.equal(config.redirects.length, 38 + data.tasks.length);
   assert.ok(config.redirects.every((redirect) => redirect.permanent));
+  assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/countries/letovo"), {
+    source: "/countries/letovo",
+    destination: "/countries/russia",
+    permanent: true,
+  });
   assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/anango-prabhat"), {
     source: "/contestants/anango-prabhat",
     destination: "/contestants/anango-dev-prabhat",
@@ -466,7 +471,7 @@ test("publishes 2024 team records without changing individual national rankings"
   assert.equal(data.teams2024.find((team) => team.name === "Bulgaria 1").students.length, 4);
 
   const results2024 = await (await render("/olympiads/2024/results")).text();
-  assert.match(results2024, /href="\/countries\/letovo"[^>]*>Letovo<\/a>/);
+  assert.match(results2024, /href="\/countries\/russia"[^>]*>.*?Russia<\/a>/);
   assert.match(results2024, /<td class="number rank">—<\/td>/);
   assert.doesNotMatch(results2024, /rowSpan="2"><a class="country-link" href="\/countries\/australia"/);
   assert.match(results2024, /Individual \+ 2024 Scientific|dedicated combined Hall of Fame view/);
@@ -476,16 +481,12 @@ test("publishes 2024 team records without changing individual national rankings"
   assert.match(delegations2024, /rowSpan="2"><a class="country-link" href="\/countries\/australia"/);
   assert.match(delegations2024, /href="\/contestants\/vince-ungar">Ungár Vince<\/a>/);
 
-  const letovo = await (await render("/countries/letovo")).text();
-  assert.match(letovo, /<title>Letovo · IOAI Statistics<\/title>/);
-  assert.match(letovo, /<span>TEAM<br\/>ONLY<\/span><strong>#—<\/strong>/);
-  assert.match(letovo, /#1 \/ 41/);
-  assert.match(letovo, /#10 \/ 41/);
-  assert.match(letovo, /rowSpan="4">2024<\/td><td rowSpan="4">Letovo<\/td>/);
-  assert.match(letovo, /<span class="track-badge team">Team<\/span>/);
-  assert.match(letovo, /href="\/contestants\/andrey-gromyko">Andrey Gromyko<\/a>/);
-  assert.doesNotMatch(letovo, /flagcdn\.com/);
-  assert.doesNotMatch(letovo, /Individual awards|GAITE awards/);
+  const russia = await (await render("/countries/russia")).text();
+  assert.match(russia, /<title>Russia · IOAI Statistics<\/title>/);
+  assert.match(russia, /The 2024 Russian delegation competed under the team name Letovo\./);
+  assert.match(russia, /<span>Participating editions<\/span><strong>3<\/strong>/);
+  assert.match(russia, /<button[^>]*>Team<\/button>/);
+  assert.match(russia, /flagcdn\.com\/80x60\/ru\.png/);
 
   const vince = await (await render("/contestants/vince-ungar")).text();
   assert.match(vince, /2024 Scientific (?:<!-- -->)?Silver/);

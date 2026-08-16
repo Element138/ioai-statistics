@@ -242,7 +242,7 @@ const RESULT_SOURCE_URLS: Record<number, string> = {
 };
 
 function Flag({ country, large = false, highResolution = false }: { country: string; large?: boolean; highResolution?: boolean }) {
-  if (country === "IOAI Team" || country === "Letovo") return null;
+  if (country === "IOAI Team") return null;
   const code = COUNTRY_CODES[country];
   if (!code) return <span className={large ? "flag-fallback large" : "flag-fallback"} aria-hidden="true">◆</span>;
   const size = large ? "80x60" : highResolution ? "60x45" : "20x15";
@@ -551,7 +551,8 @@ function canonicalTeamName(team: string) {
 }
 
 function countryFromTeam(team: string) {
-  return canonicalTeamName(team).replace(/\s+[12]$/, "");
+  const country = canonicalTeamName(team).replace(/\s+[12]$/, "");
+  return country === "Letovo" ? "Russia" : country;
 }
 
 function teamResultFor<T extends { team: string }>(team: string, results: T[]) {
@@ -605,6 +606,14 @@ const TEAM_PARTICIPATIONS_2024: TeamParticipation2024[] = DATA.teams2024.flatMap
 }));
 
 const TEAM_RANK_POOL_2024 = DATA.teams2024.filter((team) => !team.observer).length;
+
+for (const [contestantId, aliases] of new Map<string, string[]>([
+  ["contestant-chenru-hu", ["Jayden Hu"]],
+  ["contestant-2024-yuxin-cai", ["Cici Cai"]],
+])) {
+  const identity = CONTESTANT_IDENTITIES.get(contestantId);
+  if (identity) for (const alias of aliases) if (!identity.aliases.includes(alias)) identity.aliases.push(alias);
+}
 
 function formatTeamRank2024(rank?: number | null) {
   return `#${rank ?? "—"} / ${TEAM_RANK_POOL_2024}`;
@@ -1612,7 +1621,8 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   if (availableTeams.length) participatingYears.add(2024);
   return (
     <>
-      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={nationalRank ? `${nationalRankTrack === "main" ? "Individual" : "GAITE"} all-time national rank ${nationalRank} / ${nationalRankPool}` : "No national rank"}><span>{nationalRank ? <>{nationalRankTrack === "main" ? "INDIVIDUAL" : "GAITE"}<br />ALL-TIME</> : availableTeams.length ? <>TEAM<br />ONLY</> : "UNRANKED"}</span><strong>{nationalRank ? <>#{nationalRank}<small>/{nationalRankPool}</small></> : "#—"}</strong></div>{country !== "Letovo" && country !== "IOAI Team" ? <span className="big-flag"><Flag country={country} large /></span> : null}<div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={nationalRank ? `${nationalRankTrack === "main" ? "Individual" : "GAITE"} all-time national rank ${nationalRank} / ${nationalRankPool}` : "No national rank"}><span>{nationalRank ? <>{nationalRankTrack === "main" ? "INDIVIDUAL" : "GAITE"}<br />ALL-TIME</> : availableTeams.length ? <>TEAM<br />ONLY</> : "UNRANKED"}</span><strong>{nationalRank ? <>#{nationalRank}<small>/{nationalRankPool}</small></> : "#—"}</strong></div>{country !== "IOAI Team" ? <span className="big-flag"><Flag country={country} large /></span> : null}<div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      {country === "Russia" && availableTeams.some((team) => team.name === "Letovo") ? <div className="notice team-notice">The 2024 Russian delegation competed under the team name Letovo.</div> : null}
       <div className={`metric-strip ${!availableMain.length && !availableGaite.length ? "team-only" : ""}`}>
         <div><span>2025–26 result entries</span><strong>{availableMain.length + availableGaite.length}</strong></div>
         <div><span>Participating editions</span><strong>{participatingYears.size}</strong></div>
