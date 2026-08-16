@@ -573,10 +573,6 @@ h3 {
   color: var(--ink);
 }
 
-.gaite-history-note {
-  margin: 0 0 14px;
-}
-
 .country-name-cell {
   display: flex;
   align-items: center;

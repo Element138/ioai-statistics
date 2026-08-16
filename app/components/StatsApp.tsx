@@ -1005,6 +1005,10 @@ function FlagRing() {
     rotationRef.current = rotation;
     ringRef.current?.style.setProperty("--ring-rotation", `${rotation}deg`);
   };
+  const resumeAutomaticRotation = () => {
+    ringRef.current?.style.setProperty("--ring-start-angle", `${rotationRef.current}deg`);
+    sceneRef.current?.classList.remove("is-manual");
+  };
   const beginDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
     if (momentumFrameRef.current !== null) cancelAnimationFrame(momentumFrameRef.current);
@@ -1047,9 +1051,13 @@ function FlagRing() {
       setRotation(rotationRef.current + velocity * elapsed);
       velocity *= Math.pow(0.018, elapsed / 1000);
       if (Math.abs(velocity) > 0.0015) momentumFrameRef.current = requestAnimationFrame(coast);
-      else momentumFrameRef.current = null;
+      else {
+        momentumFrameRef.current = null;
+        resumeAutomaticRotation();
+      }
     };
     if (!reducedMotion && Math.abs(velocity) > 0.008) momentumFrameRef.current = requestAnimationFrame(coast);
+    else resumeAutomaticRotation();
     setTimeout(() => { suppressClickRef.current = false; }, 0);
   };
   const results = [...allResults("main"), ...allResults("gaite")].filter((result) => result.country !== "IOAI Team");
@@ -1535,7 +1543,6 @@ function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Tr
     <>
       <div className="page-heading"><p className="eyebrow">All-time national records</p><h1>Countries</h1></div>
       <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /><CompactFilter id="countries-filter" value={query} onChange={setQuery} placeholder="Filter countries" label="Filter country rankings" count={summaries.length} /></div>
-      {effectiveTrack === "gaite" ? <div className="notice gaite-history-note"><strong>Historical GAITE records.</strong> “Now Individual” marks countries whose most recent recorded participation is in the Individual Contest, after an earlier GAITE entry. Their GAITE results remain in this ranking.</div> : null}
       <CountrySummaryTable summaries={summaries} track={effectiveTrack} markFormerGaite={effectiveTrack === "gaite"} />
     </>
   );
@@ -1771,7 +1778,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
           const overallPool = resultsFor(result.year, result.track).length;
           const delegationPool = firstInDelegationPool(result);
           return <section className="participation-card" key={`${result.year}-${result.track}`}>
-            <div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} track={result.track} />{delegationPool ? <span className="achievement-badge delegation-first">1st in delegation</span> : null}</div></div>
+            <div className="participation-head"><div><h2><a href={`/olympiads/${result.year}/results`}>IOAI {result.year}</a></h2><span className={`track-badge ${result.track}`}>{TRACK_LABELS[result.track]}</span></div><div><AwardBadge award={result.award} track={result.track} />{delegationPool ? <span className="achievement-badge delegation-first">1st in country</span> : null}</div></div>
             <div className="table-wrap"><table className="data-table"><thead><tr><th>Task</th><th className="number">Score</th><th className="number">Rank</th></tr></thead><tbody>
               {tasks.map((task, index) => {
                 const taskEntry = taskLeaderboardEntries(task, result.track).find((entry) => entry.result.contestantId === result.contestantId);
