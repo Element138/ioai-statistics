@@ -306,6 +306,25 @@ h3 {
   height: var(--ring-size);
   transform: translate(-50%, -50%);
   pointer-events: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.flag-ring-drag-surface {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.flag-ring-drag-surface circle {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 64px;
+  pointer-events: stroke;
+  cursor: grab;
 }
 
 .flag-ring-track {
@@ -337,6 +356,22 @@ h3 {
   display: block;
   animation: flag-counter-spin 180s linear infinite;
   pointer-events: auto;
+  cursor: grab;
+}
+
+.flag-ring-scene.is-dragging,
+.flag-ring-scene.is-dragging * {
+  cursor: grabbing !important;
+}
+
+.flag-ring-scene.is-manual .flag-ring-track {
+  animation: none;
+  transform: rotate(var(--ring-rotation));
+}
+
+.flag-ring-scene.is-manual .flag-ring-link {
+  animation: none;
+  transform: rotate(calc(var(--flag-counter-angle) - var(--ring-rotation)));
 }
 
 .flag-ring-link .flag-image {
@@ -536,6 +571,33 @@ h3 {
 
 .notice strong {
   color: var(--ink);
+}
+
+.gaite-history-note {
+  margin: 0 0 14px;
+}
+
+.country-name-cell {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.former-gaite-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 2px 7px;
+  border: 1px solid #99a8bd;
+  border-radius: 999px;
+  background: #edf2f8;
+  color: #465a75;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .gaite-notice {
@@ -2374,6 +2436,7 @@ h3 {
 :root[data-theme="dark"] .flag-ring-link .flag-image { box-shadow: 0 2px 8px rgb(0 0 0 / 45%); }
 :root[data-theme="dark"] .flag-ring-popover { border-color: #66768e; background: #1c293b; color: #f5f8fc; box-shadow: 0 9px 24px rgb(0 0 0 / 55%); }
 :root[data-theme="dark"] .flag-ring-popover small { color: #c8d3e3; }
+:root[data-theme="dark"] .former-gaite-badge { border-color: #536b8c; background: #1b2a40; color: #b8cdf0; }
 :root[data-theme="dark"] .award.gold,
 :root[data-theme="dark"] .gold-col,
 :root[data-theme="dark"] .gold-count,

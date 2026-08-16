@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import rawData from "../data/ioai.json";
@@ -983,12 +983,80 @@ function CountryAwardSummary({ track, counts }: {
 }
 
 function FlagRing() {
+  const sceneRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  useEffect(() => ringRef.current?.style.setProperty("--ring-start-angle", `${Math.random() * 360}deg`), []);
+  const rotationRef = useRef(0);
+  const momentumFrameRef = useRef<number | null>(null);
+  const suppressClickRef = useRef(false);
+  const dragRef = useRef<{ pointerId: number; startX: number; startY: number; lastAngle: number; lastTime: number; velocity: number } | null>(null);
+  useEffect(() => {
+    const startAngle = Math.random() * 360;
+    rotationRef.current = startAngle;
+    ringRef.current?.style.setProperty("--ring-start-angle", `${startAngle}deg`);
+    return () => {
+      if (momentumFrameRef.current !== null) cancelAnimationFrame(momentumFrameRef.current);
+    };
+  }, []);
+  const pointerAngle = (event: ReactPointerEvent) => {
+    const rect = sceneRef.current!.getBoundingClientRect();
+    return Math.atan2(event.clientY - (rect.top + rect.height / 2), event.clientX - (rect.left + rect.width / 2)) * 180 / Math.PI;
+  };
+  const setRotation = (rotation: number) => {
+    rotationRef.current = rotation;
+    ringRef.current?.style.setProperty("--ring-rotation", `${rotation}deg`);
+  };
+  const beginDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.button !== 0) return;
+    if (momentumFrameRef.current !== null) cancelAnimationFrame(momentumFrameRef.current);
+    momentumFrameRef.current = null;
+    const transform = getComputedStyle(ringRef.current!).transform;
+    if (transform !== "none") {
+      const matrix = new DOMMatrixReadOnly(transform);
+      rotationRef.current = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+    }
+    sceneRef.current?.classList.add("is-manual", "is-dragging");
+    setRotation(rotationRef.current);
+    dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, lastAngle: pointerAngle(event), lastTime: performance.now(), velocity: 0 };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+  const moveDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const now = performance.now();
+    const angle = pointerAngle(event);
+    const delta = ((angle - drag.lastAngle + 540) % 360) - 180;
+    const elapsed = Math.max(1, now - drag.lastTime);
+    setRotation(rotationRef.current + delta);
+    drag.velocity = drag.velocity * 0.72 + (delta / elapsed) * 0.28;
+    drag.lastAngle = angle;
+    drag.lastTime = now;
+    if (Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) > 5) suppressClickRef.current = true;
+  };
+  const endDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragRef.current = null;
+    sceneRef.current?.classList.remove("is-dragging");
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let velocity = Math.max(-1.5, Math.min(1.5, drag.velocity));
+    let previousTime = performance.now();
+    const coast = (time: number) => {
+      const elapsed = Math.min(34, time - previousTime);
+      previousTime = time;
+      setRotation(rotationRef.current + velocity * elapsed);
+      velocity *= Math.pow(0.018, elapsed / 1000);
+      if (Math.abs(velocity) > 0.0015) momentumFrameRef.current = requestAnimationFrame(coast);
+      else momentumFrameRef.current = null;
+    };
+    if (!reducedMotion && Math.abs(velocity) > 0.008) momentumFrameRef.current = requestAnimationFrame(coast);
+    setTimeout(() => { suppressClickRef.current = false; }, 0);
+  };
   const results = [...allResults("main"), ...allResults("gaite")].filter((result) => result.country !== "IOAI Team");
   const countries = [...new Set(results.map((result) => result.country))].sort((a, b) => a.localeCompare(b));
   return (
-    <div className="flag-ring-scene" aria-label="Participating countries">
+    <div className="flag-ring-scene" ref={sceneRef} aria-label="Participating countries" onPointerDown={beginDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onClickCapture={(event) => { if (suppressClickRef.current) { event.preventDefault(); event.stopPropagation(); } }}>
+      <svg className="flag-ring-drag-surface" viewBox="0 0 1600 1600" aria-hidden="true"><circle cx="800" cy="800" r="780" /></svg>
       <div className="flag-ring-track" ref={ringRef}>
         {countries.map((country, index) => {
           const countryResults = results.filter((result) => result.country === country);
@@ -1361,6 +1429,19 @@ const COUNTRY_RANKINGS = {
   gaite: rankCountrySummaries(summarizeCountries(COUNTRY_RESULTS.gaite), "gaite"),
 };
 
+function latestParticipationYears(results: Result[]) {
+  const years = new Map<string, number>();
+  results.forEach((result) => years.set(result.country, Math.max(years.get(result.country) ?? 0, result.year)));
+  return years;
+}
+
+const LATEST_MAIN_YEAR = latestParticipationYears(COUNTRY_RESULTS.main);
+const FORMER_GAITE_COUNTRIES = new Set(
+  [...latestParticipationYears(COUNTRY_RESULTS.gaite)].flatMap(([country, latestGaiteYear]) =>
+    (LATEST_MAIN_YEAR.get(country) ?? 0) > latestGaiteYear ? [country] : [],
+  ),
+);
+
 function yearCountryRankings(year: number, track: "main" | "gaite") {
   if (year === 2024) return [];
   return rankCountrySummaries(summarizeCountries(resultsFor(year, track), true), track);
@@ -1394,12 +1475,12 @@ function DelegationsTable({ year, track }: { year: number; track: Track }) {
   return <><CompactFilter id="delegations-filter" value={query} onChange={setQuery} placeholder="Filter countries" label="Filter delegations by country" count={summaries.length} /><CountrySummaryTable summaries={summaries} track={effectiveTrack} showEditions={false} /></>;
 }
 
-function CountrySummaryTable({ summaries, track, showEditions = true }: { summaries: CountrySummary[]; track: Track; showEditions?: boolean }) {
+function CountrySummaryTable({ summaries, track, showEditions = true, markFormerGaite = false }: { summaries: CountrySummary[]; track: Track; showEditions?: boolean; markFormerGaite?: boolean }) {
   const showRank = summaries.some((summary) => summary.rank !== undefined);
   const displayAwardCount = (value: number) => showRank ? formatAwardCount(value) : value;
   return (
     <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? <th className="number">Rank</th> : null}<th>Country or region</th><th className="number">Entries</th>{showEditions ? <th className="number">Editions</th> : null}{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}</tr></thead><tbody>
-      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a></td><td className="number">{summary.contestants}</td>{showEditions ? <td className="number">{summary.years.length}</td> : null}{track === "main" ? <><td className="number medal-count gold-count">{displayAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{displayAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{displayAwardCount(summary.bronze)}</td><td className="number">{displayAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{displayAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{displayAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{displayAwardCount(summary.level3)}</td><td className="number">{displayAwardCount(summary.mention)}</td></>}</tr>)}
+      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{summary.rank}</td> : null}<td><div className="country-name-cell"><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a>{markFormerGaite && FORMER_GAITE_COUNTRIES.has(summary.country) ? <span className="former-gaite-badge">Now Individual</span> : null}</div></td><td className="number">{summary.contestants}</td>{showEditions ? <td className="number">{summary.years.length}</td> : null}{track === "main" ? <><td className="number medal-count gold-count">{displayAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{displayAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{displayAwardCount(summary.bronze)}</td><td className="number">{displayAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{displayAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{displayAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{displayAwardCount(summary.level3)}</td><td className="number">{displayAwardCount(summary.mention)}</td></>}</tr>)}
     </tbody></table></div>
   );
 }
@@ -1454,7 +1535,8 @@ function CountriesPage({ track, setTrack }: { track: Track; setTrack: (track: Tr
     <>
       <div className="page-heading"><p className="eyebrow">All-time national records</p><h1>Countries</h1></div>
       <div className="toolbar-row"><TrackTabs value={effectiveTrack} onChange={setTrack} tracks={["main", "gaite"]} /><CompactFilter id="countries-filter" value={query} onChange={setQuery} placeholder="Filter countries" label="Filter country rankings" count={summaries.length} /></div>
-      <CountrySummaryTable summaries={summaries} track={effectiveTrack} />
+      {effectiveTrack === "gaite" ? <div className="notice gaite-history-note"><strong>Historical GAITE records.</strong> “Now Individual” marks countries whose most recent recorded participation is in the Individual Contest, after an earlier GAITE entry. Their GAITE results remain in this ranking.</div> : null}
+      <CountrySummaryTable summaries={summaries} track={effectiveTrack} markFormerGaite={effectiveTrack === "gaite"} />
     </>
   );
 }

@@ -672,3 +672,25 @@ test("ships accessible system-aware dark mode and normalized unordered search", 
   assert.match(css, /:root\[data-theme="dark"\]/);
   assert.match(css, /\.data-table tbody tr:hover td\.grouped-year \{ background: var\(--surface\); \}/);
 });
+
+test("supports a draggable inertial home flag ring and explains former GAITE participation", async () => {
+  const [app, css, home] = await Promise.all([
+    readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    render("/").then((response) => response.text()),
+  ]);
+
+  assert.match(home, /class="flag-ring-drag-surface"/);
+  assert.match(app, /onPointerDown=\{beginDrag\}/);
+  assert.match(app, /setPointerCapture/);
+  assert.match(app, /requestAnimationFrame\(coast\)/);
+  assert.match(app, /prefers-reduced-motion: reduce/);
+  assert.match(css, /\.flag-ring-drag-surface circle[\s\S]*pointer-events: stroke/);
+  assert.match(css, /\.flag-ring-scene\.is-manual \.flag-ring-track/);
+
+  assert.match(app, /className="former-gaite-badge">Now Individual/);
+  assert.match(app, /Historical GAITE records/);
+  assert.match(app, /most recent recorded participation is in the Individual Contest/);
+  assert.match(app, /markFormerGaite=\{effectiveTrack === "gaite"\}/);
+  assert.match(css, /\.former-gaite-badge/);
+});
