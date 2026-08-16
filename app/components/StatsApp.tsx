@@ -242,7 +242,7 @@ const RESULT_SOURCE_URLS: Record<number, string> = {
 };
 
 function Flag({ country, large = false, highResolution = false }: { country: string; large?: boolean; highResolution?: boolean }) {
-  if (country === "IOAI Team" || country === "Letovo") return null;
+  if (country === "IOAI Team") return null;
   const code = COUNTRY_CODES[country];
   if (!code) return <span className={large ? "flag-fallback large" : "flag-fallback"} aria-hidden="true">◆</span>;
   const size = large ? "80x60" : highResolution ? "60x45" : "20x15";
@@ -551,7 +551,8 @@ function canonicalTeamName(team: string) {
 }
 
 function countryFromTeam(team: string) {
-  return canonicalTeamName(team).replace(/\s+[12]$/, "");
+  const country = canonicalTeamName(team).replace(/\s+[12]$/, "");
+  return country === "Letovo" ? "Russia" : country;
 }
 
 function teamResultFor<T extends { team: string }>(team: string, results: T[]) {
@@ -605,6 +606,19 @@ const TEAM_PARTICIPATIONS_2024: TeamParticipation2024[] = DATA.teams2024.flatMap
 }));
 
 const TEAM_RANK_POOL_2024 = DATA.teams2024.filter((team) => !team.observer).length;
+
+for (const [contestantId, aliases] of new Map<string, string[]>([
+  ["contestant-chenru-hu", ["Jayden Hu"]],
+  ["contestant-2024-yuxin-cai", ["Cici Cai"]],
+])) {
+  const identity = CONTESTANT_IDENTITIES.get(contestantId);
+  if (identity) for (const alias of aliases) if (!identity.aliases.includes(alias)) identity.aliases.push(alias);
+}
+
+function teamParticipationSearchText(participation: TeamParticipation2024) {
+  const aliases = CONTESTANT_IDENTITIES.get(participation.contestantId)?.aliases ?? [];
+  return `${aliases.join(" ")} ${participation.rosterName} ${participation.country} ${participation.team} 2024 team`;
+}
 
 function formatTeamRank2024(rank?: number | null) {
   return `#${rank ?? "—"} / ${TEAM_RANK_POOL_2024}`;
@@ -1495,7 +1509,11 @@ function DelegationsTable({ year, track }: { year: number; track: Track }) {
   if (year === 2024) {
     const teams = DATA.teams2024.filter((team) => {
       const country = countryFromTeam(team.name);
-      return !normalized || matchesSearch(`${team.name} ${country} ${team.leader} ${team.students.join(" ")}`, normalized);
+      const contestantAliases = TEAM_PARTICIPATIONS_2024
+        .filter((participation) => participation.team === team.name)
+        .map(teamParticipationSearchText)
+        .join(" ");
+      return !normalized || matchesSearch(`${team.name} ${country} ${team.leader} ${team.students.join(" ")} ${contestantAliases}`, normalized);
     });
     const countrySpans = rowSpans(teams, (team) => countryFromTeam(team.name));
     return (
@@ -1595,7 +1613,7 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   const nationalRankPool = COUNTRY_RANKINGS[nationalRankTrack].length;
   const allCountryResults = [...(effectiveTrack === "gaite" ? availableGaite : effectiveTrack === "main" ? availableMain : [])].sort((a, b) => b.year - a.year || a.rank - b.rank);
   const results = allCountryResults.filter((result) => !query.trim() || matchesSearch(`${contestantSearchText(result)} ${result.year}`, query));
-  const teamParticipations = availableTeamParticipations.filter((participation) => !query.trim() || matchesSearch(`${participation.name} ${participation.rosterName} ${participation.team} 2024`, query));
+  const teamParticipations = availableTeamParticipations.filter((participation) => !query.trim() || matchesSearch(teamParticipationSearchText(participation), query));
   const teamResultYearSpans = rowSpans(availableTeams, () => "2024");
   const teamEntryYearSpans = rowSpans(teamParticipations, () => "2024");
   const teamEntryTeamSpans = rowSpans(teamParticipations, (participation) => participation.team);
@@ -1612,7 +1630,8 @@ function CountryPage({ countrySlug, track, setTrack }: { countrySlug: string; tr
   if (availableTeams.length) participatingYears.add(2024);
   return (
     <>
-      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={nationalRank ? `${nationalRankTrack === "main" ? "Individual" : "GAITE"} all-time national rank ${nationalRank} / ${nationalRankPool}` : "No national rank"}><span>{nationalRank ? <>{nationalRankTrack === "main" ? "INDIVIDUAL" : "GAITE"}<br />ALL-TIME</> : availableTeams.length ? <>TEAM<br />ONLY</> : "UNRANKED"}</span><strong>{nationalRank ? <>#{nationalRank}<small>/{nationalRankPool}</small></> : "#—"}</strong></div>{country !== "Letovo" && country !== "IOAI Team" ? <span className="big-flag"><Flag country={country} large /></span> : null}<div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      <div className="country-heading"><div className={`rank-block country-rank-block ${nationalRankTrack}`} aria-label={nationalRank ? `${nationalRankTrack === "main" ? "Individual" : "GAITE"} all-time national rank ${nationalRank} / ${nationalRankPool}` : "No national rank"}><span>{nationalRank ? <>{nationalRankTrack === "main" ? "INDIVIDUAL" : "GAITE"}<br />ALL-TIME</> : availableTeams.length ? <>TEAM<br />ONLY</> : "UNRANKED"}</span><strong>{nationalRank ? <>#{nationalRank}<small>/{nationalRankPool}</small></> : "#—"}</strong></div>{country !== "IOAI Team" ? <span className="big-flag"><Flag country={country} large /></span> : null}<div><p className="eyebrow">Country or region</p><h1>{country}</h1></div></div>
+      {country === "Russia" && availableTeams.some((team) => team.name === "Letovo") ? <div className="notice team-notice">The 2024 Russian delegation competed under the team name Letovo.</div> : null}
       <div className={`metric-strip ${!availableMain.length && !availableGaite.length ? "team-only" : ""}`}>
         <div><span>2025–26 result entries</span><strong>{availableMain.length + availableGaite.length}</strong></div>
         <div><span>Participating editions</span><strong>{participatingYears.size}</strong></div>
@@ -1693,7 +1712,7 @@ type HallRecord = {
   level3: number;
 };
 
-function hallRecords(track: "main" | "gaite", include2024Scientific = false) {
+function hallRecords(track: "main" | "gaite", include2024 = false, include2024Practical = false) {
   const records = new Map<string, HallRecord>();
   for (const result of allResults(track)) {
     const key = `${result.contestantId}|${result.country}`;
@@ -1710,7 +1729,7 @@ function hallRecords(track: "main" | "gaite", include2024Scientific = false) {
     else if (type === "HM") record.mention += 1;
     records.set(key, record);
   }
-  if (track === "main" && include2024Scientific) {
+  if (track === "main" && include2024) {
     for (const participation of TEAM_PARTICIPATIONS_2024) {
       const key = `${participation.contestantId}|${participation.country}`;
       const identity = CONTESTANT_IDENTITIES.get(participation.contestantId)!;
@@ -1720,6 +1739,12 @@ function hallRecords(track: "main" | "gaite", include2024Scientific = false) {
       if (type === "Gold") record.gold += 1;
       else if (type === "Silver") record.silver += 1;
       else if (type === "Bronze") record.bronze += 1;
+      if (include2024Practical) {
+        const practicalType = awardType(participation.practical?.award ?? "");
+        if (practicalType === "Gold") record.gold += 1;
+        else if (practicalType === "Silver") record.silver += 1;
+        else if (practicalType === "Bronze") record.bronze += 1;
+      }
       records.set(key, record);
     }
   }
@@ -1766,10 +1791,11 @@ function LeaderboardPagination({ page, pageCount, total, onChange }: { page: num
 function HallOfFamePage() {
   const [query, setQuery] = useState("");
   const [view, setView] = useState<"main" | "combined" | "gaite">("main");
+  const [include2024Practical, setInclude2024Practical] = useState(false);
   const [page, setPage] = useState(1);
   const effectiveTrack = view === "gaite" ? "gaite" : "main";
   const normalized = query.trim();
-  const allRecords = useMemo(() => hallRecords(effectiveTrack, view === "combined"), [effectiveTrack, view]);
+  const allRecords = useMemo(() => hallRecords(effectiveTrack, view === "combined", view === "combined" && include2024Practical), [effectiveTrack, view, include2024Practical]);
   const records = useMemo(() => allRecords.filter((record) => !normalized || matchesSearch(`${record.searchNames} ${record.country}`, normalized)), [allRecords, normalized]);
   const pageCount = Math.max(1, Math.ceil(records.length / LEADERBOARD_PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
@@ -1780,7 +1806,8 @@ function HallOfFamePage() {
   return (
     <>
       <div className="page-heading"><p className="eyebrow">All-time individual records</p><h1>Hall of Fame</h1></div>
-      <div className="toolbar-row"><div className="track-tabs hall-view-tabs" role="tablist" aria-label="Hall of Fame view">{[["main", "Individual"], ["combined", "Individual + 2024 Scientific"], ["gaite", "GAITE"]].map(([key, label]) => <button key={key} type="button" role="tab" aria-selected={view === key} className={view === key ? "active" : ""} onClick={() => changeView(key as typeof view)}>{label}</button>)}</div><CompactFilter id="hall-filter" value={query} onChange={changeQuery} placeholder="Filter people or countries" label="Filter Hall of Fame" count={records.length} /></div>
+      <div className="toolbar-row"><div className="track-tabs hall-view-tabs" role="tablist" aria-label="Hall of Fame view">{[["main", "Individual"], ["combined", "Individual + 2024"], ["gaite", "GAITE"]].map(([key, label]) => <button key={key} type="button" role="tab" aria-selected={view === key} className={view === key ? "active" : ""} onClick={() => changeView(key as typeof view)}>{label}</button>)}</div><CompactFilter id="hall-filter" value={query} onChange={changeQuery} placeholder="Filter people or countries" label="Filter Hall of Fame" count={records.length} /></div>
+      {view === "combined" ? <label className="hall-practical-toggle"><input type="checkbox" checked={include2024Practical} onChange={(event) => { setInclude2024Practical(event.target.checked); setPage(1); }} /><span>Include 2024 Practical awards</span></label> : null}
       <LeaderboardPagination page={currentPage} pageCount={pageCount} total={records.length} onChange={changePage} />
       <div className="table-wrap"><table className="data-table hall-table"><thead><tr>{effectiveTrack === "main" ? <><th className="number gold-col">G</th><th className="number silver-col">S</th><th className="number bronze-col">B</th><th className="number">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}<th className="contestant-col">Contestant</th><th>Country or region</th><th className="number">Entries</th></tr></thead><tbody>
         {pageRecords.map((record) => <tr key={`${record.contestantId}-${record.country}`}>{effectiveTrack === "main" ? <><td className="number medal-count gold-count">{formatAwardCount(record.gold)}</td><td className="number medal-count silver-count">{formatAwardCount(record.silver)}</td><td className="number medal-count bronze-count">{formatAwardCount(record.bronze)}</td><td className="number">{formatAwardCount(record.mention)}</td></> : <><td className="number gaite-level-1-count">{formatAwardCount(record.level1)}</td><td className="number gaite-level-2-count">{formatAwardCount(record.level2)}</td><td className="number gaite-level-3-count">{formatAwardCount(record.level3)}</td><td className="number">{formatAwardCount(record.mention)}</td></>}<td className="contestant-col"><a href={`/contestants/${record.slug}`}>{record.name}</a></td><td><a className="country-link" href={`/countries/${slugify(record.country)}`}><Flag country={record.country} />{record.country}</a></td><td className="number">{record.entries}</td></tr>)}
@@ -1846,7 +1873,7 @@ function SearchPage() {
       .sort((a, b) => b.year - a.year || competitionRank(a) - competitionRank(b) || a.name.localeCompare(b.name))
       .slice(0, 80);
   }, [normalized]);
-  const teamPeople = useMemo(() => normalized ? TEAM_PARTICIPATIONS_2024.filter((participation) => matchesSearch(`${participation.name} ${participation.rosterName} ${participation.country} ${participation.team} 2024 team`, normalized)).slice(0, 80) : [], [normalized]);
+  const teamPeople = useMemo(() => normalized ? TEAM_PARTICIPATIONS_2024.filter((participation) => matchesSearch(teamParticipationSearchText(participation), normalized)).slice(0, 80) : [], [normalized]);
   const countries = useMemo(() => normalized ? COUNTRY_NAMES.filter((country) => matchesSearch(country, normalized)) : [], [normalized]);
   const tasks = useMemo(() => normalized ? DATA.tasks.filter((task) => matchesSearch(`${task.name} ${task.category} ${task.year}`, normalized)) : [], [normalized]);
   const total = people.length + teamPeople.length + countries.length + tasks.length;

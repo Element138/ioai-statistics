@@ -2217,6 +2217,24 @@ h3 {
   font-weight: 700;
 }
 
+.hall-practical-toggle {
+  width: fit-content;
+  margin: -2px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.hall-practical-toggle input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--blue);
+}
+
 .day-total-row {
   background: var(--soft);
   font-weight: 600;

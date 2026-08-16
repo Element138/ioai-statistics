@@ -185,12 +185,21 @@ for (const team of DATA.teams2024) {
   }
 }
 
+for (const [contestantId, aliases] of new Map<string, string[]>([
+  ["contestant-chenru-hu", ["Jayden Hu"]],
+  ["contestant-2024-yuxin-cai", ["Cici Cai"]],
+])) {
+  const identity = CONTESTANT_IDENTITIES.get(contestantId);
+  if (identity) for (const alias of aliases) if (!identity.aliases.includes(alias)) identity.aliases.push(alias);
+}
+
 function canonicalTeamName(team: string) {
   return ({ "USA 1": "United States 1", "USA 2": "United States 2", UAE: "United Arab Emirates", Macau: "Macao, China", "Hong Kong": "Hong Kong, China" } as Record<string, string>)[team] ?? team;
 }
 
 function countryFromTeam(team: string) {
-  return canonicalTeamName(team).replace(/\s+[12]$/, "");
+  const country = canonicalTeamName(team).replace(/\s+[12]$/, "");
+  return country === "Letovo" ? "Russia" : country;
 }
 
 const TEAM_COUNTRIES = [...new Set(DATA.teams2024.map((team) => countryFromTeam(team.name)))];
@@ -267,7 +276,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     return {
       canonicalPath: `/countries/${parts[1]}`,
       description: `${country}'s IOAI participation, results and awards.${ranks ? ` All-time national rank: ${ranks}.` : ""}`,
-      indexable: country !== "IOAI Team" && country !== "Letovo",
+      indexable: country !== "IOAI Team",
       title: country,
     };
   }
@@ -341,7 +350,7 @@ export function allIndexablePaths() {
     EDITION_SECTIONS.map((section) => section === "main" ? `/olympiads/${edition.year}` : `/olympiads/${edition.year}/${section}`),
   );
   const countryPaths = [...new Set([...RESULTS.map((result) => result.country), ...TEAM_COUNTRIES])]
-    .filter((country) => country !== "IOAI Team" && country !== "Letovo")
+    .filter((country) => country !== "IOAI Team")
     .sort((a, b) => a.localeCompare(b))
     .map((country) => `/countries/${slugify(country)}`);
   const taskPaths = DATA.tasks.map(taskPath);
@@ -354,5 +363,5 @@ export function allStaticPaths() {
     .sort((a, b) => a.localeCompare(b))
     .map((slug) => `/contestants/${slug}`);
 
-  return [...allIndexablePaths(), "/search", "/countries/ioai-team", "/countries/letovo", ...contestantPaths];
+  return [...allIndexablePaths(), "/search", "/countries/ioai-team", ...contestantPaths];
 }
