@@ -795,7 +795,7 @@ function ScoreDistribution({ title, entries, maxScore, track, showCutoffs = fals
       </div>
       <div className="distribution-stats">
         <span>{entryLabel} <strong>{entryCount}</strong></span>
-        <span>Mean score <strong>{formatScore(mean)}</strong></span>
+        <span>Mean score <strong>{formatScore(mean, 4)}</strong></span>
         <span>Median score <strong>{formatScore(median)}</strong></span>
         {showCutoffs ? cutoffs.map((cutoff) => <span key={cutoff.label}>{cutoff.label} cutoff <strong>{formatScore(cutoff.score)}</strong></span>) : null}
       </div>
@@ -807,7 +807,7 @@ type ResultsSortKey = "rank" | "day-1" | "day-2" | "total" | `task-${number}`;
 
 function SortableHeader({ label, sortKey, activeKey, direction, onSort, className = "number" }: { label: string; sortKey: ResultsSortKey; activeKey: ResultsSortKey; direction: "asc" | "desc"; onSort: (key: ResultsSortKey) => void; className?: string }) {
   const active = activeKey === sortKey;
-  return <th className={className}><span className="sortable-heading"><span>{label}</span><button type="button" className={active ? "active" : ""} onClick={() => onSort(sortKey)} aria-label={`Sort by ${label}${active ? `, currently ${direction === "asc" ? "ascending" : "descending"}` : ""}`}>{active && direction === "asc" ? "▲" : "▼"}</button></span></th>;
+  return <th className={`${className} sortable-column`}><button type="button" className={`sortable-heading${active ? " active" : ""}`} onClick={() => onSort(sortKey)} aria-label={`Sort by ${label}${active ? `, currently ${direction === "asc" ? "ascending" : "descending"}` : ""}`}><span>{label}</span><span className="sort-indicator" aria-hidden="true">{active && direction === "asc" ? "▲" : "▼"}</span></button></th>;
 }
 
 function ResultsTable({ results, track, compact = false, showYear = false, showAliases = false, showRankPool = false, mergeYears = false, showTaskScores = false, paginate = false, sortable = false, showDayTotals = false }: {

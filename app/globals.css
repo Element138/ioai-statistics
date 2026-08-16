@@ -813,35 +813,48 @@ h3 {
 
 .contestant-col {
   width: 210px;
+  min-width: 160px;
   max-width: 210px;
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
 .sortable-heading {
-  display: inline-flex;
+  width: 100%;
+  min-height: 38px;
+  padding: 9px 11px;
+  display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   white-space: nowrap;
 }
 
-.sortable-heading button {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border: 1px solid var(--line-strong);
-  background: transparent;
+.sortable-column {
+  padding: 0 !important;
+}
+
+.sort-indicator {
   color: var(--muted);
-  cursor: pointer;
   font-size: 0.55rem;
   line-height: 1;
 }
 
-.sortable-heading button:hover,
-.sortable-heading button.active {
-  border-color: var(--blue);
+.sortable-heading:hover .sort-indicator,
+.sortable-heading.active .sort-indicator {
   color: var(--blue-dark);
+}
+
+.sortable-heading:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
 }
 
 .country-link {

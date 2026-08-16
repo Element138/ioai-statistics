@@ -230,7 +230,7 @@ test("keeps the scoring criteria and branding independently configured", async (
   assert.match(css, /\.data-table\s*\{[^}]*font-size:\s*0\.875rem/s);
   assert.match(css, /\.data-table th,\s*\.data-table td\s*\{[^}]*min-height:\s*38px;[^}]*padding:\s*9px 11px/s);
   assert.match(css, /\.data-table thead th\s*\{[^}]*font-size:\s*0\.75rem/s);
-  assert.match(css, /\.contestant-col\s*\{[^}]*max-width:\s*210px;[^}]*overflow-wrap:\s*anywhere/s);
+  assert.match(css, /\.contestant-col\s*\{[^}]*min-width:\s*160px;[^}]*max-width:\s*210px;[^}]*overflow-wrap:\s*anywhere/s);
   assert.match(css, /\.medal-row\.gold-row td:first-child\s*\{[^}]*inset 5\.4px/s);
   assert.match(css, /\.medal-row\.silver-row td:first-child\s*\{[^}]*inset 4\.8px/s);
   assert.match(css, /\.medal-row\.bronze-row td:first-child\s*\{[^}]*inset 3px/s);
@@ -494,8 +494,8 @@ test("adds compact filters, score summaries, day totals, sorting, and paginated 
   assert.doesNotMatch(results, />88\.6853<\/td>|>271\.335403874227<\/td>/);
   assert.match(results, />Mean score(?:<!-- -->)? <strong>[\d.]+<\/strong>/);
   assert.match(results, />Median score(?:<!-- -->)? <strong>[\d.]+<\/strong>/);
-  assert.match(results, />Day 1<\/span><button[^>]*aria-label="Sort by Day 1/);
-  assert.match(results, />Day 2<\/span><button[^>]*aria-label="Sort by Day 2/);
+  assert.match(results, /<button[^>]*aria-label="Sort by Day 1[^>]*><span>Day 1<\/span>/);
+  assert.match(results, /<button[^>]*aria-label="Sort by Day 2[^>]*><span>Day 2<\/span>/);
   assert.match(results, /aria-label="Sort by T1/);
   assert.equal((results.match(/class="leaderboard-pagination"/g) || []).length, 2);
   assert.ok((results.match(/<tr/g) || []).length < 120);
