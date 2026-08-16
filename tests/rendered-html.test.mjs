@@ -86,7 +86,7 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
   ]);
 
   const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
-  assert.equal(config.redirects.length, 33 + data.tasks.length);
+  assert.equal(config.redirects.length, 36 + data.tasks.length);
   assert.ok(config.redirects.every((redirect) => redirect.permanent));
   assert.deepEqual(config.redirects.find((redirect) => redirect.source === "/contestants/anango-prabhat"), {
     source: "/contestants/anango-prabhat",
@@ -119,6 +119,9 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
     ["/contestants/khairakov-murodjon", "/contestants/murodjon-khairakov"],
     ["/contestants/kandikov-sinan", "/contestants/sinan-kandikov"],
     ["/contestants/haitova-farangis", "/contestants/farangis-haitova"],
+    ["/contestants/ainafi", "/contestants/manandraibe-soamihantanandrasana-ainafinaritra-fiderana"],
+    ["/contestants/zayed-abdulla-mohammed-sabain", "/contestants/zayed-abdulla-mohammed-sabain-almuharrami"],
+    ["/contestants/almuharrami", "/contestants/zayed-abdulla-mohammed-sabain-almuharrami"],
   ]) {
     assert.deepEqual(config.redirects.find((redirect) => redirect.source === source), { source, destination, permanent: true });
   }
@@ -171,6 +174,13 @@ test("publishes stable contestant identities with latest-name canonical slugs", 
     const contestant = await (await render(`/contestants/${slug}`)).text();
     assert.match(contestant, new RegExp(`<h1>${name}<\\/h1>`));
   }
+  const ainafi = await (await render("/contestants/manandraibe-soamihantanandrasana-ainafinaritra-fiderana")).text();
+  assert.match(ainafi, /<h1>Manandraibe Soamihantanandrasana Ainafinaritra Fiderana<\/h1>/);
+  assert.match(ainafi, />2025</);
+  assert.match(ainafi, />2026</);
+  const zayed = await (await render("/contestants/zayed-abdulla-mohammed-sabain-almuharrami")).text();
+  assert.match(zayed, /<h1>Zayed Abdulla Mohammed Sabain Almuharrami<\/h1>/);
+  assert.match(delegations2024, /href="\/contestants\/zayed-abdulla-mohammed-sabain-almuharrami">Zayed Abdulla Mohammed Sabain Almuharrami<\/a>/);
   for (const names of [["César Murat Cepeda Beltrán", "Cesar Murat Cepeda Beltran"], ["Alier Sánchez Y Sánchez", "Alier Sanchez y Sanchez"], ["M’PO YETI Déreck", "M'Po Yeti Déreck"]]) {
     const matching = results.filter((result) => names.includes(result.name));
     assert.equal(matching.length, 2);
