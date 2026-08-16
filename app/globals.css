@@ -2217,6 +2217,11 @@ h3 {
   font-weight: 700;
 }
 
+.day-total-row {
+  background: var(--soft);
+  font-weight: 600;
+}
+
 .policy-page {
   max-width: 820px;
   margin-inline: auto;

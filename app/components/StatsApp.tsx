@@ -1778,6 +1778,7 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
       <div className="participation-list">
         {entries.map((result) => {
           const tasks = contestTasks(result.year, result.track);
+          const dayTotals = [1, 2].map((day) => result.scores.reduce<number>((sum, score, index) => tasks[index]?.day === day ? sum + (score ?? 0) : sum, 0));
           const overallPool = resultsFor(result.year, result.track).length;
           const delegationPool = firstInDelegationPool(result);
           return <section className="participation-card" key={`${result.year}-${result.track}`}>
@@ -1787,6 +1788,8 @@ function ContestantPage({ contestantSlug }: { contestantSlug: string }) {
                 const taskEntry = taskLeaderboardEntries(task, result.track).find((entry) => entry.result.contestantId === result.contestantId);
                 return <tr key={task.slug}><td><a href={`/tasks/${task.slug}`}>{task.name}</a>{isTopSolver(task, result.track, result.scores[index]) ? <span className="achievement-badge top-solver">{result.track === "gaite" ? "GAITE top solver" : "Top solver"}</span> : null}</td><td className="number total">{formatTaskScore(result.scores[index])}</td><td className="number rank">#{taskEntry?.taskRank ?? "—"} / {overallPool}</td></tr>;
               })}
+              <tr className="day-total-row"><td>Day 1 total</td><td className="number total">{dayTotals[0].toFixed(2)}</td><td className="number rank">—</td></tr>
+              <tr className="day-total-row"><td>Day 2 total</td><td className="number total">{dayTotals[1].toFixed(2)}</td><td className="number rank">—</td></tr>
               <tr className="total-row"><td>Overall</td><td className="number">{formatTotalScore(result.total)}</td><td className="number rank">#{competitionRank(result)} / {overallPool}</td></tr>
             </tbody></table></div>
           </section>;

@@ -567,6 +567,8 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.doesNotMatch(individual, />GAITE top solver<\/span>/);
   assert.match(individual, /<th class="number">Rank<\/th>/);
   assert.match(individual, /<tr class="total-row"><td>Overall<\/td>/);
+  assert.match(individual, /<tr class="day-total-row"><td>Day 1 total<\/td><td class="number total">\d+\.\d{2}<\/td>/);
+  assert.match(individual, /<tr class="day-total-row"><td>Day 2 total<\/td><td class="number total">\d+\.\d{2}<\/td>/);
   assert.match(individual, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
   assert.match(individual, />1st in country<\/span>/);
   assert.doesNotMatch(individual, />1st \/ \d+ in delegation<\/span>/);
