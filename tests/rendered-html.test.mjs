@@ -396,6 +396,8 @@ test("keeps edition section navigation, time limits, and signed commentary", asy
 test("shows the appropriate national ranking and caches country summaries", async () => {
   const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
   assert.match(app, /const COUNTRY_RANKINGS =/);
+  assert.match(app, /\? \[summary\.gold, summary\.silver, summary\.bronze\]\s*: \[summary\.level1, summary\.level2, summary\.level3\]/);
+  assert.doesNotMatch(app, /\[summary\.gold, summary\.silver, summary\.bronze, summary\.mention\]|\[summary\.level1, summary\.level2, summary\.level3, summary\.mention\]/);
   assert.match(app, /const summaries = COUNTRY_RANKINGS\[effectiveTrack\]/);
   assert.doesNotMatch(app, /import Link from "next\/link"/);
   assert.match(app, /nav\.map\(\(\[href, label\]\) => <a/);
@@ -444,8 +446,10 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   const rankedTable = ranked.slice(ranked.indexOf('<table class="data-table country-table">'));
   const rankedHeader = rankedTable.slice(0, rankedTable.indexOf("</thead>"));
   assert.match(ranked, /id="delegations-filter"/);
-  assert.match(rankedHeader, />Rank<\/th>.*>Country or region<\/th>.*>Entries<\/th>/s);
-  assert.match(rankedHeader, />Total score<\/th>/);
+  assert.match(rankedHeader, /<span>Rank<\/span>.*>Country or region<\/th>.*>Entries<\/th>/s);
+  assert.match(rankedHeader, /<span>Total score<\/span>/);
+  assert.match(rankedHeader, /aria-label="Sort by Rank, currently ascending"/);
+  assert.match(rankedHeader, /aria-label="Sort by Total score"/);
   assert.match(rankedTable, /class="number total total-score-col">\d/);
   assert.doesNotMatch(rankedHeader, />Editions<\/th>/);
   assert.match(rankedTable, />IOAI Team<\/a>/);

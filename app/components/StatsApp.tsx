@@ -1460,8 +1460,8 @@ function summarizeCountries(results: Result[], includeIOAITeam = false) {
 
 function rankCountrySummaries(summaries: CountrySummary[], track: "main" | "gaite") {
   const awardVector = (summary: CountrySummary) => track === "main"
-    ? [summary.gold, summary.silver, summary.bronze, summary.mention]
-    : [summary.level1, summary.level2, summary.level3, summary.mention];
+    ? [summary.gold, summary.silver, summary.bronze]
+    : [summary.level1, summary.level2, summary.level3];
   const sorted = [...summaries].sort((a, b) => {
     const aVector = awardVector(a);
     const bVector = awardVector(b);
@@ -1496,17 +1496,6 @@ function latestParticipationYears(results: Result[]) {
   return years;
 }
 
-function rankYearCountrySummaries(summaries: CountrySummary[]) {
-  const sorted = [...summaries].sort((a, b) => b.totalScore - a.totalScore || a.country.localeCompare(b.country));
-  let previousScore: number | null = null;
-  let rank = 0;
-  return sorted.map((summary, index) => {
-    if (previousScore === null || summary.totalScore !== previousScore) rank = index + 1;
-    previousScore = summary.totalScore;
-    return { ...summary, rank };
-  });
-}
-
 const LATEST_MAIN_YEAR = latestParticipationYears(COUNTRY_RESULTS.main);
 const FORMER_GAITE_COUNTRIES = new Set(
   [...latestParticipationYears(COUNTRY_RESULTS.gaite)].flatMap(([country, latestGaiteYear]) =>
@@ -1516,7 +1505,7 @@ const FORMER_GAITE_COUNTRIES = new Set(
 
 function yearCountryRankings(year: number, track: "main" | "gaite") {
   if (year === 2024) return [];
-  return rankYearCountrySummaries(summarizeCountries(resultsFor(year, track), true));
+  return rankCountrySummaries(summarizeCountries(resultsFor(year, track), true), track);
 }
 
 const COUNTRY_NAMES = [...new Set([
@@ -1552,12 +1541,31 @@ function DelegationsTable({ year, track }: { year: number; track: Track }) {
 }
 
 function CountrySummaryTable({ summaries, track, showEditions = true, markFormerGaite = false, showTotalScore = false }: { summaries: CountrySummary[]; track: Track; showEditions?: boolean; markFormerGaite?: boolean; showTotalScore?: boolean }) {
+  const [sortKey, setSortKey] = useState<"rank" | "total">("rank");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const showRank = summaries.some((summary) => summary.rank !== undefined);
   const displayAwardCount = (value: number) => showRank ? formatAwardCount(value) : value;
   const tiedRanks = new Set(summaries.filter((summary) => summaries.filter((candidate) => candidate.rank === summary.rank).length > 1).map((summary) => summary.rank));
+  const sortSummaries = (key: "rank" | "total") => {
+    if (sortKey === key) setSortDirection((current) => current === "asc" ? "desc" : "asc");
+    else {
+      setSortKey(key);
+      setSortDirection(key === "total" ? "desc" : "asc");
+    }
+  };
+  const sortableCountryHeader = (label: string, key: "rank" | "total", className: string) => {
+    const active = sortKey === key;
+    return <th className={`${className} sortable-column`}><button type="button" className={`sortable-heading${active ? " active" : ""}`} onClick={() => sortSummaries(key)} aria-label={`Sort by ${label}${active ? `, currently ${sortDirection === "asc" ? "ascending" : "descending"}` : ""}`}><span>{label}</span><span className="sort-indicator" aria-hidden="true">{active && sortDirection === "asc" ? "▲" : "▼"}</span></button></th>;
+  };
+  const visibleSummaries = showTotalScore ? [...summaries].sort((left, right) => {
+    const difference = sortKey === "rank"
+      ? (left.rank ?? Number.MAX_SAFE_INTEGER) - (right.rank ?? Number.MAX_SAFE_INTEGER)
+      : left.totalScore - right.totalScore;
+    return (sortDirection === "asc" ? difference : -difference) || (left.rank ?? 0) - (right.rank ?? 0) || left.country.localeCompare(right.country);
+  }) : summaries;
   return (
-    <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? <th className="number">Rank</th> : null}<th>Country or region</th><th className="number">Entries</th>{showEditions ? <th className="number">Editions</th> : null}{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}{showTotalScore ? <th className="number total-score-col">Total score</th> : null}</tr></thead><tbody>
-      {summaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{leaderboardRank(summary.rank!, tiedRanks.has(summary.rank))}</td> : null}<td><div className="country-name-cell"><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a>{markFormerGaite && FORMER_GAITE_COUNTRIES.has(summary.country) ? <span className="former-gaite-badge">Now Individual</span> : null}</div></td><td className="number">{summary.contestants}</td>{showEditions ? <td className="number">{summary.years.length}</td> : null}{track === "main" ? <><td className="number medal-count gold-count">{displayAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{displayAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{displayAwardCount(summary.bronze)}</td><td className="number">{displayAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{displayAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{displayAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{displayAwardCount(summary.level3)}</td><td className="number">{displayAwardCount(summary.mention)}</td></>}{showTotalScore ? <td className="number total total-score-col">{formatTotalScore(summary.totalScore)}</td> : null}</tr>)}
+    <div className="table-wrap"><table className="data-table country-table"><thead><tr>{showRank ? (showTotalScore ? sortableCountryHeader("Rank", "rank", "number") : <th className="number">Rank</th>) : null}<th>Country or region</th><th className="number">Entries</th>{showEditions ? <th className="number">Editions</th> : null}{track === "main" ? <><th className="number medal-col gold-col">G</th><th className="number medal-col silver-col">S</th><th className="number medal-col bronze-col">B</th><th className="number medal-col">HM</th></> : <><th className="number gaite-level-1-col">L1</th><th className="number gaite-level-2-col">L2</th><th className="number gaite-level-3-col">L3</th><th className="number">HM</th></>}{showTotalScore ? sortableCountryHeader("Total score", "total", "number total-score-col") : null}</tr></thead><tbody>
+      {visibleSummaries.map((summary) => <tr key={summary.country}>{showRank ? <td className="number rank">{leaderboardRank(summary.rank!, tiedRanks.has(summary.rank))}</td> : null}<td><div className="country-name-cell"><a className="country-link" href={`/countries/${slugify(summary.country)}`}><Flag country={summary.country} />{summary.country}</a>{markFormerGaite && FORMER_GAITE_COUNTRIES.has(summary.country) ? <span className="former-gaite-badge">Now Individual</span> : null}</div></td><td className="number">{summary.contestants}</td>{showEditions ? <td className="number">{summary.years.length}</td> : null}{track === "main" ? <><td className="number medal-count gold-count">{displayAwardCount(summary.gold)}</td><td className="number medal-count silver-count">{displayAwardCount(summary.silver)}</td><td className="number medal-count bronze-count">{displayAwardCount(summary.bronze)}</td><td className="number">{displayAwardCount(summary.mention)}</td></> : <><td className="number gaite-level-1-count">{displayAwardCount(summary.level1)}</td><td className="number gaite-level-2-count">{displayAwardCount(summary.level2)}</td><td className="number gaite-level-3-count">{displayAwardCount(summary.level3)}</td><td className="number">{displayAwardCount(summary.mention)}</td></>}{showTotalScore ? <td className="number total total-score-col">{formatTotalScore(summary.totalScore)}</td> : null}</tr>)}
     </tbody></table></div>
   );
 }
