@@ -830,8 +830,6 @@ h3 {
   background: var(--surface);
 }
 
-.data-table tbody tr:hover td.grouped-year { background: var(--surface); }
-
 .data-table tbody tr:last-child td {
   border-bottom: 0;
 }
@@ -852,10 +850,6 @@ h3 {
   background: var(--table-stripe);
 }
 
-.data-table tbody tr:hover {
-  background: var(--table-hover);
-}
-
 .data-table .number {
   text-align: right;
 }
@@ -873,6 +867,10 @@ h3 {
 .data-table .total {
   color: var(--ink);
   font-weight: 700;
+}
+
+.data-table .total-score-col {
+  font-weight: 800;
 }
 
 .data-table small {
