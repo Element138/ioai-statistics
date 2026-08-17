@@ -74,16 +74,16 @@ function countryRanks(results: Result[], track: "main" | "gaite") {
   const counts = new Map<string, number[]>();
   for (const result of results) {
     if (result.country === "IOAI Team") continue;
-    const vector = counts.get(result.country) ?? [0, 0, 0, 0];
+    const vector = counts.get(result.country) ?? [0, 0, 0];
     const type = awardType(result.award);
     const index = track === "main"
-      ? ["gold", "silver", "bronze", "mention"].indexOf(type)
-      : ["level1", "level2", "level3", "mention"].indexOf(type);
+      ? ["gold", "silver", "bronze"].indexOf(type)
+      : ["level1", "level2", "level3"].indexOf(type);
     if (index >= 0) vector[index] += 1;
     counts.set(result.country, vector);
   }
   const sorted = [...counts].sort((a, b) => {
-    for (let index = 0; index < 4; index += 1) {
+    for (let index = 0; index < 3; index += 1) {
       if (a[1][index] !== b[1][index]) return b[1][index] - a[1][index];
     }
     return a[0].localeCompare(b[0]);
@@ -102,6 +102,15 @@ const COUNTRY_RANKS = {
   main: countryRanks(MAIN_RESULTS, "main"),
   gaite: countryRanks(GAITE_RESULTS, "gaite"),
 };
+
+function ordinal(value: number) {
+  const remainder100 = value % 100;
+  if (remainder100 >= 11 && remainder100 <= 13) return `${value}th`;
+  if (value % 10 === 1) return `${value}st`;
+  if (value % 10 === 2) return `${value}nd`;
+  if (value % 10 === 3) return `${value}rd`;
+  return `${value}th`;
+}
 
 function taskDifficulty(task: Task) {
   const tracks = task.tracks?.length ? task.tracks : [task.track];
@@ -269,13 +278,10 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     const country = [...new Set([...RESULTS.map((result) => result.country), ...TEAM_COUNTRIES])]
       .find((item) => slugify(item) === parts[1]);
     if (!country) return unknownPage(parts);
-    const ranks = [
-      COUNTRY_RANKS.main.has(country) ? `Individual #${COUNTRY_RANKS.main.get(country)}/${COUNTRY_RANKS.main.size}` : null,
-      COUNTRY_RANKS.gaite.has(country) ? `GAITE #${COUNTRY_RANKS.gaite.get(country)}/${COUNTRY_RANKS.gaite.size}` : null,
-    ].filter(Boolean).join("; ");
+    const individualRank = COUNTRY_RANKS.main.get(country);
     return {
       canonicalPath: `/countries/${parts[1]}`,
-      description: `${country}'s IOAI participation, results and awards.${ranks ? ` All-time national rank: ${ranks}.` : ""}`,
+      description: `${individualRank ? `${country} is ranked ${ordinal(individualRank)} globally in the all-time IOAI Individual standings. ` : ""}See ${country}'s IOAI participation, results and awards.`,
       indexable: country !== "IOAI Team",
       title: country,
     };

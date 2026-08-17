@@ -674,6 +674,12 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   assert.match(countryHtml, /<title>Côte d(?:&#x27;|')Ivoire · IOAI Statistics<\/title>/);
   assert.doesNotMatch(countryHtml, / at IOAI · IOAI Statistics<\/title>/);
 
+  const palestineHtml = await (await render("/countries/palestine")).text();
+  assert.match(palestineHtml, /<meta name="description" content="Palestine is ranked \d+(?:st|nd|rd|th) globally in the all-time IOAI Individual standings\. See Palestine(?:&#x27;|')s IOAI participation, results and awards\."\/>/);
+  const gaiteOnlyCountryHtml = await (await render("/countries/puerto-rico")).text();
+  assert.match(gaiteOnlyCountryHtml, /<meta name="description" content="See Puerto Rico(?:&#x27;|')s IOAI participation, results and awards\."\/>/);
+  assert.doesNotMatch(gaiteOnlyCountryHtml, /Puerto Rico is ranked/);
+
   const homeResponse = await render("/");
   const homeHtml = await homeResponse.text();
   assert.match(homeHtml, /"@type":"WebSite"/);

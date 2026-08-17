@@ -36,3 +36,26 @@ This project is independent and is not affiliated with or endorsed by the
 official IOAI organization. Results pages link to their official source where
 available. Corrections can be reported through the contact details published
 on the website.
+
+## Public-interest purpose and responsible use
+
+This repository and the website it operates are published for public-interest
+reporting, archiving, education, and transparency concerning officially
+published IOAI records. The archive includes names, affiliations, and results
+that may constitute personal information. Anyone reusing the repository or its
+data is responsible for ensuring that their use is lawful, fair, accurate,
+proportionate, and compliant with all applicable privacy, data-protection, and
+other laws. The data should not be used to harass, target, discriminate against,
+or make consequential decisions about any person.
+
+The software is provided under the MIT License and, like the archive data, is
+provided without any guarantee of completeness, accuracy, or fitness for a
+particular purpose. The MIT License does not grant rights in third-party source
+materials, names, logos, or personal information, and it does not remove any
+legal obligations that apply to a user's own processing or republication of the
+data. Official sources remain authoritative. Please report an accuracy or
+privacy concern through the corrections contact published on the website.
+
+## License
+
+The software in this repository is licensed under the [MIT License](LICENSE).
