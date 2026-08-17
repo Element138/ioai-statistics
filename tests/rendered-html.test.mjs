@@ -396,6 +396,8 @@ test("keeps edition section navigation, time limits, and signed commentary", asy
 test("shows the appropriate national ranking and caches country summaries", async () => {
   const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
   assert.match(app, /const COUNTRY_RANKINGS =/);
+  assert.match(app, /\? \[summary\.gold, summary\.silver, summary\.bronze\]\s*: \[summary\.level1, summary\.level2, summary\.level3\]/);
+  assert.doesNotMatch(app, /\[summary\.gold, summary\.silver, summary\.bronze, summary\.mention\]|\[summary\.level1, summary\.level2, summary\.level3, summary\.mention\]/);
   assert.match(app, /const summaries = COUNTRY_RANKINGS\[effectiveTrack\]/);
   assert.doesNotMatch(app, /import Link from "next\/link"/);
   assert.match(app, /nav\.map\(\(\[href, label\]\) => <a/);
@@ -444,7 +446,11 @@ test("ranks year-level delegations, includes IOAI Team there only, and leaves 20
   const rankedTable = ranked.slice(ranked.indexOf('<table class="data-table country-table">'));
   const rankedHeader = rankedTable.slice(0, rankedTable.indexOf("</thead>"));
   assert.match(ranked, /id="delegations-filter"/);
-  assert.match(rankedHeader, />Rank<\/th>.*>Country or region<\/th>.*>Entries<\/th>/s);
+  assert.match(rankedHeader, /<span>Rank<\/span>.*>Country or region<\/th>.*>Entries<\/th>/s);
+  assert.match(rankedHeader, /<span>Total score<\/span>/);
+  assert.match(rankedHeader, /aria-label="Sort by Rank, currently ascending"/);
+  assert.match(rankedHeader, /aria-label="Sort by Total score"/);
+  assert.match(rankedTable, /class="number total total-score-col">\d/);
   assert.doesNotMatch(rankedHeader, />Editions<\/th>/);
   assert.match(rankedTable, />IOAI Team<\/a>/);
   assert.match(rankedTable, />—<\/td>/);
@@ -483,7 +489,7 @@ test("publishes 2024 team records without changing individual national rankings"
 
   const russia = await (await render("/countries/russia")).text();
   assert.match(russia, /<title>Russia · IOAI Statistics<\/title>/);
-  assert.match(russia, /The 2024 Russian delegation competed under the team name Letovo\./);
+  assert.doesNotMatch(russia, /The 2024 Russian delegation competed under the team name Letovo\./);
   assert.match(russia, /<span>Participating editions<\/span><strong>3<\/strong>/);
   assert.match(russia, /<button[^>]*>Team<\/button>/);
   assert.match(russia, /flagcdn\.com\/80x60\/ru\.png/);
@@ -704,7 +710,7 @@ test("ships accessible system-aware dark mode and normalized unordered search", 
   assert.match(app, /terms\.every\(\(term\) => haystack\.includes\(term\)\)/);
   assert.match(app, /replace\(\/\[łŁ\]\/g, "l"\)/);
   assert.match(css, /:root\[data-theme="dark"\]/);
-  assert.match(css, /\.data-table tbody tr:hover td\.grouped-year \{ background: var\(--surface\); \}/);
+  assert.doesNotMatch(css, /\.data-table tbody tr:hover/);
 });
 
 test("supports a draggable inertial home flag ring and marks former GAITE participation", async () => {
