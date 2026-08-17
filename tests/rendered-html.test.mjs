@@ -604,6 +604,7 @@ test("prefixes every displayed GAITE award badge", async () => {
   assert.match(individual, /<tr class="day-total-row"><td>Day 1 total<\/td><td class="number total">\d+\.\d{2}<\/td><td class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
   assert.match(individual, /<tr class="day-total-row"><td>Day 2 total<\/td><td class="number total">\d+\.\d{2}<\/td><td class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
   assert.match(individual, /class="number rank">#(?:<!-- -->)?\d+(?:<!-- -->)? \/ (?:<!-- -->)?440<\/td>/);
+  assert.doesNotMatch(individual, /class="number rank">=/);
   assert.match(individual, />1st in country<\/span>/);
   assert.doesNotMatch(individual, />1st \/ \d+ in delegation<\/span>/);
   assert.doesNotMatch(individual, /<strong>Rank (?:<!-- -->)?\d+<\/strong>/);
@@ -611,7 +612,10 @@ test("prefixes every displayed GAITE award badge", async () => {
 
 test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   const privacy = await (await render("/privacy")).text();
-  assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 14 August 2026/);
+  assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 17 August 2026/);
+  assert.match(privacy, /Contestant result pages are ordinarily made available to search engines, with de-indexing available on request/);
+  assert.match(privacy, /supported request to de-index a contestant page will ordinarily be honored promptly/);
+  assert.match(privacy, /standard &quot;noindex&quot; instruction/);
   assert.match(privacy, /no accounts, advertising or tracking cookies/);
   assert.match(privacy, />Cloudflare Web Analytics<\/a>/);
   assert.match(privacy, /count aggregate visits and page views and measure real-user performance/);
@@ -647,7 +651,9 @@ test("loads the supplied Cloudflare beacon without a consent prompt or browser s
   await assert.rejects(access(new URL("../app/components/AnalyticsConsent.tsx", import.meta.url)));
 });
 
-test("publishes indexable metadata while excluding contestant pages", async () => {
+test("publishes indexable metadata and supports contestant de-indexing overrides", async () => {
+  const seo = await readFile(new URL("../app/seo.ts", import.meta.url), "utf8");
+  assert.match(seo, /const CONTESTANT_NOINDEX_IDS = new Set<string>\(\[\]\)/);
   const taskResponse = await render("/tasks/2025/radar");
   const taskHtml = await taskResponse.text();
   assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
@@ -686,7 +692,14 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   assert.match(homeHtml, /"name":"IOAI Statistics","alternateName":"IOAI Stats"/);
 
   const contestantResponse = await render("/contestants/krzysztof-rojek");
-  assert.match(await contestantResponse.text(), /<meta name="robots" content="noindex, follow"\/>/);
+  const contestantHtml = await contestantResponse.text();
+  assert.match(contestantHtml, /<meta name="robots" content="index, follow"\/>/);
+  assert.match(contestantHtml, /<title>Krzysztof Rojek .* IOAI Statistics<\/title>/);
+  assert.match(contestantHtml, /<meta name="description" content="Krzysztof Rojek placed \d+(?:st|nd|rd|th)(?: with (?:a|an) [^"]+)? representing Poland at IOAI \d{4} (?:Individual|GAITE)\."\/>/);
+  assert.doesNotMatch(contestantHtml, /See published/);
+
+  const teamOnlyContestantHtml = await (await render("/contestants/andrey-gromyko")).text();
+  assert.match(teamOnlyContestantHtml, /<meta name="description" content="Andrey Gromyko represented Russia at IOAI 2024, receiving a Gold Medal in Scientific, a Silver Award in Practical and a Special Award\."\/>/);
 
   const robotsResponse = await render("/robots.txt");
   assert.equal(robotsResponse.headers.get("content-type"), "text/plain");
@@ -698,7 +711,8 @@ test("publishes indexable metadata while excluding contestant pages", async () =
   assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/2025\/radar<\/loc>/);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/radar<\/loc>/);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
-  assert.doesNotMatch(sitemap, /\/contestants\//);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/contestants\/krzysztof-rojek<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/contestants\/andrey-gromyko<\/loc>/);
   assert.doesNotMatch(sitemap, /<priority>|<changefreq>/);
 });
 

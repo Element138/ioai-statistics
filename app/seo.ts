@@ -30,11 +30,19 @@ type Result = {
   year: number;
   award: string;
   scores: number[];
+  rank: number;
+  track: "main" | "gaite";
 };
 
 type TeamCard = {
   name: string;
   students: string[];
+};
+
+type TeamResult2024 = {
+  team: string;
+  rank: number;
+  award?: string;
 };
 
 type SeoData = {
@@ -46,6 +54,9 @@ type SeoData = {
   mainResults2026: Result[];
   gaiteResults2026: Result[];
   teams2024: TeamCard[];
+  scientificResults2024: TeamResult2024[];
+  practicalResults2024: TeamResult2024[];
+  specialAwards2024: TeamResult2024[];
 };
 
 const DATA = rawData as SeoData;
@@ -176,21 +187,25 @@ const contestant2024IdentityOverrides = new Map<string, string>([
   ["Nagy Dávid Leonárd", "contestant-leo-nagy"],
   ["Stefano Pio Schack Larsen", "contestant-stefano-larsen"],
 ]);
+const TEAM_PARTICIPANT_IDS_2024 = new Map<string, string>();
 for (const team of DATA.teams2024) {
   for (const name of team.students) {
     const overrideId = contestant2024IdentityOverrides.get(name);
     const overrideIdentity = overrideId ? CONTESTANT_IDENTITIES.get(overrideId) : null;
     if (overrideIdentity) {
       if (!overrideIdentity.aliases.includes(name)) overrideIdentity.aliases.push(name);
+      TEAM_PARTICIPANT_IDS_2024.set(`${team.name}|${name}`, overrideIdentity.contestantId);
       continue;
     }
     const matches = identitiesBySignature.get(nameTokenSignature(name)) ?? [];
     if (matches.length === 1) {
       if (!matches[0].aliases.includes(name)) matches[0].aliases.push(name);
+      TEAM_PARTICIPANT_IDS_2024.set(`${team.name}|${name}`, matches[0].contestantId);
       continue;
     }
     const contestantId = `contestant-2024-${slugify(name)}`;
     CONTESTANT_IDENTITIES.set(contestantId, { contestantId, slug: slugify(name), name, aliases: [name] });
+    TEAM_PARTICIPANT_IDS_2024.set(`${team.name}|${name}`, contestantId);
   }
 }
 
@@ -212,6 +227,58 @@ function countryFromTeam(team: string) {
 }
 
 const TEAM_COUNTRIES = [...new Set(DATA.teams2024.map((team) => countryFromTeam(team.name)))];
+
+// Add stable contestant IDs here when a contestant-page indexing request is accepted.
+const CONTESTANT_NOINDEX_IDS = new Set<string>([]);
+
+function teamResult2024(team: string, results: TeamResult2024[]) {
+  return results.find((result) => result.team === team);
+}
+
+function joinPhrases(items: string[]) {
+  if (items.length <= 1) return items[0] ?? "";
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
+}
+
+function contestantAwardLabel(award: string) {
+  const value = award.toLowerCase();
+  const trophy = value.match(/([123])(?:st|nd|rd) place trophy/);
+  if (value.includes("gold")) return `Gold Medal${trophy ? ` and ${trophy[1]}${trophy[1] === "1" ? "st" : trophy[1] === "2" ? "nd" : "rd"} Place Trophy` : ""}`;
+  if (value.includes("silver")) return "Silver Medal";
+  if (value.includes("bronze")) return "Bronze Medal";
+  if (value.includes("level 1") || value.includes("first level")) return "Level 1 Award";
+  if (value.includes("level 2") || value.includes("second level")) return "Level 2 Award";
+  if (value.includes("level 3") || value.includes("third level")) return "Level 3 Award";
+  if (value.includes("honour") || value.includes("honorable")) return "Honorable Mention";
+  return "";
+}
+
+function contestantDescription(identity: { contestantId: string; name: string }) {
+  const awardOrder = ["gold", "level1", "silver", "level2", "bronze", "level3", "mention", "other"];
+  const best = RESULTS.filter((result) => result.contestantId === identity.contestantId)
+    .sort((left, right) => awardOrder.indexOf(awardType(left.award)) - awardOrder.indexOf(awardType(right.award)) || left.rank - right.rank || right.year - left.year)[0];
+  if (best) {
+    const label = contestantAwardLabel(best.award);
+    const award = label ? ` with ${label === "Honorable Mention" ? "an" : "a"} ${label}` : "";
+    return `${identity.name} placed ${ordinal(best.rank)}${award} representing ${best.country} at IOAI ${best.year} ${best.track === "gaite" ? "GAITE" : "Individual"}.`;
+  }
+
+  const participation = DATA.teams2024.flatMap((team) => team.students.map((name) => ({ team, name })))
+    .find(({ team, name }) => TEAM_PARTICIPANT_IDS_2024.get(`${team.name}|${name}`) === identity.contestantId);
+  if (participation) {
+    const scientific = teamResult2024(participation.team.name, DATA.scientificResults2024);
+    const practical = teamResult2024(participation.team.name, DATA.practicalResults2024);
+    const awards = [
+      scientific?.award ? `a ${scientific.award} Medal in Scientific` : null,
+      practical?.award ? `a ${practical.award} Award in Practical` : null,
+      teamResult2024(participation.team.name, DATA.specialAwards2024) ? "a Special Award" : null,
+    ].filter((value): value is string => Boolean(value));
+    return `${identity.name} represented ${countryFromTeam(participation.team.name)} at IOAI 2024${awards.length ? `, receiving ${joinPhrases(awards)}` : ""}.`;
+  }
+
+  return `${identity.name}'s published IOAI participation and results.`;
+}
 
 export type PageSeo = {
   canonicalPath: string;
@@ -341,8 +408,8 @@ export function pageSeoForPath(parts: string[]): PageSeo {
     const name = contestant.name;
     return {
       canonicalPath: `/contestants/${contestant.slug}`,
-      description: `${name}'s published IOAI results and task scores.`,
-      indexable: false,
+      description: contestantDescription(contestant),
+      indexable: !CONTESTANT_NOINDEX_IDS.has(contestant.contestantId),
       title: name,
     };
   }
@@ -360,14 +427,19 @@ export function allIndexablePaths() {
     .sort((a, b) => a.localeCompare(b))
     .map((country) => `/countries/${slugify(country)}`);
   const taskPaths = DATA.tasks.map(taskPath);
+  const contestantPaths = [...CONTESTANT_IDENTITIES.values()]
+    .filter((identity) => !CONTESTANT_NOINDEX_IDS.has(identity.contestantId))
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .map((identity) => `/contestants/${identity.slug}`);
 
-  return [...staticPaths, ...editionPaths, ...countryPaths, ...taskPaths];
+  return [...staticPaths, ...editionPaths, ...countryPaths, ...taskPaths, ...contestantPaths];
 }
 
 export function allStaticPaths() {
-  const contestantPaths = [...CONTESTANT_IDENTITIES.values()].map((identity) => identity.slug)
-    .sort((a, b) => a.localeCompare(b))
-    .map((slug) => `/contestants/${slug}`);
+  const noindexContestantPaths = [...CONTESTANT_IDENTITIES.values()]
+    .filter((identity) => CONTESTANT_NOINDEX_IDS.has(identity.contestantId))
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .map((identity) => `/contestants/${identity.slug}`);
 
-  return [...allIndexablePaths(), "/search", "/countries/ioai-team", ...contestantPaths];
+  return [...allIndexablePaths(), "/search", "/countries/ioai-team", ...noindexContestantPaths];
 }
