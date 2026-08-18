@@ -1991,6 +1991,7 @@ function EnglishPrivacyPolicy({ onJapanese }: { onJapanese: () => void }) {
       <aside className="policy-references" aria-label="Regulatory references">
         <strong>Reference</strong>
         <p><a href="https://www.ppc.go.jp/en/legal/" target="_blank" rel="noreferrer">Personal Information Protection Commission of Japan: APPI</a></p>
+        <p>Inquiries: <strong>@aka138</strong> on Discord</p>
       </aside>
     </article>
   );
@@ -2016,14 +2017,14 @@ function JapanesePrivacyPolicy({ onEnglish }: { onEnglish: () => void }) {
 
       <div className="policy-summary">
         <strong>概要</strong>
-        <p>IOAI Statistics は、日本在住の近藤佐介が運営する、非公式かつ公益を目的とした記録・報道アーカイブです。本サイトは、IOAI の公式結果について、事実に基づく記録、統計、および大会回ごとの編集上の論評を通じて報道しますが、個人についての主観的な人物評やプロフィールは掲載しません。</p>
+        <p>IOAI Statistics は、日本在住の<a href="https://github.com/Element138" target="_blank" rel="noreferrer">近藤佐介</a>が運営する、非公式かつ公益を目的とした記録・報道アーカイブです。本サイトは、IOAI の公式結果について、事実に基づく記録、統計、および大会回ごとの編集者による論評を通じて報道しますが、個人についての主観的な人物評やプロフィールは掲載しません。</p>
         <p>参加者の結果ページは、通常、検索エンジンによるインデックス登録の対象となりますが、申出により検索結果からの除外（de-indexing）を行うことができます。</p>
         <p>本サイトには、ユーザーアカウント、広告、トラッキング Cookie はありません。Cookie を使用しない Cloudflare Web Analytics により、アクセス状況および実ユーザーのパフォーマンスを集計ベースで測定します。任意の一般フィードバックフォームは、個人情報を収集しないよう設計されています。</p>
       </div>
 
       <section>
         <h2>1. 運営者、適用範囲および適用法</h2>
-        <p>IOAI Statistics は、日本在住の IOAI 2026 参加経験者である Sasuke Kondo が個人で運営しています。本アーカイブは非公式であり、IOAI およびその主催者から独立しています。</p>
+        <p>IOAI Statistics は、日本在住の IOAI 2026 参加経験者である<a href="https://github.com/Element138" target="_blank" rel="noreferrer">近藤佐介</a>が個人で運営しています。本アーカイブは非公式であり、IOAI およびその主催者から独立しています。</p>
         <p>本サイトは日本から運営されており、該当する場合、日本の「個人情報の保護に関する法律」（個人情報保護法、APPI）に従って個人情報を取り扱います。本サイトは世界中から利用できますが、特定の国または地域の利用者を対象として提供されるものではありません。</p>
       </section>
 
@@ -2034,7 +2035,7 @@ function JapanesePrivacyPolicy({ onEnglish }: { onEnglish: () => void }) {
         <p>本アーカイブでは、参加者または大会関係者について、氏名、国または代表団、参加年および競技部門、最終得点、順位、受賞内容、各課題の結果、チーム構成ならびに公に示された大会上の役割を掲載することがあります。</p>
         <p>論評には、参加者または大会関係者の人格についての主観的評価、人物プロフィール、または個人ごとの意見は含まれません。本アーカイブは、非公開の連絡先、住所、生年月日、非公開の識別情報、健康情報、その他の機微な個人情報を意図的に掲載しません。</p>
         <p>アーカイブの情報は、IOAI の公式ウェブサイト、公式結果発表、公式課題リポジトリ、公式スコアファイル、およびこれらに類する公開された IOAI の資料から収集されます。通常、参加者本人から直接収集するものではありません。</p>
-        <p>順位、受賞数、難易度表示、分布およびバッジは、公表された最終結果をもとに作成された編集上または統計上の成果物です。これらによって、個人に法的効果またはこれに類する重大な影響を及ぼす決定を行うものではありません。</p>
+        <p>順位、受賞数、難易度表示、分布およびバッジは、公表された最終結果をもとに、編集または統計分析を通じて作成された成果物です。これらによって、個人に法的効果またはこれに類する重大な影響を及ぼす決定を行うものではありません。</p>
       </section>
 
       <section>
@@ -2093,6 +2094,7 @@ function JapanesePrivacyPolicy({ onEnglish }: { onEnglish: () => void }) {
       <aside className="policy-references" aria-label="参考">
         <strong>参考</strong>
         <p><a href="https://www.ppc.go.jp/personalinfo/legal/" target="_blank" rel="noreferrer">個人情報保護委員会：個人情報保護法（APPI）</a></p>
+        <p>お問い合わせ：<strong>@aka138</strong>（Discord）</p>
       </aside>
     </article>
   );

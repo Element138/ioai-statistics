@@ -627,6 +627,12 @@ test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   assert.match(app, /本ページは、IOAI Statistics の英語版プライバシーポリシーの日本語訳です/);
   assert.match(app, /参加者の結果ページは、通常、検索エンジンによるインデックス登録の対象となります/);
   assert.match(app, /https:\/\/www\.ppc\.go\.jp\/personalinfo\/legal\//);
+  assert.match(app, /日本在住の<a href="https:\/\/github\.com\/Element138" target="_blank" rel="noreferrer">近藤佐介<\/a>/);
+  assert.match(app, /大会回ごとの編集者による論評/);
+  assert.match(app, /編集または統計分析を通じて作成された成果物/);
+  assert.doesNotMatch(app, /編集上/);
+  assert.match(app, /Inquiries: <strong>@aka138<\/strong> on Discord/);
+  assert.match(app, /お問い合わせ：<strong>@aka138<\/strong>（Discord）/);
   assert.doesNotMatch(app, /No one should submit private information about another child|真正な懸念を申し出て解決するため/);
   assert.match(css, /\.policy-language-toggle\s*\{[^}]*border-bottom:\s*1px solid var\(--line-strong\)/s);
   assert.doesNotMatch(css, /\.policy-language-toggle(?:\s+button)?\s*\{[^}]*border-radius/s);
