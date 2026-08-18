@@ -929,7 +929,7 @@ function ResultsTable({ results, track, compact = false, showYear = false, showA
         <tbody>
           {visibleResults.map((result, resultIndex) => (
             <tr key={`${result.year}-${result.track}-${result.rank}-${result.contestantId}`} className={medalRowClass(result.award)}>
-              <td className="number rank">{showRankPool && !isCompetitionRankTied(result) ? "#" : ""}{leaderboardRank(competitionRank(result), isCompetitionRankTied(result))}{showRankPool ? ` / ${resultsFor(result.year, result.track).length}` : ""}</td>
+              <td className="number rank">{showRankPool ? `#${competitionRank(result)} / ${resultsFor(result.year, result.track).length}` : leaderboardRank(competitionRank(result), isCompetitionRankTied(result))}</td>
               {showYear && (!mergeYears || yearSpans[resultIndex] > 0) ? <td className="number grouped-year" rowSpan={mergeYears ? yearSpans[resultIndex] : undefined}><a href={`/olympiads/${result.year}/results`}>{result.year}</a></td> : null}
               <td className="contestant-col"><a href={`/contestants/${result.slug}`}>{showAliases ? contestantAliasLabel(result) : result.name}</a></td>
               {!showTaskScores ? <td>
@@ -1717,7 +1717,7 @@ function TaskPage({ taskYear, taskSlug }: { taskYear: number; taskSlug: string }
           <ScoreDistribution title={`${TRACK_LABELS[effectiveTrack]} · ${task.name}`} entries={allScores.map(({ result, score }) => ({ score, award: result.award }))} maxScore={task.maxScore ?? 100} track={effectiveTrack} />
           <div className="toolbar-row"><SectionTitle title="Task leaderboard" /><CompactFilter id="task-leaderboard-filter" value={query} onChange={changeQuery} placeholder="Filter people or countries" label="Filter task leaderboard" count={scores.length} /></div>
           {scores.length ? <><LeaderboardPagination page={currentPage} pageCount={pageCount} total={scores.length} onChange={setPage} /><div className="table-wrap"><table className="data-table"><thead><tr><th className="number">Task rank</th><th className="contestant-col">Contestant</th><th>Country or region</th><th className="number">Score</th><th className="number">Overall rank</th><th>Award</th></tr></thead><tbody>
-            {visibleScores.map(({ result, score, taskRank }) => <tr key={result.contestantId} className={medalRowClass(result.award)}><td className="number rank">{leaderboardRank(taskRank, scores.filter((entry) => entry.taskRank === taskRank).length > 1)}</td><td className="contestant-col"><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatTaskScore(score)}</td><td className="number">{isCompetitionRankTied(result) ? "=" : "#"}{competitionRank(result)}</td><td><AwardBadge award={result.award} track={effectiveTrack} /></td></tr>)}
+            {visibleScores.map(({ result, score, taskRank }) => <tr key={result.contestantId} className={medalRowClass(result.award)}><td className="number rank">{leaderboardRank(taskRank, scores.filter((entry) => entry.taskRank === taskRank).length > 1)}</td><td className="contestant-col"><a href={`/contestants/${result.slug}`}>{result.name}</a></td><td><a className="country-link" href={`/countries/${slugify(result.country)}`}><Flag country={result.country} />{result.country}</a></td><td className="number total">{formatTaskScore(score)}</td><td className="number">#{competitionRank(result)}</td><td><AwardBadge award={result.award} track={effectiveTrack} /></td></tr>)}
           </tbody></table></div><LeaderboardPagination page={currentPage} pageCount={pageCount} total={scores.length} onChange={setPage} /></> : <EmptyState title="No positive task scores">No published score exceeds 0.0 points for this track.</EmptyState>}
         </>
       )}
@@ -1930,12 +1930,12 @@ function PrivacyPage() {
       <header className="page-heading policy-heading">
         <p className="eyebrow">Legal and privacy</p>
         <h1>Privacy policy</h1>
-        <p>Effective 11 August 2026 · Amended 14 August 2026</p>
+        <p>Effective 11 August 2026 · Amended 17 August 2026</p>
       </header>
 
       <div className="policy-summary">
         <strong>In brief</strong>
-        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. The archive has no accounts, advertising or tracking cookies. Cookie-free Cloudflare Web Analytics provides aggregate visit and real-user performance measurement. Its optional general feedback form is designed not to collect personal information.</p>
+        <p>IOAI Statistics is an unofficial, public-interest reporting archive operated by Sasuke Kondo from Japan. It reports official IOAI results through factual records, statistics and edition-level editorial commentary, without publishing subjective profiles of individual people. Contestant result pages are ordinarily made available to search engines, with de-indexing available on request. The archive has no accounts, advertising or tracking cookies. Cookie-free Cloudflare Web Analytics provides aggregate visit and real-user performance measurement. Its optional general feedback form is designed not to collect personal information.</p>
       </div>
 
       <section>
@@ -1953,14 +1953,15 @@ function PrivacyPage() {
 
       <section>
         <h2>3. Publication, accuracy and retention of archive records</h2>
-        <p>The archive is published on the open web. Its pages may be viewed, indexed, quoted or copied by people and services anywhere in the world. Removing information here does not remove it from an official source, a search-engine cache or an independent copy outside the operator&apos;s control. Archive data is not sold, used for advertising or supplied to data brokers.</p>
+        <p>The archive is published on the open web. Its pages, including contestant result pages, may be viewed, indexed, quoted or copied by people and services anywhere in the world. Contestant pages are ordinarily submitted for search indexing with factual titles and descriptions derived from published competition records. Removing information or disabling indexing here does not remove it from an official source, an existing search-engine cache or an independent copy outside the operator&apos;s control. Archive data is not sold, used for advertising or supplied to data brokers.</p>
         <p>Identifying archive records are retained while they remain relevant to the site&apos;s reporting, educational and historical purposes. The operator reviews a record when an official source changes or a credible error or privacy concern is reported. Corrections to official results will normally be reflected here; a well-supported correction may be noted while an official correction is pending.</p>
-        <p>A person concerned, or their authorized representative, may report an accuracy or privacy concern using the corrections contact in the footer. The operator considers correction, anonymization, suppression and removal individually in light of accuracy, public interest, the circumstances of the person and applicable law. Replacing a name with &quot;Anonymized&quot; may not prevent re-identification from an unchanged official source or a distinctive combination of year, country and result.</p>
+        <p>A person concerned, or their authorized representative, may report an accuracy or privacy concern using the corrections contact in the footer. Available responses include correction, search de-indexing, anonymization, suppression and removal. A supported request to de-index a contestant page will ordinarily be honored promptly without requiring removal or anonymization of the archive record; reasonable verification may be requested to identify the person or confirm a representative&apos;s authority. Other responses are considered individually in light of accuracy, public interest, the circumstances of the person and applicable law.</p>
+        <p>De-indexing places a standard &quot;noindex&quot; instruction on the contestant page and removes it from the site&apos;s search-engine sitemap while leaving the archive page accessible by its address and internal links. Search services may take time to revisit the page, some may not support the instruction, and the operator cannot control official sources, third-party copies or previously cached results. Replacing a name with &quot;Anonymized&quot; may likewise not prevent re-identification from an unchanged official source or a distinctive combination of year, country and result.</p>
       </section>
 
       <section>
         <h2>4. Contestants who are minors</h2>
-        <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may report a concern using the corrections contact in the footer.</p>
+        <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may report a concern or request search de-indexing using the corrections contact in the footer.</p>
         <p>The general feedback form is not intended to collect information from a child who cannot validly submit it under applicable law. No one should submit private information about another child unless reasonably necessary to raise and resolve a genuine concern.</p>
       </section>
 
