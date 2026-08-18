@@ -1924,13 +1924,17 @@ function SearchPage() {
   );
 }
 
-function PrivacyPage() {
+function EnglishPrivacyPolicy({ onJapanese }: { onJapanese: () => void }) {
   return (
     <article className="policy-page">
       <header className="page-heading policy-heading">
         <p className="eyebrow">Legal and privacy</p>
         <h1>Privacy policy</h1>
-        <p>Effective 11 August 2026 · Amended 17 August 2026</p>
+        <p className="policy-date">Effective 11 August 2026 · Amended 17 August 2026</p>
+        <div className="policy-language-toggle" role="group" aria-label="Privacy policy language">
+          <button type="button" className="active" aria-pressed="true">English</button>
+          <button type="button" aria-pressed="false" onClick={onJapanese} lang="ja">日本語</button>
+        </div>
       </header>
 
       <div className="policy-summary">
@@ -1955,13 +1959,13 @@ function PrivacyPage() {
         <h2>3. Publication, accuracy and retention of archive records</h2>
         <p>The archive is published on the open web. Its pages, including contestant result pages, may be viewed, indexed, quoted or copied by people and services anywhere in the world. Contestant pages are ordinarily submitted for search indexing with factual titles and descriptions derived from published competition records. Removing information or disabling indexing here does not remove it from an official source, an existing search-engine cache or an independent copy outside the operator&apos;s control. Archive data is not sold, used for advertising or supplied to data brokers.</p>
         <p>Identifying archive records are retained while they remain relevant to the site&apos;s reporting, educational and historical purposes. The operator reviews a record when an official source changes or a credible error or privacy concern is reported. Corrections to official results will normally be reflected here; a well-supported correction may be noted while an official correction is pending.</p>
-        <p>A person concerned, or their authorized representative, may report an accuracy or privacy concern using the corrections contact in the footer. Available responses include correction, search de-indexing, anonymization, suppression and removal. A supported request to de-index a contestant page will ordinarily be honored promptly without requiring removal or anonymization of the archive record; reasonable verification may be requested to identify the person or confirm a representative&apos;s authority. Other responses are considered individually in light of accuracy, public interest, the circumstances of the person and applicable law.</p>
+        <p>A person concerned, or their authorized representative, may report an accuracy or privacy concern using the inquiries contact in the footer. Available responses include correction, search de-indexing, anonymization, suppression and removal. A supported request to de-index a contestant page will ordinarily be honored promptly without requiring removal or anonymization of the archive record; reasonable verification may be requested to identify the person or confirm a representative&apos;s authority. Other responses are considered individually in light of accuracy, public interest, the circumstances of the person and applicable law.</p>
         <p>De-indexing places a standard &quot;noindex&quot; instruction on the contestant page and removes it from the site&apos;s search-engine sitemap while leaving the archive page accessible by its address and internal links. Search services may take time to revisit the page, some may not support the instruction, and the operator cannot control official sources, third-party copies or previously cached results. Replacing a name with &quot;Anonymized&quot; may likewise not prevent re-identification from an unchanged official source or a distinctive combination of year, country and result.</p>
       </section>
 
       <section>
         <h2>4. Contestants who are minors</h2>
-        <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may report a concern or request search de-indexing using the corrections contact in the footer.</p>
+        <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may report a concern or request search de-indexing using the inquiries contact in the footer.</p>
         <p>The general feedback form is not intended to collect information from a child who cannot validly submit it under applicable law. No one should submit private information about another child unless reasonably necessary to raise and resolve a genuine concern.</p>
       </section>
 
@@ -1990,6 +1994,116 @@ function PrivacyPage() {
       </aside>
     </article>
   );
+}
+
+function JapanesePrivacyPolicy({ onEnglish }: { onEnglish: () => void }) {
+  return (
+    <article className="policy-page" lang="ja">
+      <header className="page-heading policy-heading">
+        <p className="eyebrow">法務・プライバシー</p>
+        <h1>プライバシーポリシー</h1>
+        <p className="policy-date">2026年8月11日施行 · 2026年8月17日改定</p>
+        <div className="policy-language-toggle" role="group" aria-label="プライバシーポリシーの言語">
+          <button type="button" aria-pressed="false" onClick={onEnglish}>English</button>
+          <button type="button" className="active" aria-pressed="true">日本語</button>
+        </div>
+      </header>
+
+      <aside className="policy-translation-note">
+        <strong>翻訳について</strong>
+        <p>本ページは、IOAI Statistics の英語版プライバシーポリシーの日本語訳です。その内容には正確を期していますが、英語版と日本語版の内容に相違がある場合は、英語版が優先されます。</p>
+      </aside>
+
+      <div className="policy-summary">
+        <strong>概要</strong>
+        <p>IOAI Statistics は、日本在住の近藤佐介が運営する、非公式かつ公益を目的とした記録・報道アーカイブです。本サイトは、IOAI の公式結果について、事実に基づく記録、統計、および大会回ごとの編集上の論評を通じて報道しますが、個人についての主観的な人物評やプロフィールは掲載しません。</p>
+        <p>参加者の結果ページは、通常、検索エンジンによるインデックス登録の対象となりますが、申出により検索結果からの除外（de-indexing）を行うことができます。</p>
+        <p>本サイトには、ユーザーアカウント、広告、トラッキング Cookie はありません。Cookie を使用しない Cloudflare Web Analytics により、アクセス状況および実ユーザーのパフォーマンスを集計ベースで測定します。任意の一般フィードバックフォームは、個人情報を収集しないよう設計されています。</p>
+      </div>
+
+      <section>
+        <h2>1. 運営者、適用範囲および適用法</h2>
+        <p>IOAI Statistics は、日本在住の IOAI 2026 参加経験者である Sasuke Kondo が個人で運営しています。本アーカイブは非公式であり、IOAI およびその主催者から独立しています。</p>
+        <p>本サイトは日本から運営されており、該当する場合、日本の「個人情報の保護に関する法律」（個人情報保護法、APPI）に従って個人情報を取り扱います。本サイトは世界中から利用できますが、特定の国または地域の利用者を対象として提供されるものではありません。</p>
+      </section>
+
+      <section>
+        <h2>2. アーカイブとその報道目的</h2>
+        <p>本アーカイブは、国際人工知能オリンピック（IOAI）の結果と歴史を世界中の読者に伝えるという公益目的で運営されています。</p>
+        <p>その報道には、客観的な事実および算出された統計に加え、各大会回、その運営、課題、および結果全体についての論評や意見が含まれます。本アーカイブは、参加者、教育関係者、研究者および一般の人々のために、正確で閲覧しやすい教育的記録を保存することを目的としています。</p>
+        <p>本アーカイブでは、参加者または大会関係者について、氏名、国または代表団、参加年および競技部門、最終得点、順位、受賞内容、各課題の結果、チーム構成ならびに公に示された大会上の役割を掲載することがあります。</p>
+        <p>論評には、参加者または大会関係者の人格についての主観的評価、人物プロフィール、または個人ごとの意見は含まれません。本アーカイブは、非公開の連絡先、住所、生年月日、非公開の識別情報、健康情報、その他の機微な個人情報を意図的に掲載しません。</p>
+        <p>アーカイブの情報は、IOAI の公式ウェブサイト、公式結果発表、公式課題リポジトリ、公式スコアファイル、およびこれらに類する公開された IOAI の資料から収集されます。通常、参加者本人から直接収集するものではありません。</p>
+        <p>順位、受賞数、難易度表示、分布およびバッジは、公表された最終結果をもとに作成された編集上または統計上の成果物です。これらによって、個人に法的効果またはこれに類する重大な影響を及ぼす決定を行うものではありません。</p>
+      </section>
+
+      <section>
+        <h2>3. アーカイブ記録の公開、正確性および保存</h2>
+        <p>本アーカイブは、公開されたウェブ上で提供されています。参加者の結果ページを含む本サイトのページは、世界中の人やサービスによって閲覧、インデックス登録、引用または複製される可能性があります。</p>
+        <p>参加者ページは通常、公表された大会記録に基づく事実上のタイトルおよび説明文とともに、検索エンジンによるインデックス登録の対象となるよう送信されます。</p>
+        <p>本サイト上の情報を削除したり、検索エンジンによるインデックス登録を無効にしたりしても、公式情報源、既存の検索エンジンのキャッシュ、または運営者の管理外にある第三者の複製から当該情報が削除されるわけではありません。</p>
+        <p>アーカイブのデータを販売したり、広告に使用したり、データブローカーに提供したりすることはありません。</p>
+        <p>個人を識別できるアーカイブ記録は、本サイトの報道、教育および歴史的記録としての目的との関連性が維持される限り保存されます。公式情報源に変更があった場合、または信頼できる誤りやプライバシー上の懸念が報告された場合、運営者は当該記録を確認します。</p>
+        <p>公式結果に訂正があった場合は、通常、本アーカイブにも反映します。また、十分な根拠のある訂正については、公式の訂正が行われるまでの間、その旨を記載する場合があります。</p>
+        <p>本人またはその正当な代理人は、フッターに記載された問い合わせ用の連絡先を通じて、正確性またはプライバシーに関する懸念を報告できます。</p>
+        <p>対応方法には、訂正、検索結果からの除外（de-indexing）、匿名化、非表示および削除が含まれます。</p>
+        <p>参加者ページについて、十分な根拠のある検索結果からの除外の申出があった場合、アーカイブ記録そのものの削除または匿名化を必要とすることなく、通常、速やかに対応します。本人の特定または代理人の権限確認のため、合理的な範囲で確認を求める場合があります。</p>
+        <p>その他の対応については、情報の正確性、公益性、本人の事情および適用法を考慮し、個別に判断します。</p>
+        <p>検索結果からの除外では、参加者ページに標準的な <code>noindex</code> 指示を設定し、本サイトの検索エンジン向けサイトマップから当該ページを削除します。アーカイブページ自体は、その URL およびサイト内リンクから引き続き閲覧できます。</p>
+        <p>検索サービスがページを再度確認するまでには時間がかかる場合があり、また、一部のサービスはこの指示に対応しない可能性があります。運営者は、公式情報源、第三者による複製、または既に保存されたキャッシュを管理することはできません。</p>
+        <p>同様に氏名を、匿名を意味する「Anonymized」に置き換えた場合でも、公式情報源に変更がない場合や、参加年、国および結果の特徴的な組合せなどから、本人が再び特定されることを防ぐことができない可能性があります。</p>
+      </section>
+
+      <section>
+        <h2>4. 未成年の参加者</h2>
+        <p>参加者の中には18歳未満の者が含まれる場合があります。その利益については、特に重視して取り扱います。</p>
+        <p>本アーカイブでは、未成年者に関する記録を公式の大会事実に限定し、本人への接触を求めず、学校、連絡先、年齢またはプロフィール情報については、それが公式結果と不可分であり、かつ掲載について具体的な正当性がある場合を除き、掲載しません。</p>
+        <p>参加者本人、親または法定代理人は、フッターに記載された問い合わせ用の連絡先を通じて、懸念を報告したり、検索結果からの除外を申し出たりすることができます。</p>
+        <p>一般フィードバックフォームは、適用法上、自ら有効に送信することのできない子どもから情報を収集することを目的としたものではありません。</p>
+        <p>また、真正な懸念を申し出て解決するために合理的に必要な場合を除き、他の子どもに関する非公開情報をフォームに入力しないでください。</p>
+      </section>
+
+      <section id="analytics-ja">
+        <h2>5. 訪問者データ、Cookie および外部サービス</h2>
+        <p>本アーカイブでは、ユーザーアカウントを作成せず、広告を掲載せず、Cookie を設定しません。</p>
+        <p>訪問者がライトモードまたはダークモードを選択した場合、その表示設定のみがブラウザのローカルストレージに保存されます。この情報には識別子は含まれず、アクセス解析には使用されません。</p>
+        <p>運営者は、アクセス数およびページビュー数を集計し、Core Web Vitals を含む実ユーザーのパフォーマンスを測定するため、<a href="https://developers.cloudflare.com/web-analytics/about/" target="_blank" rel="noreferrer">Cloudflare Web Analytics</a> を利用しています。このサービスは Cookie を使用せず、ローカルストレージも使用しません。</p>
+        <p>Cloudflare は、Web Analytics が訪問者の個人データを収集または利用せず、同社の顧客サイトをまたいで個々の訪問者を追跡しないと説明しています。</p>
+        <p>得られた集計レポートは、閲覧状況を把握し、本サイトのパフォーマンス、ナビゲーションおよびコンテンツを改善するためにのみ使用します。</p>
+        <p>ホスティングサービスは、本サイトの提供および保護のため、IP アドレス、端末およびブラウザに関する情報、リクエストされた URL、タイムスタンプ、セキュリティイベントなど、通常の技術情報を処理する場合があります。また、本サイトの提供および保護に厳密に必要なセキュリティ技術を使用する場合があります。</p>
+      </section>
+
+      <section id="general-feedback-form-ja">
+        <h2>6. 返信を目的としない一般フィードバック</h2>
+        <p><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">一般フィードバックフォーム</a>は、返信を必要としない意見やコメントのためのものです。</p>
+        <p>フォームでは、フィードバックの内容と、送信内容に個人を特定できる情報が含まれていないことの確認のみを求めます。運営者は、回答の一部として送信者の Google アカウントまたはメールアドレスを受け取りません。</p>
+        <p>このフォームには、氏名、メールアドレス、連絡先、非公開の識別情報、その他の個人情報を入力しないでください。</p>
+        <p>個人情報を含まないフィードバックは、保存し、本アーカイブの改善に利用する場合があります。</p>
+        <p>誤って個人情報が送信された場合、その情報はフィードバックの確認に合理的に必要な範囲でのみ使用し、不要となった時点で削除または個人を識別できない形にします。</p>
+        <p>Google Forms を訪問または利用する際、Google は、Google 自身の<a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">プライバシーポリシー</a>に従って、接続情報、端末情報、アカウント情報または下書き情報などを独自に処理する場合があります。</p>
+        <p>この Google の管理下で行われる処理は、運営者がフォーム回答として受け取る情報の処理とは別のものです。</p>
+      </section>
+
+      <section>
+        <h2>7. 本ポリシーの変更</h2>
+        <p>本ポリシーは、本アーカイブ、フィードバックフォーム、利用するサービス提供者または適用される要件の変更に応じて改定する場合があります。</p>
+        <p>改定時には上記の施行日を更新し、既に収集された情報に影響を及ぼす重要な変更については、必要に応じて追加の通知または同意の取得を行います。</p>
+        <p>インターネット上のサービスにおいて絶対的な安全性を保証することはできませんが、取り扱う情報の性質および規模を踏まえ、合理的な措置を継続的に見直します。</p>
+      </section>
+
+      <aside className="policy-references" aria-label="参考">
+        <strong>参考</strong>
+        <p><a href="https://www.ppc.go.jp/personalinfo/legal/" target="_blank" rel="noreferrer">個人情報保護委員会：個人情報保護法（APPI）</a></p>
+      </aside>
+    </article>
+  );
+}
+
+function PrivacyPage() {
+  const [language, setLanguage] = useState<"en" | "ja">("en");
+  return language === "ja"
+    ? <JapanesePrivacyPolicy onEnglish={() => setLanguage("en")} />
+    : <EnglishPrivacyPolicy onJapanese={() => setLanguage("ja")} />;
 }
 
 function NotFoundPage() {
@@ -2059,7 +2173,7 @@ function SiteFooter() {
       <div className="shell footer-grid">
         <div><strong>IOAI Statistics</strong><p>An unofficial reporting archive by <a href="https://github.com/Element138" target="_blank" rel="noreferrer">Sasuke Kondo</a>.</p></div>
         <div><span>Inspired by</span><a className="footer-touch-link" href="https://stats.ioinformatics.org/" target="_blank" rel="noreferrer">IOI Statistics ↗</a></div>
-        <div className="footer-meta"><p className="footer-corrections"><span>Corrections</span><strong>@aka138</strong><span>on Discord</span></p><nav className="footer-links" aria-label="Footer"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></nav><small>Data snapshot · {DATA.updated}</small></div>
+        <div className="footer-meta"><p className="footer-corrections"><span>Inquiries</span><strong>@aka138</strong><span>on Discord</span></p><nav className="footer-links" aria-label="Footer"><a href="/privacy">Privacy Policy</a><span aria-hidden="true">·</span><a href="https://forms.gle/EdjTRmZVzqEowi5i9" target="_blank" rel="noreferrer">Feedback</a></nav><small>Data snapshot · {DATA.updated}</small></div>
       </div>
     </footer>
   );

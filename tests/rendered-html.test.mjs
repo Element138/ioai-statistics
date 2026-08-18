@@ -223,7 +223,7 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
   }
   assert.match(html, /Sasuke Kondo<\/a>\.<\/p>/);
   assert.match(html, />Inspired by<\/span>/);
-  assert.match(html, /<span>Corrections<\/span><strong>@aka138<\/strong><span>on Discord<\/span>/);
+  assert.match(html, /<span>Inquiries<\/span><strong>@aka138<\/strong><span>on Discord<\/span>/);
   assert.doesNotMatch(html, /HoiHG5dyMSUy3yjt5|reply-seeking inquiry form/i);
 });
 
@@ -612,10 +612,18 @@ test("prefixes every displayed GAITE award badge", async () => {
 
 test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   const privacy = await (await render("/privacy")).text();
+  const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
   assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 17 August 2026/);
   assert.match(privacy, /Contestant result pages are ordinarily made available to search engines, with de-indexing available on request/);
   assert.match(privacy, /supported request to de-index a contestant page will ordinarily be honored promptly/);
   assert.match(privacy, /standard &quot;noindex&quot; instruction/);
+  assert.match(privacy, /aria-label="Privacy policy language"/);
+  assert.match(privacy, />日本語<\/button>/);
+  assert.match(privacy, /using the inquiries contact in the footer/);
+  assert.doesNotMatch(privacy, /using the corrections contact in the footer/);
+  assert.match(app, /本ページは、IOAI Statistics の英語版プライバシーポリシーの日本語訳です/);
+  assert.match(app, /参加者の結果ページは、通常、検索エンジンによるインデックス登録の対象となります/);
+  assert.match(app, /https:\/\/www\.ppc\.go\.jp\/personalinfo\/legal\//);
   assert.match(privacy, /no accounts, advertising or tracking cookies/);
   assert.match(privacy, />Cloudflare Web Analytics<\/a>/);
   assert.match(privacy, /count aggregate visits and page views and measure real-user performance/);
@@ -713,6 +721,8 @@ test("publishes indexable metadata and supports contestant de-indexing overrides
   assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/contestants\/krzysztof-rojek<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/contestants\/andrey-gromyko<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/privacy<\/loc>\s*<lastmod>2026-08-17T00:00:00\.000Z<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/2025\/radar<\/loc>\s*<lastmod>2026-08-16T00:00:00\.000Z<\/lastmod>/);
   assert.doesNotMatch(sitemap, /<priority>|<changefreq>/);
 });
 
