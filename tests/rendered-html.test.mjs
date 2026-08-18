@@ -612,7 +612,10 @@ test("prefixes every displayed GAITE award badge", async () => {
 
 test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   const privacy = await (await render("/privacy")).text();
-  const app = await readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8");
+  const [app, css] = await Promise.all([
+    readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
   assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 17 August 2026/);
   assert.match(privacy, /Contestant result pages are ordinarily made available to search engines, with de-indexing available on request/);
   assert.match(privacy, /supported request to de-index a contestant page will ordinarily be honored promptly/);
@@ -624,6 +627,9 @@ test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   assert.match(app, /本ページは、IOAI Statistics の英語版プライバシーポリシーの日本語訳です/);
   assert.match(app, /参加者の結果ページは、通常、検索エンジンによるインデックス登録の対象となります/);
   assert.match(app, /https:\/\/www\.ppc\.go\.jp\/personalinfo\/legal\//);
+  assert.doesNotMatch(app, /No one should submit private information about another child|真正な懸念を申し出て解決するため/);
+  assert.match(css, /\.policy-language-toggle\s*\{[^}]*border-bottom:\s*1px solid var\(--line-strong\)/s);
+  assert.doesNotMatch(css, /\.policy-language-toggle(?:\s+button)?\s*\{[^}]*border-radius/s);
   assert.match(privacy, /no accounts, advertising or tracking cookies/);
   assert.match(privacy, />Cloudflare Web Analytics<\/a>/);
   assert.match(privacy, /count aggregate visits and page views and measure real-user performance/);

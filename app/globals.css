@@ -2256,35 +2256,40 @@ h3 {
 .policy-language-toggle {
   width: fit-content;
   margin-top: 12px;
-  padding: 2px;
   display: inline-flex;
-  gap: 2px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: var(--soft);
+  align-items: center;
+  border-bottom: 1px solid var(--line-strong);
 }
 
 .policy-language-toggle button {
-  min-height: 28px;
-  padding: 4px 11px;
+  position: relative;
+  min-height: 31px;
+  padding: 5px 12px;
   border: 0;
-  border-radius: 999px;
   background: transparent;
-  color: var(--muted);
-  font: inherit;
-  font-size: 0.72rem;
-  font-weight: 700;
+  color: #5e6a7f;
   cursor: pointer;
+  font-size: 0.77rem;
+  font-weight: 600;
 }
 
 .policy-language-toggle button:hover {
   color: var(--ink);
+  background: var(--soft);
 }
 
 .policy-language-toggle button.active {
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: 0 1px 4px rgb(15 23 42 / 12%);
+  color: var(--blue-dark);
+}
+
+.policy-language-toggle button.active::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--blue);
+  content: "";
 }
 
 .policy-language-toggle button:focus-visible {

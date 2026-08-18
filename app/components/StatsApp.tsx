@@ -1966,7 +1966,7 @@ function EnglishPrivacyPolicy({ onJapanese }: { onJapanese: () => void }) {
       <section>
         <h2>4. Contestants who are minors</h2>
         <p>Some contestants may be under 18. Their interests receive particular weight. The archive limits their records to official competition facts, does not seek contact with them, and does not publish school, contact, age or profile information unless it is inseparable from an official result and is specifically justified. A contestant, parent or lawful guardian may report a concern or request search de-indexing using the inquiries contact in the footer.</p>
-        <p>The general feedback form is not intended to collect information from a child who cannot validly submit it under applicable law. No one should submit private information about another child unless reasonably necessary to raise and resolve a genuine concern.</p>
+        <p>The general feedback form is not intended to collect information from a child who cannot validly submit it under applicable law.</p>
       </section>
 
       <section id="analytics">
@@ -2060,7 +2060,6 @@ function JapanesePrivacyPolicy({ onEnglish }: { onEnglish: () => void }) {
         <p>本アーカイブでは、未成年者に関する記録を公式の大会事実に限定し、本人への接触を求めず、学校、連絡先、年齢またはプロフィール情報については、それが公式結果と不可分であり、かつ掲載について具体的な正当性がある場合を除き、掲載しません。</p>
         <p>参加者本人、親または法定代理人は、フッターに記載された問い合わせ用の連絡先を通じて、懸念を報告したり、検索結果からの除外を申し出たりすることができます。</p>
         <p>一般フィードバックフォームは、適用法上、自ら有効に送信することのできない子どもから情報を収集することを目的としたものではありません。</p>
-        <p>また、真正な懸念を申し出て解決するために合理的に必要な場合を除き、他の子どもに関する非公開情報をフォームに入力しないでください。</p>
       </section>
 
       <section id="analytics-ja">
