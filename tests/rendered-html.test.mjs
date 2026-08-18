@@ -657,7 +657,7 @@ test("publishes indexable metadata and supports contestant de-indexing overrides
   const taskResponse = await render("/tasks/2025/radar");
   const taskHtml = await taskResponse.text();
   assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
-  assert.match(taskHtml, /<title>Radar — IOAI 2025 Task · IOAI Statistics<\/title>/);
+  assert.match(taskHtml, /<title>Radar \(2025\) · IOAI Statistics<\/title>/);
   assert.match(taskHtml, /<link rel="canonical" href="https:\/\/ioai-statistics\.org\/tasks\/2025\/radar"\/>/);
   assert.match(taskHtml, /"@type":"BreadcrumbList"/);
   assert.match(taskHtml, /"name":"Tasks","item":"https:\/\/ioai-statistics\.org\/tasks"/);
