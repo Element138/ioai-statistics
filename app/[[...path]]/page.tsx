@@ -20,7 +20,7 @@ function breadcrumbName(parts: string[], index: number, pageTitle: string) {
   const part = parts[index];
   if (index === parts.length - 1) {
     if (parts[0] === "countries") return pageTitle.replace(/ at IOAI$/, "");
-    if (parts[0] === "tasks") return pageTitle.replace(/ — IOAI \d{4} Task$/, "");
+    if (parts[0] === "tasks") return pageTitle.replace(/ \(\d{4}\)$/, "");
     if (parts[0] === "olympiads" && index === 2) return part[0].toUpperCase() + part.slice(1);
     return pageTitle;
   }

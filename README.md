@@ -34,8 +34,8 @@ production site is served at [ioai-statistics.org](https://ioai-statistics.org).
 
 This project is independent and is not affiliated with or endorsed by the
 official IOAI organization. Results pages link to their official source where
-available. Corrections can be reported through the contact details published
-on the website.
+available. Inquiries, including corrections and privacy requests, can be made
+through the contact details published on the website.
 
 ## Public-interest purpose and responsible use
 
@@ -54,7 +54,7 @@ particular purpose. The MIT License does not grant rights in third-party source
 materials, names, logos, or personal information, and it does not remove any
 legal obligations that apply to a user's own processing or republication of the
 data. Official sources remain authoritative. Please report an accuracy or
-privacy concern through the corrections contact published on the website.
+privacy concern through the inquiries contact published on the website.
 
 ## License
 

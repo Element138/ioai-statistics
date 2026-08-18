@@ -371,7 +371,7 @@ export function pageSeoForPath(parts: string[]): PageSeo {
       canonicalPath: taskPath(task),
       description: `${task.name}, a ${task.category} task from IOAI ${task.year}.${difficulty ? ` Difficulty: ${difficulty}.` : ""} View score statistics and official materials.`,
       indexable: true,
-      title: `${task.name} — IOAI ${task.year} Task`,
+      title: `${task.name} (${task.year})`,
     };
   }
 

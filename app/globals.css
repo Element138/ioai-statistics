@@ -2247,10 +2247,74 @@ h3 {
   margin-bottom: 18px;
 }
 
-.policy-heading > p:last-child {
+.policy-heading .policy-date {
   margin-top: 7px;
   color: var(--muted);
   font-size: 0.75rem;
+}
+
+.policy-language-toggle {
+  width: fit-content;
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.policy-language-toggle button {
+  position: relative;
+  min-height: 31px;
+  padding: 5px 12px;
+  border: 0;
+  background: transparent;
+  color: #5e6a7f;
+  cursor: pointer;
+  font-size: 0.77rem;
+  font-weight: 600;
+}
+
+.policy-language-toggle button:hover {
+  color: var(--ink);
+  background: var(--soft);
+}
+
+.policy-language-toggle button.active {
+  color: var(--blue-dark);
+}
+
+.policy-language-toggle button.active::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--blue);
+  content: "";
+}
+
+.policy-language-toggle button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.policy-translation-note {
+  margin-bottom: 18px;
+  padding: 13px 15px;
+  border-left: 3px solid var(--accent);
+  background: var(--soft);
+}
+
+.policy-translation-note strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+}
+
+.policy-translation-note p {
+  margin: 0;
+  color: #46546a;
+  font-size: 0.82rem;
+  line-height: 1.62;
 }
 
 .policy-summary {
@@ -2273,6 +2337,10 @@ h3 {
   color: #46546a;
   font-size: 0.82rem;
   line-height: 1.62;
+}
+
+.policy-summary p + p {
+  margin-top: 9px;
 }
 
 .policy-page section {
@@ -2520,6 +2588,7 @@ h3 {
 :root[data-theme="dark"] .country-rank-block.gaite { border-color: #477761; background: #172c25; }
 :root[data-theme="dark"] .total-row { background: #1a2a40 !important; }
 :root[data-theme="dark"] .policy-summary p,
+:root[data-theme="dark"] .policy-translation-note p,
 :root[data-theme="dark"] .policy-page section p,
 :root[data-theme="dark"] .policy-references p { color: #bdc8d9; }
 :root[data-theme="dark"] .empty-state { background: var(--surface); }
@@ -2869,6 +2938,7 @@ h3 {
   .site-header,
   .site-footer,
   .track-tabs,
+  .policy-language-toggle,
   .task-actions {
     display: none;
   }

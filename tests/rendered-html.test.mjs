@@ -223,7 +223,7 @@ test("server-renders the IOAI Statistics shell and updated footer", async () => 
   }
   assert.match(html, /Sasuke Kondo<\/a>\.<\/p>/);
   assert.match(html, />Inspired by<\/span>/);
-  assert.match(html, /<span>Corrections<\/span><strong>@aka138<\/strong><span>on Discord<\/span>/);
+  assert.match(html, /<span>Inquiries<\/span><strong>@aka138<\/strong><span>on Discord<\/span>/);
   assert.doesNotMatch(html, /HoiHG5dyMSUy3yjt5|reply-seeking inquiry form/i);
 });
 
@@ -612,10 +612,30 @@ test("prefixes every displayed GAITE award badge", async () => {
 
 test("accurately discloses cookie-free Cloudflare Web Analytics", async () => {
   const privacy = await (await render("/privacy")).text();
+  const [app, css] = await Promise.all([
+    readFile(new URL("../app/components/StatsApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
   assert.match(privacy, /Effective 11 August 2026(?:<!-- -->)? · (?:<!-- -->)?Amended 17 August 2026/);
   assert.match(privacy, /Contestant result pages are ordinarily made available to search engines, with de-indexing available on request/);
   assert.match(privacy, /supported request to de-index a contestant page will ordinarily be honored promptly/);
   assert.match(privacy, /standard &quot;noindex&quot; instruction/);
+  assert.match(privacy, /aria-label="Privacy policy language"/);
+  assert.match(privacy, />日本語<\/button>/);
+  assert.match(privacy, /using the inquiries contact in the footer/);
+  assert.doesNotMatch(privacy, /using the corrections contact in the footer/);
+  assert.match(app, /本ページは、IOAI Statistics の英語版プライバシーポリシーの日本語訳です/);
+  assert.match(app, /参加者の結果ページは、通常、検索エンジンによるインデックス登録の対象となります/);
+  assert.match(app, /https:\/\/www\.ppc\.go\.jp\/personalinfo\/legal\//);
+  assert.match(app, /日本在住の<a href="https:\/\/github\.com\/Element138" target="_blank" rel="noreferrer">近藤佐介<\/a>/);
+  assert.match(app, /大会回ごとの編集者による論評/);
+  assert.match(app, /編集または統計分析を通じて作成された成果物/);
+  assert.doesNotMatch(app, /編集上/);
+  assert.match(app, /Inquiries: <strong>@aka138<\/strong> on Discord/);
+  assert.match(app, /お問い合わせ：<strong>@aka138<\/strong>（Discord）/);
+  assert.doesNotMatch(app, /No one should submit private information about another child|真正な懸念を申し出て解決するため/);
+  assert.match(css, /\.policy-language-toggle\s*\{[^}]*border-bottom:\s*1px solid var\(--line-strong\)/s);
+  assert.doesNotMatch(css, /\.policy-language-toggle(?:\s+button)?\s*\{[^}]*border-radius/s);
   assert.match(privacy, /no accounts, advertising or tracking cookies/);
   assert.match(privacy, />Cloudflare Web Analytics<\/a>/);
   assert.match(privacy, /count aggregate visits and page views and measure real-user performance/);
@@ -657,7 +677,7 @@ test("publishes indexable metadata and supports contestant de-indexing overrides
   const taskResponse = await render("/tasks/2025/radar");
   const taskHtml = await taskResponse.text();
   assert.match(taskHtml, /<meta name="robots" content="index, follow"\/>/);
-  assert.match(taskHtml, /<title>Radar — IOAI 2025 Task · IOAI Statistics<\/title>/);
+  assert.match(taskHtml, /<title>Radar \(2025\) · IOAI Statistics<\/title>/);
   assert.match(taskHtml, /<link rel="canonical" href="https:\/\/ioai-statistics\.org\/tasks\/2025\/radar"\/>/);
   assert.match(taskHtml, /"@type":"BreadcrumbList"/);
   assert.match(taskHtml, /"name":"Tasks","item":"https:\/\/ioai-statistics\.org\/tasks"/);
@@ -713,6 +733,8 @@ test("publishes indexable metadata and supports contestant de-indexing overrides
   assert.doesNotMatch(sitemap, /<loc>https:\/\/ioai-statistics\.org\/search<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/contestants\/krzysztof-rojek<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/contestants\/andrey-gromyko<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/privacy<\/loc>\s*<lastmod>2026-08-17T00:00:00\.000Z<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/ioai-statistics\.org\/tasks\/2025\/radar<\/loc>\s*<lastmod>2026-08-16T00:00:00\.000Z<\/lastmod>/);
   assert.doesNotMatch(sitemap, /<priority>|<changefreq>/);
 });
 
